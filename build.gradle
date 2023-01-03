@@ -1,0 +1,81 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    ext {
+        libs = [
+        ]
+    }
+}
+
+plugins {
+    // https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
+    id 'com.android.application' version '7.4.2' apply false
+    // https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
+    id 'com.android.library' version '7.4.2' apply false
+    // https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
+    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+android {
+    namespace 'com.github.iusmac.sevensim'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId 'com.github.iusmac.sevensim'
+        minSdk 21
+        targetSdk 33
+        versionName '1.0.0'
+        versionCode 1
+    }
+
+    final def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(file('keystore.properties')))
+    def releaseSigning = signingConfigs.create('release') {
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storeFile file(keystoreProperties['storeFile'])
+        storePassword keystoreProperties['storePassword']
+    }
+
+    buildTypes {
+        all {
+            signingConfig releaseSigning
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.flags'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
+    }
+
+    tasks.withType(KotlinCompile).configureEach {
+        compilerOptions.jvmTarget = JvmTarget.JVM_9
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
+
+    lintOptions {
+        // Instead of failing the build due to missing translations, just inform us to avoid
+        // mistakes during manual import
+        informational 'MissingTranslation'
+    }
+
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+}

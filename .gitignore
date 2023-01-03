@@ -1,0 +1,12 @@
+*.iml
+.classpath
+.gradle
+/local.properties
+/.idea/*
+.DS_Store
+/build
+.project
+.settings
+/captures
+.vim
+/bin
