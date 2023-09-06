@@ -13,6 +13,10 @@ android_app {
     min_sdk_version: "21",
     target_sdk_version: "33",
 
+    static_libs: [
+        "hilt_android",
+    ],
+
     optimize: {
         optimize: true,
         proguard_flags_files: ["proguard.flags"],
