@@ -14,7 +14,12 @@ android_app {
     target_sdk_version: "33",
 
     static_libs: [
+        "androidx.room_room-runtime",
         "hilt_android",
+    ],
+
+    plugins: [
+        "androidx.room_room-compiler-plugin",
     ],
 
     optimize: {

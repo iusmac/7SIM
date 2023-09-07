@@ -2,6 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     ext {
+        // https://mvnrepository.com/artifact/androidx.room/room-compiler
+        // https://mvnrepository.com/artifact/androidx.room/room-runtime
+        // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/room/room-compiler/
+        // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/room/room-runtime/
+        def room_version = '2.5.0-alpha01'
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-android
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
         // https://android.googlesource.com/platform/external/dagger2
@@ -9,6 +14,8 @@ buildscript {
         libs = [
             hilt_android         :  "com.google.dagger:hilt-android:$hilt_version",
             hilt_compiler        :  "com.google.dagger:hilt-compiler:$hilt_version",
+            room_compiler        :  "androidx.room:room-compiler:$room_version",
+            room_runtime         :  "androidx.room:room-runtime:$room_version",
         ]
     }
 }
@@ -90,6 +97,9 @@ android {
 dependencies {
     implementation libs.hilt_android
     kapt libs.hilt_compiler
+
+    implementation libs.room_runtime
+    kapt libs.room_compiler
 }
 
 kapt {
