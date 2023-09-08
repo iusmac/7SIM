@@ -3,6 +3,7 @@ android_app {
 
     srcs: [
         "src/**/*.java",
+        "gen/**/*.java",
 
     ],
     certificate: "platform",
