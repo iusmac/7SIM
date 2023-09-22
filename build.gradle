@@ -12,6 +12,9 @@ buildscript {
         // https://android.googlesource.com/platform/external/dagger2
         def hilt_version = '2.35.1'
         libs = [
+            // https://mvnrepository.com/artifact/androidx.core/core
+            // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/core/core/
+            core                 :  'androidx.core:core:1.9.0-alpha03',
             hilt_android         :  "com.google.dagger:hilt-android:$hilt_version",
             hilt_compiler        :  "com.google.dagger:hilt-compiler:$hilt_version",
             room_compiler        :  "androidx.room:room-compiler:$room_version",
@@ -95,6 +98,8 @@ android {
 }
 
 dependencies {
+    implementation libs.core
+
     configurations {
         all {
             // Fix Room v2.5.0-alpha01 library duplicate dependencies

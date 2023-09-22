@@ -15,6 +15,7 @@ android_app {
     target_sdk_version: "33",
 
     static_libs: [
+        "androidx.core_core",
         "androidx.room_room-runtime",
         "hilt_android",
     ],
@@ -27,4 +28,15 @@ android_app {
         optimize: true,
         proguard_flags_files: ["proguard.flags"],
     },
+
+    required: [
+        "privapp_whitelist_com.github.iusmac.sevensim.xml",
+    ],
+}
+
+prebuilt_etc {
+    name: "privapp_whitelist_com.github.iusmac.sevensim.xml",
+    src: "privapp_whitelist_com.github.iusmac.sevensim.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
 }
