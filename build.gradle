@@ -14,7 +14,7 @@ buildscript {
         libs = [
             // https://mvnrepository.com/artifact/androidx.core/core
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/core/core/
-            core                 :  'androidx.core:core:1.9.0-alpha03',
+            core                 :  'androidx.core:core:1.9.0-alpha05',
             hilt_android         :  "com.google.dagger:hilt-android:$hilt_version",
             hilt_compiler        :  "com.google.dagger:hilt-compiler:$hilt_version",
             room_compiler        :  "androidx.room:room-compiler:$room_version",
