@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="airplane_mode_enabled">"Режим рада у авиону је укључен"</string>
+    <string name="sim_state_change_request_failed">"SIM захтев није успео (кôд <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+</resources>
