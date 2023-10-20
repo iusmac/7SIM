@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" translatable="false">"7SIM"</string>
+
+    <string name="airplane_mode_enabled">"Airplane mode is on"</string>
+    <string name="sim_state_change_request_failed">"SIM request failed (code <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
 </resources>

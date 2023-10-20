@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim.telephony;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
@@ -10,6 +11,8 @@ import androidx.annotation.Nullable;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.SysProp;
+
+import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -51,15 +54,15 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
     private final int mActiveSlotCount;
 
     @Inject
-    public SubscriptionsImplLegacy(final Logger.Factory loggerFactory,
-            final SubscriptionManager subscriptionManager,
+    public SubscriptionsImplLegacy(final @ApplicationContext Context context,
+            final Logger.Factory loggerFactory, final SubscriptionManager subscriptionManager,
             final TelephonyUtils telephonyUtils,
             final @Named("Telephony/SimSubId") SysProp simSubIdSysProp,
             final @Named("Telephony/SimState") SysProp simStateSysProp,
             final @Named("Telephony/SimIconTint") SysProp simIconTintSysProp,
             final @Named("Telephony/SimName") SysProp simNameSysProp) {
 
-        super(loggerFactory, subscriptionManager);
+        super(context, loggerFactory, subscriptionManager);
 
         mSimSubIdSysProp = simSubIdSysProp;
         mSimStateSysProp = simStateSysProp;

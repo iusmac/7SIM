@@ -1,5 +1,7 @@
 package com.github.iusmac.sevensim.telephony;
 
+import android.content.Context;
+import android.provider.Settings;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 
@@ -8,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.github.iusmac.sevensim.Utils;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Singleton
@@ -18,19 +21,32 @@ public final class TelephonyUtils {
 
     @Inject
     public TelephonyUtils(final TelephonyManager telephonyManager,
-            final SubscriptionManager subscriptionManager) {
+            final SubscriptionManager subscriptionManager,
+            final @Named("Telephony/UiccSubscriptionToggleCapabilityDisabledSetting")
+                boolean isUiccSubscriptionToggleCapabilityDisabled) {
 
         mTelephonyManager = telephonyManager;
         mSubManager = subscriptionManager;
-        mHasUiccSubscriptionToggleCapability = hasUiccSubscriptionToggleCapability();
+        mHasUiccSubscriptionToggleCapability =
+            hasUiccSubscriptionToggleCapability(isUiccSubscriptionToggleCapabilityDisabled);
     }
 
     /**
      * Return a platform configuration for this device, indicating whether it has capability to
      * disable / re-enable a subscription on a physical (non-eUICC) SIM, or aka non-programmable
      * SIM.
+     *
+     * @param isUiccSubscriptionToggleCapabilityDisabled Whether to override device's ability to
+     * disable / re-enable a subscription on a pSIM, even if availability is configured by the
+     * platform.
      */
-    private boolean hasUiccSubscriptionToggleCapability() {
+    private boolean hasUiccSubscriptionToggleCapability(
+            final boolean isUiccSubscriptionToggleCapabilityDisabled) {
+
+        if (isUiccSubscriptionToggleCapabilityDisabled) {
+            return false;
+        }
+
         // Subscription toggling support was re-added in Android R
         if (Utils.IS_AT_LEAST_R) {
             return mSubManager.canDisablePhysicalSubscription();
@@ -85,6 +101,15 @@ public final class TelephonyUtils {
             case SimState.DISABLED: return "DISABLED";
             default: return "UNKNOWN(" + simState + ")";
         }
+    }
+
+    /**
+     * @param context The context to access content resolver.
+     * @return {@code true} if the "Airplane mode" is enabled, otherwise {@code false}.
+     */
+    static boolean isAirplaneModeOn(final Context context) {
+        return Settings.Global.getInt(context.getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     /**

@@ -1,11 +1,18 @@
 package com.github.iusmac.sevensim.telephony;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import com.android.internal.telephony.PhoneConstants;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.Utils;
@@ -42,16 +49,45 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         mOnSubscriptionsChangedListeners = new CopyOnWriteArrayList<>();
 
     /**
+     * The list of interested clients that are notified of state changes to all available SIM cards.
+     */
+    private final CopyOnWriteArrayList<OnSimStatusChangedListener>
+        mOnSimStatusChangedListeners = new CopyOnWriteArrayList<>();
+
+    /**
      * The listener of the {@link SubscriptionManager} that will notify us of any changes to
      * {@link SubscriptionInfo} records.
      */
     private final SubscriptionManager.OnSubscriptionsChangedListener mSubscriptionManagerListener;
+
+    /** The receiver that will notify us of various carrier config changes. */
+    private final BroadcastReceiver mCarrierConfigChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            mLogger.v("onReceive() : intent=" + intent);
+
+            switch (intent.getAction()) {
+                case TelephonyManager.ACTION_SIM_CARD_STATE_CHANGED:
+                case TelephonyManager.ACTION_SIM_APPLICATION_STATE_CHANGED:
+                    final int slotIndex = intent.getIntExtra(PhoneConstants.SLOT_KEY, -1);
+                    final int state = intent.getIntExtra(TelephonyManager.EXTRA_SIM_STATE,
+                            TelephonyManager.SIM_STATE_UNKNOWN);
+                    dispatchOnSimStatusChanged(slotIndex, state);
+            }
+        }
+    };
 
     /**
      * Atomic flag indicating whether the listener of the {@link SubscriptionManager} has been
      * registered or not.
      */
     private final AtomicBoolean mSubscriptionManagerListenerRegistered = new AtomicBoolean();
+
+    /**
+     * Atomic flag indicating whether the listener of various carrier config changes has been
+     * registered or not.
+     */
+    private final AtomicBoolean mCarrierConfigChangedReceiverRegistered = new AtomicBoolean();
 
     private final Context mContext;
     protected final Logger mLogger;
@@ -251,6 +287,97 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     }
 
     /**
+     * Dispatch the event when {@link TelephonyManager.SimState} for a particular SIM mutates.
+     *
+     * @param slotIndex The corresponding SIM slot index whose state has been changed.
+     * @param state The SIM state code.
+     */
+    private void dispatchOnSimStatusChanged(final int slotIndex,
+            final @TelephonyManager.SimState int state) {
+
+        mLogger.v("dispatchOnSimStatusChanged(slotIndex=%d,state=%d).", slotIndex, state);
+
+        // Note, because of the use of CopyOnWriteArrayList, we *must* use an iterator to perform
+        // the subscriptions data change dispatching. The iterator is a safe guard against
+        // listeners that could mutate the list by calling the various add/remove methods. This
+        // prevents the array from being modified while we iterate it
+        for (OnSimStatusChangedListener listener : mOnSimStatusChangedListeners) {
+            if (listener != null) {
+                listener.onSimStatusChanged(slotIndex, state);
+            }
+        }
+    }
+
+    /**
+     * <p>Add a callback to be invoked when {@link TelephonyManager.SimState} for a particular SIM
+     * mutates.
+     *
+     * <p>To remove, use {@link #removeOnSimStatusChangedListener}.
+     *
+     * @param listener The listener to add.
+     */
+    public void addOnSimStatusChangedListener(final OnSimStatusChangedListener listener) {
+        mLogger.v("addOnSimStatusChangedListener().");
+
+        if (listener == null) {
+            return;
+        }
+
+        if (!mOnSimStatusChangedListeners.contains(listener)) {
+            mOnSimStatusChangedListeners.add(listener);
+
+            if (!mCarrierConfigChangedReceiverRegistered.getAndSet(true)) {
+                registerCarrierConfigChangedReceiver();
+            }
+        }
+    }
+
+    /**
+     * Remove a previously added callback used to be invoked when {@link TelephonyManager.SimState}
+     * for a particular SIM change.
+     *
+     * @param listener The listener to remove.
+     */
+    public void removeOnSimStatusChangedListener(final OnSimStatusChangedListener listener) {
+        mLogger.v("removeOnSimStatusChangedListener().");
+
+        if (listener == null) {
+            return;
+        }
+
+        mOnSimStatusChangedListeners.remove(listener);
+
+        // Stop the receiver if the last listener unsubscribed
+        if (mOnSimStatusChangedListeners.isEmpty()) {
+            unregisterCarrierConfigChangedReceiver();
+        }
+    }
+
+    /**
+     * Start the receiver that will notify us of various carrier config changes.
+     */
+    private void registerCarrierConfigChangedReceiver() {
+        mLogger.v("registerCarrierConfigChangedReceiver().");
+
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(TelephonyManager.ACTION_SIM_CARD_STATE_CHANGED);
+        filter.addAction(TelephonyManager.ACTION_SIM_APPLICATION_STATE_CHANGED);
+        ContextCompat.registerReceiver(mContext, mCarrierConfigChangedReceiver, filter,
+                ContextCompat.RECEIVER_EXPORTED);
+    }
+
+    /**
+     * Stop the receiver registered before used to track various  carrier config changes.
+     */
+    private void unregisterCarrierConfigChangedReceiver() {
+        mLogger.v("unregisterCarrierConfigChangedReceiver().");
+
+        mContext.unregisterReceiver(mCarrierConfigChangedReceiver);
+
+        mCarrierConfigChangedReceiverRegistered.set(false);
+    }
+
+    /**
      * <p>The functional interface through which interested clients are notified of data changes to
      * subscription information. The onSubscriptionsChanged method will also be triggered once
      * initially when calling this function.
@@ -262,6 +389,15 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     @FunctionalInterface
     public interface OnSubscriptionsChangedListener {
         public void onSubscriptionsChanged();
+    }
+
+    /**
+     * The functional interface through which interested clients are notified of
+     * {@link TelephonyManager.SimState} changes to a particular SIM card.
+     */
+    @FunctionalInterface
+    public interface OnSimStatusChangedListener {
+        public void onSimStatusChanged(int slotIndex, @TelephonyManager.SimState int state);
     }
 
     /**

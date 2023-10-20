@@ -1,9 +1,12 @@
 package com.github.iusmac.sevensim.telephony;
 
+import android.content.Context;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 
 import com.github.iusmac.sevensim.Logger;
+
+import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.util.Iterator;
 
@@ -24,10 +27,10 @@ import javax.inject.Singleton;
 @Singleton
 public final class SubscriptionsImpl extends Subscriptions {
     @Inject
-    public SubscriptionsImpl(final Logger.Factory loggerFactory,
-            final SubscriptionManager subscriptionManager) {
+    public SubscriptionsImpl(final @ApplicationContext Context context,
+            final Logger.Factory loggerFactory, final SubscriptionManager subscriptionManager) {
 
-        super(loggerFactory, subscriptionManager);
+        super(context, loggerFactory, subscriptionManager);
     }
 
     /**

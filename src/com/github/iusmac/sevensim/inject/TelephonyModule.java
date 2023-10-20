@@ -95,6 +95,24 @@ public final class TelephonyModule {
         return new SysProp("sim%d.name", /*isPersistent=*/ false);
     }
 
+    /**
+     * <p>The system property that maintains a Boolean flag, indicating whether the application
+     * should override device's capability to disable / re-enable a subscription on a physical
+     * (non-eUICC) SIM (pSIM), even if availability is configured by the platform.
+     *
+     * <p>Modules based on this flag will instead opt for slot power control as a fallback.
+     *
+     * <p>This is used for debugging purpose only.
+     */
+    @Named("Telephony/UiccSubscriptionToggleCapabilityDisabledSetting")
+    @Singleton
+    @Provides
+    static boolean provideUiccSubscriptionToggleCapabilityDisabledSetting() {
+        final String prop = "debug.uicc_sub_toggle_disabled";
+        return new SysProp(prop, /*isPersistent=*/ false).isTrue() ||
+            new SysProp(prop, /*isPersistent=*/ true).isTrue();
+    }
+
     /** Do not initialize. */
     private TelephonyModule() {}
 }
