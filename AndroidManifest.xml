@@ -14,7 +14,8 @@
     <application
         android:name=".SevenSimApplication"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.SubSettingsBase">
 
         <activity
             android:name=".ui.MainActivity"
