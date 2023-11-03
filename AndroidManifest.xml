@@ -16,6 +16,7 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:appCategory="accessibility"
+        android:requiredForAllUsers="true"
         android:theme="@style/Theme.SubSettingsBase">
 
         <activity
