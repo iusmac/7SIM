@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = '7SIM'
+
+include ':SettingsLib'
+include ':SettingsLib:Utils'

@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.library'
+}
+
+def SettingsLib = 'fwb/packages/SettingsLib'
+
+android {
+    namespace 'com.android.settingslib.widget'
+
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 29
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
+    }
+
+    afterEvaluate {
+        generateReleaseBuildConfig.enabled = false
+        generateDebugBuildConfig.enabled = false
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = [
+                "${SettingsLib}/CollapsingToolbarBaseActivity/res",
+                "${SettingsLib}/SettingsTheme/res",
+                "${SettingsLib}/TwoTargetPreference/res",
+            ]
+            java.srcDirs = [
+                "${SettingsLib}/CollapsingToolbarBaseActivity/src",
+                "${SettingsLib}/TwoTargetPreference/src",
+            ]
+        }
+    }
+}
+
+dependencies {
+    implementation libs.annotation
+    implementation libs.appcompat
+    implementation libs.coordinatorlayout
+    implementation libs.material
+    implementation libs.preference
+    implementation project(path: ':SettingsLib:Utils')
+}

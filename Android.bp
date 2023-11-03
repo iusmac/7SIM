@@ -15,7 +15,15 @@ android_app {
     target_sdk_version: "33",
 
     static_libs: [
+        "SettingsLibCollapsingToolbarBaseActivity",
+        "SettingsLibSettingsTheme",
+        "SettingsLibTwoTargetPreference",
+        "androidx.annotation_annotation",
+        "androidx.collection_collection",
         "androidx.core_core",
+        "androidx.lifecycle_lifecycle-livedata",
+        "androidx.lifecycle_lifecycle-viewmodel",
+        "androidx.preference_preference",
         "androidx.room_room-runtime",
         "hilt_android",
     ],

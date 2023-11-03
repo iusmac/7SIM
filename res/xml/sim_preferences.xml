@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="@string/sim_list_key"
+        android:title="@string/sim_list_title">
+
+        <Preference
+            android:key="@string/sim_list_no_sim_key"
+            android:title="@string/sim_no_inserted_msg"
+            android:enabled="false"
+            app:isPreferenceVisible="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>
