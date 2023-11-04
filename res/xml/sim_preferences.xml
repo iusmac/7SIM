@@ -35,5 +35,13 @@
             android:key="@string/sim_list_version_key"
             android:title="@string/build_version_title"
             android:enabled="false"/>
+
+        <Preference
+            android:key="@string/sim_list_help_key"
+            android:title="@string/help_title"
+            android:summary="@string/help_summary">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="@string/help_url"/>
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
