@@ -42,11 +42,13 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                "${SettingsLib}/BannerMessagePreference/res",
                 "${SettingsLib}/CollapsingToolbarBaseActivity/res",
                 "${SettingsLib}/SettingsTheme/res",
                 "${SettingsLib}/TwoTargetPreference/res",
             ]
             java.srcDirs = [
+                "${SettingsLib}/BannerMessagePreference/src",
                 "${SettingsLib}/CollapsingToolbarBaseActivity/src",
                 "${SettingsLib}/TwoTargetPreference/src",
             ]

@@ -1,6 +1,7 @@
 package com.github.iusmac.sevensim.ui.sim;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,15 +11,26 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.android.settingslib.widget.BannerMessagePreference;
+
 import com.github.iusmac.sevensim.R;
+import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.ui.UiUtils;
 import com.github.iusmac.sevensim.ui.components.PrimarySwitchPreference;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+import javax.inject.Inject;
+
 @AndroidEntryPoint(PreferenceFragmentCompat.class)
 public final class SimListFragment extends Hilt_SimListFragment {
+    @Inject
+    SevenSimApplication mApp;
+
+    @Inject
+    SharedPreferences mSharedPrefs;
+
     private SimListViewModel mViewModel;
 
     private PreferenceCategory mSimPreferenceCategory;
@@ -36,7 +48,24 @@ public final class SimListFragment extends Hilt_SimListFragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupDisclaimerBanner();
         setupSimList();
+    }
+
+    private void setupDisclaimerBanner() {
+        final BannerMessagePreference disclaimerBanner =
+            findPreference(getString(R.string.sim_list_disclaimer_banner_key));
+
+        disclaimerBanner.setVisible(mApp.hasAospPlatformSignature() &&
+                mSharedPrefs.getBoolean(disclaimerBanner.getKey(), true));
+        disclaimerBanner
+            .setAttentionLevel(BannerMessagePreference.AttentionLevel.MEDIUM)
+            .setPositiveButtonText(
+                    com.android.settingslib.widget.R.string.accessibility_banner_message_dismiss)
+            .setPositiveButtonOnClickListener((view) -> {
+                disclaimerBanner.setVisible(false);
+                mSharedPrefs.edit().putBoolean(disclaimerBanner.getKey(), false).apply();
+            });
     }
 
     private void setupSimList() {

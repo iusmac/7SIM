@@ -5,9 +5,12 @@
     <string name="airplane_mode_enabled">"Airplane mode is on"</string>
     <string name="sim_state_change_request_failed">"SIM request failed (code <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
 
+    <string name="disclaimer_banner_content">"Download 7SIM exclusively from the official GitHub page. Files from unknown sources can be malicious!"</string>
+
     <string name="sim_list_title">"SIM"</string>
     <string name="sim_no_inserted_msg">"No SIM cards inserted"</string>
 
     <string name="sim_list_key" translatable="false">"sim_list"</string>
+    <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
     <string name="sim_list_no_sim_key" translatable="false">"sim_list_no_sim"</string>
 </resources>

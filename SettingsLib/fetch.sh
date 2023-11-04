@@ -10,6 +10,7 @@ declare -r FWB_DIR='fwb'
 declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
 declare REPO_TAG='android-13.0.0_r75'
 declare -a LIBS=(
+    'BannerMessagePreference'
     'CollapsingToolbarBaseActivity'
     'SettingsTheme'
     'TwoTargetPreference'

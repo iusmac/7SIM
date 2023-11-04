@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.android.settingslib.widget.BannerMessagePreference
+        android:key="@string/sim_list_disclaimer_banner_key"
+        android:title="@string/disclaimer_banner_content"
+        app:isPreferenceVisible="false"/>
+
     <PreferenceCategory
         android:key="@string/sim_list_key"
         android:title="@string/sim_list_title">
