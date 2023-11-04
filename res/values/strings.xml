@@ -10,7 +10,14 @@
     <string name="sim_list_title">"SIM"</string>
     <string name="sim_no_inserted_msg">"No SIM cards inserted"</string>
 
+    <string name="about_category_title">"About 7SIM app"</string>
+
+    <string name="updates_title">"Updates"</string>
+    <string name="updates_summary">"Check and download latest update"</string>
+    <string name="releases_url" translatable="false">"https://github.com/iusmac/7SIM/releases"</string>
+
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
     <string name="sim_list_no_sim_key" translatable="false">"sim_list_no_sim"</string>
+    <string name="sim_list_updates_key" translatable="false">"sim_list_updates"</string>
 </resources>

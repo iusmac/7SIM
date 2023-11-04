@@ -18,4 +18,17 @@
             android:enabled="false"
             app:isPreferenceVisible="false"/>
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/about_category_title"
+        app:allowDividerAbove="true">
+
+        <Preference
+            android:key="@string/sim_list_updates_key"
+            android:title="@string/updates_title"
+            android:summary="@string/updates_summary">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="@string/releases_url"/>
+        </Preference>
+    </PreferenceCategory>
 </PreferenceScreen>

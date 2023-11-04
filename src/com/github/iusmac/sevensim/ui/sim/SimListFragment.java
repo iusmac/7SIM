@@ -50,6 +50,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
 
         setupDisclaimerBanner();
         setupSimList();
+        setupUpdatesPref();
     }
 
     private void setupDisclaimerBanner() {
@@ -76,6 +77,14 @@ public final class SimListFragment extends Hilt_SimListFragment {
 
         mViewModel.getSimEntries().observe(getViewLifecycleOwner(), (entries) ->
                 updateSimPreferenceList(entries));
+    }
+
+    private void setupUpdatesPref() {
+        final Preference updatesPref = findPreference(getString(R.string.sim_list_updates_key));
+        // Note that the preference *must* be grayed out if the application has been signed with ROM
+        // maintainer's private keys (aka dev-keys signature). Hopefully, this will prevent users
+        // from "blindly" installing the official update signed with public AOSP platform signature
+        updatesPref.setEnabled(mApp.hasAospPlatformSignature());
     }
 
     private void updateSimPreferenceList(
