@@ -48,6 +48,9 @@ public class SimListActivity extends Hilt_SimListActivity
     private Logger mLogger;
     private SimListViewModel mViewModel;
 
+    private final Object mSubscriptionsChangedToken = new Object();
+    private boolean mSubscriptionsChangedListenerInitialized;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +80,20 @@ public class SimListActivity extends Hilt_SimListActivity
     public void onSubscriptionsChanged() {
         mLogger.v("onSubscriptionsChanged().");
 
-        sHandler.post(mViewModel::refreshSimEntries);
+        final long delayMillis;
+        if (mSubscriptionsChangedListenerInitialized) {
+            // Calm down the subscriptions changed event a bit, as it may be fired (in bursts) up
+            // to 10x in less than 0.5 second; delay and discard all redundant updates to not
+            // "clog" the UI thread
+            delayMillis = 300;
+            sHandler.removeCallbacksAndMessages(mSubscriptionsChangedToken);
+        } else {
+            delayMillis = 0;
+            mSubscriptionsChangedListenerInitialized = true;
+        }
+
+        sHandler.postDelayed(mViewModel::refreshSimEntries, mSubscriptionsChangedToken,
+                delayMillis);
     }
 
     @Override
