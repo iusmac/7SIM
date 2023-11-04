@@ -16,8 +16,11 @@
     <string name="updates_summary">"Check and download latest update"</string>
     <string name="releases_url" translatable="false">"https://github.com/iusmac/7SIM/releases"</string>
 
+    <string name="build_version_title">"Build version"</string>
+
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
     <string name="sim_list_no_sim_key" translatable="false">"sim_list_no_sim"</string>
     <string name="sim_list_updates_key" translatable="false">"sim_list_updates"</string>
+    <string name="sim_list_version_key" translatable="false">"sim_list_version"</string>
 </resources>

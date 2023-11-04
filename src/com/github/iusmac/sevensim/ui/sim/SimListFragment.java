@@ -51,6 +51,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
         setupDisclaimerBanner();
         setupSimList();
         setupUpdatesPref();
+        setupVersionPref();
     }
 
     private void setupDisclaimerBanner() {
@@ -85,6 +86,11 @@ public final class SimListFragment extends Hilt_SimListFragment {
         // maintainer's private keys (aka dev-keys signature). Hopefully, this will prevent users
         // from "blindly" installing the official update signed with public AOSP platform signature
         updatesPref.setEnabled(mApp.hasAospPlatformSignature());
+    }
+
+    private void setupVersionPref() {
+        final Preference versionPref = findPreference(getString(R.string.sim_list_version_key));
+        versionPref.setSummary(mApp.getPackageVersionName());
     }
 
     private void updateSimPreferenceList(

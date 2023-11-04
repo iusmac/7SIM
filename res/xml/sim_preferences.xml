@@ -30,5 +30,10 @@
             <intent android:action="android.intent.action.VIEW"
                     android:data="@string/releases_url"/>
         </Preference>
+
+        <Preference
+            android:key="@string/sim_list_version_key"
+            android:title="@string/build_version_title"
+            android:enabled="false"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
@@ -46,6 +47,18 @@ public final class ApplicationInfo {
             }
         }
         return false;
+    }
+
+    /**
+     * @return The string containing the package version.
+     */
+    public @NonNull String getPackageVersionName() {
+        try {
+            final PackageInfo packageInfo = getPackageInfo(0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "";
+        }
     }
 
     /**
