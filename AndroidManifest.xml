@@ -34,5 +34,13 @@
             android:name=".ui.sim.SimListActivity"
             android:exported="false">
         </activity>
+
+        <activity
+            android:name=".ui.license.LicenseActivity"
+            android:label="@string/license_title"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.MainActivity">
+        </activity>
     </application>
 </manifest>
