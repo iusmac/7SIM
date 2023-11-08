@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"وضع الطيران مفعّل"</string>
     <string name="sim_state_change_request_failed">"طلب بطاقة SIM فشل (الرمز <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"حمّل 7SIM حصريًا من صفحة GitHub الرسمية. الملفات من مصادر مجهولة قد تكون ضارة!"</string>
+    <string name="sim_list_title">"‏شرائح SIM"</string>
+    <string name="sim_no_inserted_msg">"‏لم يتم إدراج بطاقات SIM"</string>
+    <string name="about_category_title">"لمحة عن تطبيق 7SIM"</string>
+    <string name="updates_title">"التحديثات"</string>
+    <string name="updates_summary">"التحقق من أحدث تحديث وتحميله"</string>
+    <string name="build_version_title">"نسخة الإصدار"</string>
+    <string name="help_title">"المساعدة والملاحظات"</string>
+    <string name="help_summary">"وجدت خطأ؟ وقعت في مشكلة؟"</string>
+    <string name="license_title">"تراخيص البرامج المفتوحة المصدر"</string>
+    <string name="license_summary">"تفاصيل الترخيص للبرامج مفتوحة المصدر"</string>
 </resources>

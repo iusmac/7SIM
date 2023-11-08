@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"비행기 모드 사용 중"</string>
     <string name="sim_state_change_request_failed">"SIM 요청 실패 (코드 <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"공식 Github 페이지에서 7SIM를 다운로드하십시오. 알 수 없는 소스의 파일이 악의적일 수 있습니다!"</string>
+    <string name="sim_list_title">"SIM"</string>
+    <string name="sim_no_inserted_msg">"SIM 카드가 장착되지 않음"</string>
+    <string name="about_category_title">"7SIM 앱 정보"</string>
+    <string name="updates_title">"업데이트"</string>
+    <string name="updates_summary">"확인 후 최신 업데이트를 자동으로 다운로드"</string>
+    <string name="build_version_title">"빌드 버전"</string>
+    <string name="help_title">"고객센터"</string>
+    <string name="help_summary">"버그를 찾았나요? 문제가 생겼나요?"</string>
+    <string name="license_title">"오픈소스 라이선스"</string>
+    <string name="license_summary">"오픈소스 소프트웨어 라이선스 세부정보"</string>
 </resources>

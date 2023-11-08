@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"機内モードが ON です"</string>
     <string name="sim_state_change_request_failed">"SIMのリクエストに失敗しました（コード<xliff:g name="errCode" example="2">%1$d</xliff:g>）"</string>
+    <string name="disclaimer_banner_content">"7SIM は必ず公式の GitHub ページからダウンロードしてください。その他の提供元では悪意あるコードを含んでいる可能性があります!"</string>
+    <string name="sim_list_title">"SIM"</string>
+    <string name="sim_no_inserted_msg">"SIMカードが挿入されていません"</string>
+    <string name="about_category_title">"7SIM アプリについて"</string>
+    <string name="updates_title">"アップデート"</string>
+    <string name="updates_summary">"最新のアップデートを確認してダウンロードしてください"</string>
+    <string name="build_version_title">"ビルド バージョン"</string>
+    <string name="help_title">"ヘルプとフィードバック"</string>
+    <string name="help_summary">"バグを見つけましたか？問題に遭遇しましたか？"</string>
+    <string name="license_title">"オープンソース ライセンス"</string>
+    <string name="license_summary">"オープンソース ソフトウェアのライセンスの詳細"</string>
 </resources>

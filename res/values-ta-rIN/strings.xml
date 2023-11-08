@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"விமானப் பயன்முறை: இயக்கத்தில்"</string>
     <string name="sim_state_change_request_failed">"SIM கோரிக்கை தோல்வி (குறியீடு <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"அதிகாரப்பூர்வ கிட்ஹப் பக்கத்திலிருந்து மட்டுமே ௭சிம் பதிவிறக்கவும். அறியப்படாத மூலங்களிலிருந்து வரும் கோப்புகள் தீங்கிழைக்கும்!"</string>
+    <string name="sim_list_title">"சிம்கள்"</string>
+    <string name="sim_no_inserted_msg">"சிம் கார்டுகள் செருகப்படவில்லை"</string>
+    <string name="about_category_title">"7SIM ஆப்ஸ் பற்றிய அறிமுகம்"</string>
+    <string name="updates_title">"புதுப்பிப்புகள்"</string>
+    <string name="updates_summary">"சமீபத்திய புதுப்பிப்பை பதிவிறக்கவும்"</string>
+    <string name="build_version_title">"நடப்புப் பதிப்பு"</string>
+    <string name="help_title">"உதவி &amp; கருத்து"</string>
+    <string name="help_summary">"ஒரு பிழையைக் கண்டறிந்தீர்களா? சிக்கலில் மாட்டிக்கொண்டீர்களா?"</string>
+    <string name="license_title">"ஓப்பன் சோர்ஸ் உரிமங்கள்"</string>
+    <string name="license_summary">"ஓப்பன் சோர்ஸ் மென்பொருளுக்கான உரிம விவரங்கள்"</string>
 </resources>

@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Flygplansläge är aktiverat"</string>
     <string name="sim_state_change_request_failed">"SIM-begäran misslyckades (kod <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Ladda endast ned 7SIM från den officiella GitHub-sidan. Filer från okända källor kan innehålla skadlig kod!"</string>
+    <string name="sim_list_title">"SIM-kort"</string>
+    <string name="sim_no_inserted_msg">"Inga SIM-kort har anslutits"</string>
+    <string name="about_category_title">"Om 7SIM"</string>
+    <string name="updates_title">"Uppdateringar"</string>
+    <string name="updates_summary">"Kontrollera och hämta senaste uppdateringen"</string>
+    <string name="build_version_title">"Programversion"</string>
+    <string name="help_title">"Hjälp och feedback"</string>
+    <string name="help_summary">"Hittade du en bugg? Sprang du på ett problem?"</string>
+    <string name="license_title">"Licenser för öppen källkod"</string>
+    <string name="license_summary">"Licensinformation för programvara med öppen källkod"</string>
 </resources>

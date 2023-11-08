@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Λειτουργία πτήσης ενεργή"</string>
     <string name="sim_state_change_request_failed">"Αποτυχία αίτησης SIM (κωδικός <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Κάντε λήψη του 7SIM ΜΟΝΟ από την επίσημη σελίδα του GitHub. Τα αρχεία από άγνωστες πηγές μπορεί να είναι κακόβουλα!"</string>
+    <string name="sim_list_title">"Κάρτες SIM"</string>
+    <string name="sim_no_inserted_msg">"Δεν έχουν τοποθετηθεί κάρτες SIM"</string>
+    <string name="about_category_title">"Πληροφορίες για την εφαρμογή 7SIM"</string>
+    <string name="updates_title">"Ενημερώσεις"</string>
+    <string name="updates_summary">"Ελέγξτε και κατεβάστε την τελευταία ενημέρωση"</string>
+    <string name="build_version_title">"Έκδοση build"</string>
+    <string name="help_title">"Βοήθεια και σχόλια"</string>
+    <string name="help_summary">"Βρήκατε ένα σφάλμα; Πέσατε πάνω σε ένα πρόβλημα;"</string>
+    <string name="license_title">"Άδειες λογισμικού ανοικτού κώδικα"</string>
+    <string name="license_summary">"Λεπτομέρειες άδειας λογισμικού ανοικτού κώδικα"</string>
 </resources>

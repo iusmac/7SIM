@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"বিমান মোড চালু করা আছে"</string>
     <string name="sim_state_change_request_failed">"SIM অনুরোধ ব্যর্থ হয়েছে (কোড <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"শুধুমাত্র অফিসিয়াল গিটহাব পেজ থেকে ৭সিম ডাউনলোড করুন। অজানা উৎস থেকে ফাইল ক্ষতিকর হতে পারে!"</string>
+    <string name="sim_list_title">"সিম"</string>
+    <string name="sim_no_inserted_msg">"কোনো সিম কার্ড ঢোকানো নেই"</string>
+    <string name="about_category_title">"7SIM অ্যাপ সম্পর্কে"</string>
+    <string name="updates_title">"আপডেট"</string>
+    <string name="updates_summary">"সর্বশেষ আপডেট চেক এবং ডাউনলোড করুন"</string>
+    <string name="build_version_title">"বিল্ড সংস্করণ"</string>
+    <string name="help_title">"সহায়তা ও মতামত"</string>
+    <string name="help_summary">"একটি বাগ খুঁজে পেয়েছেন? একটি সমস্যা মধ্যে দৌড়ে?"</string>
+    <string name="license_title">"ওপেন সোর্স লাইসেন্স"</string>
+    <string name="license_summary">"মুক্ত উৎস সফ্টওয়্যারের লাইসেন্স বিবরণ"</string>
 </resources>

@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Uçak modu açık"</string>
     <string name="sim_state_change_request_failed">"SIM isteği başarısız oldu (kod <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"7SIM'i YALNIZCA resmi GitHub sayfasından indirin. Bilinmeyen kaynaklardan gelen dosyalar kötü amaçlı olabilir!"</string>
+    <string name="sim_list_title">"SIM'ler"</string>
+    <string name="sim_no_inserted_msg">"SIM kart takılı değil"</string>
+    <string name="about_category_title">"7SIM uygulaması hakkında"</string>
+    <string name="updates_title">"Güncellemeler"</string>
+    <string name="updates_summary">"En son güncellemeyi kontrol edin ve indirin"</string>
+    <string name="build_version_title">"Derleme sürümü"</string>
+    <string name="help_title">"Yardım ve geri bildirim"</string>
+    <string name="help_summary">"Bir hata mı buldunuz? Bir sorunla mı karşılaştınız?"</string>
+    <string name="license_title">"Açık kaynak lisansları"</string>
+    <string name="license_summary">"Açık kaynak yazılımlar için lisans ayrıntıları"</string>
 </resources>

@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Режим рада у авиону је укључен"</string>
     <string name="sim_state_change_request_failed">"SIM захтев није успео (кôд <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Преузмите 7SIM искључиво са званичне GitHub странице. Фајлови са непознатих извора могу бити злонамерни!</string>
+    <string name="sim_list_title">"SIM картице"</string>
+    <string name="sim_no_inserted_msg">"Није убачена ниједна SIM картица"</string>
+    <string name="about_category_title">"О апликацији 7SIM"</string>
+    <string name="updates_title">"Ажурирања"</string>
+    <string name="updates_summary">"Проверите и преузмите најновије ажурирање"</string>
+    <string name="build_version_title">"Верзија"</string>
+    <string name="help_title">"Помоћ и повратне инф."</string>
+    <string name="help_summary">"Нашли сте грешку? Наишли сте на проблем?"</string>
+    <string name="license_title">"Лиценце отвореног кода"</string>
+    <string name="license_summary">"Подаци о лиценци за софтвер отвореног кода"</string>
 </resources>

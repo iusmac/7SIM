@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Modul Avion este activat"</string>
     <string name="sim_state_change_request_failed">"Cererea SIM a eșuat (cod <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Descarcă 7SIM NUMAI de pe pagina oficială GitHub. Fișierele din surse necunoscute pot fi rău intenționate!"</string>
+    <string name="sim_list_title">"Carduri SIM"</string>
+    <string name="sim_no_inserted_msg">"Nu a fost introdus niciun card SIM"</string>
+    <string name="about_category_title">"Despre aplicația 7SIM"</string>
+    <string name="updates_title">"Actualizări"</string>
+    <string name="updates_summary">"Verifică și descarcă ultima actualizare"</string>
+    <string name="build_version_title">"Versiunea"</string>
+    <string name="help_title">"Ajutor și feedback"</string>
+    <string name="help_summary">"Ai găsit un bug? Ai intrat într-o problemă?"</string>
+    <string name="license_title">"Licențe open source"</string>
+    <string name="license_summary">"Detalii privind licența pentru software-ul open source"</string>
 </resources>

@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Flytilstand er slået til"</string>
     <string name="sim_state_change_request_failed">"SIM-anmodning mislykkedes (kode <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Hent 7SIM eksklusivt fra den officielle GitHub-side. Filer fra ukendte kilder kan være skadelige!"</string>
+    <string name="sim_list_title">"SIM-kort"</string>
+    <string name="sim_no_inserted_msg">"Der er ikke isat et SIM-kort"</string>
+    <string name="about_category_title">"Om 7SIM-appen"</string>
+    <string name="updates_title">"Opdateringer"</string>
+    <string name="updates_summary">"Tjek og download seneste opdatering"</string>
+    <string name="build_version_title">"Build-version"</string>
+    <string name="help_title">"Hjælp og feedback"</string>
+    <string name="help_summary">"Fundet en fejl? Løb ind i et problem?"</string>
+    <string name="license_title">"Open source-licenser"</string>
+    <string name="license_summary">"Licensoplysninger til open source-software"</string>
 </resources>

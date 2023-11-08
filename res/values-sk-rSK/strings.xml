@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Režim v lietadle je zapnutý"</string>
     <string name="sim_state_change_request_failed">"Žiadosť o SIM zlyhala (kód <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"7SIM sťahujte IBA z oficiálnej stránky na GitHube. Súbory z neznámych zdrojov môžu byť škodlivé!"</string>
+    <string name="sim_list_title">"SIM karty"</string>
+    <string name="sim_no_inserted_msg">"Nie sú vložené žiadne SIM karty"</string>
+    <string name="about_category_title">"Aplikácia 7SIM"</string>
+    <string name="updates_title">"Aktualizácie"</string>
+    <string name="updates_summary">"Skontrolujte a stiahnite si najnovšiu verziu"</string>
+    <string name="build_version_title">"Verzia zostavy"</string>
+    <string name="help_title">"Pomocník a spät. väzba"</string>
+    <string name="help_summary">"Bola nájdená chyba? Došlo k problému?"</string>
+    <string name="license_title">"Licencie open source"</string>
+    <string name="license_summary">"Podrobnosti o licenciách pre softvér open source"</string>
 </resources>

@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Modo avião ativado"</string>
     <string name="sim_state_change_request_failed">"Solicitação de SIM falhou (código <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Baixe o 7SIM SOMENTE pela página oficial do Github. Arquivos de fontes desconhecidas podem ser maliciosos e danificar seu aparelho."</string>
+    <string name="sim_list_title">"Chips"</string>
+    <string name="sim_no_inserted_msg">"Nenhum chip inserido"</string>
+    <string name="about_category_title">"Sobre o app 7SIM"</string>
+    <string name="updates_title">"Atualizações"</string>
+    <string name="updates_summary">"Verificar e baixar a última atualização"</string>
+    <string name="build_version_title">"Versão"</string>
+    <string name="help_title">"Ajuda e feedback"</string>
+    <string name="help_summary">"Encontrou um bug? Encontrou um problema?"</string>
+    <string name="license_title">"Licenças de código aberto"</string>
+    <string name="license_summary">"Detalhes da licença do software de código aberto"</string>
 </resources>

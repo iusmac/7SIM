@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Режим польоту ввімкнено"</string>
     <string name="sim_state_change_request_failed">"Запит SIM не вдався (код <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Завантажуйте 7SIM ЛИШЕ з офіційної сторінки на GitHub. Файли з невідомих джерел можуть містити шкідливий функціонал!"</string>
+    <string name="sim_list_title">"SIM-карти"</string>
+    <string name="sim_no_inserted_msg">"SIM-карту не вставлено"</string>
+    <string name="about_category_title">"Про додаток 7SIM"</string>
+    <string name="updates_title">"Оновлення"</string>
+    <string name="updates_summary">"Перевірка та завантаження останнього оновлення"</string>
+    <string name="build_version_title">"Версія складання"</string>
+    <string name="help_title">"Довідка й відгуки"</string>
+    <string name="help_summary">"Знайшли помилку? Зіткнувся з проблемою?"</string>
+    <string name="license_title">"Ліцензії з відкритим кодом"</string>
+    <string name="license_summary">"Деталі ліцензій на програмне забезпечення з відкритим кодом"</string>
 </resources>

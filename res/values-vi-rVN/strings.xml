@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Chế độ trên máy bay đang bật"</string>
     <string name="sim_state_change_request_failed">"Yêu cầu SIM thất bại (mã <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Chỉ nên tải 7SIM từ trang GitHub chính thức. Tải tệp từ các nguồn không rõ có thể gây hại!"</string>
+    <string name="sim_list_title">"SIM"</string>
+    <string name="sim_no_inserted_msg">"Không có thẻ SIM nào được lắp"</string>
+    <string name="about_category_title">"Giới thiệu về ứng dụng 7SIM"</string>
+    <string name="updates_title">"Cập nhật"</string>
+    <string name="updates_summary">"Kiểm tra cập nhật"</string>
+    <string name="build_version_title">"Phiên bản đóng gói"</string>
+    <string name="help_title">"Trợ giúp và phản hồi"</string>
+    <string name="help_summary">"Thấy có lỗi? Máy bị vấn đề?"</string>
+    <string name="license_title">"Giấy phép nguồn mở"</string>
+    <string name="license_summary">"Chi tiết giấy phép cho phần mềm nguồn mở"</string>
 </resources>

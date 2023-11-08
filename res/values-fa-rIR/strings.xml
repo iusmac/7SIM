@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"حالت هواپیما روشن است"</string>
     <string name="sim_state_change_request_failed">"درخواست SIM ناموفق بود (کد <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"از صفحه رسمی GitHub، 7SIM را دانلود کنید. فایل‌های از منابع ناشناخته ممکن است خطرناک باشند!"</string>
+    <string name="sim_list_title">"سیم‌کارت‌ها"</string>
+    <string name="sim_no_inserted_msg">"هیچ سیم‌کارتی جاگذاری نشده است"</string>
+    <string name="about_category_title">"درباره برنامه 7SIM"</string>
+    <string name="updates_title">"بروزرسانی ها و آپدیت ها"</string>
+    <string name="updates_summary">"آخرین آپدیت را بررسی و دانلود کنید"</string>
+    <string name="build_version_title">"نسخه ساخت"</string>
+    <string name="help_title">"راهنما و بازخورد"</string>
+    <string name="help_summary">"مشکلی در رام پیدا کردید? مشکلی با رام دارید?"</string>
+    <string name="license_title">"مجوزهای متن‌باز"</string>
+    <string name="license_summary">"جزئیات مجوز برای نرم‌افزار متن‌باز"</string>
 </resources>

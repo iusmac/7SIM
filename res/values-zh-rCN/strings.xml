@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"已开启飞行模式"</string>
     <string name="sim_state_change_request_failed">"SIM请求失败（代码<xliff:g name="errCode" example="2">%1$d</xliff:g>）"</string>
+    <string name="disclaimer_banner_content">"仅从官方 GitHub 页面下载 7SIM。未知来源的文件可能具有恶意行为！"</string>
+    <string name="sim_list_title">"SIM 卡"</string>
+    <string name="sim_no_inserted_msg">"尚未插入SIM卡"</string>
+    <string name="about_category_title">"7SIM应用简介"</string>
+    <string name="updates_title">"更新"</string>
+    <string name="updates_summary">"检查并下载最新更新"</string>
+    <string name="build_version_title">"版本号"</string>
+    <string name="help_title">"帮助和反馈"</string>
+    <string name="help_summary">"发现 bug？遇到问题？"</string>
+    <string name="license_title">"开放源代码许可"</string>
+    <string name="license_summary">"开放源代码软件的许可详情"</string>
 </resources>

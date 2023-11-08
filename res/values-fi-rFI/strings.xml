@@ -2,4 +2,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="airplane_mode_enabled">"Lentokonetila on käytössä"</string>
     <string name="sim_state_change_request_failed">"SIM-pyyntö epäonnistui (koodi <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
+    <string name="disclaimer_banner_content">"Lataa 7SIM yksinomaan viralliselta GitHub-sivulta. Luvattomista lähteistä peräisin olevat tiedostot voivat olla viruksen saastuttamia!"</string>
+    <string name="sim_list_title">"SIM-kortit"</string>
+    <string name="sim_no_inserted_msg">"Laitteessa ei ole SIM-kortteja"</string>
+    <string name="about_category_title">"Tietoja 7SIM ‑sovelluksesta"</string>
+    <string name="updates_title">"Päivitykset"</string>
+    <string name="updates_summary">"Tarkista ja lataa uusin päivitys"</string>
+    <string name="build_version_title">"Koontiversio"</string>
+    <string name="help_title">"Ohjeet ja palaute"</string>
+    <string name="help_summary">"Löysitkö bugin? Kohtasitko ongelman?"</string>
+    <string name="license_title">"Avoimen lähdekoodin käyttöoikeudet"</string>
+    <string name="license_summary">"Avoimen lähdekoodin ohjelmiston käyttöoikeustiedot"</string>
 </resources>
