@@ -18,6 +18,8 @@
         android:appCategory="accessibility"
         android:requiredForAllUsers="true"
         android:supportsRtl="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:theme="@style/Theme.SubSettingsBase">
 
         <activity
