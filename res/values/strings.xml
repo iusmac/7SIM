@@ -7,6 +7,8 @@
 
     <string name="disclaimer_banner_content">"Download 7SIM exclusively from the official GitHub page. Files from unknown sources can be malicious!"</string>
 
+    <string name="preference_list_title">"Preferences"</string>
+
     <string name="sim_list_title">"SIM"</string>
     <string name="sim_no_inserted_msg">"No SIM cards inserted"</string>
 

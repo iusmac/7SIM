@@ -44,5 +44,16 @@
             android:launchMode="singleTop"
             android:parentActivityName=".ui.MainActivity">
         </activity>
+
+        <activity
+            android:name=".ui.preferences.PreferenceListActivity"
+            android:label="@string/preference_list_title"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

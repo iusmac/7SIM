@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
+import android.view.Menu;
 
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,7 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
+import com.github.iusmac.sevensim.ui.preferences.PreferenceListActivity;
 import com.github.iusmac.sevensim.ui.sim.SimListViewModel.Factory;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -50,6 +53,19 @@ public class SimListActivity extends Hilt_SimListActivity
 
     private final Object mSubscriptionsChangedToken = new Object();
     private boolean mSubscriptionsChangedListenerInitialized;
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.sim_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        menu.findItem(R.id.preference_list).setIntent(new Intent(this,
+                    PreferenceListActivity.class));
+        return true;
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
