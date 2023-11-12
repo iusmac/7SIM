@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.preference.SwitchPreference
+        android:key="@string/preference_list_show_app_icon_key"
+        android:title="@string/preference_list_show_app_icon_title"
+        android:summary="@string/preference_list_show_app_icon_summary"/>
 </PreferenceScreen>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:androidprv="http://schemas.android.com/apk/prv/res/android"
     package="com.github.iusmac.sevensim"
     android:sharedUserId="android.uid.system">
 
@@ -10,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.READ_DEVICE_CONFIG" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".SevenSimApplication"
@@ -25,6 +27,42 @@
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <!--
+                    Note that, the LauncherActivity is the desired "front-door" activity to be shown
+                    in the launcher's app list. Under the hood, the LauncherActivity proxies this
+                    activity because it can be disabled to hide the launcher icon in the launcher's
+                    app list. Once the LauncherActivity component is disabled through
+                    PackageManager.setComponentEnabledSetting(), the app effectively becomes useless
+                    and unavailable anywhere. This puts the user in a situation where they are left
+                    with no choice but to do a complete app reinstall or, in the case of
+                    pre-installed app in the device's system partition as part of the ROM, even
+                    resort to a factory reset. To avoid this issue, we must make this activity
+                    resolvable via Intent.CATEGORY_INFO in the system built-in Settings app when
+                    viewing App Info for this application. -->
+                <category android:name="android.intent.category.INFO"/>
+            </intent-filter>
+        </activity>
+
+        <!--
+            Note about the attributes:
+             - launchMode: this activity is "singleTask", in order to be the root activity launched
+               from the launcher app list.
+             - taskAffinity: this is needed so that the task is split from other activities, such as
+               preference activity.
+             - excludeFromRecents: this activity aims to launch the MainActivity and shouldn't be
+               shown on history list.
+             - theme: this activity won't actually display a UI as it's only launched from the
+               launcher app list and aims to open the MainActivity, then close itself immediately.
+        -->
+        <activity
+            android:name=".ui.LauncherActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=".ui"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.NoDisplay"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -55,5 +93,15 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".SystemBroadcastReceiver"
+            android:exported="false"
+            androidprv:systemUserOnly="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

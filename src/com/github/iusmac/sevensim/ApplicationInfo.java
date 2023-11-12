@@ -62,6 +62,25 @@ public final class ApplicationInfo {
     }
 
     /**
+     * @return {@code true} if the application is classified by the OS as a "built-in system"
+     * application, {@code false} otherwise.
+     */
+    public boolean isSystemApplication() {
+        try {
+            final android.content.pm.ApplicationInfo appInfo = getApplicationInfo(0);
+            // Note that, an application is considered as a system application when it's either
+            // pre-installed in the device's system partition as part of the ROM, or be deliberately
+            // placed by the user under the system{_ext}/priv-app folder. Additionally, the system
+            // application can be updated by being installed as any other app; in such case, the
+            // application will exist in both the system and data partitions, and will be considered
+            // as an updated system application
+            return appInfo.isSystemApp() || appInfo.isUpdatedSystemApp();
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
      * @param context The application context for accessing {@link PackageManager}.
      * @param packageName The name of the package to retrieve overall information of.
      * @return The array containing package {@link Signature}s.
@@ -91,6 +110,20 @@ public final class ApplicationInfo {
     }
 
     /**
+     * @param flags The combination of flag bits for {@link ApplicationInfo}.
+     * @return A {@link ApplicationInfo} containing info about this application.
+     */
+    private android.content.pm.ApplicationInfo getApplicationInfo(final int flags)
+            throws PackageManager.NameNotFoundException {
+
+        if (Utils.IS_AT_LEAST_T) {
+            return Api33Impl.getApplicationInfo(mPackageManager, mPackageName, flags);
+        } else {
+            return ApiDeprecated.getApplicationInfo(mPackageManager, mPackageName, flags);
+        }
+    }
+
+    /**
      * Nested class to avoid verification errors for methods introduced in Android 13 (API 33).
      */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -99,6 +132,14 @@ public final class ApplicationInfo {
                 final int flags) throws PackageManager.NameNotFoundException {
 
             return pm.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags));
+        }
+
+        private static android.content.pm.ApplicationInfo getApplicationInfo(
+                final PackageManager pm, final String packageName, final int flags)
+                throws PackageManager.NameNotFoundException {
+
+            return pm.getApplicationInfo(packageName,
+                    PackageManager.ApplicationInfoFlags.of(flags));
         }
     }
 
@@ -111,6 +152,13 @@ public final class ApplicationInfo {
                 final int flags) throws PackageManager.NameNotFoundException {
 
             return pm.getPackageInfo(packageName, flags);
+        }
+
+        private static android.content.pm.ApplicationInfo getApplicationInfo(
+                final PackageManager pm, final String packageName, final int flags)
+                throws PackageManager.NameNotFoundException {
+
+            return pm.getApplicationInfo(packageName, flags);
         }
     }
 }

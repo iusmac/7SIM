@@ -9,6 +9,9 @@
 
     <string name="preference_list_title">"Preferences"</string>
 
+    <string name="preference_list_show_app_icon_title">"Show app icon"</string>
+    <string name="preference_list_show_app_icon_summary">"Display application icon in the launcher"</string>
+
     <string name="sim_list_title">"SIM"</string>
     <string name="sim_no_inserted_msg">"No SIM cards inserted"</string>
 
@@ -34,4 +37,5 @@
     <string name="sim_list_version_key" translatable="false">"sim_list_version"</string>
     <string name="sim_list_help_key" translatable="false">"sim_list_help"</string>
     <string name="sim_list_license_key" translatable="false">"sim_list_license"</string>
+    <string name="preference_list_show_app_icon_key" translatable="false">"show_launcher_icon"</string>
 </resources>

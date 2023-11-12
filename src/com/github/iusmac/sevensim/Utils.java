@@ -1,6 +1,8 @@
 package com.github.iusmac.sevensim;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -43,6 +45,29 @@ public final class Utils {
     public static void makeToast(final Context context, final String msg) {
         ContextCompat.getMainExecutor(context).execute(() -> Toast.makeText(context, msg,
                     Toast.LENGTH_LONG).show());
+    }
+
+    /**
+     * Enable or disable a component in the manifest.
+     *
+     * @param context The application context.
+     * @param cn The {@link ComponentName} to set enabled/disabled setting for.
+     * @param enabled {@code true} if the component should be enabled, {@code false} if should be
+     * disabled.
+     * @return Whether or not the setting was actually changed.
+     */
+    public static boolean setComponentEnabledSetting(final Context context, final ComponentName cn,
+            final boolean enabled) {
+
+        final PackageManager pm = context.getPackageManager();
+        final int state = enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+
+        if (pm.getComponentEnabledSetting(cn) != state) {
+            pm.setComponentEnabledSetting(cn, state, PackageManager.DONT_KILL_APP);
+            return true;
+        }
+        return false;
     }
 
     /**

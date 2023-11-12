@@ -19,6 +19,7 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
 
     private boolean mHasAospPlatformSignature;
     private String mApplicationVersion;
+    private boolean mIsSystemApplication;
 
     @Override
     public void onCreate() {
@@ -29,9 +30,11 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
         final ApplicationInfo appInfo = mApplicationInfoProvider.get();
         mHasAospPlatformSignature = appInfo.hasAospPlatformSignature();
         mApplicationVersion = appInfo.getPackageVersionName();
+        mIsSystemApplication = appInfo.isSystemApplication();
 
-        logger.d("onCreate() : mHasAospPlatformSignature=%s,mApplicationVersion=%s.",
-                mHasAospPlatformSignature, mApplicationVersion);
+        logger.d("onCreate() : mHasAospPlatformSignature=%s,mApplicationVersion=%s," +
+                "mIsSystemApplication=%s.", mHasAospPlatformSignature, mApplicationVersion,
+                mIsSystemApplication);
     }
 
     /**
@@ -47,5 +50,13 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
      */
     public @NonNull String getPackageVersionName() {
         return mApplicationVersion;
+    }
+
+    /**
+     * @return {@code true} if the application is classified by the OS as a "built-in system"
+     * application, {@code false} otherwise.
+     */
+    public boolean isSystemApplication() {
+        return mIsSystemApplication;
     }
 }
