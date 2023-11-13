@@ -9,8 +9,7 @@ public final class QsAppLauncherTileService extends TileService {
     @Override
     public void onClick() {
         final Intent aIntent = new Intent(this, MainActivity.class);
-        aIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
+        aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         startActivityAndCollapse(aIntent);
     }
 }
