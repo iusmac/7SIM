@@ -48,6 +48,18 @@ public final class Utils {
     }
 
     /**
+     * Check whether a {@link ComponentName} is disabled.
+     *
+     * @param context The application context.
+     * @param cn The {@link ComponentName} to get the disabled state for.
+     * @return Whether or not the {@link ComponentName} is disabled.
+     */
+    public static boolean isComponentDisabled(final Context context, final ComponentName cn) {
+        final PackageManager pm = context.getPackageManager();
+        return pm.getComponentEnabledSetting(cn) == PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+    }
+
+    /**
      * Enable or disable a component in the manifest.
      *
      * @param context The application context.
@@ -59,11 +71,10 @@ public final class Utils {
     public static boolean setComponentEnabledSetting(final Context context, final ComponentName cn,
             final boolean enabled) {
 
-        final PackageManager pm = context.getPackageManager();
-        final int state = enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-
-        if (pm.getComponentEnabledSetting(cn) != state) {
+        if (!isComponentDisabled(context, cn) != enabled) {
+            final int state = enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+            final PackageManager pm = context.getPackageManager();
             pm.setComponentEnabledSetting(cn, state, PackageManager.DONT_KILL_APP);
             return true;
         }

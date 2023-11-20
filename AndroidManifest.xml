@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.READ_DEVICE_CONFIG" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" tools:ignore="ProtectedPermissions"/>
 
     <application
         android:name=".SevenSimApplication"
@@ -26,7 +27,6 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -46,23 +46,8 @@
             </intent-filter>
         </activity>
 
-        <!--
-            Note about the attributes:
-             - launchMode: this activity is "singleTask", in order to be the root activity launched
-               from the launcher app list.
-             - taskAffinity: this is needed so that the task is split from other activities, such as
-               preference activity.
-             - excludeFromRecents: this activity aims to launch the MainActivity and shouldn't be
-               shown on history list.
-             - theme: this activity won't actually display a UI as it's only launched from the
-               launcher app list and aims to open the MainActivity, then close itself immediately.
-        -->
         <activity
             android:name=".ui.LauncherActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=".ui"
-            android:excludeFromRecents="true"
-            android:theme="@android:style/Theme.NoDisplay"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -78,17 +63,13 @@
         <activity
             android:name=".ui.license.LicenseActivity"
             android:label="@string/license_title"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.MainActivity">
+            android:exported="false">
         </activity>
 
         <activity
             android:name=".ui.preferences.PreferenceListActivity"
             android:label="@string/preference_list_title"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.MainActivity">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
             </intent-filter>
@@ -113,6 +94,12 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
             <meta-data android:name="android.service.quicksettings.ACTIVE_TILE" android:value="true"/>
+        </service>
+
+        <service
+            android:name=".launcher.LauncherIconVisibilityChangerService"
+            android:stopWithTask="false"
+            android:exported="false">
         </service>
     </application>
 </manifest>

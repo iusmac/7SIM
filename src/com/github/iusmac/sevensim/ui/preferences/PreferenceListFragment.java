@@ -1,6 +1,7 @@
 package com.github.iusmac.sevensim.ui.preferences;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,6 +11,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
+import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.launcher.LauncherIconVisibilityManager;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -51,7 +53,16 @@ public final class PreferenceListFragment extends Hilt_PreferenceListFragment {
 
     private void setupShowAppIconPref() {
          final Preference showAppIconPref = findPreference(mPrefShowAppIconKey);
-         showAppIconPref.setEnabled(mLauncherIconVisibilityManager.isSupported());
+         showAppIconPref.setEnabled(mLauncherIconVisibilityManager.canHide() ||
+                 !mLauncherIconVisibilityManager.isVisible());
+         showAppIconPref.setOnPreferenceChangeListener((pref, value) -> {
+             final boolean enabled = (Boolean) value;
+             // Aware the user that the icon will be hidden only after app restart
+             if (!enabled) {
+                 Utils.makeToast(requireContext(), getString(R.string.restart_to_apply));
+             }
+             return true; // persist on disk
+         });
     }
 
     /**
@@ -72,7 +83,8 @@ public final class PreferenceListFragment extends Hilt_PreferenceListFragment {
         @Override
         public boolean getBoolean(final String key, final boolean defVal) {
             if (key.equals(mPrefShowAppIconKey)) {
-                return mLauncherIconVisibilityManager.isVisible();
+                return mLauncherIconVisibilityManager.getUserVisibilityPreference().orElseGet(() ->
+                        mLauncherIconVisibilityManager.isVisible());
             } else {
                 mLogger.wtf("getBoolean() : unhandled key = " + key);
             }
