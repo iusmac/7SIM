@@ -13,4 +13,8 @@
     <string name="help_summary">"Thấy có lỗi? Máy bị vấn đề?"</string>
     <string name="license_title">"Giấy phép nguồn mở"</string>
     <string name="license_summary">"Chi tiết giấy phép cho phần mềm nguồn mở"</string>
+    <string name="preference_list_title">"Lựa chọn ưu tiên"</string>
+    <string name="preference_list_show_app_icon_title">"Hiển thị biểu tượng ứng dụng"</string>
+    <string name="preference_list_show_app_icon_summary">"Hiển thị biểu tượng ứng dụng trong trình chạy"</string>
+    <string name="restart_to_apply">"Bạn phải khởi động lại ứng dụng để áp dụng các thay đổi"</string>
 </resources>

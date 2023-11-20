@@ -13,4 +13,8 @@
     <string name="help_summary">"Знайшлі памылку? Сутыкнуліся з праблемай?"</string>
     <string name="license_title">"Ліцэнзіі на ПЗ з адкрытым зыходным кодам"</string>
     <string name="license_summary">"Звесткі аб ліцэнзіі на праграмнае забеспячэнне з адкрытым зыходным кодам"</string>
+    <string name="preference_list_title">"Параметры"</string>
+    <string name="preference_list_show_app_icon_title">"Паказаць значок праграмы"</string>
+    <string name="preference_list_show_app_icon_summary">"Паказаць значок праграмы ў праграме запуску"</string>
+    <string name="restart_to_apply">"Вы павінны перазапусціць прыкладанне, каб прымяніць змены"</string>
 </resources>

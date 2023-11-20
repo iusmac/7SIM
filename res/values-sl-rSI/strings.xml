@@ -13,4 +13,8 @@
     <string name="help_summary">"Ste našli hrošča? Naleteli na težavo?"</string>
     <string name="license_title">"Odprtokodne licence"</string>
     <string name="license_summary">"Podrobnosti o licenci za odprtokodno programsko opremo"</string>
+    <string name="preference_list_title">"Nastavitve"</string>
+    <string name="preference_list_show_app_icon_title">"Prikaz ikone aplikacije"</string>
+    <string name="preference_list_show_app_icon_summary">"Prikaz ikone aplikacije v zaganjalniku"</string>
+    <string name="restart_to_apply">"Za uveljavitev sprememb morate znova zagnati aplikacijo"</string>
 </resources>

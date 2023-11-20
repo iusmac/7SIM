@@ -13,4 +13,8 @@
     <string name="help_summary">"Déclarer un bogue ou un problème"</string>
     <string name="license_title">"Licences Open Source"</string>
     <string name="license_summary">"Informations sur les licences de logiciels Open Source"</string>
+    <string name="preference_list_title">"Préférences"</string>
+    <string name="preference_list_show_app_icon_title">"Afficher l'icône de l'application"</string>
+    <string name="preference_list_show_app_icon_summary">"Afficher l'icône de l'application dans le lanceur"</string>
+    <string name="restart_to_apply">"Relancez l'application pour appliquer modifications"</string>
 </resources>

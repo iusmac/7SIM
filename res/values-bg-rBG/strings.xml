@@ -13,4 +13,8 @@
     <string name="help_summary">"Намерихте бъг? Попаднахте на проблем?"</string>
     <string name="license_title">"Лицензи за отворен код"</string>
     <string name="license_summary">"Подробности за лицензите на софтуера с отворен код"</string>
+    <string name="preference_list_title">"Предпочитания"</string>
+    <string name="preference_list_show_app_icon_title">"Показване на иконата на приложението"</string>
+    <string name="preference_list_show_app_icon_summary">"Показване на иконата на приложението в стартовия панел"</string>
+    <string name="restart_to_apply">"Трябва да рестартирате приложението, за да приложите промените"</string>
 </resources>

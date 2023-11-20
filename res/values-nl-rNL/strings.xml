@@ -13,4 +13,8 @@
     <string name="help_summary">"Bug gevonden? Zijn er problemen?"</string>
     <string name="license_title">"Open-sourcelicenties"</string>
     <string name="license_summary">"Licentiedetails voor open-sourcesoftware"</string>
+    <string name="preference_list_title">"Voorkeuren"</string>
+    <string name="preference_list_show_app_icon_title">"App-icoon tonen"</string>
+    <string name="preference_list_show_app_icon_summary">"App-icoon weergeven in de launcher"</string>
+    <string name="restart_to_apply">"U moet de applicatie opnieuw starten om wijzigingen toe te passen"</string>
 </resources>

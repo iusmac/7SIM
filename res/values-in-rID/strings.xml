@@ -13,4 +13,8 @@
     <string name="help_summary">"Ditemukan bug? Berlari ke dalam masalah?"</string>
     <string name="license_title">"Lisensi open source"</string>
     <string name="license_summary">"Detail lisensi untuk software open source"</string>
+    <string name="preference_list_title">"Preferensi"</string>
+    <string name="preference_list_show_app_icon_title">"Tampilkan ikon aplikasi"</string>
+    <string name="preference_list_show_app_icon_summary">"Tampillkan ikon aplikasi di peluncur"</string>
+    <string name="restart_to_apply">"Anda harus memulai ulang aplikasi untuk menerapkan perubahan"</string>
 </resources>

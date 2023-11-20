@@ -13,4 +13,8 @@
     <string name="help_summary">"Algun bug? Tens algun problema?"</string>
     <string name="license_title">"Llicències de programari lliure"</string>
     <string name="license_summary">"Detalls de la llicència del programari lliure"</string>
+    <string name="preference_list_title">"Preferències"</string>
+    <string name="preference_list_show_app_icon_title">"Mostra la icona de l'aplicació"</string>
+    <string name="preference_list_show_app_icon_summary">"Mostra la icona de l'aplicació al menú d'aplicacions"</string>
+    <string name="restart_to_apply">"Heu de reiniciar l'aplicació per aplicar els canvis"</string>
 </resources>

@@ -13,4 +13,8 @@
     <string name="help_summary">"¿Has encontrado un error? ¿Tienes un problema?"</string>
     <string name="license_title">"Licencias de software libre"</string>
     <string name="license_summary">"Detalles de las licencias de software libre"</string>
+    <string name="preference_list_title">Preferencias</string>
+    <string name="preference_list_show_app_icon_title">Mostrar icono de la aplicación</string>
+    <string name="preference_list_show_app_icon_summary">Mostrar el icono de la aplicación en el lanzador</string>
+    <string name="restart_to_apply">"Los cambios serán efectivos una vez reiniciada la aplicación"</string>
 </resources>

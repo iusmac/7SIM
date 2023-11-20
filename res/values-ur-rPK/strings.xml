@@ -13,4 +13,8 @@
     <string name="help_summary">" کویٗ بگ ملا؟ کویٗ مسٗلہ آ گیا؟"</string>
     <string name="license_title">"اوپن سورس لائسنسز"</string>
     <string name="license_summary">"اوپن سورس سافٹ ویئر کیلئے لائسنس کی تفصیلات"</string>
+    <string name="preference_list_title">"ترجیحات"</string>
+    <string name="preference_list_show_app_icon_title">"ایپ آئیکن دکھائیں"</string>
+    <string name="preference_list_show_app_icon_summary">"ایپلیکیشن آئیکن کو لانچر میں ڈسپلے کریں"</string>
+    <string name="restart_to_apply">"تبدیلیاں لاگو کرنے کیلئے درخواست کو دوبارہ شروع کریں"</string>
 </resources>

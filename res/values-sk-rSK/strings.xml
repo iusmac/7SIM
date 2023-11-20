@@ -13,4 +13,8 @@
     <string name="help_summary">"Bola nájdená chyba? Došlo k problému?"</string>
     <string name="license_title">"Licencie open source"</string>
     <string name="license_summary">"Podrobnosti o licenciách pre softvér open source"</string>
+    <string name="preference_list_title">"Nastavenia"</string>
+    <string name="preference_list_show_app_icon_title">"Zobrazovať ikonu aplikácie"</string>
+    <string name="preference_list_show_app_icon_summary">"Zobrazovať ikonu aplikácie v spúšťači"</string>
+    <string name="restart_to_apply">"Ak chcete použiť zmeny, musíte aplikáciu reštartovať"</string>
 </resources>

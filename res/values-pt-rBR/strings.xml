@@ -13,4 +13,8 @@
     <string name="help_summary">"Encontrou um bug? Encontrou um problema?"</string>
     <string name="license_title">"Licenças de código aberto"</string>
     <string name="license_summary">"Detalhes da licença do software de código aberto"</string>
+    <string name="preference_list_title">"Preferências"</string>
+    <string name="preference_list_show_app_icon_title">"Mostrar ícone do app"</string>
+    <string name="preference_list_show_app_icon_summary">"Mostrar o ícone do app na tela de início"</string>
+    <string name="restart_to_apply">"Você tem que reiniciar a aplicação para aplicar as mudanças"</string>
 </resources>

@@ -13,4 +13,8 @@
     <string name="help_summary">"バグを見つけましたか？問題に遭遇しましたか？"</string>
     <string name="license_title">"オープンソース ライセンス"</string>
     <string name="license_summary">"オープンソース ソフトウェアのライセンスの詳細"</string>
+    <string name="preference_list_title">"設定"</string>
+    <string name="preference_list_show_app_icon_title">"アプリアイコンを表示"</string>
+    <string name="preference_list_show_app_icon_summary">"ランチャーにアプリアイコンを表示します"</string>
+    <string name="restart_to_apply">"全ての変更を適用するにはプログラムを再起動する必要があります"</string>
 </resources>

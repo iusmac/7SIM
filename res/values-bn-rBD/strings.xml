@@ -13,4 +13,8 @@
     <string name="help_summary">"একটি বাগ খুঁজে পেয়েছেন? একটি সমস্যা মধ্যে দৌড়ে?"</string>
     <string name="license_title">"ওপেন সোর্স লাইসেন্স"</string>
     <string name="license_summary">"মুক্ত উৎস সফ্টওয়্যারের লাইসেন্স বিবরণ"</string>
+    <string name="preference_list_title">"পছন্দ"</string>
+    <string name="preference_list_show_app_icon_title">"অ্যাপ আইকন দেখান"</string>
+    <string name="preference_list_show_app_icon_summary">"লঞ্চারে অ্যাপ্লিকেশন আইকন দেখান"</string>
+    <string name="restart_to_apply">"পরিবর্তনগুলি প্রয়োগ করতে আপনাকে অ্যাপ্লিকেশন পুনরায় চালু করতে হবে"</string>
 </resources>

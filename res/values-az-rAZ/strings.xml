@@ -13,4 +13,8 @@
     <string name="help_summary">"Xəta tapdın? Nəsə problemlə qarşılaşdın?"</string>
     <string name="license_title">"Mənbə lisenziyalarını açın"</string>
     <string name="license_summary">"Açıq mənbəli proqram təminatı üçün lisenziya detalları"</string>
+    <string name="preference_list_title">"Seçimlər"</string>
+    <string name="preference_list_show_app_icon_title">"Tətbiq ikonasını göstər"</string>
+    <string name="preference_list_show_app_icon_summary">"Başlatma panelində tətbiq ikonasını göstər"</string>
+    <string name="restart_to_apply">"Dəyişiklikləri tətbiq etmək üçün proqramı yenidən başlatmalısınız"</string>
 </resources>

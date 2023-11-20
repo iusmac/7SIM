@@ -13,4 +13,8 @@
     <string name="help_summary">"وجدت خطأ؟ وقعت في مشكلة؟"</string>
     <string name="license_title">"تراخيص البرامج المفتوحة المصدر"</string>
     <string name="license_summary">"تفاصيل الترخيص للبرامج مفتوحة المصدر"</string>
+    <string name="preference_list_title">"الإعدادات المفضّلة"</string>
+    <string name="preference_list_show_app_icon_title">"عرض رمز التطبيق"</string>
+    <string name="preference_list_show_app_icon_summary">"عرض رمز التطبيق في المشغّل"</string>
+    <string name="restart_to_apply">"يجب عليك إعادة تشغيل التطبيق لتطبيق التغييرات"</string>
 </resources>

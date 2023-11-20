@@ -13,4 +13,8 @@
     <string name="help_summary">"Löysitkö bugin? Kohtasitko ongelman?"</string>
     <string name="license_title">"Avoimen lähdekoodin käyttöoikeudet"</string>
     <string name="license_summary">"Avoimen lähdekoodin ohjelmiston käyttöoikeustiedot"</string>
+    <string name="preference_list_title">"Asetukset"</string>
+    <string name="preference_list_show_app_icon_title">"Näytä sovelluskuvake"</string>
+    <string name="preference_list_show_app_icon_summary">"Näytä sovelluskuvake käynnistysohjelmassa."</string>
+    <string name="restart_to_apply">"Sinun on käynnistettävä sovellus uudelleen, jotta muutokset otetaan käyttöön"</string>
 </resources>

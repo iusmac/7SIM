@@ -13,4 +13,8 @@
     <string name="help_summary">"发现 bug？遇到问题？"</string>
     <string name="license_title">"开放源代码许可"</string>
     <string name="license_summary">"开放源代码软件的许可详情"</string>
+    <string name="preference_list_title">偏好设置</string>
+    <string name="preference_list_show_app_icon_title">显示应用程序图标</string>
+    <string name="preference_list_show_app_icon_summary">在启动器中显示应用程序图标</string>
+    <string name="restart_to_apply">"您必须重启软件才能应用更改"</string>
 </resources>

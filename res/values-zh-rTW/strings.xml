@@ -13,4 +13,8 @@
     <string name="help_summary">"發現了一個錯誤？遇到問題？"</string>
     <string name="license_title">"開放原始碼授權"</string>
     <string name="license_summary">"開放原始碼軟體的授權詳細資料"</string>
+    <string name="preference_list_title">"偏好設定"</string>
+    <string name="preference_list_show_app_icon_title">"顯示應用程式圖示"</string>
+    <string name="preference_list_show_app_icon_summary">"在啟動器中顯示應用程式圖示"</string>
+    <string name="restart_to_apply">"您必須重啟程序使更改的功能生效"</string>
 </resources>

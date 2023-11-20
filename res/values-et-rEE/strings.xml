@@ -13,4 +13,8 @@
     <string name="help_summary">"Leidsid vea? Tekkis probleem?"</string>
     <string name="license_title">"Avatud lähtekoodi litsentsid"</string>
     <string name="license_summary">"Avatud lähtekoodiga tarkvara litsentsi üksikasjad"</string>
+    <string name="preference_list_title">"Eelistused"</string>
+    <string name="preference_list_show_app_icon_title">"Kuva rakenduse ikoon"</string>
+    <string name="preference_list_show_app_icon_summary">"Rakenduse ikooni kuvamine käivitajas"</string>
+    <string name="restart_to_apply">"Muudatuste rakendamiseks peate programmi taaskäivitama"</string>
 </resources>

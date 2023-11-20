@@ -13,4 +13,8 @@
     <string name="help_summary">"Ai găsit un bug? Ai intrat într-o problemă?"</string>
     <string name="license_title">"Licențe open source"</string>
     <string name="license_summary">"Detalii privind licența pentru software-ul open source"</string>
+    <string name="preference_list_title">"Preferințe"</string>
+    <string name="preference_list_show_app_icon_title">"Afișează pictograma aplicației"</string>
+    <string name="preference_list_show_app_icon_summary">"Afișează pictograma aplicației în lansator"</string>
+    <string name="restart_to_apply">"Trebuie să reporniți aplicația pentru a aplica modificările"</string>
 </resources>

@@ -13,4 +13,8 @@
     <string name="help_summary">"مشکلی در رام پیدا کردید? مشکلی با رام دارید?"</string>
     <string name="license_title">"مجوزهای متن‌باز"</string>
     <string name="license_summary">"جزئیات مجوز برای نرم‌افزار متن‌باز"</string>
+    <string name="preference_list_title">"اولویت‌ها"</string>
+    <string name="preference_list_show_app_icon_title">"نمایش نماد برنامه"</string>
+    <string name="preference_list_show_app_icon_summary">"نمایش نماد برنامه در راه‌انداز"</string>
+    <string name="restart_to_apply">"برای اعمال تغییرات باید برنامه را ریستارت کنید"</string>
 </resources>

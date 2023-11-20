@@ -13,4 +13,8 @@
     <string name="help_summary">"ஒரு பிழையைக் கண்டறிந்தீர்களா? சிக்கலில் மாட்டிக்கொண்டீர்களா?"</string>
     <string name="license_title">"ஓப்பன் சோர்ஸ் உரிமங்கள்"</string>
     <string name="license_summary">"ஓப்பன் சோர்ஸ் மென்பொருளுக்கான உரிம விவரங்கள்"</string>
+    <string name="preference_list_title">"விருப்பத்தேர்வுகள்"</string>
+    <string name="preference_list_show_app_icon_title">"ஆப்ஸ் ஐகானைக் காட்டு"</string>
+    <string name="preference_list_show_app_icon_summary">"துவக்கியில் ஆப்ஸ் ஐகானைக் காட்டு"</string>
+    <string name="restart_to_apply">"மாற்றங்களைப் பயன்படுத்துவதற்கு விண்ணப்பத்தை மீண்டும் தொடங்கவும்"</string>
 </resources>

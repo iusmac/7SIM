@@ -13,4 +13,8 @@
     <string name="help_summary">"מצאתם תקלה? נתקלתם בבעיה?"</string>
     <string name="license_title">"רישיונות קוד פתוח"</string>
     <string name="license_summary">"פרטי רישיון לתוכנות קוד פתוח"</string>
+    <string name="preference_list_title">"העדפות"</string>
+    <string name="preference_list_show_app_icon_title">"הצג את סמל האפליקציה"</string>
+    <string name="preference_list_show_app_icon_summary">"הצג את סמל האפליקציה במפעיל"</string>
+    <string name="restart_to_apply">"עליך להפעיל מחדש את היישום כדי להחיל שינויים"</string>
 </resources>

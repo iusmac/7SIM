@@ -13,4 +13,8 @@
     <string name="help_summary">"Нашли баг? Столкнулись с проблемой?"</string>
     <string name="license_title">"Лицензии открытого ПО"</string>
     <string name="license_summary">"Сведения о лицензиях на ПО с открытым исходным кодом"</string>
+    <string name="preference_list_title">"Настройки"</string>
+    <string name="preference_list_show_app_icon_title">"Показывать значок приложения"</string>
+    <string name="preference_list_show_app_icon_summary">"Отображать значок приложения на панели Google Старт"</string>
+    <string name="restart_to_apply">"Изменения вступят в силу после перезапуска приложения"</string>
 </resources>

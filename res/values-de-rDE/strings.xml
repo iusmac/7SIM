@@ -13,4 +13,8 @@
     <string name="help_summary">"Hast du einen Bug gefunden? Ist ein Problem aufgetreten?"</string>
     <string name="license_title">"Open Source-Lizenzen"</string>
     <string name="license_summary">"Lizenzdetails für Open-Source-Software"</string>
+    <string name="preference_list_title">"Einstellungen"</string>
+    <string name="preference_list_show_app_icon_title">"App-Symbol anzeigen"</string>
+    <string name="preference_list_show_app_icon_summary">"App-Symbol in Launcher anzeigen"</string>
+    <string name="restart_to_apply">"Änderungen werden erst nach App-Neustart wirksam"</string>
 </resources>

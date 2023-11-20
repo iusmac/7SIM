@@ -13,4 +13,8 @@
     <string name="help_summary">"Нашли сте грешку? Наишли сте на проблем?"</string>
     <string name="license_title">"Лиценце отвореног кода"</string>
     <string name="license_summary">"Подаци о лиценци за софтвер отвореног кода"</string>
+    <string name="preference_list_title">"Подешавања"</string>
+    <string name="preference_list_show_app_icon_title">"Прикажи икону апликације"</string>
+    <string name="preference_list_show_app_icon_summary">"Приказивање иконе апликације у покретачу"</string>
+    <string name="restart_to_apply">"Морате поново покренути апликацију да бисте применили промене"</string>
 </resources>

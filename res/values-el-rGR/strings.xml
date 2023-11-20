@@ -13,4 +13,8 @@
     <string name="help_summary">"Βρήκατε ένα σφάλμα; Πέσατε πάνω σε ένα πρόβλημα;"</string>
     <string name="license_title">"Άδειες λογισμικού ανοικτού κώδικα"</string>
     <string name="license_summary">"Λεπτομέρειες άδειας λογισμικού ανοικτού κώδικα"</string>
+    <string name="preference_list_title">"Προτιμήσεις"</string>
+    <string name="preference_list_show_app_icon_title">"Εμφάνιση εικονιδίου εφαρμογής"</string>
+    <string name="preference_list_show_app_icon_summary">"Προβολή εικονιδίου εφαρμογής στην εφαρμογή εκκίνησης"</string>
+    <string name="restart_to_apply">"Οι αλλαγές θα ενεργοποιηθούν μετά την επανεκκίνηση της εφαρμογής"</string>
 </resources>

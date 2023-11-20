@@ -13,4 +13,8 @@
     <string name="help_summary">"Знайшли помилку? Зіткнувся з проблемою?"</string>
     <string name="license_title">"Ліцензії з відкритим кодом"</string>
     <string name="license_summary">"Деталі ліцензій на програмне забезпечення з відкритим кодом"</string>
+    <string name="preference_list_title">"Параметри"</string>
+    <string name="preference_list_show_app_icon_title">"Показувати значок програми"</string>
+    <string name="preference_list_show_app_icon_summary">"Показувати значок програми на панелі запуску"</string>
+    <string name="restart_to_apply">"Щоб застосувати зміни, потрібно перезапустити програму"</string>
 </resources>

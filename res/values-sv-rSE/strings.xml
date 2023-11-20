@@ -13,4 +13,8 @@
     <string name="help_summary">"Hittade du en bugg? Sprang du på ett problem?"</string>
     <string name="license_title">"Licenser för öppen källkod"</string>
     <string name="license_summary">"Licensinformation för programvara med öppen källkod"</string>
+    <string name="preference_list_title">"Inställningar"</string>
+    <string name="preference_list_show_app_icon_title">"Visa appikon"</string>
+    <string name="preference_list_show_app_icon_summary">"Visa appikonen i startprogrammet"</string>
+    <string name="restart_to_apply">"Du måste starta om programmet för att tillämpa ändringarna"</string>
 </resources>

@@ -13,4 +13,8 @@
     <string name="help_summary">"Fundet en fejl? Løb ind i et problem?"</string>
     <string name="license_title">"Open source-licenser"</string>
     <string name="license_summary">"Licensoplysninger til open source-software"</string>
+    <string name="preference_list_title">"Præferencer"</string>
+    <string name="preference_list_show_app_icon_title">"Vis appikon"</string>
+    <string name="preference_list_show_app_icon_summary">"Vis appikon i starteren"</string>
+    <string name="restart_to_apply">"Du skal genstarte programmet for at anvende ændringer"</string>
 </resources>

@@ -13,4 +13,8 @@
     <string name="help_summary">"Talált egy hibát? Felmerült egy kérdése?"</string>
     <string name="license_title">"Nyílt forráskódú licencek"</string>
     <string name="license_summary">"A nyílt forráskódú szoftverekhez kapcsolódó licenc részletei"</string>
+    <string name="preference_list_title">"Beállítások"</string>
+    <string name="preference_list_show_app_icon_title">"Alkalmazásikon megjelenítése"</string>
+    <string name="preference_list_show_app_icon_summary">"Alkalmazásikon megjelenítése az indítón"</string>
+    <string name="restart_to_apply">"A változtatások alkalmazásához újra kell indítania az alkalmazást"</string>
 </resources>

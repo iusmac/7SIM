@@ -13,4 +13,8 @@
     <string name="help_summary">"Bir hata mı buldunuz? Bir sorunla mı karşılaştınız?"</string>
     <string name="license_title">"Açık kaynak lisansları"</string>
     <string name="license_summary">"Açık kaynak yazılımlar için lisans ayrıntıları"</string>
+    <string name="preference_list_title">"Tercihler"</string>
+    <string name="preference_list_show_app_icon_title">"Uygulama simgesini göster"</string>
+    <string name="preference_list_show_app_icon_summary">"Uygulama simgesini başlatıcıda gösterir"</string>
+    <string name="restart_to_apply">"Değişiklikleri uygulamak için uygulamayı yeniden başlatmanız gerekir"</string>
 </resources>
