@@ -17,6 +17,9 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
     @Inject
     Logger.Factory mLoggerFactory;
 
+    @Inject
+    Provider<NotificationManager> mNotificationManager;
+
     private boolean mHasAospPlatformSignature;
     private String mApplicationVersion;
     private boolean mIsSystemApplication;
@@ -26,6 +29,9 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
         super.onCreate();
 
         final Logger logger = mLoggerFactory.create(getClass().getSimpleName());
+
+        // (Re-)create the notification channel to update string resources
+        mNotificationManager.get().createForegroundNotificationChannel();
 
         final ApplicationInfo appInfo = mApplicationInfoProvider.get();
         mHasAospPlatformSignature = appInfo.hasAospPlatformSignature();

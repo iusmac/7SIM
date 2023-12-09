@@ -13,6 +13,7 @@ import com.github.iusmac.sevensim.Utils;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -55,10 +56,12 @@ public final class TelephonyController {
 
     /** For request metadata fields. */
     private static final String KEY_SUBSCRIPTION = "subscription";
+    private static final String KEY_LAST_ACTIVATED_TIME = "last_activated_time";
+    private static final String KEY_LAST_DEACTIVATED_TIME = "last_deactivated_time";
 
     /** The globally accessible request metadata used when performing SIM power state mutations. */
     @GuardedBy("this")
-    private final Bundle mRequestMetadata = new Bundle(1);
+    private final Bundle mRequestMetadata = new Bundle(3);
 
     @GuardedBy("this")
     private SimStatusChangedListener mSimStatusChangedListener;
@@ -126,6 +129,14 @@ public final class TelephonyController {
             // disappear from the system and we won't be able to grab the subscription data from
             // SubscriptionManager anymore, even though the SIM is still present in the slot
             sub.setSimState(TelephonyUtils.simStateInt(enabled));
+
+            mRequestMetadata.putString(KEY_LAST_ACTIVATED_TIME,
+                    sub.getLastActivatedTime().toString());
+            mRequestMetadata.putString(KEY_LAST_DEACTIVATED_TIME,
+                    sub.getLastDeactivatedTime().toString());
+
+            sub.setLastActivatedTime(enabled ? LocalDateTime.now() : LocalDateTime.MIN);
+            sub.setLastDeactivatedTime(!enabled ? LocalDateTime.now() : LocalDateTime.MIN);
 
             // Before making any request, persist the subscription associated with the SIM whose
             // power state we're going to change, to immediately reflect the changes on the callers
@@ -258,6 +269,10 @@ public final class TelephonyController {
                         resCode));
 
             sub.setSimState(TelephonyUtils.simStateInt(!expectedEnabled));
+            sub.setLastActivatedTime(LocalDateTime.parse(mRequestMetadata.getString(
+                            KEY_LAST_ACTIVATED_TIME)));
+            sub.setLastDeactivatedTime(LocalDateTime.parse(mRequestMetadata.getString(
+                            KEY_LAST_DEACTIVATED_TIME)));
 
             mSubscriptions.persistSubscription(sub);
 

@@ -7,25 +7,50 @@ import android.os.Parcelable;
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
 
 /**
- * This class is a data transfer object (DTO) representing a SIM subscription.
+ * <p>This class is a data transfer object (DTO) representing a SIM subscription.
+ *
+ * <p>This class is supposed to be used with a persisted database context, that will instantiate
+ * this DTO and fill all non-{@link Ignore} annotated fields. Clients are responsible for populating
+ * all additional fields as needed.
  */
+@Entity(
+    tableName = "subscriptions"
+)
 public final class Subscription implements Parcelable {
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private int mId = INVALID_SUBSCRIPTION_ID;
 
+    @Ignore
     private int mSlotIndex = INVALID_SIM_SLOT_INDEX;
 
+    @Ignore
     private @SimState int mSimState = SimState.UNKNOWN;
 
+    @Ignore
     private @ColorInt int mIconTint = Color.BLACK;
 
+    @Ignore
     private String mName = "";
+
+    @ColumnInfo(name = "lastActivatedTime")
+    private LocalDateTime mLastActivatedTime = LocalDateTime.MIN;
+
+    @ColumnInfo(name = "lastDeactivatedTime")
+    private LocalDateTime mLastDeactivatedTime = LocalDateTime.MIN;
 
     @IntRange(from = INVALID_SUBSCRIPTION_ID)
     public int getId() {
@@ -69,6 +94,22 @@ public final class Subscription implements Parcelable {
         mIconTint = iconTint;
     }
 
+    public LocalDateTime getLastActivatedTime() {
+        return mLastActivatedTime;
+    }
+
+    public void setLastActivatedTime(final LocalDateTime lastActivatedTime) {
+        mLastActivatedTime = lastActivatedTime;
+    }
+
+    public LocalDateTime getLastDeactivatedTime() {
+        return mLastDeactivatedTime;
+    }
+
+    public void setLastDeactivatedTime(final LocalDateTime lastDeactivatedTime) {
+        mLastDeactivatedTime = lastDeactivatedTime;
+    }
+
     public boolean isSimEnabled() {
         return mSimState == SimState.ENABLED;
     }
@@ -83,12 +124,15 @@ public final class Subscription implements Parcelable {
             && mSlotIndex == subToCompare.mSlotIndex
             && mSimState == subToCompare.mSimState
             && mIconTint == subToCompare.mIconTint
-            && mName.equals(subToCompare.mName);
+            && mName.equals(subToCompare.mName)
+            && mLastActivatedTime.equals(subToCompare.mLastActivatedTime)
+            && mLastDeactivatedTime.equals(subToCompare.mLastDeactivatedTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mId, mSlotIndex, mSimState, mIconTint, mName);
+        return Objects.hash(mId, mSlotIndex, mSimState, mIconTint, mName, mLastActivatedTime,
+                mLastDeactivatedTime);
     }
 
     @Override
@@ -99,6 +143,8 @@ public final class Subscription implements Parcelable {
             + " simState=" + TelephonyUtils.simStateToString(mSimState)
             + " iconTint=" + mIconTint
             + " name=" + mName
+            + " lastActivatedTime=" + mLastActivatedTime
+            + " lastDeactivatedTime=" + mLastDeactivatedTime
             + " }";
     }
 
@@ -109,6 +155,8 @@ public final class Subscription implements Parcelable {
         dest.writeInt(mSimState);
         dest.writeInt(mIconTint);
         dest.writeString(mName);
+        dest.writeString(mLastActivatedTime.toString());
+        dest.writeString(mLastDeactivatedTime.toString());
     }
 
     @Override
@@ -125,6 +173,20 @@ public final class Subscription implements Parcelable {
             sub.setSimState(in.readInt());
             sub.setIconTint(in.readInt());
             sub.setSimName(in.readString());
+            try {
+                final String lastActivatedTime = in.readString();
+                if (lastActivatedTime != null) {
+                    sub.setLastActivatedTime(LocalDateTime.parse(lastActivatedTime));
+                }
+            } catch (DateTimeParseException ignored) {}
+
+            try {
+                final String lastDeactivatedTime = in.readString();
+                if (lastDeactivatedTime != null) {
+                    sub.setLastDeactivatedTime(LocalDateTime.parse(lastDeactivatedTime));
+                }
+            } catch (DateTimeParseException ignored) {}
+
             return sub;
         }
 

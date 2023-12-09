@@ -10,10 +10,12 @@ import android.telephony.TelephonyManager;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.core.content.ContextCompat;
 
 import com.android.internal.telephony.PhoneConstants;
 
+import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.Utils;
 
@@ -92,13 +94,16 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     private final Context mContext;
     protected final Logger mLogger;
     protected final SubscriptionManager mSubscriptionManager;
+    protected final SubscriptionsDao mSubscriptionsDao;
 
     public Subscriptions(final @ApplicationContext Context context,
-            final Logger.Factory loggerFactory, final SubscriptionManager subscriptionManager) {
+            final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
+            final SubscriptionManager subscriptionManager) {
 
         mContext = context;
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mSubscriptionManager = subscriptionManager;
+        mSubscriptionsDao = appDatabase.subscriptionsDao();
 
         mSubscriptionManagerListener =
             new SubscriptionManager.OnSubscriptionsChangedListener(mContext.getMainLooper()) {
@@ -153,6 +158,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * @return An instance of {@link Subscription} with all business-related information.
      */
     @CallSuper
+    @WorkerThread
     protected Subscription createSubscription(final @NonNull SubscriptionInfo subInfo) {
         final Subscription subscription = new Subscription();
         subscription.setId(subInfo.getSubscriptionId());
@@ -160,7 +166,25 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         Optional.ofNullable(subInfo.getDisplayName()).ifPresent((name) ->
                 subscription.setSimName(name.toString()));
 
+        mSubscriptionsDao.findBySubscriptionId(subInfo.getSubscriptionId()).ifPresent((sub) -> {
+            subscription.setLastActivatedTime(sub.getLastActivatedTime());
+            subscription.setLastDeactivatedTime(sub.getLastDeactivatedTime());
+        });
+
         return subscription;
+    }
+
+    /**
+     * Persist a snapshot of the {@link Subscription} on disk.
+     *
+     * @param sub An instance of {@link Subscription} to persist.
+     */
+    @CallSuper
+    @WorkerThread
+    protected void persistSubscription(final Subscription sub) {
+        mLogger.v("persistSubscription(sub=%s).", sub);
+
+        mSubscriptionsDao.insertOrUpdate(sub);
     }
 
     /**

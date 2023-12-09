@@ -31,6 +31,12 @@
     <string name="license_title">"Open source licenses"</string>
     <string name="license_summary">"License details for open source software"</string>
 
+    <string name="foreground_notification_title">"Working in the background…"</string>
+    <string name="foreground_notification_channel_name">"Background tasks"</string>
+    <string name="foreground_notification_channel_description">"Android requires displaying an ongoing notification while the app is active in the background. You can safely hide this channel."</string>
+
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
     <string name="sim_list_no_sim_key" translatable="false">"sim_list_no_sim"</string>

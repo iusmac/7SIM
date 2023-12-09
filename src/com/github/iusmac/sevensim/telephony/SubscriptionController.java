@@ -6,6 +6,7 @@ import androidx.annotation.WorkerThread;
 
 import com.github.iusmac.sevensim.Logger;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -68,6 +69,11 @@ public final class SubscriptionController {
             mSubscriptions.notifyAllListeners();
             return;
         }
+
+        sub.setSimState(TelephonyUtils.simStateInt(enabled));
+        sub.setLastActivatedTime(enabled ? LocalDateTime.now() : LocalDateTime.MIN);
+        sub.setLastDeactivatedTime(!enabled ? LocalDateTime.now() : LocalDateTime.MIN);
+        mSubscriptions.persistSubscription(sub);
 
         mSubManager.setUiccApplicationsEnabled(subId, enabled);
     }

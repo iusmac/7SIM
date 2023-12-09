@@ -13,6 +13,11 @@
     <uses-permission android:name="android.permission.READ_DEVICE_CONFIG" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name=".SevenSimApplication"
@@ -82,6 +87,8 @@
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
             </intent-filter>
         </receiver>
 
@@ -100,6 +107,30 @@
             android:name=".launcher.LauncherIconVisibilityChangerService"
             android:stopWithTask="false"
             android:exported="false">
+        </service>
+
+        <receiver
+            android:name=".scheduler.AlarmReceiver"
+            android:exported="false"
+            android:directBootAware="true"
+            androidprv:systemUserOnly="true">
+        </receiver>
+
+        <receiver
+            android:name=".DirectBootAwareBroadcastReceiver"
+            android:exported="true"
+            android:directBootAware="true"
+            androidprv:systemUserOnly="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+                <action android:name="android.telephony.action.CARRIER_CONFIG_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".ForegroundService"
+            android:exported="false"
+            android:directBootAware="true">
         </service>
     </application>
 </manifest>

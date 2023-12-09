@@ -1,10 +1,17 @@
 package com.github.iusmac.sevensim.inject;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
+import com.github.iusmac.sevensim.AppDatabaseDE;
+import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 
 import dagger.Module;
@@ -22,6 +29,18 @@ import com.github.iusmac.sevensim.SysProp;
 @InstallIn(SingletonComponent.class)
 @Module
 public final class SevenSimModule {
+    @Singleton
+    @Provides
+    static AppDatabaseDE provideAppDatabaseDE(final @ApplicationContext Context context,
+            final RoomTypeConverters typeConverter) {
+
+        final RoomDatabase.Builder<AppDatabaseDE> builder =
+            Room.databaseBuilder(context.createDeviceProtectedStorageContext(),
+                    AppDatabaseDE.class, "app_database.sqlite");
+
+        return builder.addTypeConverter(typeConverter).build();
+    }
+
     @Named("Debug")
     @Singleton
     @Provides
@@ -41,6 +60,20 @@ public final class SevenSimModule {
     @Provides
     static SharedPreferences provideSharedPreferences(final @ApplicationContext Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Singleton
+    @Provides
+    static NotificationManagerCompat provideNotificationManagerCompat(
+            final @ApplicationContext Context context) {
+
+        return NotificationManagerCompat.from(context);
+    }
+
+    @Singleton
+    @Provides
+    static AlarmManager provideAlarmManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, AlarmManager.class);
     }
 
     /** Do not initialize. */

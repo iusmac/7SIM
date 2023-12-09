@@ -4,6 +4,9 @@ import android.content.Context;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 
+import androidx.annotation.WorkerThread;
+
+import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
@@ -28,15 +31,17 @@ import javax.inject.Singleton;
 public final class SubscriptionsImpl extends Subscriptions {
     @Inject
     public SubscriptionsImpl(final @ApplicationContext Context context,
-            final Logger.Factory loggerFactory, final SubscriptionManager subscriptionManager) {
+            final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
+            final SubscriptionManager subscriptionManager) {
 
-        super(context, loggerFactory, subscriptionManager);
+        super(context, loggerFactory, appDatabase, subscriptionManager);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @WorkerThread
     public Iterator<Subscription> iterator() {
         return new SubscriptionList(mSubscriptionManager) {
             /**
@@ -65,6 +70,7 @@ public final class SubscriptionsImpl extends Subscriptions {
      * {@inheritDoc}
      */
     @Override
+    @WorkerThread
     protected Subscription createSubscription(final SubscriptionInfo subInfo) {
         final Subscription sub = super.createSubscription(subInfo);
 

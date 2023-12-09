@@ -8,7 +8,9 @@ import android.telephony.SubscriptionManager;
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 
+import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.SysProp;
 
@@ -55,14 +57,14 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
 
     @Inject
     public SubscriptionsImplLegacy(final @ApplicationContext Context context,
-            final Logger.Factory loggerFactory, final SubscriptionManager subscriptionManager,
-            final TelephonyUtils telephonyUtils,
+            final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
+            final SubscriptionManager subscriptionManager, final TelephonyUtils telephonyUtils,
             final @Named("Telephony/SimSubId") SysProp simSubIdSysProp,
             final @Named("Telephony/SimState") SysProp simStateSysProp,
             final @Named("Telephony/SimIconTint") SysProp simIconTintSysProp,
             final @Named("Telephony/SimName") SysProp simNameSysProp) {
 
-        super(context, loggerFactory, subscriptionManager);
+        super(context, loggerFactory, appDatabase, subscriptionManager);
 
         mSimSubIdSysProp = simSubIdSysProp;
         mSimStateSysProp = simStateSysProp;
@@ -80,6 +82,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * {@link SubscriptionManager}.
      */
     @Override
+    @WorkerThread
     public Iterator<Subscription> iterator() {
         return new SubscriptionList(mSubscriptionManager) {
             /**
@@ -123,6 +126,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * @param slotIndex The corresponding slot index.
      * @return An Optional containing the {@link Subscription}, if any.
      */
+    @WorkerThread
     public Optional<Subscription> getSubscriptionForSimSlotIndex(final int slotIndex) {
         return getSubscription((sub) -> sub.getSlotIndex() == slotIndex);
     }
@@ -143,17 +147,22 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * As per specs, the last snapshot of the subscriptions must be returned if their corresponding
      * SIM slot was powered down (will be invisible by the {@link SubscriptionManager}), therefore,
      * we'll persist data that we can normally grab from the {@link SubscriptionManager} in volatile
      * memory.
      */
+    @Override
     protected void persistSubscription(final Subscription sub) {
         final int slotIndex = sub.getSlotIndex();
         persistSimSubId(slotIndex, sub.getId());
         persistSimState(slotIndex, sub.getSimState());
         persistSimName(slotIndex, sub.getSimName());
         persistSimTintColor(slotIndex, sub.getIconTint());
+
+        super.persistSubscription(sub);
     }
 
     /**
@@ -163,15 +172,22 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * @param slotIndex The corresponding slot index.
      * @return An instance of {@link Subscription}.
      */
+    @WorkerThread
     private Subscription restoreSubscription(final int slotIndex) {
-        final Subscription sub = new Subscription();
-        sub.setId(getPersistedSubscriptionId(slotIndex));
-        sub.setSlotIndex(slotIndex);
-        sub.setSimState(getPersistedSimState(slotIndex));
-        sub.setSimName(getPersistedSimName(slotIndex));
-        sub.setIconTint(getPersistedSimTintColor(slotIndex));
+        final int subId = getPersistedSubscriptionId(slotIndex);
+        final Subscription subscription =
+            mSubscriptionsDao.findBySubscriptionId(subId).orElseGet(() -> {
+                final Subscription sub = new Subscription();
+                sub.setId(subId);
+                return sub;
+            });
 
-        return sub;
+        subscription.setSlotIndex(slotIndex);
+        subscription.setSimState(getPersistedSimState(slotIndex));
+        subscription.setSimName(getPersistedSimName(slotIndex));
+        subscription.setIconTint(getPersistedSimTintColor(slotIndex));
+
+        return subscription;
     }
 
     /**

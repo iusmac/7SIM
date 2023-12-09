@@ -8,12 +8,17 @@ import com.github.iusmac.sevensim.launcher.LauncherIconVisibilityManager;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+import java.time.LocalDateTime;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
- * A broadcast receiver aimed to receive system-wide events that occur once the device boots to the
- * Home screen, and notify application components interested in these events.
+ * <p>A broadcast receiver aimed to receive system-wide events that occur once the device boots to
+ * the Home screen, and notify application components interested in these events.
+ *
+ * <p>For the events that occur after the device finished booting, but before the user unlocked the
+ * device, see {@link DirectBootAwareBroadcastReceiver}.
  */
 @AndroidEntryPoint(BroadcastReceiver.class)
 public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
@@ -50,6 +55,22 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // app data and re-installs the app. The launcher icon's visibility should be
                 // restored as the user's preference has been cleared
                 mLauncherIconVisibilityManagerProvider.get().updateVisibility();
+                break;
+
+            case Intent.ACTION_TIMEZONE_CHANGED:
+            case Intent.ACTION_TIME_CHANGED:
+                final LocalDateTime now = LocalDateTime.now();
+
+                // Need to sync the enabled state of all SIM subscriptions available on the device
+                // with their existing weekly repeat schedules on any alteration to the system
+                // time
+                ForegroundService.syncAllSubscriptionsEnabledState(context, now,
+                        /*overrideUserPreference=*/ true);
+
+                // Need to reschedule the next weekly repeat schedule processing iteration, as it
+                // relies on a RTC-based alarm, which, in turn is independent of any alteration to
+                // the system time. Note that, this call should only happen after syncing
+                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context, now);
                 break;
 
             default:
