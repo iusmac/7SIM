@@ -37,6 +37,15 @@
 
     <string name="scheduler_day_of_week_separator">",\u0020"</string>
 
+    <string name="scheduler_toolbar_reset">"Reset"</string>
+    <string name="scheduler_reset_dialog_message">"This operation cannot be undone.\n\nWould you like to continue?"</string>
+    <string name="scheduler_switch_use_title">"Use schedule"</string>
+    <string name="scheduler_days_of_week_title">"Days"</string>
+    <string name="scheduler_days_of_week_none">"None"</string>
+    <string name="scheduler_days_of_week_all">"Every day"</string>
+    <string name="scheduler_start_time_title">"Start time"</string>
+    <string name="scheduler_end_time_title">"End time"</string>
+
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
     <string name="sim_list_no_sim_key" translatable="false">"sim_list_no_sim"</string>
@@ -45,4 +54,8 @@
     <string name="sim_list_help_key" translatable="false">"sim_list_help"</string>
     <string name="sim_list_license_key" translatable="false">"sim_list_license"</string>
     <string name="preference_list_show_app_icon_key" translatable="false">"show_launcher_icon"</string>
+    <string name="scheduler_enabled_key" translatable="false">"scheduler_enabled"</string>
+    <string name="scheduler_days_of_week_key" translatable="false">"scheduler_days_of_week"</string>
+    <string name="scheduler_start_time_key" translatable="false">"scheduler_start_time"</string>
+    <string name="scheduler_end_time_key" translatable="false">"scheduler_end_time"</string>
 </resources>

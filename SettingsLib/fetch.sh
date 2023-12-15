@@ -12,6 +12,7 @@ declare REPO_TAG='android-13.0.0_r75'
 declare -a LIBS=(
     'BannerMessagePreference'
     'CollapsingToolbarBaseActivity'
+    'MainSwitchPreference'
     'SettingsTheme'
     'TwoTargetPreference'
     'Utils'

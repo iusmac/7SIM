@@ -1,6 +1,7 @@
 package com.github.iusmac.sevensim.ui.sim;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.ui.UiUtils;
 import com.github.iusmac.sevensim.ui.components.PrimarySwitchPreference;
+import com.github.iusmac.sevensim.ui.scheduler.SchedulerActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -130,6 +132,12 @@ public final class SimListFragment extends Hilt_SimListFragment {
             pref.setIcon(UiUtils.createTintedSimIcon(context, sub.getIconTint()));
             pref.setTitle(sub.getSimName());
             pref.setChecked(sub.isSimEnabled());
+            pref.setOnPreferenceClickListener((clickedPref) -> {
+                final Intent intent = new Intent(context, SchedulerActivity.class);
+                intent.putExtra(SchedulerActivity.EXTRA_SUBSCRIPTION, sub);
+                startActivity(intent);
+                return true;
+            });
             mSimPreferences.put(simEntryId, pref);
         }
 

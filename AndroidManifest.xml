@@ -132,5 +132,10 @@
             android:exported="false"
             android:directBootAware="true">
         </service>
+
+        <activity
+            android:name=".ui.scheduler.SchedulerActivity"
+            android:exported="false">
+        </activity>
     </application>
 </manifest>

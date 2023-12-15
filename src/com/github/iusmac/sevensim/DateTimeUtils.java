@@ -1,9 +1,16 @@
 package com.github.iusmac.sevensim;
 
+import android.content.Context;
+import android.text.format.DateFormat;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Optional;
 
 public final class DateTimeUtils {
@@ -20,6 +27,24 @@ public final class DateTimeUtils {
             }
         } catch (DateTimeParseException ignored) { }
         return Optional.empty();
+    }
+
+    /**
+     * @param context The context for detecting the 12-/24-hour format.
+     * @param time The {@link LocalTime} to express in human-readable format according to the
+     * current locale.
+     * @return The time in pretty format, such as 10:00 AM.
+     */
+    public static @NonNull CharSequence getPrettyTime(final @NonNull Context context,
+            final @NonNull LocalTime time) {
+
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, time.getHour());
+        calendar.set(Calendar.MINUTE, time.getMinute());
+
+        final CharSequence pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(),
+                DateFormat.is24HourFormat(context) ? "Hm" : "hma");
+        return DateFormat.format(pattern, calendar);
     }
 
     /** Do not initialize. */

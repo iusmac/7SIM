@@ -17,6 +17,7 @@ android_app {
     static_libs: [
         "SettingsLibBannerMessagePreference",
         "SettingsLibCollapsingToolbarBaseActivity",
+        "SettingsLibMainSwitchPreference",
         "SettingsLibSettingsTheme",
         "SettingsLibTwoTargetPreference",
         "androidx.annotation_annotation",

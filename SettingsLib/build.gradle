@@ -44,12 +44,14 @@ android {
             res.srcDirs = [
                 "${SettingsLib}/BannerMessagePreference/res",
                 "${SettingsLib}/CollapsingToolbarBaseActivity/res",
+                "${SettingsLib}/MainSwitchPreference/res",
                 "${SettingsLib}/SettingsTheme/res",
                 "${SettingsLib}/TwoTargetPreference/res",
             ]
             java.srcDirs = [
                 "${SettingsLib}/BannerMessagePreference/src",
                 "${SettingsLib}/CollapsingToolbarBaseActivity/src",
+                "${SettingsLib}/MainSwitchPreference/src",
                 "${SettingsLib}/TwoTargetPreference/src",
             ]
         }
