@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.scheduler.SubscriptionSchedulerSummaryBuilder;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.SubscriptionController;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
@@ -20,6 +21,8 @@ import dagger.Lazy;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
+import java.time.LocalDateTime;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 
@@ -31,6 +34,7 @@ public final class SimListViewModel extends ViewModel {
     private final Subscriptions mSubscriptions;
     private final Lazy<SubscriptionController> mSubscriptionControllerLazy;
     private final Lazy<TelephonyController> mTelephonyControllerLazy;
+    private final SubscriptionSchedulerSummaryBuilder mSubscriptionSchedulerSummaryBuilder;
 
     private final Handler mHandler;
 
@@ -39,12 +43,14 @@ public final class SimListViewModel extends ViewModel {
             final Subscriptions subscriptions,
             final Lazy<SubscriptionController> subscriptionControllerLazy,
             final Lazy<TelephonyController> telephonyControllerLazy,
+            final SubscriptionSchedulerSummaryBuilder subscriptionSchedulerSummaryBuilder,
             final @Assisted Looper looper) {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mSubscriptions = subscriptions;
         mSubscriptionControllerLazy = subscriptionControllerLazy;
         mTelephonyControllerLazy = telephonyControllerLazy;
+        mSubscriptionSchedulerSummaryBuilder = subscriptionSchedulerSummaryBuilder;
 
         mHandler = Handler.createAsync(looper);
     }
@@ -59,6 +65,7 @@ public final class SimListViewModel extends ViewModel {
     @WorkerThread
     void refreshSimEntries() {
         final SparseArrayCompat<SimEntry> simEntries = new SparseArrayCompat<>();
+        final LocalDateTime now = LocalDateTime.now();
         for (Subscription sub : mSubscriptions) {
             mLogger.v("refreshSimEntries() : %s.", sub);
 
@@ -67,7 +74,10 @@ public final class SimListViewModel extends ViewModel {
             final int id = sub.getSlotIndex() == INVALID_SIM_SLOT_INDEX ? sub.getId() :
                 sub.getSlotIndex();
 
-            simEntries.put(id, new SimEntry(sub));
+            final CharSequence nextUpcomingScheduleSummary = mSubscriptionSchedulerSummaryBuilder
+                .buildNextUpcomingSubscriptionScheduleSummary(sub, now);
+
+            simEntries.put(id, new SimEntry(sub, nextUpcomingScheduleSummary));
         }
         mMutableSimEntries.postValue(simEntries);
     }
@@ -99,13 +109,21 @@ public final class SimListViewModel extends ViewModel {
 
     static final class SimEntry {
         private final Subscription subscription;
+        private final CharSequence nextUpcomingScheduleSummary;
 
-        private SimEntry(final Subscription subscription) {
+        private SimEntry(final Subscription subscription,
+                final CharSequence nextUpcomingScheduleSummary) {
+
             this.subscription = subscription;
+            this.nextUpcomingScheduleSummary = nextUpcomingScheduleSummary;
         }
 
         Subscription getSubscription() {
             return subscription;
+        }
+
+        CharSequence getNextUpcomingScheduleSummary() {
+            return nextUpcomingScheduleSummary;
         }
     }
 

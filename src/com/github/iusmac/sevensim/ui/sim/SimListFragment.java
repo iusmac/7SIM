@@ -131,6 +131,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
             pref.setOrder(i);
             pref.setIcon(UiUtils.createTintedSimIcon(context, sub.getIconTint()));
             pref.setTitle(sub.getSimName());
+            pref.setSummary(simEntry.getNextUpcomingScheduleSummary());
             pref.setChecked(sub.isSimEnabled());
             pref.setOnPreferenceClickListener((clickedPref) -> {
                 final Intent intent = new Intent(context, SchedulerActivity.class);

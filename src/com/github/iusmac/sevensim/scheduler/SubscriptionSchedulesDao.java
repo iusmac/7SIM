@@ -81,4 +81,13 @@ public interface SubscriptionSchedulesDao {
     + "LIMIT 1")
     Optional<SubscriptionScheduleEntity> findNearestByDayOfWeekAndTime(int subId,
             boolean subEnabled, @DayOfWeek int dayOfWeek, LocalTime time, boolean reverseSearch);
+
+    /**
+     * Get the total number of weekly repeat schedules for a particular SIM subscription.
+     *
+     * @param subId The ID of the subscription.
+     * @return The row count.
+    */
+    @Query("SELECT COUNT(*) FROM subscription_schedules WHERE sub_id = :subId")
+    int getCount(int subId);
 }

@@ -232,6 +232,16 @@ public final class SubscriptionScheduler {
     }
 
     /**
+     * Get the total number of weekly repeat schedules for a particular SIM subscription.
+     *
+     * @param subId The ID of the subscription.
+     * @return The number of {@link SubscriptionScheduleEntity} objects found.
+     */
+    public int getCountBySubscriptionId(final int subId) {
+        return mSubscriptionSchedulesDao.getCount(subId);
+    }
+
+    /**
      * Re-schedule or schedule a new execution iteration in which the scheduler will process the
      * enabled state of SIM subscriptions through weekly repeat schedules at the time of the nearest
      * weekly repeat schedule that occurs on or after the given date-time.

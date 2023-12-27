@@ -45,6 +45,11 @@
     <string name="scheduler_days_of_week_all">"Every day"</string>
     <string name="scheduler_start_time_title">"Start time"</string>
     <string name="scheduler_end_time_title">"End time"</string>
+    <string name="scheduler_start_time_custom_summary">"Will turn on automatically <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Will turn off automatically <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"Will <b>never</b> turn on automatically"</string>
+    <string name="scheduler_end_time_none_summary">"Will <b>never</b> turn off automatically"</string>
+    <string name="scheduler_no_schedule_summary">"No schedule"</string>
 
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
