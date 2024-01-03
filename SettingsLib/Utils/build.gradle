@@ -24,19 +24,9 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         checkReleaseBuilds false
         abortOnError false
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9
-        targetCompatibility JavaVersion.VERSION_1_9
-    }
-
-    afterEvaluate {
-        generateReleaseBuildConfig.enabled = false
-        generateDebugBuildConfig.enabled = false
     }
 
     sourceSets {

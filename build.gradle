@@ -49,11 +49,21 @@ buildscript {
 
 plugins {
     // https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
-    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.application' version '8.1.4' apply false
     // https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
-    id 'com.android.library' version '7.4.2' apply false
+    id 'com.android.library' version '8.1.4' apply false
     // https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
-    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
+}
+
+allprojects {
+    plugins.withType(JavaBasePlugin).configureEach {
+        java {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(17))
+            }
+        }
+    }
 }
 
 apply plugin: 'com.android.application'
@@ -92,15 +102,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9
-        targetCompatibility JavaVersion.VERSION_1_9
-    }
-
-    tasks.withType(KotlinCompile).configureEach {
-        compilerOptions.jvmTarget = JvmTarget.JVM_9
-    }
-
     sourceSets {
         main {
             java.srcDirs = ['src']
@@ -109,7 +110,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         // Instead of failing the build due to missing translations, just inform us to avoid
         // mistakes during manual import
         informational 'MissingTranslation'
