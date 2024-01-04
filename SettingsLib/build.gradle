@@ -7,10 +7,7 @@ def SettingsLib = 'fwb/packages/SettingsLib'
 android {
     namespace 'com.android.settingslib.widget'
 
-    compileSdk 33
-
     defaultConfig {
-        minSdk 29
         targetSdk 33
         versionCode 1
         versionName "1.0"

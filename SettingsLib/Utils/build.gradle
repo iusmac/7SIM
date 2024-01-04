@@ -7,8 +7,6 @@ def SettingsLibUtils = '../fwb/packages/SettingsLib/Utils'
 android {
     namespace 'com.android.settingslib.utils'
 
-    compileSdk 33
-
     defaultConfig {
         minSdk 21
         targetSdk 33

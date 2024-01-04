@@ -6,6 +6,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id 'com.android.settings' version '8.1.4'
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
@@ -18,3 +22,10 @@ rootProject.name = '7SIM'
 
 include ':SettingsLib'
 include ':SettingsLib:Utils'
+
+android {
+    compileSdk 33
+    minSdk 29
+    // TODO: b/317358817 com.android.settings plugin doesn't recognize targetSdk
+    // targetSdk 33
+}

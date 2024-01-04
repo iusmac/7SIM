@@ -72,11 +72,9 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.github.iusmac.sevensim'
-    compileSdk 33
 
     defaultConfig {
         applicationId 'com.github.iusmac.sevensim'
-        minSdk 29
         targetSdk 33
         versionName '1.0.0'
         versionCode 1
