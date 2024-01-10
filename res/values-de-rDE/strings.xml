@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"SIM-Karten basierend auf Ihrem Zeitplan kontrollieren"</string>
     <string name="airplane_mode_enabled">"Flugmodus ist aktiviert"</string>
     <string name="sim_state_change_request_failed">"SIM-Anforderung fehlgeschlagen (Code <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Laden Sie 7SIM NUR von der offiziellen Github Seite herunter. Dateien aus unbekannten Quellen können bösartig sein!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"App-Symbol anzeigen"</string>
     <string name="preference_list_show_app_icon_summary">"App-Symbol in Launcher anzeigen"</string>
     <string name="restart_to_apply">"Änderungen werden erst nach App-Neustart wirksam"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Verarbeitung im Hintergrund …"</string>
+    <string name="foreground_notification_channel_name">"Hintergrundprozesse"</string>
+    <string name="foreground_notification_channel_description">"Bei Android muss eine laufende Benachrichtigung angezeigt werden, während die App im Hintergrund aktiv ist. Du kannst diesen Kanal sicher ausblenden."</string>
+    <string name="scheduler_toolbar_reset">"Zurücksetzen"</string>
+    <string name="scheduler_reset_dialog_message">"Dieser Vorgang kann nicht rückgängig gemacht werden.\n\nFortfahren?"</string>
+    <string name="scheduler_switch_use_title">"Zeitplan verwenden"</string>
+    <string name="scheduler_days_of_week_title">"Tage"</string>
+    <string name="scheduler_days_of_week_none">"Keine"</string>
+    <string name="scheduler_days_of_week_all">"Täglich"</string>
+    <string name="scheduler_start_time_title">"Beginn"</string>
+    <string name="scheduler_end_time_title">"Ende"</string>
+    <string name="scheduler_start_time_custom_summary">"Wird automatisch <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> aktiviert"</string>
+    <string name="scheduler_end_time_custom_summary">"Wird automatisch <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> deaktiviert"</string>
+    <string name="scheduler_start_time_none_summary">"Wird <b>nie</b> automatisch aktiviert"</string>
+    <string name="scheduler_end_time_none_summary">"Wird <b>nie</b> automatisch deaktiviert"</string>
+    <string name="scheduler_no_schedule_summary">"Es ist keine Aktivierung oder Deaktivierung geplant"</string>
 </resources>

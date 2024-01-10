@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Controle os cartões SIM com base no seu horário"</string>
     <string name="airplane_mode_enabled">"Modo avião ativado"</string>
     <string name="sim_state_change_request_failed">"Solicitação de SIM falhou (código <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Baixe o 7SIM SOMENTE pela página oficial do Github. Arquivos de fontes desconhecidas podem ser maliciosos e danificar seu aparelho."</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Mostrar ícone do app"</string>
     <string name="preference_list_show_app_icon_summary">"Mostrar o ícone do app na tela de início"</string>
     <string name="restart_to_apply">"Você tem que reiniciar a aplicação para aplicar as mudanças"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Trabalhando em segundo plano…"</string>
+    <string name="foreground_notification_channel_name">"Tarefas em segundo plano"</string>
+    <string name="foreground_notification_channel_description">"O Android demanda que seja exibida uma notificação enquanto o app estiver ativo em segundo plano. Você pode ocultar este canal com segurança."</string>
+    <string name="scheduler_toolbar_reset">"Redefinir"</string>
+    <string name="scheduler_reset_dialog_message">"Essa operação não pode ser desfeita.\n\nGostaria de continuar?"</string>
+    <string name="scheduler_switch_use_title">"Usar programação"</string>
+    <string name="scheduler_days_of_week_title">"Dias"</string>
+    <string name="scheduler_days_of_week_none">"Nenhuma"</string>
+    <string name="scheduler_days_of_week_all">"Todos os dias"</string>
+    <string name="scheduler_start_time_title">"Horário de início"</string>
+    <string name="scheduler_end_time_title">"Horário de término"</string>
+    <string name="scheduler_start_time_custom_summary">"Será ativada automaticamente <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Será desativado automaticamente <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"<b>Nunca</b> será ativado automaticamente"</string>
+    <string name="scheduler_end_time_none_summary">"<b>Nunca</b> será desativado automaticamente"</string>
+    <string name="scheduler_no_schedule_summary">"Sem programação"</string>
 </resources>

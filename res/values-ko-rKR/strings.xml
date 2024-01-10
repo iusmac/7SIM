@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"당신의 일정에 기반한 SIM 카드 제어"</string>
     <string name="airplane_mode_enabled">"비행기 모드 사용 중"</string>
     <string name="sim_state_change_request_failed">"SIM 요청 실패 (코드 <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"공식 Github 페이지에서 7SIM를 다운로드하십시오. 알 수 없는 소스의 파일이 악의적일 수 있습니다!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"앱 아이콘 표시"</string>
     <string name="preference_list_show_app_icon_summary">"런처에 애플리케이션 아이콘 표시"</string>
     <string name="restart_to_apply">"변경된 내용을 적용하려면 프로그램을 다시 시작하세요"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"백그라운드에서 실행 중…"</string>
+    <string name="foreground_notification_channel_name">"백그라운드 작업"</string>
+    <string name="foreground_notification_channel_description">"안드로이드는 앱이 백그라운드에서 활성 상태인 동안 계속된 알림을 표시해야 합니다. 이 채널을 안전하게 숨길 수 있습니다.이 채널을 안전하게 숨길 수 있습니다."</string>
+    <string name="scheduler_toolbar_reset">"초기화"</string>
+    <string name="scheduler_reset_dialog_message">"이 작업은 되돌릴 수 없습니다.\n\n계속 하시겠습니까?"</string>
+    <string name="scheduler_switch_use_title">"예약 사용"</string>
+    <string name="scheduler_days_of_week_title">"요일"</string>
+    <string name="scheduler_days_of_week_none">"없음"</string>
+    <string name="scheduler_days_of_week_all">"매일"</string>
+    <string name="scheduler_start_time_title">"시작 시간"</string>
+    <string name="scheduler_end_time_title">"종료 시간"</string>
+    <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>에 자동으로 켜짐"</string>
+    <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>에 자동으로 꺼짐"</string>
+    <string name="scheduler_start_time_none_summary">"자동으로 켜지지 <b>않음</b>"</string>
+    <string name="scheduler_end_time_none_summary">"자동으로 끄지 <b>않음</b>"</string>
+    <string name="scheduler_no_schedule_summary">"일정 없음"</string>
 </resources>

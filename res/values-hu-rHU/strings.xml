@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"SIM kártyák vezérlése az ön időbeosztása alapján"</string>
     <string name="airplane_mode_enabled">"Repülős üzemmód bekapcsolva"</string>
     <string name="sim_state_change_request_failed">"SIM kérelem sikertelen (kód <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"A 7SIM-et CSAK a hivatalos GitHub oldalról töltsd le. Az ismeretlen forrásból származó fájlok rosszindulatúak lehetnek!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Alkalmazásikon megjelenítése"</string>
     <string name="preference_list_show_app_icon_summary">"Alkalmazásikon megjelenítése az indítón"</string>
     <string name="restart_to_apply">"A változtatások alkalmazásához újra kell indítania az alkalmazást"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Feldolgozás a háttérben…"</string>
+    <string name="foreground_notification_channel_name">"Háttérfeladatok"</string>
+    <string name="foreground_notification_channel_description">"Az Android megköveteli, hogy értesítést jelenítsen meg az alkalmazás, ha aktív a háttérben. Ezt a csatornát nyugodtan elrejtheti."</string>
+    <string name="scheduler_toolbar_reset">"Alaphelyzet"</string>
+    <string name="scheduler_reset_dialog_message">"Ezt a műveletet nem lehet visszavonni.\n\nSzeretné folytatni?"</string>
+    <string name="scheduler_switch_use_title">"Ütemezés alkalmazása"</string>
+    <string name="scheduler_days_of_week_title">"Napok"</string>
+    <string name="scheduler_days_of_week_none">"Nincs"</string>
+    <string name="scheduler_days_of_week_all">"Minden nap"</string>
+    <string name="scheduler_start_time_title">"Kezdés ideje"</string>
+    <string name="scheduler_end_time_title">"Befejezés ideje"</string>
+    <string name="scheduler_start_time_custom_summary">"Automatikusan bekapcsol a következő időpontban: <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Automatikusan kikapcsol a következő időpontban: <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"<b>Soha</b> nem kapcsol be automatikusan"</string>
+    <string name="scheduler_end_time_none_summary">"<b>Soha</b> nem kapcsol ki automatikusan"</string>
+    <string name="scheduler_no_schedule_summary">"Nincs ütemezés"</string>
 </resources>

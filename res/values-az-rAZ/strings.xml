@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Sizin qrafikinizə əsasən SIM kartlarının nəzarəti"</string>
     <string name="airplane_mode_enabled">"Uçuş rejimi aktivdir"</string>
     <string name="sim_state_change_request_failed">"SIM tələb uğursuz oldu (kod <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"7SIMi YALNIZ rəsmi GitHub səhifəsindən endirin. Bilinməyən mənbələrdəki fayllar zərərli ola bilər!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Tətbiq ikonasını göstər"</string>
     <string name="preference_list_show_app_icon_summary">"Başlatma panelində tətbiq ikonasını göstər"</string>
     <string name="restart_to_apply">"Dəyişiklikləri tətbiq etmək üçün proqramı yenidən başlatmalısınız"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Pərdə arxası iş gedir…"</string>
+    <string name="foreground_notification_channel_name">"Arxaplan tapşırıqları"</string>
+    <string name="foreground_notification_channel_description">"Android tətbiq arxa fonunda aktivdir zaman davam edən bir bildiri göstərməyi tələb edir. Bu kanalı rahatlıqla gizlədə bilərsiniz."</string>
+    <string name="scheduler_toolbar_reset">"Sıfırlayın"</string>
+    <string name="scheduler_reset_dialog_message">"Bu əməliyyatın geri dönüşü yoxdur.\n\nDavam etmək istərsinizmi?"</string>
+    <string name="scheduler_switch_use_title">"Rejim istifadə edin"</string>
+    <string name="scheduler_days_of_week_title">"Günlər"</string>
+    <string name="scheduler_days_of_week_none">"Heç biri"</string>
+    <string name="scheduler_days_of_week_all">"Hər gün"</string>
+    <string name="scheduler_start_time_title">"Başlama vaxtı"</string>
+    <string name="scheduler_end_time_title">"Bitmə tarixi"</string>
+    <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> avtomatik aktiv edəcək"</string>
+    <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> avtomatik deaktiv edəcək"</string>
+    <string name="scheduler_start_time_none_summary">"<b>Heç vaxt</b> avtomatik aktivləşməyəcək"</string>
+    <string name="scheduler_end_time_none_summary">"<b>Heç vaxt</b> avtomatik deaktiv etməyəcək"</string>
+    <string name="scheduler_no_schedule_summary">"Plan yoxdur"</string>
 </resources>

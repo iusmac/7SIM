@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Kontrollera SIM-kort baserat på din tidtabell"</string>
     <string name="airplane_mode_enabled">"Flygplansläge är aktiverat"</string>
     <string name="sim_state_change_request_failed">"SIM-begäran misslyckades (kod <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Ladda endast ned 7SIM från den officiella GitHub-sidan. Filer från okända källor kan innehålla skadlig kod!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Visa appikon"</string>
     <string name="preference_list_show_app_icon_summary">"Visa appikonen i startprogrammet"</string>
     <string name="restart_to_apply">"Du måste starta om programmet för att tillämpa ändringarna"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Arbetar i bakgrunden…"</string>
+    <string name="foreground_notification_channel_name">"Bakgrundsuppgifter"</string>
+    <string name="foreground_notification_channel_description">"Android kräver att ett pågående meddelande visas medan appen är aktiv i bakgrunden. Du kan säkert gömma den här kanalen."</string>
+    <string name="scheduler_toolbar_reset">"Återställ"</string>
+    <string name="scheduler_reset_dialog_message">"Denna åtgärd kan inte ångras.\n\nVill du fortsätta?"</string>
+    <string name="scheduler_switch_use_title">"Använd schema"</string>
+    <string name="scheduler_days_of_week_title">"Dagar"</string>
+    <string name="scheduler_days_of_week_none">"Inga"</string>
+    <string name="scheduler_days_of_week_all">"Varje dag"</string>
+    <string name="scheduler_start_time_title">"Starttid"</string>
+    <string name="scheduler_end_time_title">"Sluttid"</string>
+    <string name="scheduler_start_time_custom_summary">"Aktiveras automatiskt <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Inaktiveras automatiskt <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"Aktiveras <b>aldrig</b> automatiskt"</string>
+    <string name="scheduler_end_time_none_summary">"Inaktiveras <b>aldrig</b> automatiskt"</string>
+    <string name="scheduler_no_schedule_summary">"Inget schema"</string>
 </resources>

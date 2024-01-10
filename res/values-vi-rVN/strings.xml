@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Kiểm soát thẻ SIM dựa trên lịch trình của bạn"</string>
     <string name="airplane_mode_enabled">"Chế độ trên máy bay đang bật"</string>
     <string name="sim_state_change_request_failed">"Yêu cầu SIM thất bại (mã <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Chỉ nên tải 7SIM từ trang GitHub chính thức. Tải tệp từ các nguồn không rõ có thể gây hại!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Hiển thị biểu tượng ứng dụng"</string>
     <string name="preference_list_show_app_icon_summary">"Hiển thị biểu tượng ứng dụng trong trình chạy"</string>
     <string name="restart_to_apply">"Bạn phải khởi động lại ứng dụng để áp dụng các thay đổi"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Đang xử lí duới nền…"</string>
+    <string name="foreground_notification_channel_name">"Tác vụ chạy nền"</string>
+    <string name="foreground_notification_channel_description">"Android yêu cầu hiển thị thông báo liên tục trong khi ứng dụng đang hoạt động ở chế độ nền. Bạn có thể ẩn kênh này an toàn."</string>
+    <string name="scheduler_toolbar_reset">"Đặt lại"</string>
+    <string name="scheduler_reset_dialog_message">"Thao tác này không thể hoàn tác.\n\nTiếp tục đặt lại tất cả các thiết lập về giá trị mặc định?"</string>
+    <string name="scheduler_switch_use_title">"Sử dụng lịch biểu"</string>
+    <string name="scheduler_days_of_week_title">"Ngày"</string>
+    <string name="scheduler_days_of_week_none">"Không có"</string>
+    <string name="scheduler_days_of_week_all">"Hàng ngày"</string>
+    <string name="scheduler_start_time_title">"Thời gian bắt đầu"</string>
+    <string name="scheduler_end_time_title">"Thời gian kết thúc"</string>
+    <string name="scheduler_start_time_custom_summary">"Sẽ tự động bật <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Sẽ tự động tắt <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"Sẽ không <b>bao giờ</b> tự động bật"</string>
+    <string name="scheduler_end_time_none_summary">"Sẽ không <b>bao giờ</b> tự động tắt"</string>
+    <string name="scheduler_no_schedule_summary">"Chưa có lịch biểu nào"</string>
 </resources>

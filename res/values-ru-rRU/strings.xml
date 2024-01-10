@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Управление SIM-картами в соответствии с вашим графиком"</string>
     <string name="airplane_mode_enabled">"Включен режим полета"</string>
     <string name="sim_state_change_request_failed">"Запрос SIM не удался (код <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Скачивайте 7SIM только из официального репозитория на GitHub. Файлы из других источников могут содержать вредоносный код!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Показывать значок приложения"</string>
     <string name="preference_list_show_app_icon_summary">"Отображать значок приложения на панели Google Старт"</string>
     <string name="restart_to_apply">"Изменения вступят в силу после перезапуска приложения"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Работа в фоновом режиме…"</string>
+    <string name="foreground_notification_channel_name">"Фоновые задачи"</string>
+    <string name="foreground_notification_channel_description">"Android требует отображения постоянного уведомления, пока приложение активно в фоновом режиме. Вы можете спокойно скрыть этот канал."</string>
+    <string name="scheduler_toolbar_reset">"Сбросить"</string>
+    <string name="scheduler_reset_dialog_message">"Эту операцию невозможно будет отменить.\n\nПродолжить?"</string>
+    <string name="scheduler_switch_use_title">"Использовать расписание"</string>
+    <string name="scheduler_days_of_week_title">"Дни"</string>
+    <string name="scheduler_days_of_week_none">"\u2013"</string>
+    <string name="scheduler_days_of_week_all">"Каждый день"</string>
+    <string name="scheduler_start_time_title">"Время включения"</string>
+    <string name="scheduler_end_time_title">"Время отключения"</string>
+    <string name="scheduler_start_time_custom_summary">"Включится автоматически <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Выключится автоматически <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"<b>Никогда</b> не включится автоматически"</string>
+    <string name="scheduler_end_time_none_summary">"<b>Никогда</b> не выключится автоматически"</string>
+    <string name="scheduler_no_schedule_summary">"Расписания нет"</string>
 </resources>

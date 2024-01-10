@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"التحكم في بطاقات SIM استنادًا إلى جدولك"</string>
     <string name="airplane_mode_enabled">"وضع الطيران مفعّل"</string>
     <string name="sim_state_change_request_failed">"طلب بطاقة SIM فشل (الرمز <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"حمّل 7SIM حصريًا من صفحة GitHub الرسمية. الملفات من مصادر مجهولة قد تكون ضارة!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"عرض رمز التطبيق"</string>
     <string name="preference_list_show_app_icon_summary">"عرض رمز التطبيق في المشغّل"</string>
     <string name="restart_to_apply">"يجب عليك إعادة تشغيل التطبيق لتطبيق التغييرات"</string>
+    <string name="scheduler_day_of_week_separator">"،\u0020"</string>
+    <string name="foreground_notification_title">"جار العمل في الخلفية…"</string>
+    <string name="foreground_notification_channel_name">"مهام في الخلفية"</string>
+    <string name="foreground_notification_channel_description">"يتطلب Android عرض إشعار مستمر أثناء تشغيل التطبيق في الخلفية. يمكنك إخفاء هذا القناة بأمان."</string>
+    <string name="scheduler_toolbar_reset">"إعادة الضبط"</string>
+    <string name="scheduler_reset_dialog_message">"هذه العملية لا يمكن التراجع فيها.\n\nهل ترغب في المتابعة؟"</string>
+    <string name="scheduler_switch_use_title">"استخدام جدول زمني"</string>
+    <string name="scheduler_days_of_week_title">"الأيام"</string>
+    <string name="scheduler_days_of_week_none">"بدون جدول زمني"</string>
+    <string name="scheduler_days_of_week_all">"كل يوم"</string>
+    <string name="scheduler_start_time_title">"وقت البدء"</string>
+    <string name="scheduler_end_time_title">"وقت الانتهاء"</string>
+    <string name="scheduler_start_time_custom_summary">"سيتم التفعيل تلقائيًا <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"سيتم الإيقاف تلقائيًا <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"لن يتم تفعيل الميزة تلقائيًا <b>على الإطلاق</b>"</string>
+    <string name="scheduler_end_time_none_summary">"لن يتم الإيقاف بشكل تلقائي <b>مطلقًا</b>"</string>
+    <string name="scheduler_no_schedule_summary">"بلا جدول زمني"</string>
 </resources>

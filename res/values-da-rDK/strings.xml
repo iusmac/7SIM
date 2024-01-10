@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Kontroller SIM-kort baseret på din tidsplan"</string>
     <string name="airplane_mode_enabled">"Flytilstand er slået til"</string>
     <string name="sim_state_change_request_failed">"SIM-anmodning mislykkedes (kode <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Hent 7SIM eksklusivt fra den officielle GitHub-side. Filer fra ukendte kilder kan være skadelige!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Vis appikon"</string>
     <string name="preference_list_show_app_icon_summary">"Vis appikon i starteren"</string>
     <string name="restart_to_apply">"Du skal genstarte programmet for at anvende ændringer"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Arbejder i baggrunden…"</string>
+    <string name="foreground_notification_channel_name">"Baggrundsopgaver"</string>
+    <string name="foreground_notification_channel_description">"Android kræver, at der vises en løbende påmindelse, når app er aktiv i baggrunden. Du kan trygt skjule denne kanal."</string>
+    <string name="scheduler_toolbar_reset">"Nulstil"</string>
+    <string name="scheduler_reset_dialog_message">"Denne opgave kan ikke fortrydes.\n\nFortsæt?"</string>
+    <string name="scheduler_switch_use_title">"Anvend tidsplan"</string>
+    <string name="scheduler_days_of_week_title">"Dage"</string>
+    <string name="scheduler_days_of_week_none">"Ingen"</string>
+    <string name="scheduler_days_of_week_all">"Hver dag"</string>
+    <string name="scheduler_start_time_title">"Starttidspunkt"</string>
+    <string name="scheduler_end_time_title">"Sluttidspunkt"</string>
+    <string name="scheduler_start_time_custom_summary">"Aktiveres automatisk <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Deaktiveres automatisk <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"Aktiveres <b>aldrig</b> automatisk"</string>
+    <string name="scheduler_end_time_none_summary">"Deaktiveres <b>aldrig</b> automatisk"</string>
+    <string name="scheduler_no_schedule_summary">"Ingen tidsplan"</string>
 </resources>

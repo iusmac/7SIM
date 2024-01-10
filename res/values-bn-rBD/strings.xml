@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"আপনার সময়সূচীর উপর ভিত্তি করে SIM কার্ড নিয়ন্ত্রণ"</string>
     <string name="airplane_mode_enabled">"বিমান মোড চালু করা আছে"</string>
     <string name="sim_state_change_request_failed">"SIM অনুরোধ ব্যর্থ হয়েছে (কোড <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"শুধুমাত্র অফিসিয়াল গিটহাব পেজ থেকে ৭সিম ডাউনলোড করুন। অজানা উৎস থেকে ফাইল ক্ষতিকর হতে পারে!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"অ্যাপ আইকন দেখান"</string>
     <string name="preference_list_show_app_icon_summary">"লঞ্চারে অ্যাপ্লিকেশন আইকন দেখান"</string>
     <string name="restart_to_apply">"পরিবর্তনগুলি প্রয়োগ করতে আপনাকে অ্যাপ্লিকেশন পুনরায় চালু করতে হবে"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"নিভৃতে কাজ করা হচ্ছে …"</string>
+    <string name="foreground_notification_channel_name">"ব্যাকগ্রাউন্ডের কাজসমূহ"</string>
+    <string name="foreground_notification_channel_description">"অ্যান্ড্রয়েড ব্যাকগ্রাউন্ডে অ্যাপটি সক্রিয় থাকার সময় একটি চলমান বিজ্ঞপ্তি প্রদর্শন করতে প্রয়োজন। আপনি এই চ্যানেলটি সুরক্ষিতভাবে লুকিয়ে রাখতে পারেন।"</string>
+    <string name="scheduler_toolbar_reset">"রিসেট করুন"</string>
+    <string name="scheduler_reset_dialog_message">"এই অ্যাকশনটি পুনরায় প্রত্যাহার করা যাবে না।\n\nআপনি কি চালিয়ে যেতে চান?"</string>
+    <string name="scheduler_switch_use_title">"সময়সূচি ব্যবহার করুন"</string>
+    <string name="scheduler_days_of_week_title">"দিন"</string>
+    <string name="scheduler_days_of_week_none">"কোনও কিছুই নয়"</string>
+    <string name="scheduler_days_of_week_all">"প্রতিদিন"</string>
+    <string name="scheduler_start_time_title">"শুরুর সময়"</string>
+    <string name="scheduler_end_time_title">"সমাপ্তি সময়"</string>
+    <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> স্বয়ংক্রিয়ভাবে চালু হবে"</string>
+    <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> স্বয়ংক্রিয়ভাবে বন্ধ হবে"</string>
+    <string name="scheduler_start_time_none_summary">"<b>কখনই</b> নিজে থেকে চালু হবে না"</string>
+    <string name="scheduler_end_time_none_summary">"<b>কখনই</b> স্বয়ংক্রিয়ভাবে বন্ধ হবে না"</string>
+    <string name="scheduler_no_schedule_summary">"কোনও সময়সূচি সেট করা নেই"</string>
 </resources>

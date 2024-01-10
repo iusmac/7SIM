@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"آپ کے شیڈول پر مبنی SIM کارڈ کنٹرول کریں"</string>
     <string name="airplane_mode_enabled">"ہوائی جہاز وضع آن ہے"</string>
     <string name="sim_state_change_request_failed">"SIM درخواست ناکام (کوڈ <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"7SIM کو مخصوص طور پر رسمی GitHub صفحے سے ڈاؤن لوڈ کریں۔ نامعلوم ماخذ سے آنے والے فائلز نقصان دہ ہوسکتی ہیں!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"ایپ آئیکن دکھائیں"</string>
     <string name="preference_list_show_app_icon_summary">"ایپلیکیشن آئیکن کو لانچر میں ڈسپلے کریں"</string>
     <string name="restart_to_apply">"تبدیلیاں لاگو کرنے کیلئے درخواست کو دوبارہ شروع کریں"</string>
+    <string name="scheduler_day_of_week_separator">"،\u0020"</string>
+    <string name="foreground_notification_title">"پس منظر میں کام ہو رہا ہے"</string>
+    <string name="foreground_notification_channel_name">"پس منظر کے کام"</string>
+    <string name="foreground_notification_channel_description">"اینڈرائیڈ خود کو پس منظر میں چالو ہونے کے دوران ایک جاری ہونے والی اطلاعات کی نمائش کی ضرورت ہے۔ آپ اس چینل کو بے خطری سے چھپا سکتے ہیں۔"</string>
+    <string name="scheduler_toolbar_reset">"ری سیٹ کریں"</string>
+    <string name="scheduler_reset_dialog_message">"یہ عمل واپس نہیں کیا جا سکتا ہے۔\n\nکیا آپ جاری رکھنا چاہیں گے؟"</string>
+    <string name="scheduler_switch_use_title">"شیڈول استعمال کریں"</string>
+    <string name="scheduler_days_of_week_title">"دن"</string>
+    <string name="scheduler_days_of_week_none">"کوئی نہیں"</string>
+    <string name="scheduler_days_of_week_all">"روزانہ"</string>
+    <string name="scheduler_start_time_title">"وقت آغاز"</string>
+    <string name="scheduler_end_time_title">"وقت اختتام"</string>
+    <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> خودکار طور پر آن ہو جائے گا"</string>
+    <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> خودکار طور پر آف ہو جائے گا"</string>
+    <string name="scheduler_start_time_none_summary">"<b>کبھی بھی</b> خودکار طور پر آن نہیں ہو گی"</string>
+    <string name="scheduler_end_time_none_summary">"<b>کبھی بھی</b> خودکار طور پر آف نہیں ہوگا"</string>
+    <string name="scheduler_no_schedule_summary">"کوئی شیڈول نہیں ہے"</string>
 </resources>

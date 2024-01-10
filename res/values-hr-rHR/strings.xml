@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Kontrola SIM kartica prema vašem rasporedu"</string>
     <string name="airplane_mode_enabled">"Način rada u zrakoplovu uklj."</string>
     <string name="sim_state_change_request_failed">"SIM zahtjev nije uspio (kôd <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Preuzmite 7SIM isključivo s službene GitHub stranice. Datoteke s nepoznatih izvora mogu biti zlonamjerne!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Prikaži ikonu aplikacije"</string>
     <string name="preference_list_show_app_icon_summary">"Prikaži ikonu aplikacije u pokretaču"</string>
     <string name="restart_to_apply">"Morate ponovo pokrenuti aplikaciju da biste primijenili promjene"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Rad u pozadini…"</string>
+    <string name="foreground_notification_channel_name">"Pozadinski zadaci"</string>
+    <string name="foreground_notification_channel_description">"Android zahtijeva prikazivanje stalne obavijesti dok je aplikacija aktivna u pozadini. Ovaj kanal možeš sakriti."</string>
+    <string name="scheduler_toolbar_reset">"Ponovo postavi"</string>
+    <string name="scheduler_reset_dialog_message">"Ovaj postupak se ne može poništiti.\n\nŽelite li nastaviti?"</string>
+    <string name="scheduler_switch_use_title">"Koristi raspored"</string>
+    <string name="scheduler_days_of_week_title">"Dani"</string>
+    <string name="scheduler_days_of_week_none">"Ništa"</string>
+    <string name="scheduler_days_of_week_all">"Svaki dan"</string>
+    <string name="scheduler_start_time_title">"Vrijeme početka"</string>
+    <string name="scheduler_end_time_title">"Vrijeme završetka"</string>
+    <string name="scheduler_start_time_custom_summary">"Uključuje se automatski <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Isključuje se automatski <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"<b>Nikad</b> se ne uključuje automatski"</string>
+    <string name="scheduler_end_time_none_summary">"<b>Nikad</b> se ne isključuje automatski"</string>
+    <string name="scheduler_no_schedule_summary">"Nema rasporeda"</string>
 </resources>

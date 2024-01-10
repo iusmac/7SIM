@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"SIM-kaartide juhtimine vastavalt teie ajakavale"</string>
     <string name="airplane_mode_enabled">"Lennurežiim on sees"</string>
     <string name="sim_state_change_request_failed">"SIM-i taotluse nurjus (kood <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Laadi 7SIM alla vaid ametlikult GitHubi lehelt. Tundmatutest allikatest laaditud failid võivad olla pahatahtlikud!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Kuva rakenduse ikoon"</string>
     <string name="preference_list_show_app_icon_summary">"Rakenduse ikooni kuvamine käivitajas"</string>
     <string name="restart_to_apply">"Muudatuste rakendamiseks peate programmi taaskäivitama"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Taustal töötamine…"</string>
+    <string name="foreground_notification_channel_name">"Taustategevused"</string>
+    <string name="foreground_notification_channel_description">"Android nõuab pideva teavituse kuvamist, kui rakendus on taustal aktiivne. Kanalit saab julgelt peita."</string>
+    <string name="scheduler_toolbar_reset">"Lähtesta"</string>
+    <string name="scheduler_reset_dialog_message">"Seda tegevust ei saa tagasi võtta.\n\nKas soovid jätkata?"</string>
+    <string name="scheduler_switch_use_title">"Kasuta ajakava"</string>
+    <string name="scheduler_days_of_week_title">"Päevad"</string>
+    <string name="scheduler_days_of_week_none">"Puudub"</string>
+    <string name="scheduler_days_of_week_all">"Iga päev"</string>
+    <string name="scheduler_start_time_title">"Algusaeg"</string>
+    <string name="scheduler_end_time_title">"Lõppaeg"</string>
+    <string name="scheduler_start_time_custom_summary">"Lülitub automaatselt sisse <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Lülitub automaatselt välja <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"Ei lülitu <b>kunagi</b> automaatselt sisse"</string>
+    <string name="scheduler_end_time_none_summary">"Ei lülitu <b>kunagi</b> automaatselt välja"</string>
+    <string name="scheduler_no_schedule_summary">"Ajakava puudub"</string>
 </resources>

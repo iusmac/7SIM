@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"根据您的时间表控制SIM卡"</string>
     <string name="airplane_mode_enabled">"已开启飞行模式"</string>
     <string name="sim_state_change_request_failed">"SIM请求失败（代码<xliff:g name="errCode" example="2">%1$d</xliff:g>）"</string>
     <string name="disclaimer_banner_content">"仅从官方 GitHub 页面下载 7SIM。未知来源的文件可能具有恶意行为！"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">显示应用程序图标</string>
     <string name="preference_list_show_app_icon_summary">在启动器中显示应用程序图标</string>
     <string name="restart_to_apply">"您必须重启软件才能应用更改"</string>
+    <string name="scheduler_day_of_week_separator">"，\u0020"</string>
+    <string name="foreground_notification_title">"正在后台工作中…"</string>
+    <string name="foreground_notification_channel_name">"后台任务"</string>
+    <string name="foreground_notification_channel_description">"当应用程序在后台处于活动状态时，Android 需要显示持续的通知。你可以安全地隐藏这个通道。"</string>
+    <string name="scheduler_toolbar_reset">"重置"</string>
+    <string name="scheduler_reset_dialog_message">"此操作不能撤销。\n\n您要继续吗？"</string>
+    <string name="scheduler_switch_use_title">"使用时间表"</string>
+    <string name="scheduler_days_of_week_title">"星期几"</string>
+    <string name="scheduler_days_of_week_none">"无"</string>
+    <string name="scheduler_days_of_week_all">"每天"</string>
+    <string name="scheduler_start_time_title">"开始时间"</string>
+    <string name="scheduler_end_time_title">"结束时间"</string>
+    <string name="scheduler_start_time_custom_summary">"将在<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>自动开启"</string>
+    <string name="scheduler_end_time_custom_summary">"将在<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>自动关闭"</string>
+    <string name="scheduler_start_time_none_summary">"将<b>永远</b>不会自动开启"</string>
+    <string name="scheduler_end_time_none_summary">"将<b>永远</b>不会自动关闭"</string>
+    <string name="scheduler_no_schedule_summary">"没有时间表"</string>
 </resources>

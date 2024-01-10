@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"Ovládání SIM karet podle vašeho plánu"</string>
     <string name="airplane_mode_enabled">"Režim Letadlo je zapnutý"</string>
     <string name="sim_state_change_request_failed">"Žádost o SIM selhal (kód <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="disclaimer_banner_content">"Stahujte 7SIM POUZE z oficiální stránky GitHub. Soubory z neznámých zdrojů mohou být škodlivé!"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"Zobrazit ikonu aplikace"</string>
     <string name="preference_list_show_app_icon_summary">"Zobrazí ikonu aplikace ve spouštěči"</string>
     <string name="restart_to_apply">"Chcete-li použít změny, musíte aplikaci restartovat"</string>
+    <string name="scheduler_day_of_week_separator">",\u0020"</string>
+    <string name="foreground_notification_title">"Práce na pozadí…"</string>
+    <string name="foreground_notification_channel_name">"Úlohy na pozadí"</string>
+    <string name="foreground_notification_channel_description">"Je-li aplikace aktivní na pozadí, Systém Android vyžaduje zobrazení průběžného oznámení. Tento kanál můžete bezpečně skrýt."</string>
+    <string name="scheduler_toolbar_reset">"Resetovat"</string>
+    <string name="scheduler_reset_dialog_message">"Tuto operaci nelze vzít zpět.\n\nPřejete si pokračovat?"</string>
+    <string name="scheduler_switch_use_title">"Použít plán"</string>
+    <string name="scheduler_days_of_week_title">"Dny"</string>
+    <string name="scheduler_days_of_week_none">"Žádná"</string>
+    <string name="scheduler_days_of_week_all">"Každý den"</string>
+    <string name="scheduler_start_time_title">"Čas zahájení"</string>
+    <string name="scheduler_end_time_title">"Čas ukončení"</string>
+    <string name="scheduler_start_time_custom_summary">"Zapne se automaticky <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Vypne se automaticky <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_none_summary">"<b>Nikdy</b> se automaticky nezapne"</string>
+    <string name="scheduler_end_time_none_summary">"<b>Nikdy</b> se automaticky nevypne"</string>
+    <string name="scheduler_no_schedule_summary">"Žádný plán"</string>
 </resources>

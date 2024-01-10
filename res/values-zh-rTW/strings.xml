@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_description">"根據您的時間表控制SIM卡"</string>
     <string name="airplane_mode_enabled">"飛航模式已開啟"</string>
     <string name="sim_state_change_request_failed">"SIM請求失敗（代碼<xliff:g name="errCode" example="2">%1$d</xliff:g>）"</string>
     <string name="disclaimer_banner_content">"請從官方的 Github 網頁下載 7SIM。從未知來源下載的檔案可能懷有惡意！"</string>
@@ -17,4 +18,21 @@
     <string name="preference_list_show_app_icon_title">"顯示應用程式圖示"</string>
     <string name="preference_list_show_app_icon_summary">"在啟動器中顯示應用程式圖示"</string>
     <string name="restart_to_apply">"您必須重啟程序使更改的功能生效"</string>
+    <string name="scheduler_day_of_week_separator">"、\u0020"</string>
+    <string name="foreground_notification_title">"在背景工作中…"</string>
+    <string name="foreground_notification_channel_name">"後台任務"</string>
+    <string name="foreground_notification_channel_description">"當應用程式在背景執行時，Android 需要開啟顯示持續的通知的權限。您可以安全地隱藏此頻道。"</string>
+    <string name="scheduler_toolbar_reset">"重設"</string>
+    <string name="scheduler_reset_dialog_message">"此操作無法復原。\n\n您要繼續嗎？"</string>
+    <string name="scheduler_switch_use_title">"使用排程"</string>
+    <string name="scheduler_days_of_week_title">"星期幾"</string>
+    <string name="scheduler_days_of_week_none">"無"</string>
+    <string name="scheduler_days_of_week_all">"每天"</string>
+    <string name="scheduler_start_time_title">"開始時間"</string>
+    <string name="scheduler_end_time_title">"結束時間"</string>
+    <string name="scheduler_start_time_custom_summary">"將於<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> 自動開啟"</string>
+    <string name="scheduler_end_time_custom_summary">"將於<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> 自動關閉"</string>
+    <string name="scheduler_start_time_none_summary">"<b>永遠</b>不會自動開啟"</string>
+    <string name="scheduler_end_time_none_summary">"<b>永遠</b>不會自動關閉"</string>
+    <string name="scheduler_no_schedule_summary">"未設定時間表"</string>
 </resources>
