@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.CollapsingToolbarSubtitle" parent="@android:style/TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/collapsing_toolbar_subtitle_text_color</item>
+    </style>
+
+    <style name="TextAppearance.CollapsingToolbarCollapsedSubtitle" parent="@style/TextAppearance.CollapsingToolbarSubtitle">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.CollapsingToolbarExpandedSubtitle" parent="@style/TextAppearance.CollapsingToolbarSubtitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

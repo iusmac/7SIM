@@ -3,10 +3,10 @@ package com.github.iusmac.sevensim.ui.preferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 import com.android.settingslib.widget.R;
 
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

@@ -3,8 +3,9 @@ package com.github.iusmac.sevensim.ui.license;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 import com.android.settingslib.widget.R;
+
+import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 
 public final class LicenseActivity extends CollapsingToolbarBaseActivity {
     @Override

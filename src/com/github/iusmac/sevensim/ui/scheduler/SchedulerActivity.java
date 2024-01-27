@@ -11,13 +11,12 @@ import android.view.MenuItem;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
-
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
+import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

@@ -125,6 +125,7 @@ dependencies {
     implementation libs.collection
     implementation libs.core
     implementation libs.livedata
+    implementation libs.material
     implementation libs.preference
     implementation libs.viewmodel
     implementation libs.hilt_android

@@ -82,6 +82,30 @@ public final class Utils {
     }
 
     /**
+     * Linear interpolation between {@code outputMin} and {@code outputMax} when {@code value} is
+     * between {@code inputMin} and {@code inputMax}.
+     *
+     * Note that {@code value} will be coerced into {@code inputMin} and {@code inputMax}. This
+     * function can handle input and output ranges that span positive and negative numbers.
+     */
+    public static float lerp(final float outputMin, final float outputMax, final float inputMin,
+            final float inputMax, float value) {
+
+        if (value <= inputMin) {
+            return outputMin;
+        }
+        if (value >= inputMax) {
+            return outputMax;
+        }
+        return lerp(outputMin, outputMax, (value - inputMin) / (inputMax - inputMin));
+    }
+
+    /** Linear interpolation between {@code startValue} and {@code endValue} by {@code fraction}. */
+    public static float lerp(final float startValue, final float endValue, final float fraction) {
+        return startValue + (fraction * (endValue - startValue));
+    }
+
+    /**
      * Nested class to avoid verification errors for methods introduced in Android 13 (API 33).
      */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
