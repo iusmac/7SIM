@@ -12,6 +12,13 @@ public final class LicenseActivity extends CollapsingToolbarBaseActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setSubtitle(com.github.iusmac.sevensim.R.string.license_summary);
+        if (!getToolbarDecorator().isCollapsingToolbarSupported()) {
+            // For better UX (e.g. l10n), apply the marquee effect on the subtitle for
+            // non-collapsible Toolbar
+            getToolbarDecorator().setSubtitleMarqueeRepeatLimit(1);
+        }
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
                     new LicenseFragment()).commit();
