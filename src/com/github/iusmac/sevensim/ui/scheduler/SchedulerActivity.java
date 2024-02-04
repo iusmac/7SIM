@@ -8,6 +8,7 @@ import android.os.HandlerThread;
 import android.os.Process;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,9 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.Utils;
+import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
+import com.github.iusmac.sevensim.ui.components.toolbar.ToolbarDecorator;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -46,6 +49,9 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
 
     @Inject
     Subscriptions mSubscriptions;
+
+    @Inject
+    SubscriptionScheduler mSubscriptionScheduler;
 
     private Logger mLogger;
 
@@ -114,6 +120,15 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         mLogger.d("onCreate() : (extra) %s.", mSubscription);
 
         super.setTitle(mSubscription.getSimName());
+        final ToolbarDecorator toolbarDecorator = getToolbarDecorator();
+        if (toolbarDecorator.isCollapsingToolbarSupported()) {
+            toolbarDecorator.setCollapsingSubtitleImportantForAccessibility(
+                    View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+        } else {
+            toolbarDecorator.setSubtitleMarqueeRepeatLimit(-1);
+        }
+        getViewModel().getNextUpcomingScheduleSummary().observe(this, (summary) ->
+                setSubtitle(summary));
 
         if (savedInstanceState == null) {
             commitFragment();
@@ -153,6 +168,8 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
 
         sHandler.postDelayed(() -> mSubscriptions.getSubscriptionForSubId(mSubscription.getId())
                 .ifPresent((sub) -> runOnUiThread(() -> super.setTitle(sub.getSimName()))),
+                mSubscriptionsChangedToken, delayMillis);
+        sHandler.postDelayed(() -> getViewModel().refreshNextUpcomingScheduleSummary(),
                 mSubscriptionsChangedToken, delayMillis);
     }
 

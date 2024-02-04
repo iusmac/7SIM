@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.collection.ArraySet;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
@@ -27,12 +28,15 @@ import com.github.iusmac.sevensim.scheduler.DayOfWeek;
 import com.github.iusmac.sevensim.scheduler.DaysOfWeek;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduleEntity;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
+import com.github.iusmac.sevensim.scheduler.SubscriptionSchedulerSummaryBuilder;
+import com.github.iusmac.sevensim.telephony.Subscriptions;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap.SimpleEntry;
@@ -65,6 +69,9 @@ public final class SchedulerViewModel extends ViewModel {
     private final MutableLiveData<SubscriptionScheduleEntity> mMutableStartSchedule;
     private final MutableLiveData<SubscriptionScheduleEntity> mMutableEndSchedule;
 
+    private final MutableLiveData<CharSequence>
+        mMutableNextUpcomingScheduleSummary = new MutableLiveData<>();
+
     private MediatorLiveData<Boolean> mMediatorSchedulerEnabledState;
     private MutableLiveData<Boolean> mMutableSchedulerRepeatCycleState;
 
@@ -84,6 +91,8 @@ public final class SchedulerViewModel extends ViewModel {
     private final Logger mLogger;
     private final DaysOfWeek.Factory mDaysOfWeekFactory;
     private final SubscriptionScheduler mSubscriptionScheduler;
+    private final Subscriptions mSubscriptions;
+    private final SubscriptionSchedulerSummaryBuilder mSubscriptionSchedulerSummaryBuilder;
     private final int mSubscriptionId;
 
     @AssistedInject
@@ -91,6 +100,8 @@ public final class SchedulerViewModel extends ViewModel {
             final Logger.Factory loggerFactory,
             final DaysOfWeek.Factory daysOfWeekFactory,
             final SubscriptionScheduler subscriptionScheduler,
+            final Subscriptions subscriptions,
+            final SubscriptionSchedulerSummaryBuilder subscriptionSchedulerSummaryBuilder,
             final @Assisted int subscriptionId,
             final @Assisted Looper looper) {
 
@@ -98,6 +109,8 @@ public final class SchedulerViewModel extends ViewModel {
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mDaysOfWeekFactory = daysOfWeekFactory;
         mSubscriptionScheduler = subscriptionScheduler;
+        mSubscriptions = subscriptions;
+        mSubscriptionSchedulerSummaryBuilder = subscriptionSchedulerSummaryBuilder;
         mSubscriptionId = subscriptionId;
 
         mResources = mContext.getResources();
@@ -135,6 +148,14 @@ public final class SchedulerViewModel extends ViewModel {
         filter.addAction(Intent.ACTION_TIME_CHANGED);
         ContextCompat.registerReceiver(mContext, mIntentReceiver, filter,
                ContextCompat.RECEIVER_EXPORTED);
+    }
+
+    /**
+     * @return An observable human-readable string summarizing the next upcoming schedule for this
+     * scheduler's SIM subscription.
+     */
+    LiveData<CharSequence> getNextUpcomingScheduleSummary() {
+        return mMutableNextUpcomingScheduleSummary;
     }
 
     /**
@@ -308,6 +329,22 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
+     * Refresh the human-readable string summarizing the next upcoming schedule for this scheduler's
+     * SIM subscription.
+     */
+    @WorkerThread
+    void refreshNextUpcomingScheduleSummary() {
+        mLogger.v("refreshNextUpcomingScheduleSummary().");
+
+        final CharSequence summary = mSubscriptions.getSubscriptionForSubId(mSubscriptionId)
+            .map((sub) -> mSubscriptionSchedulerSummaryBuilder
+                    .buildNextUpcomingSubscriptionScheduleSummary(sub, LocalDateTime.now()))
+            .orElseGet(() -> mResources.getString(R.string.sim_missing));
+
+        mMutableNextUpcomingScheduleSummary.postValue(summary);
+    }
+
+    /**
      * Entirely purge the scheduler and all relative data.
      */
     void removeScheduler() {
@@ -335,6 +372,7 @@ public final class SchedulerViewModel extends ViewModel {
         }
 
         mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
+        refreshNextUpcomingScheduleSummaryAsync();
     }
 
     /**
@@ -388,6 +426,11 @@ public final class SchedulerViewModel extends ViewModel {
         if (!existentSchedules.isEmpty()) {
             mHandler.post(() -> mSubscriptionScheduler.updateAll(existentSchedules));
         }
+        refreshNextUpcomingScheduleSummaryAsync();
+    }
+
+    private void refreshNextUpcomingScheduleSummaryAsync() {
+        mHandler.post(this::refreshNextUpcomingScheduleSummary);
     }
 
     @Override
@@ -411,6 +454,8 @@ public final class SchedulerViewModel extends ViewModel {
                     mMutableDaysOfWeek.postValue(mMutableDaysOfWeek.getValue());
                     mMutableStartTime.postValue(mMutableStartTime.getValue());
                     mMutableEndTime.postValue(mMutableEndTime.getValue());
+                    // Refresh the next upcoming schedule summary locale-sensitive part
+                    refreshNextUpcomingScheduleSummaryAsync();
                     break;
 
                 case Intent.ACTION_TIMEZONE_CHANGED:
@@ -419,6 +464,8 @@ public final class SchedulerViewModel extends ViewModel {
                     // regenerate time-sensitive data
                     mMutableStartTime.postValue(mMutableStartTime.getValue());
                     mMutableEndTime.postValue(mMutableEndTime.getValue());
+                    // Refresh the next upcoming schedule summary time-sensitive part
+                    refreshNextUpcomingScheduleSummaryAsync();
             }
         }
     }
