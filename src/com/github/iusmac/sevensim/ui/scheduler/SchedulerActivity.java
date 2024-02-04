@@ -50,6 +50,8 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
     private Logger mLogger;
 
     private Subscription mSubscription;
+    private final Object mSubscriptionsChangedToken = new Object();
+    private boolean mSubscriptionsChangedListenerInitialized;
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -137,8 +139,21 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
 
     @Override
     public void onSubscriptionsChanged() {
-        sHandler.post(() -> mSubscriptions.getSubscriptionForSubId(mSubscription.getId())
-                .ifPresent((sub) -> runOnUiThread(() -> super.setTitle(sub.getSimName()))));
+        mLogger.v("onSubscriptionsChanged().");
+
+        // Debouncing
+        final long delayMillis;
+        if (mSubscriptionsChangedListenerInitialized) {
+            delayMillis = 300;
+            sHandler.removeCallbacksAndMessages(mSubscriptionsChangedToken);
+        } else {
+            delayMillis = 0;
+            mSubscriptionsChangedListenerInitialized = true;
+        }
+
+        sHandler.postDelayed(() -> mSubscriptions.getSubscriptionForSubId(mSubscription.getId())
+                .ifPresent((sub) -> runOnUiThread(() -> super.setTitle(sub.getSimName()))),
+                mSubscriptionsChangedToken, delayMillis);
     }
 
     @Override
@@ -153,5 +168,6 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         super.onPause();
 
         mSubscriptions.removeOnSubscriptionsChangedListener(this);
+        sHandler.removeCallbacksAndMessages(mSubscriptionsChangedToken);
     }
 }
