@@ -3,6 +3,8 @@ package com.github.iusmac.sevensim.ui.preferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.lifecycle.ViewModel;
+
 import com.android.settingslib.widget.R;
 
 import com.github.iusmac.sevensim.Logger;
@@ -40,5 +42,13 @@ public final class PreferenceListActivity extends Hilt_PreferenceListActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public ViewModel onCreateViewModel() {
+        // Make Dagger instantiate @Inject fields prior to the ViewModel creation
+        inject();
+
+        return null;
     }
 }

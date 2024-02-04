@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModel;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarDelegate;
 
@@ -26,14 +27,17 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
  * collapsing toolbar, you can decorate it with a collapsing subtitle, which isn't supported out of
  * the box.
  */
-public class CollapsingToolbarBaseActivity extends FragmentActivity {
+public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     private static final int SCRIM_ANIMATION_DURATION = 250;
 
     private CollapsingToolbarDelegate mToolbardelegate;
     private ToolbarDecorator mToolbarDecorator;
+    private ViewModel mViewModel;
 
     @Override
     protected void onCreate(final @Nullable Bundle savedInstanceState) {
+        mViewModel = onCreateViewModel();
+
         super.onCreate(savedInstanceState);
 
         final View view = getToolbarDelegate().onCreateView(getLayoutInflater(), null);
@@ -51,6 +55,21 @@ public class CollapsingToolbarBaseActivity extends FragmentActivity {
                 toolbarDecorator.setTitleMarqueeRepeatLimit(1);
             }
         }
+    }
+
+    /**
+     * Called when the activity is starting, but before propagating to the parent's
+     * {@link #onCreate(Bundle)}.
+     *
+     * @return The {@link ViewModel} instance, if any.
+     */
+    public abstract @Nullable ViewModel onCreateViewModel();
+
+    /**
+     * @return The {@link ViewModel} instance created via {@link #onCreateViewModel()}.
+     */
+    public @Nullable ViewModel getViewModel() {
+        return mViewModel;
     }
 
     @Override

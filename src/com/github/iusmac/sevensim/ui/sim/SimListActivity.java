@@ -11,6 +11,7 @@ import android.os.Process;
 import android.view.Menu;
 
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.iusmac.sevensim.Logger;
@@ -48,7 +49,6 @@ public class SimListActivity extends Hilt_SimListActivity
     private final IntentReceiver mIntentReceiver = new IntentReceiver();
 
     private Logger mLogger;
-    private SimListViewModel mViewModel;
 
     private final Object mSubscriptionsChangedToken = new Object();
     private boolean mSubscriptionsChangedListenerInitialized;
@@ -67,16 +67,26 @@ public class SimListActivity extends Hilt_SimListActivity
     }
 
     @Override
+    public ViewModel onCreateViewModel() {
+        // Make Dagger instantiate @Inject fields prior to the ViewModel creation
+        inject();
+
+        return new ViewModelProvider(this, SimListViewModel.getFactory(mSimListViewModelFactory,
+                    sHandler.getLooper())).get(SimListViewModel.class);
+    }
+
+    @Override
+    public SimListViewModel getViewModel() {
+        return (SimListViewModel) super.getViewModel();
+    }
+
+    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mLogger = mLoggerFactory.create(getClass().getSimpleName());
 
         mLogger.d("onCreate().");
-
-        mViewModel = new ViewModelProvider(this,
-                SimListViewModel.getFactory(mSimListViewModelFactory,
-                    sHandler.getLooper())).get(SimListViewModel.class);
 
         if (savedInstanceState == null) {
             commitFragment();
@@ -107,7 +117,7 @@ public class SimListActivity extends Hilt_SimListActivity
             mSubscriptionsChangedListenerInitialized = true;
         }
 
-        sHandler.postDelayed(mViewModel::refreshSimEntries, mSubscriptionsChangedToken,
+        sHandler.postDelayed(getViewModel()::refreshSimEntries, mSubscriptionsChangedToken,
                 delayMillis);
     }
 
@@ -143,13 +153,13 @@ public class SimListActivity extends Hilt_SimListActivity
             switch (action) {
                 case Intent.ACTION_LOCALE_CHANGED:
                     // Refresh SIM entries to regenerate locale-sensitive data
-                    sHandler.post(mViewModel::refreshSimEntries);
+                    sHandler.post(getViewModel()::refreshSimEntries);
                     break;
 
                 case Intent.ACTION_TIMEZONE_CHANGED:
                 case Intent.ACTION_TIME_CHANGED:
                     // Refresh SIM entries to regenerate time-sensitive data
-                    sHandler.post(mViewModel::refreshSimEntries);
+                    sHandler.post(getViewModel()::refreshSimEntries);
                     break;
             }
         }

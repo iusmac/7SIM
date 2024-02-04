@@ -3,6 +3,8 @@ package com.github.iusmac.sevensim.ui.license;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.lifecycle.ViewModel;
+
 import com.android.settingslib.widget.R;
 
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
@@ -32,5 +34,10 @@ public final class LicenseActivity extends CollapsingToolbarBaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public ViewModel onCreateViewModel() {
+        return null;
     }
 }

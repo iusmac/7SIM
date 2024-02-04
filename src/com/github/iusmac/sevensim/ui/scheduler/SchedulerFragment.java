@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
@@ -55,7 +54,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
 
     @Override
     public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(SchedulerViewModel.class);
+        mViewModel = ((SchedulerActivity) requireActivity()).getViewModel();
 
         // Hijack default key-value shared preferences before the preferences are actually added
         getPreferenceManager().setPreferenceDataStore(new PreferenceDataStoreCustom());

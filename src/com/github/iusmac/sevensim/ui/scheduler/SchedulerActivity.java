@@ -9,6 +9,7 @@ import android.os.Process;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.iusmac.sevensim.Logger;
@@ -47,7 +48,6 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
     Subscriptions mSubscriptions;
 
     private Logger mLogger;
-    private SchedulerViewModel mViewModel;
 
     private Subscription mSubscription;
 
@@ -59,7 +59,7 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        menu.findItem(R.id.scheduler_reset).setEnabled(mViewModel.schedulerExists());
+        menu.findItem(R.id.scheduler_reset).setEnabled(getViewModel().schedulerExists());
         return true;
     }
 
@@ -77,8 +77,9 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
     }
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public ViewModel onCreateViewModel() {
+        // Make Dagger instantiate @Inject fields prior to the ViewModel creation
+        inject();
 
         final Intent intent = getIntent();
 
@@ -91,19 +92,30 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
 
         mSubscription = Utils.getParcelable(extras, EXTRA_SUBSCRIPTION, Subscription.class);
 
+        final ViewModelProvider.Factory vmpFactory =
+            SchedulerViewModel.getFactory(mViewModelFactory, mSubscription.getId(),
+                    sHandler.getLooper());
+        return new ViewModelProvider(this, vmpFactory).get(SchedulerViewModel.class);
+    }
+
+    @Override
+    public SchedulerViewModel getViewModel() {
+        return (SchedulerViewModel) super.getViewModel();
+    }
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mLogger = mLoggerFactory.create(getClass().getSimpleName());
+
         mLogger.d("onCreate() : (extra) %s.", mSubscription);
 
         super.setTitle(mSubscription.getSimName());
 
-        final ViewModelProvider vmp;
         if (savedInstanceState == null) {
-            vmp = new ViewModelProvider(this, SchedulerViewModel.getFactory(mViewModelFactory,
-                        mSubscription.getId(), sHandler.getLooper()));
             commitFragment();
-        } else {
-            vmp = new ViewModelProvider(this);
         }
-        mViewModel = vmp.get(SchedulerViewModel.class);
     }
 
     private void commitFragment() {
@@ -117,7 +129,8 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
             .setTitle(R.string.scheduler_toolbar_reset)
             .setIconAttribute(android.R.attr.alertDialogIcon)
             .setMessage(R.string.scheduler_reset_dialog_message)
-            .setPositiveButton(android.R.string.ok, (dialog, id) -> mViewModel.removeScheduler())
+            .setPositiveButton(android.R.string.ok, (dialog, id) ->
+                    getViewModel().removeScheduler())
             .setNegativeButton(android.R.string.cancel, null)
             .show();
     }

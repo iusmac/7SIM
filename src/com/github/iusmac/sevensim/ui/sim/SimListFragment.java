@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.collection.SparseArrayCompat;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -41,7 +40,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
 
     @Override
     public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(SimListViewModel.class);
+        mViewModel = ((SimListActivity) requireActivity()).getViewModel();
 
         addPreferencesFromResource(R.xml.sim_preferences);
     }
