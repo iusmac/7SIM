@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Ei lülitu <b>kunagi</b> automaatselt sisse"</string>
     <string name="scheduler_end_time_none_summary">"Ei lülitu <b>kunagi</b> automaatselt välja"</string>
     <string name="scheduler_no_schedule_summary">"Ajakava puudub"</string>
+    <string name="sim_missing">"SIM-kaart on puudu"</string>
 </resources>

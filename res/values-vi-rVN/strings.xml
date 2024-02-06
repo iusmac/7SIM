@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Sẽ không <b>bao giờ</b> tự động bật"</string>
     <string name="scheduler_end_time_none_summary">"Sẽ không <b>bao giờ</b> tự động tắt"</string>
     <string name="scheduler_no_schedule_summary">"Chưa có lịch biểu nào"</string>
+    <string name="sim_missing">"Không có thẻ SIM"</string>
 </resources>

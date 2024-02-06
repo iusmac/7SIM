@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>ஒருபோதும்</b> தானாக இயக்கப்படாது"</string>
     <string name="scheduler_end_time_none_summary">"<b>ஒருபோதும்</b> தானாக முடக்கப்படாது"</string>
     <string name="scheduler_no_schedule_summary">"திட்டமிட்டது எதுவுமில்லை"</string>
+    <string name="sim_missing">"SIM கார்டு காணவில்லை"</string>
 </resources>

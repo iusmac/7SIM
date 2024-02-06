@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Wird <b>nie</b> automatisch aktiviert"</string>
     <string name="scheduler_end_time_none_summary">"Wird <b>nie</b> automatisch deaktiviert"</string>
     <string name="scheduler_no_schedule_summary">"Es ist keine Aktivierung oder Deaktivierung geplant"</string>
+    <string name="sim_missing">"SIM-Karte fehlt"</string>
 </resources>

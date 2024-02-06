@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>Soha</b> nem kapcsol be automatikusan"</string>
     <string name="scheduler_end_time_none_summary">"<b>Soha</b> nem kapcsol ki automatikusan"</string>
     <string name="scheduler_no_schedule_summary">"Nincs ütemezés"</string>
+    <string name="sim_missing">"Hiányzik a SIM-kártya"</string>
 </resources>

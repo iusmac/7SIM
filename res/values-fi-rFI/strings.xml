@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Ei käynnisty <b>koskaan</b> automaattisesti"</string>
     <string name="scheduler_end_time_none_summary">"Ei sammu <b>koskaan</b> automaattisesti"</string>
     <string name="scheduler_no_schedule_summary">"Ei aikataulua"</string>
+    <string name="sim_missing">"SIM-kortti puuttuu"</string>
 </resources>

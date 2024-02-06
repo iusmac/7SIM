@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>Nikdy</b> se automaticky nezapne"</string>
     <string name="scheduler_end_time_none_summary">"<b>Nikdy</b> se automaticky nevypne"</string>
     <string name="scheduler_no_schedule_summary">"Žádný plán"</string>
+    <string name="sim_missing">"Chybí karta SIM"</string>
 </resources>

@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>Никада</b> се не укључује аутоматски"</string>
     <string name="scheduler_end_time_none_summary">"<b>Никада</b> се не искључује аутоматски"</string>
     <string name="scheduler_no_schedule_summary">"Нема распореда"</string>
+    <string name="sim_missing">"Нема SIM картице"</string>
 </resources>

@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Nu se va activa <b>niciodată</b> automat"</string>
     <string name="scheduler_end_time_none_summary">"Nu se va dezactiva <b>niciodată</b> automat"</string>
     <string name="scheduler_no_schedule_summary">"Niciun program"</string>
+    <string name="sim_missing">"Lipsă card SIM"</string>
 </resources>

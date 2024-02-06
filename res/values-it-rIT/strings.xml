@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Non verrà <b>mai</b> attivata automaticamente"</string>
     <string name="scheduler_end_time_none_summary">"Non verrà <b>mai</b> disattivata automaticamente"</string>
     <string name="scheduler_no_schedule_summary">"Nessuna pianificazione"</string>
+    <string name="sim_missing">"Scheda SIM mancante"</string>
 </resources>

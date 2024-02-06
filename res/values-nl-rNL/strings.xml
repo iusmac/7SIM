@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Wordt <b>nooit</b> automatisch aangezet"</string>
     <string name="scheduler_end_time_none_summary">"Wordt <b>nooit</b> automatisch uitgezet"</string>
     <string name="scheduler_no_schedule_summary">"Geen planning"</string>
+    <string name="sim_missing">"Simkaart ontbreekt"</string>
 </resources>

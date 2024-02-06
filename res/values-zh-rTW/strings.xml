@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>永遠</b>不會自動開啟"</string>
     <string name="scheduler_end_time_none_summary">"<b>永遠</b>不會自動關閉"</string>
     <string name="scheduler_no_schedule_summary">"未設定時間表"</string>
+    <string name="sim_missing">"沒有 SIM 卡"</string>
 </resources>

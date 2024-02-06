@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Aktiveres <b>aldrig</b> automatisk"</string>
     <string name="scheduler_end_time_none_summary">"Deaktiveres <b>aldrig</b> automatisk"</string>
     <string name="scheduler_no_schedule_summary">"Ingen tidsplan"</string>
+    <string name="sim_missing">"SIM-kort mangler"</string>
 </resources>

@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>কখনই</b> নিজে থেকে চালু হবে না"</string>
     <string name="scheduler_end_time_none_summary">"<b>কখনই</b> স্বয়ংক্রিয়ভাবে বন্ধ হবে না"</string>
     <string name="scheduler_no_schedule_summary">"কোনও সময়সূচি সেট করা নেই"</string>
+    <string name="sim_missing">"সিম কার্ড সরানো হয়েছে"</string>
 </resources>

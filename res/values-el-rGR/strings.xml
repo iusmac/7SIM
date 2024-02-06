@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"Δεν θα ενεργοποιείται <b>ποτέ</b> αυτόματα"</string>
     <string name="scheduler_end_time_none_summary">"Δεν θα απενεργοποιείται <b>ποτέ</b> αυτόματα"</string>
     <string name="scheduler_no_schedule_summary">"Δεν υπάρχει πρόγραμμα"</string>
+    <string name="sim_missing">"Η κάρτα SIM λείπει"</string>
 </resources>

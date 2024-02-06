@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>Ніколи</b> не ввімкнеться автоматично"</string>
     <string name="scheduler_end_time_none_summary">"<b>Ніколи</b> не вимикатиметься автоматично"</string>
     <string name="scheduler_no_schedule_summary">"Немає розкладу"</string>
+    <string name="sim_missing">"SIM-карта відсутня"</string>
 </resources>

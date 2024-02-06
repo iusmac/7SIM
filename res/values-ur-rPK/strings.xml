@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>کبھی بھی</b> خودکار طور پر آن نہیں ہو گی"</string>
     <string name="scheduler_end_time_none_summary">"<b>کبھی بھی</b> خودکار طور پر آف نہیں ہوگا"</string>
     <string name="scheduler_no_schedule_summary">"کوئی شیڈول نہیں ہے"</string>
+    <string name="sim_missing">"SIM کارڈ ہٹا دیا گیا"</string>
 </resources>

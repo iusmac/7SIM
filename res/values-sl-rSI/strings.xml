@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>Nikoli</b> se ne bo samodejno vklopil"</string>
     <string name="scheduler_end_time_none_summary">"<b>Nikoli</b> se ne bo samodejno izklopil"</string>
     <string name="scheduler_no_schedule_summary">"Ni razporeda"</string>
+    <string name="sim_missing">"Kartica SIM ni prisotna"</string>
 </resources>

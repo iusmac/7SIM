@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"자동으로 켜지지 <b>않음</b>"</string>
     <string name="scheduler_end_time_none_summary">"자동으로 끄지 <b>않음</b>"</string>
     <string name="scheduler_no_schedule_summary">"일정 없음"</string>
+    <string name="sim_missing">"SIM 카드 없음"</string>
 </resources>

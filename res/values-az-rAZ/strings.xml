@@ -35,4 +35,5 @@
     <string name="scheduler_start_time_none_summary">"<b>Heç vaxt</b> avtomatik aktivləşməyəcək"</string>
     <string name="scheduler_end_time_none_summary">"<b>Heç vaxt</b> avtomatik deaktiv etməyəcək"</string>
     <string name="scheduler_no_schedule_summary">"Plan yoxdur"</string>
+    <string name="sim_missing">"SIM kart yoxdur"</string>
 </resources>
