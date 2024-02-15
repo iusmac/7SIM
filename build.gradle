@@ -76,7 +76,7 @@ android {
     defaultConfig {
         applicationId 'com.github.iusmac.sevensim'
         targetSdk 33
-        versionName '1.0.0'
+        versionName '1.0.0-beta'
         versionCode 1
     }
 
