@@ -39,6 +39,11 @@ android_app {
         proguard_flags_files: ["proguard.flags"],
     },
 
+    aaptflags: [
+        "--version-name", "1.0.0",
+        "--version-code", "1",
+    ],
+
     required: [
         "privapp_whitelist_com.github.iusmac.sevensim.xml",
     ],
