@@ -35,6 +35,8 @@ android {
     }
 }
 
+addCompileOnlyJar('android-33.jar')
+
 dependencies {
     implementation libs.annotation
 }

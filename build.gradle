@@ -64,6 +64,27 @@ allprojects {
             }
         }
     }
+
+    ext {
+        addCompileOnlyJar = { String name ->
+            final def jars_dir = "$rootDir/prebuilts/jars"
+            final def jar = new File(jars_dir, name)
+            if (!jar.exists()) {
+                throw new IllegalArgumentException("Cannot find prebuilt '${jar.path}' file.")
+            }
+            gradle.projectsEvaluated {
+                tasks.withType(JavaCompile).configureEach {
+                    classpath = files(jar, classpath)
+                }
+                tasks.withType(KotlinCompile).configureEach {
+                    libraries.from(files(jar))
+                }
+            }
+            dependencies {
+                compileOnly files(jar)
+            }
+        }
+    }
 }
 
 apply plugin: 'com.android.application'
@@ -119,6 +140,8 @@ android {
         includeInBundle = false
     }
 }
+
+addCompileOnlyJar('android-33.jar')
 
 dependencies {
     implementation libs.annotation

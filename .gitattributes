@@ -2,3 +2,4 @@
 
 *.bat text eol=crlf
 *.jks binary
+*.jar binary
