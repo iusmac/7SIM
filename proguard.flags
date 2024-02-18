@@ -22,3 +22,11 @@
 
 # Disable obfuscation as we heavily rely on clazz.getSimpleName() apis
 -dontobfuscate
+
+# Fragments
+-keep class ** extends androidx.fragment.app.Fragment {
+    public <init>(...);
+}
+-keep class ** extends android.app.Fragment {
+    public <init>(...);
+}
