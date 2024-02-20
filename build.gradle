@@ -139,6 +139,15 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+
+    packagingOptions.resources.excludes += [
+        "**/*.bin",
+        "**/*.properties",
+        "**/*.version",
+        "kotlin/**",
+        "META-INF/services/**",
+        "META-INF/com/**",
+    ]
 }
 
 addCompileOnlyJar('android-33.jar')
