@@ -91,14 +91,44 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 
+final def versionNameCommon = ['1.0.0-beta']
+if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
+    final def tag = 'v' + versionNameCommon[0]
+    final def (semver, commitsSinceLastTag, headCommit) = gitDescribeTag(tag, 'HEAD')
+    versionNameCommon.add('git branch --show-current'.execute([], project.rootDir).text.trim())
+    versionNameCommon.add(String.format('%s+%s', headCommit, commitsSinceLastTag))
+} else {
+    final def extraVersionBuildInfo = System.getenv('EXTRA_VERSION_BUILD_INFO').trim()
+    if (!extraVersionBuildInfo.isEmpty()) {
+        versionNameCommon.add(extraVersionBuildInfo)
+    }
+}
+
 android {
     namespace 'com.github.iusmac.sevensim'
 
     defaultConfig {
         applicationId 'com.github.iusmac.sevensim'
         targetSdk 33
-        versionName '1.0.0-beta'
-        versionCode 1
+        versionCode versionNameCommon[0].replaceAll(/\D/, '') as Integer // "x.y.z" => xyz
+    }
+
+    applicationVariants.all { variant ->
+        final def versionNameVariant = versionNameCommon.clone()
+        if (variant.buildType.isDebuggable()) {
+            versionNameVariant.add('DEBUG')
+        } else if (isReleaseDebugOpt()) {
+            versionNameVariant.add('DEBUG-OPT')
+        }
+        variant.outputs.each { output ->
+            final def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                final semVer = versionNameCommon[0]
+                output.outputFileName = String.format('%s-%s-%s.apk', project.name, semVer,
+                        variant.buildType.name)
+            }
+            output.versionNameOverride = versionNameVariant.join(' / ')
+        }
     }
 
     final def keystoreProperties = new Properties()
@@ -112,9 +142,11 @@ android {
 
     buildTypes {
         all {
+            buildConfigField 'boolean', 'DEBUG_OPT', 'false'
             signingConfig releaseSigning
         }
         release {
+            buildConfigField 'boolean', 'DEBUG_OPT', isReleaseDebugOpt().toString()
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.flags'
@@ -171,4 +203,45 @@ dependencies {
 
 kapt {
     correctErrorTypes true
+}
+
+/**
+ * Describe the tag relative to a commit-ish using "git describe".
+ *
+ * The result from the git describe command will be transformed as follows:
+ * "TAG-N-g<commit-ish>" = ["TAG", "N", "commit-ish"]
+ * "<commit-ish>"        = [null, 0, "commit-ish"]
+ */
+def gitDescribeTag(final String pattern, final String commitIsh) {
+    final def describedTag = String.format('git describe --always --tags --match=%s %s', pattern,
+            commitIsh).execute([], project.rootDir).text.trim().split('-')
+    final def tag, commitsSinceLastTag
+    def headCommit
+    if (describedTag.size() > 1) {
+        tag = describedTag[0..-3].join('-')
+        (commitsSinceLastTag, headCommit) = describedTag[-2..-1]
+        headCommit = headCommit.substring(1)
+    } else {
+        tag = null
+        headCommit = describedTag[0]
+        commitsSinceLastTag = 0
+    }
+    return [tag, commitsSinceLastTag, headCommit]
+}
+
+/**
+ * Check whether it was asked to opt-in for debug logging on releases with R8.
+ *
+ * The output of this function is determined via:
+ * - Gradle argument: -PreleaseDebugOpt=[true|false]
+ * - Environment variable: RELEASE_DEBUG_OPT=[true|false]
+ *
+ * Boolean as Integer is allowed.
+ */
+def isReleaseDebugOpt() {
+    final def String debugOpt = [
+        System.getenv('RELEASE_DEBUG_OPT'),
+        project.properties.releaseDebugOpt
+    ]
+    return debugOpt.contains('1') || debugOpt.contains('true')
 }

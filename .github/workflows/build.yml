@@ -1,0 +1,23 @@
+name: Android Build (Hot fixes / PRs)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'hotfix/**'
+  pull_request:
+    paths-ignore:
+      - '.gitattributes'
+      - '.github/**.json'
+      - '**/.gitignore'
+      - '.gitmodules'
+      - '**/*.md'
+      - 'LICENSE'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/android-build

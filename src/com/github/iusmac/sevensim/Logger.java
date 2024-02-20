@@ -20,7 +20,7 @@ public final class Logger {
     @AssistedInject
     public Logger(final @Named("Debug") Provider<Boolean> debug, final @Assisted String tag) {
         // Log everything on debug builds or if explicitly enabled on run-time
-        mIsDebuggable = BuildConfig.DEBUG || debug.get();
+        mIsDebuggable = BuildConfig.DEBUG || BuildConfig.DEBUG_OPT || debug.get();
 
         // Prefix all tags with app name to facilitate searching in massive log files
         mTag = TAG_PREFIX + "." + tag;

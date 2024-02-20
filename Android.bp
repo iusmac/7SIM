@@ -41,7 +41,7 @@ android_app {
 
     aaptflags: [
         "--version-name", "1.0.0-beta",
-        "--version-code", "1",
+        "--version-code", "100",
     ],
 
     required: [

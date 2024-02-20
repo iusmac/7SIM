@@ -1,0 +1,35 @@
+name: Android Build
+description: This action builds app with Gradle
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Validate Gradle wrapper checksum
+      uses: gradle/wrapper-validation-action@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: 17
+    - name: SettingsLibs cache warm up
+      uses: ./.github/actions/settingslibs-cache-warm-up
+    - name: Set up Gradle cache
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-home-cache-cleanup: true
+    - name: Build with Gradle
+      shell: bash
+      env:
+        EXTRA_VERSION_BUILD_INFO: >-
+          ${{ format('CI (N. {0} ID {1} from: {2})', github.run_number, github.run_id,
+            github.head_ref || github.ref_name) }}
+        RELEASE_DEBUG_OPT: true
+      run: ./gradlew --parallel build
+    - name: Post Build with Gradle
+      shell: bash
+      run: ./.github/scripts/post-build-with-gradle.sh
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: 7SIM-CI-${{ github.run_id }}
+        path: ${{ env.ARTIFACTS_DIR }}

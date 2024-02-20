@@ -1,0 +1,28 @@
+name: SettingsLibs cache warm up
+description: This action ensures the presence of the SettingsLib/fwb directory
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up
+      shell: bash
+      id: setup
+      run: |
+        key="$(./.github/scripts/generate-settingslib-cache-key.sh)"
+        echo "key=${key}" >> $GITHUB_OUTPUT
+    - name: Restore cache
+      id: restore
+      uses: actions/cache/restore@v4
+      with:
+        path: SettingsLib/fwb
+        key: ${{ steps.setup.outputs.key }}
+    - name: Sparse clone
+      shell: bash
+      if: steps.restore.outputs.cache-hit != 'true'
+      run: ./SettingsLib/fetch.sh
+    - name: Save cache
+      if: steps.restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: SettingsLib/fwb
+        key: ${{ steps.setup.outputs.key }}

@@ -63,13 +63,16 @@ function git-fwb() {
 
 if ! OPTS=$(getopt --alternative --name "$SCRIPTNAME" \
     --options $SHORT_OPTS --longoptions $LONG_OPTS -- "$@"); then
-    echo "Usage: $SCRIPTNAME [-u <url>|--set-repo-url=<url>] [-t <tag>|--set-repo-tag=<tag>] [lib ...]"
+    echo "Usage: $SCRIPTNAME [-u <url>|--set-repo-url=<url>] [-t <tag>|--set-repo-tag=<tag>] " \
+        "[--get-repo-url] [--get-repo-tag] [lib ...]"
     exit 1
 fi
 eval set -- "$OPTS"
 
 while true; do
     case "$1" in
+        --get-repo-url) echo "$REPO_URL"; exit 0;;
+        --get-repo-tag) echo "$REPO_TAG"; exit 0;;
         -u|--set-repo-url)
             REPO_URL="${2-}"
             shift 2
