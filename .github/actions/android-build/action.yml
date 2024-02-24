@@ -1,6 +1,24 @@
 name: Android Build
 description: This action builds app with Gradle
 
+inputs:
+  check-build:
+    type: boolean
+    required: true
+    description: 'Whether to test & lint the build'
+  exclude-ci-info:
+    type: boolean
+    required: true
+    description: 'Whether to strip out the CI info from the build version'
+  release-debug-opt:
+    type: boolean
+    required: true
+    description: 'Whether to opt-out for debug logging on releases with R8'
+  upload-artifacts:
+    type: boolean
+    required: true
+    description: 'Whether to upload artifacts (APKs, checksums, etc.)'
+
 runs:
   using: 'composite'
   steps:
@@ -21,14 +39,15 @@ runs:
       shell: bash
       env:
         EXTRA_VERSION_BUILD_INFO: >-
-          ${{ format('CI (N. {0} ID {1} from: {2})', github.run_number, github.run_id,
-            github.head_ref || github.ref_name) }}
-        RELEASE_DEBUG_OPT: true
-      run: ./gradlew --parallel build
+          ${{ inputs.exclude-ci-info == 'false' && format('CI (N. {0} ID {1} from: {2})',
+            github.run_number, github.run_id, github.head_ref || github.ref_name) || '' }}
+        RELEASE_DEBUG_OPT: ${{ inputs.release-debug-opt }}
+      run: ./gradlew --parallel ${{ inputs.check-build == 'true' && 'build' || 'assemble' }}
     - name: Post Build with Gradle
       shell: bash
       run: ./.github/scripts/post-build-with-gradle.sh
     - name: Upload artifacts
+      if: inputs.upload-artifacts == 'true'
       uses: actions/upload-artifact@v4
       with:
         name: 7SIM-CI-${{ github.run_id }}

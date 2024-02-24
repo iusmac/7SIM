@@ -40,8 +40,11 @@ android_app {
     },
 
     aaptflags: [
-        "--version-name", "1.0.0-beta",
-        "--version-code", "100",
+        "--version-name", "1.0.0-beta", // x-release-please-version
+        "--version-code",
+        "1" + // x-release-please-major
+        "0" + // x-release-please-minor
+        "0",  // x-release-please-patch
     ],
 
     required: [

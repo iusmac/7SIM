@@ -91,7 +91,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 
-final def versionNameCommon = ['1.0.0-beta']
+final def versionNameCommon = [file('version.txt').text.trim()]
 if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
     final def tag = 'v' + versionNameCommon[0]
     final def (semver, commitsSinceLastTag, headCommit) = gitDescribeTag(tag, 'HEAD')

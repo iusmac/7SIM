@@ -15,7 +15,7 @@ mkdir -vp "$artifacts_dir"
 
 # Move artifacts into a dedicated directory
 mv -v build/outputs/apk/{debug,release}/*.apk "$artifacts_dir"
-mv -v build/reports/lint-results-debug.html "$artifacts_dir"
+mv -v build/reports/lint-results-debug.html "$artifacts_dir" || true
 
 # NOTE: MD5/SHA256sum commands output as '<hash> <path/to/file>', so we should
 # cd into dir containing file to drop the 'path/to' part

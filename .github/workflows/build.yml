@@ -21,3 +21,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
       - uses: ./.github/actions/android-build
+        with:
+          check-build: true
+          exclude-ci-info: false
+          release-debug-opt: true
+          upload-artifacts: true
