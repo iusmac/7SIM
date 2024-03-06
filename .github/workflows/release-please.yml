@@ -68,3 +68,5 @@ jobs:
               ${{ github.repository_owner }}
               dependabot[bot]
               github-actions[bot]'
+      - name: Add quick links
+        run: ./.github/scripts/add-release-quicklinks.sh ${{ github.repository }}
