@@ -96,7 +96,8 @@ public final class SimListViewModel extends ViewModel {
             if (sub.getSlotIndex() == INVALID_SIM_SLOT_INDEX) {
                 mSubscriptionControllerLazy.get().setUiccApplicationsEnabled(sub.getId(), enabled);
             } else {
-                mTelephonyControllerLazy.get().setSimState(sub.getSlotIndex(), enabled);
+                mTelephonyControllerLazy.get().setSimState(sub.getSlotIndex(), enabled,
+                        /*keepDisabledAcrossBoots=*/ !enabled);
             }
         });
     }

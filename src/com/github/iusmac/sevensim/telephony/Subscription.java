@@ -15,6 +15,7 @@ import androidx.room.PrimaryKey;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
+import java.util.Optional;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
@@ -51,6 +52,9 @@ public final class Subscription implements Parcelable {
 
     @ColumnInfo(name = "lastDeactivatedTime")
     private LocalDateTime mLastDeactivatedTime = LocalDateTime.MIN;
+
+    @ColumnInfo(name = "keepDisabledAcrossBoots")
+    private Boolean mKeepDisabledAcrossBoots;
 
     @IntRange(from = INVALID_SUBSCRIPTION_ID)
     public int getId() {
@@ -110,6 +114,14 @@ public final class Subscription implements Parcelable {
         mLastDeactivatedTime = lastDeactivatedTime;
     }
 
+    public Boolean getKeepDisabledAcrossBoots() {
+        return mKeepDisabledAcrossBoots;
+    }
+
+    public void keepDisabledAcrossBoots(final Boolean keepDisabledAcrossBoots) {
+        mKeepDisabledAcrossBoots = keepDisabledAcrossBoots;
+    }
+
     public boolean isSimEnabled() {
         return mSimState == SimState.ENABLED;
     }
@@ -126,13 +138,14 @@ public final class Subscription implements Parcelable {
             && mIconTint == subToCompare.mIconTint
             && mName.equals(subToCompare.mName)
             && mLastActivatedTime.equals(subToCompare.mLastActivatedTime)
-            && mLastDeactivatedTime.equals(subToCompare.mLastDeactivatedTime);
+            && mLastDeactivatedTime.equals(subToCompare.mLastDeactivatedTime)
+            && mKeepDisabledAcrossBoots == subToCompare.mKeepDisabledAcrossBoots;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(mId, mSlotIndex, mSimState, mIconTint, mName, mLastActivatedTime,
-                mLastDeactivatedTime);
+                mLastDeactivatedTime, mKeepDisabledAcrossBoots);
     }
 
     @Override
@@ -145,6 +158,7 @@ public final class Subscription implements Parcelable {
             + " name=" + mName
             + " lastActivatedTime=" + mLastActivatedTime
             + " lastDeactivatedTime=" + mLastDeactivatedTime
+            + " keepDisabledAcrossBoots=" + mKeepDisabledAcrossBoots
             + " }";
     }
 
@@ -157,6 +171,8 @@ public final class Subscription implements Parcelable {
         dest.writeString(mName);
         dest.writeString(mLastActivatedTime.toString());
         dest.writeString(mLastDeactivatedTime.toString());
+        dest.writeString(mKeepDisabledAcrossBoots != null ?
+                mKeepDisabledAcrossBoots.toString() : null);
     }
 
     @Override
@@ -186,6 +202,9 @@ public final class Subscription implements Parcelable {
                     sub.setLastDeactivatedTime(LocalDateTime.parse(lastDeactivatedTime));
                 }
             } catch (DateTimeParseException ignored) {}
+
+            Optional.ofNullable(in.readString()).ifPresent((v) ->
+                    sub.keepDisabledAcrossBoots(Boolean.parseBoolean(v)));
 
             return sub;
         }

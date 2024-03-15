@@ -58,10 +58,11 @@ public final class TelephonyController {
     private static final String KEY_SUBSCRIPTION = "subscription";
     private static final String KEY_LAST_ACTIVATED_TIME = "last_activated_time";
     private static final String KEY_LAST_DEACTIVATED_TIME = "last_deactivated_time";
+    private static final String KEY_KEEP_DISABLED_ACROSS_BOOTS = "keep_disabled_across_boots";
 
     /** The globally accessible request metadata used when performing SIM power state mutations. */
     @GuardedBy("this")
-    private final Bundle mRequestMetadata = new Bundle(3);
+    private final Bundle mRequestMetadata = new Bundle(4);
 
     @GuardedBy("this")
     private SimStatusChangedListener mSimStatusChangedListener;
@@ -91,11 +92,16 @@ public final class TelephonyController {
      *
      * @param slotIndex The slot index to identify a SIM card whose state is being changed.
      * @param enabled {@code true} if SIM card should be enabled, {@code false} otherwise.
+     * @param keepDisabledAcrossBoots Whether the disabled state of the SIM card should persist
+     * across boots.
      */
     @WorkerThread
-    public void setSimState(final int slotIndex, final boolean enabled) {
+    public void setSimState(final int slotIndex, final boolean enabled,
+            final boolean keepDisabledAcrossBoots) {
+
         final String logPrefix = String.format(Locale.getDefault(), "setSimState(slotIndex=%d," +
-                "enabled=%s) : ", slotIndex, enabled);
+                "enabled=%s,keepDisabledAcrossBoots=%s) : ", slotIndex, enabled,
+                keepDisabledAcrossBoots);
 
         // From testing, it turned out that SIM power state change request ignores Airplane mode,
         // so we can allow disabling but not enabling request
@@ -122,6 +128,10 @@ public final class TelephonyController {
 
             // Globally save metadata needed when handling SIM power change request termination
             mRequestMetadata.putParcelable(KEY_SUBSCRIPTION, sub);
+            if (sub.getKeepDisabledAcrossBoots() != null) {
+                mRequestMetadata.putBoolean(KEY_KEEP_DISABLED_ACROSS_BOOTS,
+                        sub.getKeepDisabledAcrossBoots());
+            }
 
             // Keep track of SIM state whenever it's mutated. This will be persisted in a volatile
             // memory, so that we can further restore all relevant data. This because when powering
@@ -137,6 +147,8 @@ public final class TelephonyController {
 
             sub.setLastActivatedTime(enabled ? LocalDateTime.now() : LocalDateTime.MIN);
             sub.setLastDeactivatedTime(!enabled ? LocalDateTime.now() : LocalDateTime.MIN);
+
+            sub.keepDisabledAcrossBoots(keepDisabledAcrossBoots);
 
             // Before making any request, persist the subscription associated with the SIM whose
             // power state we're going to change, to immediately reflect the changes on the callers
@@ -273,6 +285,9 @@ public final class TelephonyController {
                             KEY_LAST_ACTIVATED_TIME)));
             sub.setLastDeactivatedTime(LocalDateTime.parse(mRequestMetadata.getString(
                             KEY_LAST_DEACTIVATED_TIME)));
+            sub.keepDisabledAcrossBoots(
+                mRequestMetadata.containsKey(KEY_KEEP_DISABLED_ACROSS_BOOTS) ?
+                mRequestMetadata.getBoolean(KEY_KEEP_DISABLED_ACROSS_BOOTS) : null);
 
             mSubscriptions.persistSubscription(sub);
 

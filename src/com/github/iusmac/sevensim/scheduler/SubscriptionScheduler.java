@@ -223,7 +223,11 @@ public final class SubscriptionScheduler {
                     mSubscriptionControllerLazy.get().setUiccApplicationsEnabled(subId,
                             expectedEnabled);
                 } else {
-                    mTelephonyControllerLazy.get().setSimState(sub.getSlotIndex(), expectedEnabled);
+                    boolean keepDisabledAcrossBoots =
+                        Optional.ofNullable(sub.getKeepDisabledAcrossBoots()).orElse(false);
+                    keepDisabledAcrossBoots &= !overrideUserPreference;
+                    mTelephonyControllerLazy.get().setSimState(sub.getSlotIndex(), expectedEnabled,
+                            keepDisabledAcrossBoots);
                 }
                 return expectedEnabled;
             }
@@ -385,9 +389,23 @@ public final class SubscriptionScheduler {
                 if (!overrideUserPreference && sub.getLastActivatedTime().isAfter(end)) {
                     return true;
                 }
+
+                // Note that, as per TelephonyController specs, turning off a SIM card on a device
+                // using legacy RIL won't persist across boots. On reboot, SIM will turn on
+                // normally, but the user may want it to be turned off until turned on again
+                // manually or through a weekly repeat schedule, if any
+                final boolean keepDisabledAcrossBoots =
+                    Optional.ofNullable(sub.getKeepDisabledAcrossBoots()).orElse(false);
+
                 return startDateTime.map((start) -> start.isAfter(end) &&
-                        sub.getLastDeactivatedTime().isBefore(start)).orElse(false);
-            }).orElse(true);
+                        sub.getLastDeactivatedTime().isBefore(start) &&
+                        !keepDisabledAcrossBoots).orElse(false);
+            }).orElseGet(() -> {
+                return Optional.ofNullable(sub.getKeepDisabledAcrossBoots()).filter((v) -> v)
+                    .map((v) -> startDateTime.map((start) ->
+                            sub.getLastDeactivatedTime().isBefore(start)).orElse(false))
+                    .orElse(true);
+            });
         }
         return startDateTime.map((start) -> {
             if (!overrideUserPreference && sub.getLastDeactivatedTime().isAfter(start)) {

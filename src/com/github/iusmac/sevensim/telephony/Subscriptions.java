@@ -169,6 +169,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         mSubscriptionsDao.findBySubscriptionId(subInfo.getSubscriptionId()).ifPresent((sub) -> {
             subscription.setLastActivatedTime(sub.getLastActivatedTime());
             subscription.setLastDeactivatedTime(sub.getLastDeactivatedTime());
+            subscription.keepDisabledAcrossBoots(sub.getKeepDisabledAcrossBoots());
         });
 
         return subscription;
