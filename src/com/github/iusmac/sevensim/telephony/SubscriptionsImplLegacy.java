@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
 
 /**
@@ -62,9 +63,12 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
             final @Named("Telephony/SimSubId") SysProp simSubIdSysProp,
             final @Named("Telephony/SimState") SysProp simStateSysProp,
             final @Named("Telephony/SimIconTint") SysProp simIconTintSysProp,
-            final @Named("Telephony/SimName") SysProp simNameSysProp) {
+            final @Named("Telephony/SimName") SysProp simNameSysProp,
+            final @Named("Telephony/SubState") SysProp subNameSysProp,
+            final @Named("Telephony/UsableSubIds") SysProp usableSimSubIdsSysProp) {
 
-        super(context, loggerFactory, appDatabase, subscriptionManager);
+        super(context, loggerFactory, appDatabase, subscriptionManager, subNameSysProp,
+                usableSimSubIdsSysProp);
 
         mSimSubIdSysProp = simSubIdSysProp;
         mSimStateSysProp = simStateSysProp;
@@ -157,10 +161,12 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
     @Override
     protected void persistSubscription(final Subscription sub) {
         final int slotIndex = sub.getSlotIndex();
-        persistSimSubId(slotIndex, sub.getId());
-        persistSimState(slotIndex, sub.getSimState());
-        persistSimName(slotIndex, sub.getSimName());
-        persistSimTintColor(slotIndex, sub.getIconTint());
+        if (slotIndex != INVALID_SIM_SLOT_INDEX) {
+            persistSimSubId(slotIndex, sub.getId());
+            persistSimState(slotIndex, sub.getSimState());
+            persistSimName(slotIndex, sub.getSimName());
+            persistSimTintColor(slotIndex, sub.getIconTint());
+        }
 
         super.persistSubscription(sub);
     }

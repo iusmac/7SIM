@@ -8,12 +8,14 @@ import androidx.annotation.WorkerThread;
 
 import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.SysProp;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.util.Iterator;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 /**
@@ -32,9 +34,12 @@ public final class SubscriptionsImpl extends Subscriptions {
     @Inject
     public SubscriptionsImpl(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
-            final SubscriptionManager subscriptionManager) {
+            final SubscriptionManager subscriptionManager,
+            final @Named("Telephony/SubState") SysProp subStateSysProp,
+            final @Named("Telephony/UsableSubIds") SysProp usableSimSubIdsSysProp) {
 
-        super(context, loggerFactory, appDatabase, subscriptionManager);
+        super(context, loggerFactory, appDatabase, subscriptionManager, subStateSysProp,
+                usableSimSubIdsSysProp);
     }
 
     /**

@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -17,15 +18,22 @@ import com.android.internal.telephony.PhoneConstants;
 
 import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.SysProp;
 import com.github.iusmac.sevensim.Utils;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
+
+import javax.inject.Named;
 
 /**
  * <p>Basic implementation used to provide all business-related information about available
@@ -94,15 +102,21 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     private final Context mContext;
     protected final Logger mLogger;
     protected final SubscriptionManager mSubscriptionManager;
+    private final SysProp mSubscriptionStateSysProp;
+    private final SysProp mUsableSubIdsSysProp;
     protected final SubscriptionsDao mSubscriptionsDao;
 
     public Subscriptions(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
-            final SubscriptionManager subscriptionManager) {
+            final SubscriptionManager subscriptionManager,
+            final @Named("Telephony/SubState") SysProp subStateSysProp,
+            final @Named("Telephony/UsableSubIds") SysProp usableSimSubIdsSysProp) {
 
         mContext = context;
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mSubscriptionManager = subscriptionManager;
+        mSubscriptionStateSysProp = subStateSysProp;
+        mUsableSubIdsSysProp = usableSimSubIdsSysProp;
         mSubscriptionsDao = appDatabase.subscriptionsDao();
 
         mSubscriptionManagerListener =
@@ -185,6 +199,10 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     protected void persistSubscription(final Subscription sub) {
         mLogger.v("persistSubscription(sub=%s).", sub);
 
+        // Persist the SIM subscription enabled state in volatile memory to be able to detect
+        // alterations from outside
+        persistSubscriptionState(sub.getId(), sub.getSimState());
+
         mSubscriptionsDao.insertOrUpdate(sub);
     }
 
@@ -244,6 +262,91 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         // Stop listening for the SubscriptionManager if the last listener unsubscribed
         if (mOnSubscriptionsChangedListeners.isEmpty()) {
             unregisterSubscriptionManagerListener();
+        }
+    }
+
+    /**
+     * <p>Sync the internal state of all SIM subscriptions.
+     *
+     * <p>In this method, we're mainly interested in the SIM subscription state divergences from the
+     * expected one. For instance, the user may alterate the SIM state from outside via the "Use
+     * SIM" toggle switch on the SIM details page in the built-in Settings app.
+     *
+     * <p>Here, we also expect to capture the SIM subscription addition/removal on SIM card
+     * insertion/ejection.
+     *
+     * <p>If the SIM subscriptions are altered within the app, this method should short-circuit the
+     * relative logic.
+     *
+     * @param dateTime The date-time of when the change occurred.
+     */
+    @WorkerThread
+    public void syncSubscriptions(final LocalDateTime dateTime) {
+        final List<String> removedSubIds = new ArrayList<>(getPersistedUsableSubIds());
+        final List<String> usableSubIds = new ArrayList<>();
+
+        // Process SIM subscriptions available on the device
+        for (final Subscription sub : this) {
+            final @SimState int currentSubState = sub.getSimState();
+            final @SimState int expectedSubState = getPersistedSubscriptionState(sub.getId());
+            final String subId = String.valueOf(sub.getId());
+            final boolean existsInUsableList = removedSubIds.remove(subId);
+
+            mLogger.d("syncSubscriptions(dateTime=%s) : %s,currentSubState=%s," +
+                    "expectedSubState=%s,existsInUsableList=%s.", dateTime, sub,
+                    TelephonyUtils.simStateToString(currentSubState),
+                    TelephonyUtils.simStateToString(expectedSubState), existsInUsableList);
+
+            if (currentSubState != expectedSubState) {
+                if (existsInUsableList) {
+                    // Update the last activated/deactivated times on SIM subscription state
+                    // alterations from outside. This is because we expect the user preference to
+                    // take precedence over schedules. For instance, if the SIM subscription is
+                    // expected to be disabled, but the user enabled it manually, then we want to
+                    // maintain the state within the allowed period
+                    sub.setLastActivatedTime(sub.isSimEnabled() ? dateTime : LocalDateTime.MIN);
+                    sub.setLastDeactivatedTime(!sub.isSimEnabled() ? dateTime : LocalDateTime.MIN);
+                    persistSubscription(sub);
+                } else {
+                    // Persist the actual SIM subscription enabled state in volatile memory to be
+                    // able to detect alterations from outside
+                    persistSubscriptionState(sub.getId(), sub.getSimState());
+                }
+            }
+
+            usableSubIds.add(subId);
+        }
+
+        // Persist the updated the list of usable SIM subscription IDs in volatile memory
+        persistUsableSubIds(usableSubIds);
+
+        // Process the list of SIM subscription IDs that doesn't exist anymore in the system
+        for (final String subId : removedSubIds) {
+            try {
+                final int subIdInt = Integer.parseInt(subId);
+                final Optional<Subscription> sub = mSubscriptionsDao.findBySubscriptionId(subIdInt);
+
+                sub.ifPresent((sub1) -> {
+                    mLogger.d("syncSubscriptions(dateTime=%s) : %s.", dateTime, sub1);
+
+                    // Reset the last activated/deactivated times on SIM subscription removal. This
+                    // is because we expect the schedules to take precedence over user preference
+                    // when re-inserted
+                    sub1.setLastActivatedTime(LocalDateTime.MIN);
+                    sub1.setLastDeactivatedTime(LocalDateTime.MIN);
+                    sub1.setSimState(SimState.UNKNOWN);
+                    persistSubscription(sub1);
+                });
+
+                if (!sub.isPresent()) {
+                    // Reset the SIM subscription enabled state in volatile memory to be able to
+                    // detect alterations from outside when re-inserted
+                    persistSubscriptionState(subIdInt, SimState.UNKNOWN);
+                }
+            } catch (NumberFormatException e) {
+                mLogger.e("syncSubscriptions(dateTime=%s) : Invalid subscription ID: %s.",
+                        dateTime, subId);
+            }
         }
     }
 
@@ -400,6 +503,65 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         mContext.unregisterReceiver(mCarrierConfigChangedReceiver);
 
         mCarrierConfigChangedReceiverRegistered.set(false);
+    }
+
+    /**
+     * Get the SIM subscription state previously persisted in volatile memory.
+     *
+     * @param subId The corresponding SIM subscription ID.
+     * @return The SIM subscription state or {@link SimState.UNKNOWN}.
+     */
+    private @SimState int getPersistedSubscriptionState(final int subId) {
+        return mSubscriptionStateSysProp.get(Optional.empty(), subId).map((value) -> {
+            try {
+                final int state = Integer.parseInt(value);
+                switch (state) {
+                    case SimState.ENABLED:
+                    case SimState.DISABLED:
+                    case SimState.UNKNOWN:
+                        return state;
+                }
+            } catch (NumberFormatException e) {}
+
+            mLogger.e("getPersistedSubscriptionState(subId=%d) : Invalid subscription state: %s.",
+                    subId, value);
+
+            return null;
+        }).orElse(SimState.UNKNOWN);
+    }
+
+    /**
+     * Persist the SIM subscription state in volatile memory.
+     *
+     * @param subId The corresponding SIM subscription ID.
+     * @param state One of {@link SimState}s.
+     */
+    private void persistSubscriptionState(final int subId, final @SimState int state) {
+        mLogger.d("persistSubscriptionState(subId=%d,state=%s).", subId,
+                TelephonyUtils.simStateToString(state));
+
+        mSubscriptionStateSysProp.set(Optional.of(Integer.toString(state)), subId);
+    }
+
+    /**
+     * Get the list of SIM subscription IDs previously persisted in volatile memory.
+     *
+     * @return An immutable list of usable SIM subscription IDs.
+     */
+    private List<String> getPersistedUsableSubIds() {
+        final String[] subIds = mUsableSubIdsSysProp.get(Optional.empty()).map((str) ->
+                TextUtils.split(str, ",")).orElseGet(() -> new String[]{});
+        return Arrays.asList(subIds);
+    }
+
+    /**
+     * Persist the comma-separated list of usable SIM subscriptions IDs in volatile memory.
+     *
+     * @param usableSubIds The list of usable SIM subscription IDs.
+     */
+    private void persistUsableSubIds(final List<String> usableSubIds) {
+        mUsableSubIdsSysProp.set(Optional.ofNullable(usableSubIds.isEmpty() ? null :
+                    String.join(",", usableSubIds)));
     }
 
     /**

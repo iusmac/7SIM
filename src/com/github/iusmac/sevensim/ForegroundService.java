@@ -17,6 +17,7 @@ import androidx.annotation.GuardedBy;
 import androidx.core.content.ContextCompat;
 
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
+import com.github.iusmac.sevensim.telephony.Subscriptions;
 
 import dagger.Lazy;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -65,6 +66,9 @@ public final class ForegroundService extends Hilt_ForegroundService {
     private static final String ACTION_SYNC_SUBSCRIPTION_ENABLED_STATE =
         "ACTION_SYNC_SUBSCRIPTION_ENABLED_STATE";
 
+    /** Action to trigger when the SIM subscriptions have been changed. */
+    private static final String ACTION_SUBSCRIPTIONS_CHANGED = "ACTION_SUBSCRIPTIONS_CHANGED";
+
     /** Key holding the stringified value of the {@link LocalDateTime} in the Intent's payload. */
     private static final String EXTRA_TIME_KEY = "time";
 
@@ -107,6 +111,9 @@ public final class ForegroundService extends Hilt_ForegroundService {
     @Inject
     NotificationManager mNotificationManager;
 
+    @Inject
+    Lazy<Subscriptions> mSubscriptionsLazy;
+
     private Logger mLogger;
     private Worker mWorker;
 
@@ -145,6 +152,12 @@ public final class ForegroundService extends Hilt_ForegroundService {
         if (compareTime != null) {
             i.putExtra(EXTRA_TIME_KEY, compareTime.toString());
         }
+        startAction(context, i);
+    }
+
+    public static void onSubscriptionsChanged(final Context context, final LocalDateTime dateTime) {
+        final Intent i = new Intent(ACTION_SUBSCRIPTIONS_CHANGED);
+        i.putExtra(EXTRA_TIME_KEY, dateTime.toString());
         startAction(context, i);
     }
 
@@ -211,6 +224,11 @@ public final class ForegroundService extends Hilt_ForegroundService {
                                 overrideUserPreference);
                     }
                 }), startId);
+                break;
+
+            case ACTION_SUBSCRIPTIONS_CHANGED:
+                mWorker.execute(() -> dateTime.ifPresent((ldt) ->
+                            mSubscriptionsLazy.get().syncSubscriptions(ldt)), startId);
                 break;
 
             default:

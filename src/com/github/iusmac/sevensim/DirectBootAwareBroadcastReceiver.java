@@ -62,8 +62,13 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
                 final int subId = intent.getIntExtra(CarrierConfigManager.EXTRA_SUBSCRIPTION_INDEX,
                     SubscriptionManager.INVALID_SUBSCRIPTION_ID);
 
+                // Need to notify components interested in SIM subscription state changes
+                ForegroundService.onSubscriptionsChanged(context, now);
+
                 // Need to sync the enabled state of a SIM subscription with its existing weekly
-                // repeat schedules on SIM addition/removal or SIM state alterations
+                // repeat schedules on SIM addition/removal or SIM state alterations. Note that,
+                // this call should only happen after notifying the components that are interested
+                // in SIM subscription state changes
                 ForegroundService.syncSubscriptionEnabledState(context, subId, now,
                         /*overrideUserPreference=*/ false);
 

@@ -96,6 +96,28 @@ public final class TelephonyModule {
     }
 
     /**
+     * The system property that maintains the state of a SIM subscription.
+     *
+     * @see SimState
+     */
+    @Named("Telephony/SubState")
+    @Singleton
+    @Provides
+    static SysProp provideSubscriptionStateSysProp() {
+        return new SysProp("sub%d.state", /*isPersistent=*/ false);
+    }
+
+    /**
+     * The system property that maintains a comma-separated list of usable SIM subscription IDs.
+     */
+    @Named("Telephony/UsableSubIds")
+    @Singleton
+    @Provides
+    static SysProp provideUsableSubIdSysProp() {
+        return new SysProp("usable_sub_ids", /*isPersistent*/ false);
+    }
+
+    /**
      * <p>The system property that maintains a Boolean flag, indicating whether the application
      * should override device's capability to disable / re-enable a subscription on a physical
      * (non-eUICC) SIM (pSIM), even if availability is configured by the platform.
