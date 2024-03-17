@@ -10,10 +10,12 @@ import androidx.annotation.WorkerThread;
 
 import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.PhoneCallEndObserverService;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.SubscriptionController;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 import com.github.iusmac.sevensim.telephony.TelephonyController;
+import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 
 import dagger.Lazy;
 import dagger.hilt.android.qualifiers.ApplicationContext;
@@ -27,6 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
@@ -50,6 +53,7 @@ public final class SubscriptionScheduler {
     private final Lazy<Subscriptions> mSubscriptionsLazy;
     private final Lazy<SubscriptionController> mSubscriptionControllerLazy;
     private final Lazy<TelephonyController> mTelephonyControllerLazy;
+    private final Provider<TelephonyUtils> mTelephonyUtilsProvider;
 
     private final Intent mAlarmIntent;
 
@@ -59,7 +63,8 @@ public final class SubscriptionScheduler {
             final AppDatabaseDE appDatabaseDE,
             final Lazy<Subscriptions> subscriptionsLazy,
             final Lazy<SubscriptionController> subscriptionControllerLazy,
-            final Lazy<TelephonyController> telephonyControllerLazy) {
+            final Lazy<TelephonyController> telephonyControllerLazy,
+            final Provider<TelephonyUtils> telephonyUtilsProvider) {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mContext = context;
@@ -68,6 +73,7 @@ public final class SubscriptionScheduler {
         mSubscriptionsLazy = subscriptionsLazy;
         mSubscriptionControllerLazy = subscriptionControllerLazy;
         mTelephonyControllerLazy = telephonyControllerLazy;
+        mTelephonyUtilsProvider = telephonyUtilsProvider;
 
         mAlarmIntent = new Intent(context, AlarmReceiver.class);
     }
@@ -211,14 +217,30 @@ public final class SubscriptionScheduler {
             // Figure out the expected SIM subscription state using schedules from the past, if any
             final boolean expectedEnabled = getSubscriptionExpectedEnabledState(sub,
                     nearestEnableTime, nearestDisableTime, overrideUserPreference);
+            final boolean isInCall = mTelephonyUtilsProvider.get().isInCall();
 
             mLogger.d("syncSubscriptionEnabledState(subId=%d,compareTime=%s," +
                     "overrideUserPreference=%s) : %s,nearestEnableTime=%s,nearestDisableTime=%s," +
-                    "expectedEnabled=%s.", subId, compareTime, overrideUserPreference, sub,
-                    nearestEnableTime, nearestDisableTime, expectedEnabled);
+                    "expectedEnabled=%s,isInCall=%s.", subId, compareTime, overrideUserPreference,
+                    sub, nearestEnableTime, nearestDisableTime, expectedEnabled, isInCall);
 
             // Sync the enabled state of the SIM subscription if it differs
             if (currentEnabled != expectedEnabled) {
+                if (!expectedEnabled && isInCall) {
+                    // Since there's an ongoing phone call, we postpone deactivation of the SIM
+                    // subscription until the phone call ended.
+                    // SIDE NOTE: although we can't exactly tell if this particular SIM subscription
+                    // is involved in the phone call, we want to *refrain* from disabling SIM cards
+                    // at all during a phone call. One can make a plausible case, for instance, the
+                    // phone can bridge a VoIP call, and use both the cellular phone services of
+                    // SIM1 and mobile data of SIM2
+                    PhoneCallEndObserverService.syncSubscriptionEnabledState(mContext, subId,
+                            compareTime, overrideUserPreference);
+                    PhoneCallEndObserverService
+                        .updateNextWeeklyRepeatScheduleProcessingIter(mContext, compareTime);
+                    return null;
+                }
+
                 if (sub.getSlotIndex() == INVALID_SIM_SLOT_INDEX) {
                     mSubscriptionControllerLazy.get().setUiccApplicationsEnabled(subId,
                             expectedEnabled);

@@ -139,5 +139,11 @@
             android:name=".ui.scheduler.SchedulerActivity"
             android:exported="false">
         </activity>
+
+        <service
+            android:name=".PhoneCallEndObserverService"
+            android:exported="false"
+            android:directBootAware="true">
+        </service>
     </application>
 </manifest>

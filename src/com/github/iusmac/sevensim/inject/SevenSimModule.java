@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.telecom.TelecomManager;
 
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -81,6 +83,18 @@ public final class SevenSimModule {
     @Provides
     static ActivityManager provideActivityManager(final @ApplicationContext Context context) {
         return ContextCompat.getSystemService(context, ActivityManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static TelecomManager provideTelecomManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, TelecomManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static AudioManager provideAudioManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, AudioManager.class);
     }
 
     /** Do not initialize. */

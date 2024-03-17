@@ -1,7 +1,10 @@
 package com.github.iusmac.sevensim.telephony;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.provider.Settings;
+import android.telecom.ConnectionService;
+import android.telecom.TelecomManager;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 
@@ -11,22 +14,29 @@ import com.github.iusmac.sevensim.Utils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 @Singleton
 public final class TelephonyUtils {
     private final TelephonyManager mTelephonyManager;
     private final SubscriptionManager mSubManager;
+    private final Provider<TelecomManager> mTelecomManagerProvider;
+    private final Provider<AudioManager> mAudioManagerProvider;
     private final boolean mHasUiccSubscriptionToggleCapability;
 
     @Inject
     public TelephonyUtils(final TelephonyManager telephonyManager,
             final SubscriptionManager subscriptionManager,
+            final Provider<TelecomManager> telecomManagerProvider,
+            final Provider<AudioManager> audioManagerProvider,
             final @Named("Telephony/UiccSubscriptionToggleCapabilityDisabledSetting")
                 boolean isUiccSubscriptionToggleCapabilityDisabled) {
 
         mTelephonyManager = telephonyManager;
         mSubManager = subscriptionManager;
+        mTelecomManagerProvider = telecomManagerProvider;
+        mAudioManagerProvider = audioManagerProvider;
         mHasUiccSubscriptionToggleCapability =
             hasUiccSubscriptionToggleCapability(isUiccSubscriptionToggleCapabilityDisabled);
     }
@@ -81,6 +91,35 @@ public final class TelephonyUtils {
             return mTelephonyManager.getActiveModemCount();
         } else {
             return ApiDeprecated.getPhoneCount(mTelephonyManager);
+        }
+    }
+
+    /**
+     * <p>Whether there's an ongoing phone call in progress.
+     *
+     * <p>Note that, this method relies on {@link TelecomManager#isInCall()} to supply an aggregate
+     * "in call" state for the entire device, but it may still resolve to {@code true} if any app is
+     * using voice communication; this is because {@link TelecomManager} doesn't handle the case
+     * where some apps don't implement {@link ConnectionService}.
+     */
+    public boolean isInCall() {
+        try {
+            return mTelecomManagerProvider.get().isInCall() || hasVoiceCall();
+        } catch (SecurityException ignored) {
+            return false;
+        }
+    }
+
+    /**
+     * Whether any app is using voice communication.
+     */
+    private boolean hasVoiceCall() {
+        try {
+            final int audioMode = mAudioManagerProvider.get().getMode();
+            return audioMode == AudioManager.MODE_IN_CALL
+                || audioMode == AudioManager.MODE_IN_COMMUNICATION;
+        } catch (Exception ignored) {
+            return false;
         }
     }
 

@@ -20,6 +20,7 @@ import javax.inject.Inject;
 public final class NotificationManager {
     static final int FOREGROUND_NOTIFICATION_ID = 1;
     private static final int BACKGROUND_RESTRICTED_NOTIFICATION_ID = 2;
+    static final int CALL_IN_PROGRESS_NOTIFICATION_ID = 3;
     private static final String FOREGROUND_NOTIFICATION_CHANNEL_ID =
         "foreground_notification_channel";
     private static final String IMPORTANT_NOTIFICATION_CHANNEL_ID =
@@ -84,6 +85,24 @@ public final class NotificationManager {
             .build();
 
         mNotificationManagerCompat.notify(BACKGROUND_RESTRICTED_NOTIFICATION_ID, notification);
+    }
+
+    /**
+     * Build and return a new notification to inform the user that currently, execution of a
+     * background task via {@link PhoneCallEndObserverService} is halted due to a phone call.
+     */
+    Notification buildCallInProgressForegroundNotification() {
+        final String text =
+            mContext.getString(R.string.foreground_notification_call_in_progress_text);
+        final Notification notification = new NotificationCompat.Builder(mContext,
+                buildForegroundServiceNotification())
+            .setContentTitle(mResources.getString(
+                        R.string.foreground_notification_paused_in_background_title))
+            .setContentText(text)
+            .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+            .build();
+
+        return notification;
     }
 
     /** Prepare a channel for foreground notifications. */

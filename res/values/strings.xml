@@ -59,6 +59,9 @@
     <string name="background_restricted_banner_content">"This app has been prevented from running in the background. Prioritize app to continue background usage."</string>
     <string name="background_restricted_button_prioritize_app">"Prioritize app"</string>
 
+    <string name="foreground_notification_paused_in_background_title">"Paused in background"</string>
+    <string name="foreground_notification_call_in_progress_text">"Call in progress…"</string>
+
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_background_restricted_banner_key" translatable="false">"sim_list_background_restricted_banner"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
