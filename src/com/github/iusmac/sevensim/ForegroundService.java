@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim;
 
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -114,6 +115,9 @@ public final class ForegroundService extends Hilt_ForegroundService {
     @Inject
     Lazy<Subscriptions> mSubscriptionsLazy;
 
+    @Inject
+    ActivityManager mActivityManager;
+
     private Logger mLogger;
     private Worker mWorker;
 
@@ -174,6 +178,13 @@ public final class ForegroundService extends Hilt_ForegroundService {
         startForeground(NotificationManager.FOREGROUND_NOTIFICATION_ID,
                 mNotificationManager.buildForegroundServiceNotification());
 
+        if (mActivityManager.isBackgroundRestricted()) {
+            mLogger.e("Cannot initialize service due to background restriction.");
+            mNotificationManager.showBackgroundRestrictedNotification();
+            stopSelf();
+            return;
+        }
+
         // Set the timeout to ensure this foreground service will be recycled whatsoever
         synchronized (sWakeLockSyncLock) {
             SERVICE_STOP_AT_TIME_MS.ifPresent((millis) -> updateServiceTimeout(millis));
@@ -186,6 +197,11 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
         if (intent == null) {
             stopSelfResult(startId);
+            return START_NOT_STICKY;
+        }
+
+        if (mActivityManager.isBackgroundRestricted()) {
+            stopSelf();
             return START_NOT_STICKY;
         }
 

@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim.inject;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -74,6 +75,12 @@ public final class SevenSimModule {
     @Provides
     static AlarmManager provideAlarmManager(final @ApplicationContext Context context) {
         return ContextCompat.getSystemService(context, AlarmManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static ActivityManager provideActivityManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, ActivityManager.class);
     }
 
     /** Do not initialize. */

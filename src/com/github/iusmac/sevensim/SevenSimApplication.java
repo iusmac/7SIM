@@ -32,6 +32,7 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
 
         // (Re-)create the notification channel to update string resources
         mNotificationManager.get().createForegroundNotificationChannel();
+        mNotificationManager.get().createImportantNotificationChannel();
 
         final ApplicationInfo appInfo = mApplicationInfoProvider.get();
         mHasAospPlatformSignature = appInfo.hasAospPlatformSignature();

@@ -36,6 +36,7 @@
     <string name="foreground_notification_title">"Working in the background…"</string>
     <string name="foreground_notification_channel_name">"Background tasks"</string>
     <string name="foreground_notification_channel_description">"Android requires displaying an ongoing notification while the app is active in the background. You can safely hide this channel."</string>
+    <string name="notification_important_channel_name">"High importance"</string>
 
     <string name="scheduler_day_of_week_separator">",\u0020"</string>
 
@@ -53,7 +54,13 @@
     <string name="scheduler_end_time_none_summary">"Will <b>never</b> turn off automatically"</string>
     <string name="scheduler_no_schedule_summary">"No schedule"</string>
 
+    <string name="background_restricted_title">"Background usage required"</string>
+    <string name="background_restricted_notification_text">"This app has been prevented from running in the background.\nTouch here to allow background usage."</string>
+    <string name="background_restricted_banner_content">"This app has been prevented from running in the background. Prioritize app to continue background usage."</string>
+    <string name="background_restricted_button_prioritize_app">"Prioritize app"</string>
+
     <string name="sim_list_key" translatable="false">"sim_list"</string>
+    <string name="sim_list_background_restricted_banner_key" translatable="false">"sim_list_background_restricted_banner"</string>
     <string name="sim_list_disclaimer_banner_key" translatable="false">"sim_list_disclaimer_banner"</string>
     <string name="sim_list_no_sim_key" translatable="false">"sim_list_no_sim"</string>
     <string name="sim_list_updates_key" translatable="false">"sim_list_updates"</string>

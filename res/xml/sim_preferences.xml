@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.android.settingslib.widget.BannerMessagePreference
+        android:key="@string/sim_list_background_restricted_banner_key"
+        android:title="@string/background_restricted_title"
+        android:summary="@string/background_restricted_banner_content"
+        app:isPreferenceVisible="false"/>
+
+    <com.android.settingslib.widget.BannerMessagePreference
         android:key="@string/sim_list_disclaimer_banner_key"
         android:title="@string/disclaimer_banner_content"
         app:isPreferenceVisible="false"/>

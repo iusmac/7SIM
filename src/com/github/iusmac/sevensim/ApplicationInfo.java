@@ -1,8 +1,11 @@
 package com.github.iusmac.sevensim;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -78,6 +81,17 @@ public final class ApplicationInfo {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    /**
+     * Get the activity intent to show screen of details about this application within the built-in
+     * Settings app.
+     */
+    public Intent getAppDetailsSettingsActivityIntent() {
+        final Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + mPackageName));
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return i;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim.ui.sim;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.settingslib.widget.BannerMessagePreference;
 
+import com.github.iusmac.sevensim.ApplicationInfo;
 import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.telephony.Subscription;
@@ -20,6 +22,7 @@ import com.github.iusmac.sevensim.ui.UiUtils;
 import com.github.iusmac.sevensim.ui.components.PrimarySwitchPreference;
 import com.github.iusmac.sevensim.ui.scheduler.SchedulerActivity;
 
+import dagger.Lazy;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
@@ -32,11 +35,19 @@ public final class SimListFragment extends Hilt_SimListFragment {
     @Inject
     SharedPreferences mSharedPrefs;
 
+    @Inject
+    ActivityManager mActivityManager;
+
+    @Inject
+    Lazy<ApplicationInfo> mApplicationInfoLazy;
+
     private SimListViewModel mViewModel;
 
     private PreferenceCategory mSimPreferenceCategory;
     private Preference mNoSimPreference;
     private SparseArrayCompat<PrimarySwitchPreference> mSimPreferences = new SparseArrayCompat<>();
+
+    private BannerMessagePreference mBackgroundRestrictedBanner;
 
     @Override
     public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
@@ -49,10 +60,29 @@ public final class SimListFragment extends Hilt_SimListFragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupBackgroundRestrictedBanner();
         setupDisclaimerBanner();
         setupSimList();
         setupUpdatesPref();
         setupVersionPref();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mBackgroundRestrictedBanner.setVisible(mActivityManager.isBackgroundRestricted());
+    }
+
+    private void setupBackgroundRestrictedBanner() {
+        mBackgroundRestrictedBanner =
+            findPreference(getString(R.string.sim_list_background_restricted_banner_key));
+
+        mBackgroundRestrictedBanner
+            .setAttentionLevel(BannerMessagePreference.AttentionLevel.HIGH)
+            .setPositiveButtonText(R.string.background_restricted_button_prioritize_app)
+            .setPositiveButtonOnClickListener((view) ->
+                startActivity(mApplicationInfoLazy.get().getAppDetailsSettingsActivityIntent()));
     }
 
     private void setupDisclaimerBanner() {
