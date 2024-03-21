@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>هرگز</b> به‌طور خودکار خاموش نمی‌شود"</string>
     <string name="scheduler_no_schedule_summary">"زمان‌بندی وجود ندارد"</string>
     <string name="sim_missing">"دستگاه فاقد سیم کارت است"</string>
+    <string name="background_restricted_title">"استفاده از پس زمینه مورد نیاز است"</string>
+    <string name="background_restricted_notification_text">"از اجرای این برنامه در پس‌زمینه جلوگیری شده است.\nبرای اجازه استفاده از پس‌زمینه، اینجا را لمس کنید."</string>
+    <string name="background_restricted_banner_content">"از اجرای این برنامه در پس‌زمینه جلوگیری شده است. برای اینکه برنامه بتواند همچنان در پس‌زمینه اجرا شود، آن را در اولویت قرار دهید."</string>
+    <string name="background_restricted_button_prioritize_app">"الویت‌بندی برنامه"</string>
+    <string name="notification_important_channel_name">"اهمیت زیاد"</string>
+    <string name="foreground_notification_paused_in_background_title">"در پس‌زمینه موقتاً متوقف شد"</string>
+    <string name="foreground_notification_call_in_progress_text">"تماس در حال انجام…"</string>
 </resources>

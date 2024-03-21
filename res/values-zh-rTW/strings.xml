@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>永遠</b>不會自動關閉"</string>
     <string name="scheduler_no_schedule_summary">"未設定時間表"</string>
     <string name="sim_missing">"沒有 SIM 卡"</string>
+    <string name="background_restricted_title">"需要背景運行"</string>
+    <string name="background_restricted_notification_text">"系統禁止這個應用程式在背景執行。\n輕觸這裡來允許背景運行。"</string>
+    <string name="background_restricted_banner_content">"系統禁止這個應用程式在背景執行。如要讓該應用程式繼續在背景執行，請將其設為優先。"</string>
+    <string name="background_restricted_button_prioritize_app">"將應用程式設為優先"</string>
+    <string name="notification_important_channel_name">"高重要性"</string>
+    <string name="foreground_notification_paused_in_background_title">"在背景中暫停"</string>
+    <string name="foreground_notification_call_in_progress_text">"通話中…"</string>
 </resources>

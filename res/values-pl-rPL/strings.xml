@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Nigdy</b> nie wyłączy się automatycznie"</string>
     <string name="scheduler_no_schedule_summary">"Bez harmonogramu"</string>
     <string name="sim_missing">"Brak karty SIM"</string>
+    <string name="background_restricted_title">"Użycie w tle wymagane"</string>
+    <string name="background_restricted_notification_text">"Działanie tej aplikacji w tle zostało zablokowane.\nDotkinj tutaj, aby zezwolić na działanie w tle."</string>
+    <string name="background_restricted_banner_content">"Działanie tej aplikacji w tle zostało zablokowane. Nadaj aplikacji priorytet, aby umożliwić jej działanie w tle."</string>
+    <string name="background_restricted_button_prioritize_app">"Nadaj priorytet aplikacji"</string>
+    <string name="notification_important_channel_name">"Bardzo ważne"</string>
+    <string name="foreground_notification_paused_in_background_title">"Wstrzymane w tle"</string>
+    <string name="foreground_notification_call_in_progress_text">"Połączenie w toku…"</string>
 </resources>

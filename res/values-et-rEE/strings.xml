@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Ei lülitu <b>kunagi</b> automaatselt välja"</string>
     <string name="scheduler_no_schedule_summary">"Ajakava puudub"</string>
     <string name="sim_missing">"SIM-kaart on puudu"</string>
+    <string name="background_restricted_title">"Taustal kasutamine nõutav"</string>
+    <string name="background_restricted_notification_text">"Sellel rakendusel takistati taustal töötamine.\nKoputa siin, et lubada taustal kasutamine."</string>
+    <string name="background_restricted_banner_content">"Sellel rakendusel takistati taustal töötamine. Taustal kasutamise jätkamiseks prioriseerige rakendus."</string>
+    <string name="background_restricted_button_prioritize_app">"Prioriseeri rakendus"</string>
+    <string name="notification_important_channel_name">"Kõrge tähtsus"</string>
+    <string name="foreground_notification_paused_in_background_title">"Peatatud taustal"</string>
+    <string name="foreground_notification_call_in_progress_text">"Kõne on pooleli …"</string>
 </resources>

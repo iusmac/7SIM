@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>কখনই</b> স্বয়ংক্রিয়ভাবে বন্ধ হবে না"</string>
     <string name="scheduler_no_schedule_summary">"কোনও সময়সূচি সেট করা নেই"</string>
     <string name="sim_missing">"সিম কার্ড সরানো হয়েছে"</string>
+    <string name="background_restricted_title">"পটভূমি ব্যবহার প্রয়োজন"</string>
+    <string name="background_restricted_notification_text">"ব্যাকগ্রাউন্ডে চলা থেকে এই অ্যাপকে আটকানো হয়েছে।\nপটভূমি ব্যবহারের অনুমতি দিতে এখানে স্পর্শ করুন।"</string>
+    <string name="background_restricted_banner_content">"ব্যাকগ্রাউন্ডে চলা থেকে এই অ্যাপকে আটকানো হয়েছে। ব্যাকগ্রাউন্ডে চালু থাকার জন্য অ্যাপকে অগ্রাধিকার দিন।"</string>
+    <string name="background_restricted_button_prioritize_app">"অ্যাপকে অগ্রাধিকার দিন"</string>
+    <string name="notification_important_channel_name">"খুব গুরুত্বপূর্ণ"</string>
+    <string name="foreground_notification_paused_in_background_title">"পশ্চাদপটে বিরাম দেওয়া আছে"</string>
+    <string name="foreground_notification_call_in_progress_text">"কল করা হচ্ছে…"</string>
 </resources>

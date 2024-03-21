@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"자동으로 끄지 <b>않음</b>"</string>
     <string name="scheduler_no_schedule_summary">"일정 없음"</string>
     <string name="sim_missing">"SIM 카드 없음"</string>
+    <string name="background_restricted_title">"백그라운드 사용 필요"</string>
+    <string name="background_restricted_notification_text">"앱의 백그라운드 실행이 차단되었습니다.\n여기를 눌러 백그라운드 사용을 허용해 주세요."</string>
+    <string name="background_restricted_banner_content">"앱의 백그라운드 실행이 차단되었습니다. 백그라운드에서 계속 실행하려면 앱에 우선순위를 지정하세요."</string>
+    <string name="background_restricted_button_prioritize_app">"앱 우선순위 지정"</string>
+    <string name="notification_important_channel_name">"중요도가 높은 알림 채널"</string>
+    <string name="foreground_notification_paused_in_background_title">"백그라운드에서 일시중지되었습니다"</string>
+    <string name="foreground_notification_call_in_progress_text">"전화 거는 중…"</string>
 </resources>

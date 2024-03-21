@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>کبھی بھی</b> خودکار طور پر آف نہیں ہوگا"</string>
     <string name="scheduler_no_schedule_summary">"کوئی شیڈول نہیں ہے"</string>
     <string name="sim_missing">"SIM کارڈ ہٹا دیا گیا"</string>
+    <string name="background_restricted_title">"پس منظر کا استعمال درکار ہے۔"</string>
+    <string name="background_restricted_notification_text">"اس ایپ کو پس منظر میں چلنے سے روک دیا گیا ہے۔\nٹچ کریں یہاں تاکہ پس منظر میں استعمال کی اجازت دی جائے۔"</string>
+    <string name="background_restricted_banner_content">"اس ایپ کو پس منظر میں چلنے سے روک دیا گیا ہے۔ پس منظر کا استعمال جاری رکھنے کے لیے ایپ کو ترجیح دیں۔"</string>
+    <string name="background_restricted_button_prioritize_app">"ایپ کی ترتیب کو ترجیح دیں"</string>
+    <string name="notification_important_channel_name">"زیادہ اہمیت"</string>
+    <string name="foreground_notification_paused_in_background_title">"پس منظر میں موقوف ہوگیا"</string>
+    <string name="foreground_notification_call_in_progress_text">"کال کی جا رہی ہے…"</string>
 </resources>

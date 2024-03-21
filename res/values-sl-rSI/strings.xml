@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Nikoli</b> se ne bo samodejno izklopil"</string>
     <string name="scheduler_no_schedule_summary">"Ni razporeda"</string>
     <string name="sim_missing">"Kartica SIM ni prisotna"</string>
+    <string name="background_restricted_title">"Zahtevana je uporaba v ozadju"</string>
+    <string name="background_restricted_notification_text">"Tej aplikaciji je preprečeno izvajanje v ozadju.\nDotaknite se tukaj, da dovolite uporabo v ozadju."</string>
+    <string name="background_restricted_banner_content">"Tej aplikaciji je preprečeno izvajanje v ozadju. Če želite, da se še naprej uporablja v ozadju, ji dajte prednost."</string>
+    <string name="background_restricted_button_prioritize_app">"Dajanje prednosti aplikaciji"</string>
+    <string name="notification_important_channel_name">"Visoka pomembnost"</string>
+    <string name="foreground_notification_paused_in_background_title">"Začas. ustav. v ozadju"</string>
+    <string name="foreground_notification_call_in_progress_text">"Klic poteka …"</string>
 </resources>

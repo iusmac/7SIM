@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Δεν θα απενεργοποιείται <b>ποτέ</b> αυτόματα"</string>
     <string name="scheduler_no_schedule_summary">"Δεν υπάρχει πρόγραμμα"</string>
     <string name="sim_missing">"Η κάρτα SIM λείπει"</string>
+    <string name="background_restricted_title">"Απαιτείται χρήση παρασκηνίου"</string>
+    <string name="background_restricted_notification_text">"Δεν επιτράπηκε η εκτέλεση αυτής της εφαρμογής στο παρασκήνιο.\nΠατήστε εδώ για να επιτρέψετε την χρήση παρασκηνίου."</string>
+    <string name="background_restricted_banner_content">"Δεν επιτράπηκε η εκτέλεση αυτής της εφαρμογής στο παρασκήνιο. Δώστε προτεραιότητα στην εφαρμογή για να συνεχίσετε τη χρήση της στο παρασκήνιο."</string>
+    <string name="background_restricted_button_prioritize_app">"Προτεραιότητα εφαρμογής"</string>
+    <string name="notification_important_channel_name">"Μεγάλης βαρύτητας"</string>
+    <string name="foreground_notification_paused_in_background_title">"Σε παύση στο παρασκήνιο"</string>
+    <string name="foreground_notification_call_in_progress_text">"Κλήση σε εξέλιξη…"</string>
 </resources>

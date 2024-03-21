@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>ஒருபோதும்</b> தானாக முடக்கப்படாது"</string>
     <string name="scheduler_no_schedule_summary">"திட்டமிட்டது எதுவுமில்லை"</string>
     <string name="sim_missing">"SIM கார்டு காணவில்லை"</string>
+    <string name="background_restricted_title">"பின்னணி பயன்பாடு தேவை"</string>
+    <string name="background_restricted_notification_text">"இந்த ஆப்ஸ் பின்னணியில் இயங்குவதிலிருந்து தடுக்கப்பட்டுள்ளது.\nபின்னணி பயன்பாட்டை அனுமதிக்க இங்கே தொடவும்."</string>
+    <string name="background_restricted_banner_content">"இந்த ஆப்ஸ் பின்னணியில் இயங்குவதிலிருந்து தடுக்கப்பட்டுள்ளது. ஆப்ஸ் பின்னணியில் தொடர்ந்து இயங்க அதற்கு முன்னுரிமை அளியுங்கள்."</string>
+    <string name="background_restricted_button_prioritize_app">"ஆப்ஸை முன்னுரிமைப்படுத்துங்கள்"</string>
+    <string name="notification_important_channel_name">"அதிக முக்கியத்துவம்"</string>
+    <string name="foreground_notification_paused_in_background_title">"பின்புலத்தில் இடைநிறுத்தப்பட்டது"</string>
+    <string name="foreground_notification_call_in_progress_text">"அழைப்பில்…"</string>
 </resources>

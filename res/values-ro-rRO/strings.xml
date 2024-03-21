@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Nu se va dezactiva <b>niciodată</b> automat"</string>
     <string name="scheduler_no_schedule_summary">"Niciun program"</string>
     <string name="sim_missing">"Lipsă card SIM"</string>
+    <string name="background_restricted_title">"Utilizare în fundal necesară"</string>
+    <string name="background_restricted_notification_text">"Nu s-a permis rularea aplicației în fundal.\nApăsați aici pentru a permite utilizarea în background."</string>
+    <string name="background_restricted_banner_content">"Nu s-a permis rularea aplicației în fundal. Acordă prioritate aplicației ca să continui utilizarea în fundal."</string>
+    <string name="background_restricted_button_prioritize_app">"Prioritizează aplicația"</string>
+    <string name="notification_important_channel_name">"Importanță ridicată"</string>
+    <string name="foreground_notification_paused_in_background_title">"Întreruptă în fundal"</string>
+    <string name="foreground_notification_call_in_progress_text">"Se apelează…"</string>
 </resources>

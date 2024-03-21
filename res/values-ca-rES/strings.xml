@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"No es desactivarà <b>mai</b> automàticament"</string>
     <string name="scheduler_no_schedule_summary">"Sense programació"</string>
     <string name="sim_missing">"Falta la targeta SIM"</string>
+    <string name="background_restricted_title">"Es requereix l'ús en segon pla"</string>
+    <string name="background_restricted_notification_text">"S'ha evitat que aquesta aplicació s'executi en segon pla.\nToqueu aquí per permetre l'ús en segon pla."</string>
+    <string name="background_restricted_banner_content">"S'ha evitat que aquesta aplicació s'executi en segon pla. Prioritiza l'aplicació per continuar utilitzant-la en segon pla."</string>
+    <string name="background_restricted_button_prioritize_app">"Prioritza l'aplicació"</string>
+    <string name="notification_important_channel_name">"Molt important"</string>
+    <string name="foreground_notification_paused_in_background_title">"Posada en pausa de fons"</string>
+    <string name="foreground_notification_call_in_progress_text">"Trucada en curs…"</string>
 </resources>

@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Nikdy</b> sa automaticky nevypne"</string>
     <string name="scheduler_no_schedule_summary">"Žiadny plán"</string>
     <string name="sim_missing">"Vložte kartu SIM"</string>
+    <string name="background_restricted_title">"Vyžaduje režim na pozadí"</string>
+    <string name="background_restricted_notification_text">"Pre túto aplikáciu je zablokované spustenie na pozadí.\nKliknutím sem môžete povoliť jej použitie na pozadí."</string>
+    <string name="background_restricted_banner_content">"Pre túto aplikáciu je zablokované spustenie na pozadí. Ak ju chcete naďalej používať na pozadí, nastavte ju ako prioritnú."</string>
+    <string name="background_restricted_button_prioritize_app">"Uprednostniť aplikáciu"</string>
+    <string name="notification_important_channel_name">"Vysoká dôležitosť"</string>
+    <string name="foreground_notification_paused_in_background_title">"Pozastavené na pozadí"</string>
+    <string name="foreground_notification_call_in_progress_text">"Prebieha hovor…"</string>
 </resources>

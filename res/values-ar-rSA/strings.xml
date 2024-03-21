@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"لن يتم الإيقاف بشكل تلقائي <b>مطلقًا</b>"</string>
     <string name="scheduler_no_schedule_summary">"بلا جدول زمني"</string>
     <string name="sim_missing">"شريحة SIM مفقودة"</string>
+    <string name="background_restricted_title">"مطلوب استخدام الخلفية"</string>
+    <string name="background_restricted_notification_text">"تم منع تشغيل هذا التطبيق في الخلفية.\nاضغط هنا للسماح باستخدامه في الخلفية."</string>
+    <string name="background_restricted_banner_content">"تم منع تشغيل هذا التطبيق في الخلفية. يجب منح أولوية للتطبيق لمواصلة استخدامه في الخلفية."</string>
+    <string name="background_restricted_button_prioritize_app">"منح أولوية للتطبيق"</string>
+    <string name="notification_important_channel_name">"أهمية عالية"</string>
+    <string name="foreground_notification_paused_in_background_title">"متوقف مؤقتًا في الخلفية"</string>
+    <string name="foreground_notification_call_in_progress_text">"الاتصال قيد التقدم…"</string>
 </resources>

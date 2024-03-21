@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Никада</b> се не искључује аутоматски"</string>
     <string name="scheduler_no_schedule_summary">"Нема распореда"</string>
     <string name="sim_missing">"Нема SIM картице"</string>
+    <string name="background_restricted_title">"Захтева се употреба у позадини"</string>
+    <string name="background_restricted_notification_text">"Покретање ове апликације у позадини је спречено.\nПритисните овде да дозволите употребу у позадини."</string>
+    <string name="background_restricted_banner_content">"Покретање ове апликације у позадини је спречено. Дајте приоритет апликацији да бисте наставили коришћење у позадини."</string>
+    <string name="background_restricted_button_prioritize_app">"Дајте приоритет апликацији"</string>
+    <string name="notification_important_channel_name">"Велика важност"</string>
+    <string name="foreground_notification_paused_in_background_title">"Паузирано у позадини"</string>
+    <string name="foreground_notification_call_in_progress_text">"Позивање је у току…"</string>
 </resources>

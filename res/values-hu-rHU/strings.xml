@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Soha</b> nem kapcsol ki automatikusan"</string>
     <string name="scheduler_no_schedule_summary">"Nincs ütemezés"</string>
     <string name="sim_missing">"Hiányzik a SIM-kártya"</string>
+    <string name="background_restricted_title">"A hattérben való használati engedély szükséges"</string>
+    <string name="background_restricted_notification_text">"Az alkalmazás háttérbeli futását a rendszer megakadályozta.\nÉrintse meg itt a háttérbenfutás engedélyezéséhez."</string>
+    <string name="background_restricted_banner_content">"Az alkalmazás háttérbeli futását a rendszer megakadályozta. Adjon prioritást az alkalmazásnak, hogy továbbra is futhasson a háttérben."</string>
+    <string name="background_restricted_button_prioritize_app">"Alkalmazás rangsorolása"</string>
+    <string name="notification_important_channel_name">"Fontos"</string>
+    <string name="foreground_notification_paused_in_background_title">"Szünetel a háttérben"</string>
+    <string name="foreground_notification_call_in_progress_text">"Hívás folyamatban…"</string>
 </resources>

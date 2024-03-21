@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>לעולם</b> לא תכובה אוטומטית"</string>
     <string name="scheduler_no_schedule_summary">"אין לוח זמנים"</string>
     <string name="sim_missing">"כרטיס SIM חסר"</string>
+    <string name="background_restricted_title">"נדרש שימוש ברקע"</string>
+    <string name="background_restricted_notification_text">"האפליקציה הזו נחסמה להפעלה ברקע.\nנגעו כאן כדי לאפשר שימוש ברקע."</string>
+    <string name="background_restricted_banner_content">"האפליקציה הזו נחסמה להפעלה ברקע. כדי שהאפליקציה תמשיך לפעול ברקע צריך לקבוע לה עדיפות גבוהה."</string>
+    <string name="background_restricted_button_prioritize_app">"קביעת עדיפות לאפליקציה"</string>
+    <string name="notification_important_channel_name">"חשיבות גבוהה"</string>
+    <string name="foreground_notification_paused_in_background_title">"עצר ברקע"</string>
+    <string name="foreground_notification_call_in_progress_text">"שיחה מתבצעת…"</string>
 </resources>

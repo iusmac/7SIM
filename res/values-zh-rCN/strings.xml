@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"将<b>永远</b>不会自动关闭"</string>
     <string name="scheduler_no_schedule_summary">"没有时间表"</string>
     <string name="sim_missing">"SIM 卡未找到"</string>
+    <string name="background_restricted_title">"需要后台运行"</string>
+    <string name="background_restricted_notification_text">"此应用已被禁止在后台运行。\n点这里允许在后台运行。"</string>
+    <string name="background_restricted_banner_content">"此应用已被禁止在后台运行。若要继续在后台使用此应用，请将其设为优先运行。"</string>
+    <string name="background_restricted_button_prioritize_app">"优先运行应用"</string>
+    <string name="notification_important_channel_name">"重要性：高"</string>
+    <string name="foreground_notification_paused_in_background_title">"已在后台暂停"</string>
+    <string name="foreground_notification_call_in_progress_text">"正在通话…"</string>
 </resources>

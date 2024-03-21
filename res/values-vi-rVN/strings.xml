@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Sẽ không <b>bao giờ</b> tự động tắt"</string>
     <string name="scheduler_no_schedule_summary">"Chưa có lịch biểu nào"</string>
     <string name="sim_missing">"Không có thẻ SIM"</string>
+    <string name="background_restricted_title">"Mức sử dụng nền yêu cầu"</string>
+    <string name="background_restricted_notification_text">"Ứng dụng này đã bị ngăn chạy ở chế độ nền.\nChạm vào đây để cho phép việc sử dụng nền."</string>
+    <string name="background_restricted_banner_content">"Ứng dụng này đã bị ngăn chạy ở chế độ nền. Hãy thiết lập chế độ ưu tiên cho ứng dụng để tiếp tục dùng được ở chế độ nền."</string>
+    <string name="background_restricted_button_prioritize_app">"Ưu tiên ứng dụng"</string>
+    <string name="notification_important_channel_name">"Tầm quan trọng cao"</string>
+    <string name="foreground_notification_paused_in_background_title">"Đã tạm dừng trong nền"</string>
+    <string name="foreground_notification_call_in_progress_text">"Cuộc gọi đang diễn ra…"</string>
 </resources>

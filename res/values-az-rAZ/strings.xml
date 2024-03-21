@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Heç vaxt</b> avtomatik deaktiv etməyəcək"</string>
     <string name="scheduler_no_schedule_summary">"Plan yoxdur"</string>
     <string name="sim_missing">"SIM kart yoxdur"</string>
+    <string name="background_restricted_title">"Arxaplan istifadəsi lazımdır"</string>
+    <string name="background_restricted_notification_text">"Bu tətbiqin arxa fonda işləməsinin qarşısı alınıb.\nArxaplan istifadəsinə icazə vermək üçün bura toxunun."</string>
+    <string name="background_restricted_banner_content">"Bu tətbiqin arxa fonda işləməsinin qarşısı alınıb. Arxa fonda istifadəyə davam etmək üçün tətbiqi prioritetləşdirin."</string>
+    <string name="background_restricted_button_prioritize_app">"Tətbiqi prioritetləşdirin"</string>
+    <string name="notification_important_channel_name">"Çox əhəmiyyətli"</string>
+    <string name="foreground_notification_paused_in_background_title">"Arxa fonda dayandırıldı"</string>
+    <string name="foreground_notification_call_in_progress_text">"Zəng davam edir…"</string>
 </resources>

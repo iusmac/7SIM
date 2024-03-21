@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Nunca</b> se desativa automaticamente"</string>
     <string name="scheduler_no_schedule_summary">"Nenhum horário"</string>
     <string name="sim_missing">"Falta o cartão SIM"</string>
+    <string name="background_restricted_title">"Utilização em segundo plano necessária"</string>
+    <string name="background_restricted_notification_text">"Esta app foi impedida de funcionar em segundo plano.\nToque aqui para permitir a utilização em segundo plano."</string>
+    <string name="background_restricted_banner_content">"Esta app foi impedida de funcionar em segundo plano. Dê prioridade à app para continuar a utilização em segundo plano."</string>
+    <string name="background_restricted_button_prioritize_app">"Dar prioridade à app"</string>
+    <string name="notification_important_channel_name">"Importância alta"</string>
+    <string name="foreground_notification_paused_in_background_title">"Interrompida em 2º plano"</string>
+    <string name="foreground_notification_call_in_progress_text">"Chamada em curso…"</string>
 </resources>

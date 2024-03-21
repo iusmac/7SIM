@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Wird <b>nie</b> automatisch deaktiviert"</string>
     <string name="scheduler_no_schedule_summary">"Es ist keine Aktivierung oder Deaktivierung geplant"</string>
     <string name="sim_missing">"SIM-Karte fehlt"</string>
+    <string name="background_restricted_title">"Hintergrundnutzung erforderlich"</string>
+    <string name="background_restricted_notification_text">"Es wurde verhindert, dass diese App im Hintergrund ausgeführt wird.\nHier tippen, um die Hintergrundnutzung zu erlauben."</string>
+    <string name="background_restricted_banner_content">"Es wurde verhindert, dass diese App im Hintergrund ausgeführt wird. Wenn die App im Hintergrund ausgeführt werden soll, priorisiere sie."</string>
+    <string name="background_restricted_button_prioritize_app">"App priorisieren"</string>
+    <string name="notification_important_channel_name">"Hohe Wichtigkeit"</string>
+    <string name="foreground_notification_paused_in_background_title">"Im Hintergrund pausiert"</string>
+    <string name="foreground_notification_call_in_progress_text">"Anruf in Arbeit…"</string>
 </resources>

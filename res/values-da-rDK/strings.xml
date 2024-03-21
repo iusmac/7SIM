@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Deaktiveres <b>aldrig</b> automatisk"</string>
     <string name="scheduler_no_schedule_summary">"Ingen tidsplan"</string>
     <string name="sim_missing">"SIM-kort mangler"</string>
+    <string name="background_restricted_title">"Baggrundsanvendelse påkrævet"</string>
+    <string name="background_restricted_notification_text">"Denne app er blevet forhindret i at køre i baggrunden.\nTryk her for at tillade baggrundsbrug."</string>
+    <string name="background_restricted_banner_content">"Denne app er blevet forhindret i at køre i baggrunden. Prioriter appen, hvis den skal fortsætte med køre i baggrunden."</string>
+    <string name="background_restricted_button_prioritize_app">"Prioriter app"</string>
+    <string name="notification_important_channel_name">"Stor vigtighed"</string>
+    <string name="foreground_notification_paused_in_background_title">"Standset i baggrunden"</string>
+    <string name="foreground_notification_call_in_progress_text">"Opkald i gang …"</string>
 </resources>

@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"Inaktiveras <b>aldrig</b> automatiskt"</string>
     <string name="scheduler_no_schedule_summary">"Inget schema"</string>
     <string name="sim_missing">"SIM-kort saknas"</string>
+    <string name="background_restricted_title">"Bakgrundsanvändning krävs"</string>
+    <string name="background_restricted_notification_text">"Appen hindras från att köras i bakgrunden.\nTryck här att tillåta användning i bakgrunden."</string>
+    <string name="background_restricted_banner_content">"Appen hindras från att köras i bakgrunden. Prioritera appen för att fortsätta använda den i bakgrunden."</string>
+    <string name="background_restricted_button_prioritize_app">"Prioritera app"</string>
+    <string name="notification_important_channel_name">"Viktig avisering"</string>
+    <string name="foreground_notification_paused_in_background_title">"Pausad i bakgrunden"</string>
+    <string name="foreground_notification_call_in_progress_text">"Samtal pågår…"</string>
 </resources>

@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Ніколи</b> не вимикатиметься автоматично"</string>
     <string name="scheduler_no_schedule_summary">"Немає розкладу"</string>
     <string name="sim_missing">"SIM-карта відсутня"</string>
+    <string name="background_restricted_title">"Потрібне використання фонового режиму"</string>
+    <string name="background_restricted_notification_text">"Роботу цього додатка у фоновому режимі заблоковано.\nТоркніться тут, щоб дозволити використання її."</string>
+    <string name="background_restricted_banner_content">"Роботу цього додатка у фоновому режимі заблоковано. Надайте додатку пріоритет, щоб і надалі користуватися ним у фоновому режимі."</string>
+    <string name="background_restricted_button_prioritize_app">"Пріоритезувати додаток"</string>
+    <string name="notification_important_channel_name">"Високий пріоритет"</string>
+    <string name="foreground_notification_paused_in_background_title">"Призупинено у фонов.реж"</string>
+    <string name="foreground_notification_call_in_progress_text">"Виконується телефонний дзвінок…"</string>
 </resources>

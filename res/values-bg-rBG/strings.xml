@@ -36,4 +36,11 @@
     <string name="scheduler_end_time_none_summary">"<b>Няма</b> да се изключи автоматично"</string>
     <string name="scheduler_no_schedule_summary">"Няма график"</string>
     <string name="sim_missing">"Липсва СИМ карта"</string>
+    <string name="background_restricted_title">"Изисква се използване на заден план"</string>
+    <string name="background_restricted_notification_text">"Работата на това приложение на заден план е предотвратена.\nДокоснете тук, за да разрешите работа във фонов режим."</string>
+    <string name="background_restricted_banner_content">"Работата на това приложение на заден план е предотвратена. Приоритизирайте го, за да продължите да го използвате на заден план."</string>
+    <string name="background_restricted_button_prioritize_app">"Приоритизиране на приложението"</string>
+    <string name="notification_important_channel_name">"Голяма важност"</string>
+    <string name="foreground_notification_paused_in_background_title">"На пауза на заден план"</string>
+    <string name="foreground_notification_call_in_progress_text">"Извършва се обаждане…"</string>
 </resources>
