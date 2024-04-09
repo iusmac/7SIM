@@ -213,19 +213,14 @@ kapt {
  * "<commit-ish>"        = [null, 0, "commit-ish"]
  */
 def gitDescribeTag(final String pattern, final String commitIsh) {
-    final def describedTag = String.format('git describe --always --tags --match=%s %s', pattern,
-            commitIsh).execute([], project.rootDir).text.trim().split('-')
-    final def tag, commitsSinceLastTag
+    final def describedTag = String.format('git describe --always --tags --long --match=%s %s',
+            pattern, commitIsh).execute([], project.rootDir).text.trim().split('-')
     def headCommit
-    if (describedTag.size() > 1) {
-        tag = describedTag[0..-3].join('-')
-        (commitsSinceLastTag, headCommit) = describedTag[-2..-1]
-        headCommit = headCommit.substring(1)
-    } else {
-        tag = null
-        headCommit = describedTag[0]
-        commitsSinceLastTag = 0
-    }
+    assert(describedTag.size() > 2)
+    final def tag = describedTag[0..-3].join('-')
+    final def commitsSinceLastTag
+    (commitsSinceLastTag, headCommit) = describedTag[-2..-1]
+    headCommit = headCommit.substring(1)
     return [tag, commitsSinceLastTag, headCommit]
 }
 
