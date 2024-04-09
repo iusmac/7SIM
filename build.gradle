@@ -209,8 +209,7 @@ kapt {
  * Describe the tag relative to a commit-ish using "git describe".
  *
  * The result from the git describe command will be transformed as follows:
- * "TAG-N-g<commit-ish>" = ["TAG", "N", "commit-ish"]
- * "<commit-ish>"        = [null, 0, "commit-ish"]
+ * ["TAG", "N", "commit-ish"]
  */
 def gitDescribeTag(final String pattern, final String commitIsh) {
     final def describedTag = String.format('git describe --always --tags --long --match=%s %s',
