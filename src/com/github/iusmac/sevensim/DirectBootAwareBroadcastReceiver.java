@@ -47,7 +47,8 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
                 // Need to schedule the next iteration processing of weekly repeat schedules after
                 // the device has finished booting. Note that, this call should only happen after
                 // syncing
-                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context, now);
+                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
+                        now.plusMinutes(1));
                 break;
 
             case CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED:
@@ -73,10 +74,12 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
                         /*overrideUserPreference=*/ false);
 
                 // Need to re-schedule the next iteration processing of weekly repeat schedules
-                // after syncing. Note that, if the SIM card was ejected, the SIM subscription won't
-                // exist as well, so there will be nothing to sync, but we still need to do
-                // re-scheduling as there can be other SIM cards in the system with their schedules
-                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context, now);
+                // after syncing. Note that, if the SIM card was disabled on devices using legacy
+                // RIL, the SIM subscription won't exist as well, so there will be nothing to sync,
+                // but we still need to do re-scheduling as there can be other SIM cards in the
+                // system with their schedules, otherwise it will cancel existing alarm
+                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
+                        now.plusMinutes(1));
                 break;
 
             default:

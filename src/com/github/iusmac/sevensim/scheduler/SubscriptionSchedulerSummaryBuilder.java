@@ -101,8 +101,14 @@ public final class SubscriptionSchedulerSummaryBuilder {
         // Since we don't support seconds and milliseconds, drop them off to avoid inexact summaries
         dateTime = dateTime.truncatedTo(ChronoUnit.MINUTES);
 
+        // NOTE: if the SIM subscription state change time matches the target date-time, then we'll
+        // start seeking for the next weekly repeat schedule date-time that happens no earlier than
+        // one minute from the target date-time. This to avoid showing a summary for the schedule
+        // that just happened
+        final LocalDateTime dateTime2 = sub.getLastActivatedTime().equals(dateTime) ||
+                sub.getLastDeactivatedTime().equals(dateTime) ? dateTime.plusMinutes(1) : dateTime;
         final LocalDateTime nearestScheduleDateTime =
-            SubscriptionScheduler.getDateTimeAfter(nearestSchedule.get(), dateTime).get();
+            SubscriptionScheduler.getDateTimeAfter(nearestSchedule.get(), dateTime2).get();
 
         // NOTE: we *must* isolate the usage of the Formatter to avoid result aggregation from
         // concurrent threads, also protect the StringBuilder length resetting
