@@ -18,6 +18,7 @@ public final class Utils {
     public static final boolean IS_AT_LEAST_S = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S;
     public static final boolean IS_AT_LEAST_T =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+    public static final boolean IS_OLDER_THAN_R = Build.VERSION.SDK_INT < Build.VERSION_CODES.R;
 
     /**
      * This a backport of the {@code #BundleCompat.getParcelable} from <b>AndroidX Core v1.10.0</b>
