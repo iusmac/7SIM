@@ -14,6 +14,7 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -103,7 +104,7 @@ public final class Subscription implements Parcelable {
     }
 
     public void setLastActivatedTime(final LocalDateTime lastActivatedTime) {
-        mLastActivatedTime = lastActivatedTime;
+        mLastActivatedTime = lastActivatedTime.truncatedTo(ChronoUnit.MINUTES);
     }
 
     public LocalDateTime getLastDeactivatedTime() {
@@ -111,7 +112,7 @@ public final class Subscription implements Parcelable {
     }
 
     public void setLastDeactivatedTime(final LocalDateTime lastDeactivatedTime) {
-        mLastDeactivatedTime = lastDeactivatedTime;
+        mLastDeactivatedTime = lastDeactivatedTime.truncatedTo(ChronoUnit.MINUTES);
     }
 
     public Boolean getKeepDisabledAcrossBoots() {

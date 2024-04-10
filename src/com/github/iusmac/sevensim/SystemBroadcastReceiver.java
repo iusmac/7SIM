@@ -70,7 +70,8 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // Need to reschedule the next weekly repeat schedule processing iteration, as it
                 // relies on a RTC-based alarm, which, in turn is independent of any alteration to
                 // the system time. Note that, this call should only happen after syncing
-                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context, now);
+                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
+                        now.plusMinutes(1));
                 break;
 
             default:

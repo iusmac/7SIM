@@ -387,8 +387,8 @@ public final class SubscriptionScheduler {
     }
 
     /**
-     * Determine the expected SIM subscription enabled state using an opened interval
-     * ({@code a<x<b}) of two opposite schedules.
+     * Determine the expected SIM subscription enabled state using a closed interval
+     * ({@code a<=x<=b}) of two opposite schedules.
      *
      * @param sub The subscription for which to determine the expected enabled state.
      * @param startDateTime The interval start date-time value. This is expected to be date-time of
@@ -398,7 +398,8 @@ public final class SubscriptionScheduler {
      * @param overrideUserPreference Whether the user's preference should NOT take precedence over
      * schedule intervals. For instance, if the SIM subscription is expected to be disabled, but the
      * user enabled it manually, then pass {@code false} to keep the state within the allowed
-     * period.
+     * period. Note that, when passed in {@code true}, an opened interval ({@code a<x<b}) will be
+     * used instead for comparison.
      * @return {@code true} if the SIM subscription is expected to be enabled, {@code false}
      * otherwise.
      */
@@ -408,7 +409,8 @@ public final class SubscriptionScheduler {
 
         if (sub.isSimEnabled()) {
             return endDateTime.map((end) -> {
-                if (!overrideUserPreference && sub.getLastActivatedTime().isAfter(end)) {
+                if (!overrideUserPreference && (sub.getLastActivatedTime().equals(end) ||
+                            sub.getLastActivatedTime().isAfter(end))) {
                     return true;
                 }
 
@@ -430,7 +432,8 @@ public final class SubscriptionScheduler {
             });
         }
         return startDateTime.map((start) -> {
-            if (!overrideUserPreference && sub.getLastDeactivatedTime().isAfter(start)) {
+            if (!overrideUserPreference && (sub.getLastDeactivatedTime().equals(start) ||
+                        sub.getLastDeactivatedTime().isAfter(start))) {
                 return false;
             }
             return endDateTime.map((end) -> end.isBefore(start)).orElse(true);
