@@ -119,13 +119,26 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         mUsableSubIdsSysProp = usableSimSubIdsSysProp;
         mSubscriptionsDao = appDatabase.subscriptionsDao();
 
-        mSubscriptionManagerListener =
-            new SubscriptionManager.OnSubscriptionsChangedListener(mContext.getMainLooper()) {
+        // We use hidden API to create listener with a custom looper before Android 11.0 (R), on
+        // newer versions, we can register the listener with a custom executor via
+        // SubscriptionsImpl#addOnSubscriptionsChangedListener()
+        if (Utils.IS_OLDER_THAN_R) {
+            mSubscriptionManagerListener =
+                new SubscriptionManager.OnSubscriptionsChangedListener(mContext.getMainLooper()) {
+                    @Override
+                    public void onSubscriptionsChanged() {
+                        dispatchOnSubscriptionInfoRecordsChanged();
+                    }
+                };
+        } else {
+            mSubscriptionManagerListener =
+            new SubscriptionManager.OnSubscriptionsChangedListener() {
                 @Override
                 public void onSubscriptionsChanged() {
                     dispatchOnSubscriptionInfoRecordsChanged();
                 }
             };
+        }
     }
 
     /**
@@ -360,9 +373,8 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     private void registerSubscriptionManagerListener() {
         mLogger.v("registerSubscriptionManagerListener().");
 
-        if (Utils.IS_AT_LEAST_S) {
-            mSubscriptionManager.addOnSubscriptionsChangedListener(
-                    mSubscriptionManagerListener.getHandlerExecutor(),
+        if (Utils.IS_AT_LEAST_R) {
+            mSubscriptionManager.addOnSubscriptionsChangedListener(mContext.getMainExecutor(),
                     mSubscriptionManagerListener);
         } else {
             ApiDeprecated.addOnSubscriptionsChangedListener(mSubscriptionManager,
