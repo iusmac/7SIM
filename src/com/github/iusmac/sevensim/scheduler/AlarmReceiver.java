@@ -1,9 +1,12 @@
 package com.github.iusmac.sevensim.scheduler;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.HandlerThread;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.ForegroundService;
@@ -13,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import java.time.LocalDateTime;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * This static broadcast receiver will be triggered exclusively by the {@link AlarmManager}, with
@@ -24,6 +28,12 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
     @Inject
     Logger.Factory loggerFactory;
 
+    @Inject
+    ActivityManager mActivityManager;
+
+    @Inject
+    Provider<SubscriptionScheduler> mSubscriptionSchedulerProvider;
+
     private Logger mLogger;
 
     @Override
@@ -32,7 +42,9 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
 
-        mLogger.d("onReceive() : intent=" + intent);
+        final boolean isBgRestricted = mActivityManager.isBackgroundRestricted();
+
+        mLogger.d("onReceive() : isBgRestricted=%s,intent=%s.", isBgRestricted, intent);
 
         final LocalDateTime now = LocalDateTime.now();
 
@@ -43,7 +55,45 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
         ForegroundService.syncAllSubscriptionsEnabledState(context, now, overrideUserPreference);
 
         // Schedule the next iteration processing of weekly repeat schedules to happen no earlier
-        // than one minute from now as we already processed schedules at this time
-        ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context, now.plusMinutes(1));
+        // than one minute from now as we already processed schedules at this time. Note that, if
+        // the background usage is restricted, we won't be able to re-schedule using foreground
+        // service. Therefore, we're going to do this here, otherwise when the user will remove
+        // the background restriction for the app, the next schedule iteration processing will
+        // actually never happen again because it was never re-scheduled.
+        // Also note that, we *DO NOT* want to execute the above tasks here. This to avoid holding
+        // this BroadcastReceiver for too long, as it could cause the system to consider it
+        // non-responsive and ANR the entire app. Instead, we *want* them to be handled by the
+        // foreground service, which will detect background restriction and inform the user about
+        // the issue via a notification.
+        if (!isBgRestricted) {
+            ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
+                    now.plusMinutes(1));
+        } else {
+            final PendingResult result = goAsync();
+            AsyncHandler.post(() -> {
+                try {
+                    mSubscriptionSchedulerProvider.get()
+                        .updateNextWeeklyRepeatScheduleProcessingIter(now.plusMinutes(1));
+                } finally {
+                    result.finish();
+                }
+            });
+        }
     }
+
+    private static class AsyncHandler {
+        static final Handler sHandler;
+
+        static {
+            final HandlerThread handlerThread = new HandlerThread(
+                    AlarmReceiver.class.getSimpleName() + "Thread");
+            handlerThread.start();
+            sHandler = Handler.createAsync(handlerThread.getLooper());
+        }
+
+        static void post(final Runnable r) {
+            sHandler.post(r);
+        }
+    }
+
 }
