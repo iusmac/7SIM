@@ -122,15 +122,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         // We use hidden API to create listener with a custom looper before Android 11.0 (R), on
         // newer versions, we can register the listener with a custom executor via
         // SubscriptionsImpl#addOnSubscriptionsChangedListener()
-        if (Utils.IS_OLDER_THAN_R) {
-            mSubscriptionManagerListener =
-                new SubscriptionManager.OnSubscriptionsChangedListener(mContext.getMainLooper()) {
-                    @Override
-                    public void onSubscriptionsChanged() {
-                        dispatchOnSubscriptionInfoRecordsChanged();
-                    }
-                };
-        } else {
+        if (Utils.IS_AT_LEAST_R) {
             mSubscriptionManagerListener =
             new SubscriptionManager.OnSubscriptionsChangedListener() {
                 @Override
@@ -138,6 +130,14 @@ public abstract class Subscriptions implements Iterable<Subscription> {
                     dispatchOnSubscriptionInfoRecordsChanged();
                 }
             };
+        } else {
+            mSubscriptionManagerListener =
+                new SubscriptionManager.OnSubscriptionsChangedListener(mContext.getMainLooper()) {
+                    @Override
+                    public void onSubscriptionsChanged() {
+                        dispatchOnSubscriptionInfoRecordsChanged();
+                    }
+                };
         }
     }
 
