@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2-beta](https://github.com/iusmac/7SIM/compare/v1.0.1-beta...v1.0.2-beta) (2024-04-11)
+
+
+### :bug: Bug Fixes
+
+* **#12:** resume scheduler after background restriction removed ([#13](https://github.com/iusmac/7SIM/issues/13)) ([3644913](https://github.com/iusmac/7SIM/commit/3644913300f188c7e5ab3e195301227a01f934f5))
+
 ## [1.0.1-beta](https://github.com/iusmac/7SIM/compare/v1.0.0-beta...v1.0.1-beta) (2024-04-10)
 
 
