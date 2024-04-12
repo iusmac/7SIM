@@ -2,7 +2,7 @@
 
 <em>Control SIM cards based on your schedule.</em>
 
-<img src="images/logo.svg" alt="logo" align="left" height="120">
+<img src="images/logo.svg" alt="logo" align="left" height="100" />
 
 [![Download latest version][releases/latest-badge]][releases/latest] [![License][license-badge]](./LICENSE)
 
@@ -507,6 +507,6 @@ You can help translate 7SIM here [on GitHub](./res). Here are a few tips:
 [faq-incompatible-with-non-custom-roms-los]: #user-content-faq-incompatible-with-non-custom-roms-los
 [faq-updates-grayed-out]: #user-content-faq-updates-grayed-out
 [releases/latest]: https://github.com/iusmac/7SIM/releases/latest
-[releases/latest-badge]: https://img.shields.io/github/v/tag/iusmac/7SIM?sort=semver&style=for-the-badge&labelColor=ffddb4&logoColor=4f4539&logo=DocuSign&label=Download&color=f6c695
+[releases/latest-badge]: https://img.shields.io/github/v/tag/iusmac/7SIM?sort=semver&style=for-the-badge&labelColor=ffddb4&logoColor=4f4539&logo=DocuSign&label=&color=f6c695
 [license-badge]: https://img.shields.io/github/license/iusmac/7SIM?style=for-the-badge&labelColor=ffddb4&logoColor=4f4539&color=f6c695
 [q&a]: https://github.com/iusmac/7SIM/discussions/categories/q-a
