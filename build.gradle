@@ -209,17 +209,26 @@ kapt {
  * Describe the tag relative to a commit-ish using "git describe".
  *
  * The result from the git describe command will be transformed as follows:
- * ["TAG", "N", "commit-ish"]
+ * "TAG-N-g<commit-ish>" = ["TAG", "N", "commit-ish"]
+ * "<commit-ish>"        = [null, 0, "commit-ish"]
  */
 def gitDescribeTag(final String pattern, final String commitIsh) {
     final def describedTag = String.format('git describe --always --tags --long --match=%s %s',
             pattern, commitIsh).execute([], project.rootDir).text.trim().split('-')
+    final def tag, commitsSinceLastTag
     def headCommit
-    assert(describedTag.size() > 2)
-    final def tag = describedTag[0..-3].join('-')
-    final def commitsSinceLastTag
-    (commitsSinceLastTag, headCommit) = describedTag[-2..-1]
-    headCommit = headCommit.substring(1)
+    if (describedTag.size() > 2) {
+        tag = describedTag[0..-3].join('-')
+        (commitsSinceLastTag, headCommit) = describedTag[-2..-1]
+        headCommit = headCommit.substring(1)
+    } else if (describedTag.size() > 0) {
+        tag = null
+        headCommit = describedTag[0]
+        commitsSinceLastTag = 0
+        assert(headCommit != null && !headCommit.trim().isEmpty())
+    } else {
+        throw new AssertionError('The output from `git describe` command is empty.')
+    }
     return [tag, commitsSinceLastTag, headCommit]
 }
 
