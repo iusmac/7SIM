@@ -20,11 +20,15 @@ dependencyResolutionManagement {
 
 rootProject.name = '7SIM'
 
-include ':SettingsLib'
+include ':SettingsLib:BannerMessagePreference'
+include ':SettingsLib:CollapsingToolbarBaseActivity'
+include ':SettingsLib:MainSwitchPreference'
+include ':SettingsLib:SettingsTheme'
+include ':SettingsLib:TwoTargetPreference'
 include ':SettingsLib:Utils'
 
 android {
-    compileSdk 33
+    compileSdk 34
     minSdk 29
     // TODO: b/317358817 com.android.settings plugin doesn't recognize targetSdk
     // targetSdk 33

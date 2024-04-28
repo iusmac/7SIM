@@ -1,0 +1,40 @@
+plugins {
+    id 'com.android.library'
+}
+
+def SettingsLibMainSwitchPreference = '../fwb/packages/SettingsLib/MainSwitchPreference'
+
+android {
+    namespace 'com.android.settingslib.widget.mainswitch'
+
+    defaultConfig {
+        minSdk 28
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ["${SettingsLibMainSwitchPreference}/res"]
+            java.srcDirs = ["${SettingsLibMainSwitchPreference}/src"]
+        }
+    }
+}
+
+dependencies {
+    implementation libs.preference
+    implementation project(':SettingsLib:SettingsTheme')
+}

@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.library'
+}
+
+def SettingsLibCollapsingToolbarBaseActivity = '../fwb/packages/SettingsLib/CollapsingToolbarBaseActivity'
+
+android {
+    namespace 'com.android.settingslib.collapsingtoolbar'
+
+    defaultConfig {
+        minSdk 29
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/res"]
+            java.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/src"]
+        }
+    }
+}
+
+dependencies {
+    implementation libs.annotation
+    implementation libs.appcompat
+    implementation libs.coordinatorlayout
+    implementation libs.material
+    implementation libs.preference
+    implementation project(':SettingsLib:SettingsTheme')
+    implementation project(':SettingsLib:Utils')
+}

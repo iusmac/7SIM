@@ -5,8 +5,6 @@ import android.view.MenuItem;
 
 import androidx.lifecycle.ViewModel;
 
-import com.android.settingslib.widget.R;
-
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 
 public final class LicenseActivity extends CollapsingToolbarBaseActivity {
@@ -22,7 +20,8 @@ public final class LicenseActivity extends CollapsingToolbarBaseActivity {
         }
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
+            getSupportFragmentManager().beginTransaction().add(
+                    com.android.settingslib.collapsingtoolbar.R.id.content_frame,
                     new LicenseFragment()).commit();
         }
     }

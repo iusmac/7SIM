@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.library'
+}
+
+def SettingsLibTwoTargetPreference = '../fwb/packages/SettingsLib/TwoTargetPreference'
+
+android {
+    namespace 'com.android.settingslib.widget.preference.twotarget'
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ["${SettingsLibTwoTargetPreference}/res"]
+            java.srcDirs = ["${SettingsLibTwoTargetPreference}/src"]
+        }
+    }
+}
+
+dependencies {
+    implementation libs.annotation
+    implementation libs.preference
+    implementation project(':SettingsLib:SettingsTheme')
+}

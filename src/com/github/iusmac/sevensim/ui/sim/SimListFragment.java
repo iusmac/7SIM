@@ -94,7 +94,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
         disclaimerBanner
             .setAttentionLevel(BannerMessagePreference.AttentionLevel.MEDIUM)
             .setPositiveButtonText(
-                    com.android.settingslib.widget.R.string.accessibility_banner_message_dismiss)
+                    com.android.settingslib.widget.preference.banner.R.string.accessibility_banner_message_dismiss)
             .setPositiveButtonOnClickListener((view) -> {
                 disclaimerBanner.setVisible(false);
                 mSharedPrefs.edit().putBoolean(disclaimerBanner.getKey(), false).apply();

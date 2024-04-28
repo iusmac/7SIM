@@ -109,7 +109,7 @@ android {
 
     defaultConfig {
         applicationId 'com.github.iusmac.sevensim'
-        targetSdk 33
+        targetSdk 34
         versionCode versionNameCommon[0].replaceAll(/\D/, '') as Integer // "x.y.z" => xyz
     }
 
@@ -182,7 +182,7 @@ android {
     ]
 }
 
-addCompileOnlyJar('android-33.jar')
+addCompileOnlyJar('android-34.jar')
 
 dependencies {
     implementation libs.annotation
@@ -198,7 +198,11 @@ dependencies {
     implementation libs.room_runtime
     kapt libs.room_compiler
 
-    implementation project(path: ':SettingsLib')
+    implementation project(path: ':SettingsLib:BannerMessagePreference')
+    implementation project(path: ':SettingsLib:CollapsingToolbarBaseActivity')
+    implementation project(path: ':SettingsLib:MainSwitchPreference')
+    implementation project(path: ':SettingsLib:SettingsTheme')
+    implementation project(path: ':SettingsLib:TwoTargetPreference')
 }
 
 kapt {

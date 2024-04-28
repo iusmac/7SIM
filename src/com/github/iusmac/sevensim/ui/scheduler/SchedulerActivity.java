@@ -136,7 +136,7 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
     }
 
     private void commitFragment() {
-        final int containerViewId = com.android.settingslib.widget.R.id.content_frame;
+        final int containerViewId = com.android.settingslib.collapsingtoolbar.R.id.content_frame;
         getSupportFragmentManager().beginTransaction().add(containerViewId,
                 new SchedulerFragment()).commit();
     }

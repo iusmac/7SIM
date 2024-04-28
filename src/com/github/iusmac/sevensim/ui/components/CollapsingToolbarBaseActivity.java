@@ -57,7 +57,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
             // content view background as we display a subtitle text that may fuse visually with
             // other text
             getCollapsingToolbarLayout()
-                .setContentScrimResource(com.android.settingslib.widget.R.color.settingslib_colorSurfaceHeader);
+                .setContentScrimResource(com.android.settingslib.widget.theme.R.color.settingslib_colorSurfaceHeader);
         } else {
             // For better UX (e.g. l10n), apply the marquee effect on the title for non-collapsing
             // Toolbar
