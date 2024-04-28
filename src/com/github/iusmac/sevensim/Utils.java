@@ -14,6 +14,8 @@ public final class Utils {
     public static final boolean IS_AT_LEAST_S = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S;
     public static final boolean IS_AT_LEAST_T =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+    public static final boolean IS_AT_LEAST_U = Build.VERSION.SDK_INT >=
+        Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
 
     /**
      * @param context The application context.
