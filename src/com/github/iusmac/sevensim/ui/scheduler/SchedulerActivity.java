@@ -10,12 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.core.os.BundleCompat;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
-import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
@@ -98,7 +98,7 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
             throw new IllegalArgumentException("Extra Bundle is NULL!");
         }
 
-        mSubscription = Utils.getParcelable(extras, EXTRA_SUBSCRIPTION, Subscription.class);
+        mSubscription = BundleCompat.getParcelable(extras, EXTRA_SUBSCRIPTION, Subscription.class);
 
         final ViewModelProvider.Factory vmpFactory =
             SchedulerViewModel.getFactory(mViewModelFactory, mSubscription.getId(),
