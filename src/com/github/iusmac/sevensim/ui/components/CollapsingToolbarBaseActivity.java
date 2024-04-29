@@ -48,6 +48,16 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
             // Override the default AOSP's value of 50ms, which is too short and makes the scrim
             // flicker on <60Hz displays
             getCollapsingToolbarLayout().setScrimAnimationDuration(SCRIM_ANIMATION_DURATION);
+            // Enforce fade in/out and translate collapse effect for the title so that it's
+            // consistent with the subtitle that doesn't support scaling, which may be selected if
+            // using non-AOSP sources
+            getCollapsingToolbarLayout()
+                .setTitleCollapseMode(CollapsingToolbarLayout.TITLE_COLLAPSE_MODE_FADE);
+            // Enforce the header content scrim background color so it's always different from the
+            // content view background as we display a subtitle text that may fuse visually with
+            // other text
+            getCollapsingToolbarLayout()
+                .setContentScrimResource(com.android.settingslib.widget.R.color.settingslib_colorSurfaceHeader);
         } else {
             // For better UX (e.g. l10n), apply the marquee effect on the title for non-collapsing
             // Toolbar
