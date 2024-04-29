@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.Settings;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
@@ -57,7 +55,7 @@ public final class ApplicationInfo {
      */
     public @NonNull String getPackageVersionName() {
         try {
-            final PackageInfo packageInfo = getPackageInfo(0);
+            final PackageInfo packageInfo = mPackageManager.getPackageInfo(mPackageName, 0);
             return packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             return "";
@@ -70,7 +68,8 @@ public final class ApplicationInfo {
      */
     public boolean isSystemApplication() {
         try {
-            final android.content.pm.ApplicationInfo appInfo = getApplicationInfo(0);
+            final android.content.pm.ApplicationInfo appInfo =
+                mPackageManager.getApplicationInfo(mPackageName, 0);
             // Note that, an application is considered as a system application when it's either
             // pre-installed in the device's system partition as part of the ROM, or be deliberately
             // placed by the user under the system{_ext}/priv-app folder. Additionally, the system
@@ -102,77 +101,10 @@ public final class ApplicationInfo {
     private Signature[] getPackageSigners() {
         try {
             final int flags = PackageManager.GET_SIGNING_CERTIFICATES;
-            final PackageInfo packageInfo = getPackageInfo(flags);
+            final PackageInfo packageInfo = mPackageManager.getPackageInfo(mPackageName, flags);
             return packageInfo.signingInfo.getApkContentsSigners();
         } catch (PackageManager.NameNotFoundException e) {
             return new Signature[0];
-        }
-    }
-
-    /**
-     * @param flags The combination of flag bits for {@link PackageInfo}.
-     * @return A {@link PackageInfo} containing info about this package.
-     */
-    private PackageInfo getPackageInfo(final int flags)
-        throws PackageManager.NameNotFoundException {
-
-        if (Utils.IS_AT_LEAST_T) {
-            return Api33Impl.getPackageInfo(mPackageManager, mPackageName, flags);
-        } else {
-            return ApiDeprecated.getPackageInfo(mPackageManager, mPackageName, flags);
-        }
-    }
-
-    /**
-     * @param flags The combination of flag bits for {@link ApplicationInfo}.
-     * @return A {@link ApplicationInfo} containing info about this application.
-     */
-    private android.content.pm.ApplicationInfo getApplicationInfo(final int flags)
-            throws PackageManager.NameNotFoundException {
-
-        if (Utils.IS_AT_LEAST_T) {
-            return Api33Impl.getApplicationInfo(mPackageManager, mPackageName, flags);
-        } else {
-            return ApiDeprecated.getApplicationInfo(mPackageManager, mPackageName, flags);
-        }
-    }
-
-    /**
-     * Nested class to avoid verification errors for methods introduced in Android 13 (API 33).
-     */
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private static class Api33Impl {
-        private static PackageInfo getPackageInfo(final PackageManager pm, final String packageName,
-                final int flags) throws PackageManager.NameNotFoundException {
-
-            return pm.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags));
-        }
-
-        private static android.content.pm.ApplicationInfo getApplicationInfo(
-                final PackageManager pm, final String packageName, final int flags)
-                throws PackageManager.NameNotFoundException {
-
-            return pm.getApplicationInfo(packageName,
-                    PackageManager.ApplicationInfoFlags.of(flags));
-        }
-    }
-
-    /**
-     * Nested class to suppress warnings only for API methods annotated as Deprecated.
-     */
-    @SuppressWarnings("deprecation")
-    private static class ApiDeprecated {
-        private static PackageInfo getPackageInfo(final PackageManager pm, final String packageName,
-                final int flags) throws PackageManager.NameNotFoundException {
-
-            return pm.getPackageInfo(packageName, flags);
-        }
-
-        private static android.content.pm.ApplicationInfo getApplicationInfo(
-                final PackageManager pm, final String packageName, final int flags)
-                throws PackageManager.NameNotFoundException {
-
-            return pm.getApplicationInfo(packageName, flags);
         }
     }
 }
