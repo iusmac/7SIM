@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Önem düzeyi yüksek"</string>
     <string name="foreground_notification_paused_in_background_title">"Arka planda duraklatıldı"</string>
     <string name="foreground_notification_call_in_progress_text">"Çağrı sürüyor…"</string>
+    <string name="preference_not_set">"Ayarlanmadı"</string>
 </resources>

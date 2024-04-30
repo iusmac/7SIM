@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Μεγάλης βαρύτητας"</string>
     <string name="foreground_notification_paused_in_background_title">"Σε παύση στο παρασκήνιο"</string>
     <string name="foreground_notification_call_in_progress_text">"Κλήση σε εξέλιξη…"</string>
+    <string name="preference_not_set">"Δεν έχει οριστεί"</string>
 </resources>

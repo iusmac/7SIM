@@ -7,6 +7,7 @@
     <string name="sim_state_change_request_failed">"SIM request failed (code <xliff:g name="errCode" example="2">%1$d</xliff:g>)"</string>
     <string name="restart_to_apply">"You have to restart the application to apply changes"</string>
     <string name="sim_missing">"SIM card missing"</string>
+    <string name="preference_not_set">Not set</string>
 
     <string name="disclaimer_banner_content">"Download 7SIM exclusively from the official GitHub page. Files from unknown sources can be malicious!"</string>
 

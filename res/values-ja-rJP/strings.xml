@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"重要度: 高"</string>
     <string name="foreground_notification_paused_in_background_title">"バックグラウンド一時停止"</string>
     <string name="foreground_notification_call_in_progress_text">"通話中…"</string>
+    <string name="preference_not_set">"未設定"</string>
 </resources>

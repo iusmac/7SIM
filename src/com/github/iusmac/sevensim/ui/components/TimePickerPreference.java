@@ -16,6 +16,8 @@ import androidx.core.content.res.TypedArrayUtils;
 import androidx.preference.DialogPreference;
 import androidx.preference.Preference;
 
+import com.github.iusmac.sevensim.R;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -223,7 +225,7 @@ public final class TimePickerPreference extends DialogPreference {
         public @Nullable CharSequence provideSummary(final @NonNull TimePickerPreference preference) {
             final CharSequence time = preference.getTime();
             return time != null ? time :
-                preference.getContext().getString(androidx.preference.R.string.not_set);
+                preference.getContext().getString(R.string.preference_not_set);
         }
     }
 }

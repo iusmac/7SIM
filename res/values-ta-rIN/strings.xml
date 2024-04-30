@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"அதிக முக்கியத்துவம்"</string>
     <string name="foreground_notification_paused_in_background_title">"பின்புலத்தில் இடைநிறுத்தப்பட்டது"</string>
     <string name="foreground_notification_call_in_progress_text">"அழைப்பில்…"</string>
+    <string name="preference_not_set">"அமைக்கப்படவில்லை"</string>
 </resources>

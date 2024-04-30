@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Velika važnost"</string>
     <string name="foreground_notification_paused_in_background_title">"Pauzirano u pozadini"</string>
     <string name="foreground_notification_call_in_progress_text">"Razgovor u tijeku…"</string>
+    <string name="preference_not_set">"Nije postavljeno"</string>
 </resources>

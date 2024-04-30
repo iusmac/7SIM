@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Голяма важност"</string>
     <string name="foreground_notification_paused_in_background_title">"На пауза на заден план"</string>
     <string name="foreground_notification_call_in_progress_text">"Извършва се обаждане…"</string>
+    <string name="preference_not_set">"Не е зададено"</string>
 </resources>

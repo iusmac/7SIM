@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Vysoká důležitost"</string>
     <string name="foreground_notification_paused_in_background_title">"Pozastaveno na pozadí"</string>
     <string name="foreground_notification_call_in_progress_text">"Probíhá hovor…"</string>
+    <string name="preference_not_set">"Nenastaveno"</string>
 </resources>

@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Viktig avisering"</string>
     <string name="foreground_notification_paused_in_background_title">"Pausad i bakgrunden"</string>
     <string name="foreground_notification_call_in_progress_text">"Samtal pågår…"</string>
+    <string name="preference_not_set">"Inte angett"</string>
 </resources>

@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"중요도가 높은 알림 채널"</string>
     <string name="foreground_notification_paused_in_background_title">"백그라운드에서 일시중지되었습니다"</string>
     <string name="foreground_notification_call_in_progress_text">"전화 거는 중…"</string>
+    <string name="preference_not_set">"설정되지 않음"</string>
 </resources>
