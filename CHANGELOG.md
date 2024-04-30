@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3-beta](https://github.com/iusmac/7SIM/compare/v1.0.2-beta...v1.0.3-beta) (2024-04-29)
+
+
+### :wrench: Feature Tweaks
+
+* **ui/CollapsingToolbar:** enforce fade collapse effect for the title & header content background color ([#17](https://github.com/iusmac/7SIM/issues/17)) ([43becdb](https://github.com/iusmac/7SIM/commit/43becdb92586d506dd8b97422710bc6a67f6327c))
+
 ## [1.0.2-beta](https://github.com/iusmac/7SIM/compare/v1.0.1-beta...v1.0.2-beta) (2024-04-11)
 
 
