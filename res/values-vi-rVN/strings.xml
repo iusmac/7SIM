@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Tầm quan trọng cao"</string>
     <string name="foreground_notification_paused_in_background_title">"Đã tạm dừng trong nền"</string>
     <string name="foreground_notification_call_in_progress_text">"Cuộc gọi đang diễn ra…"</string>
+    <string name="preference_not_set">"Chưa đặt"</string>
 </resources>

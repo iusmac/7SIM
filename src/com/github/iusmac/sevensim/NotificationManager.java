@@ -84,7 +84,9 @@ public final class NotificationManager {
             .setAutoCancel(true)
             .build();
 
-        mNotificationManagerCompat.notify(BACKGROUND_RESTRICTED_NOTIFICATION_ID, notification);
+        try {
+            mNotificationManagerCompat.notify(BACKGROUND_RESTRICTED_NOTIFICATION_ID, notification);
+        } catch (SecurityException ignored) {}
     }
 
     /**

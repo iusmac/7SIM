@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Fontos"</string>
     <string name="foreground_notification_paused_in_background_title">"Szünetel a háttérben"</string>
     <string name="foreground_notification_call_in_progress_text">"Hívás folyamatban…"</string>
+    <string name="preference_not_set">"Nincs beállítva"</string>
 </resources>

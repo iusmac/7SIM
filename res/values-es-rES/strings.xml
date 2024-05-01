@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Muy importante"</string>
     <string name="foreground_notification_paused_in_background_title">"Pausada en segundo plano"</string>
     <string name="foreground_notification_call_in_progress_text">"Llamada en curso…"</string>
+    <string name="preference_not_set">"Sin establecer"</string>
 </resources>

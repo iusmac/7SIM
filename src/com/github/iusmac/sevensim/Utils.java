@@ -4,12 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 public final class Utils {
@@ -18,25 +14,8 @@ public final class Utils {
     public static final boolean IS_AT_LEAST_S = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S;
     public static final boolean IS_AT_LEAST_T =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
-
-    /**
-     * This a backport of the {@code #BundleCompat.getParcelable} from <b>AndroidX Core v1.10.0</b>
-     * library to support SDK 33+ APIs.
-     * @see https://issuetracker.google.com/issues/242048899
-     */
-    @Nullable
-    @SuppressWarnings({"deprecation"})
-    public static <T> T getParcelable(final @NonNull Bundle in, final @Nullable String key,
-            final @NonNull Class<T> clazz) {
-
-        // Even though API was introduced in 33, we use 34 as 33 is bugged in some scenarios.
-        if (Build.VERSION.SDK_INT >= 34) {
-            return Api33Impl.getParcelable(in, key, clazz);
-        } else {
-            final T parcelable = in.getParcelable(key);
-            return clazz.isInstance(parcelable) ? parcelable : null;
-        }
-    }
+    public static final boolean IS_AT_LEAST_U = Build.VERSION.SDK_INT >=
+        Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
 
     /**
      * @param context The application context.
@@ -103,17 +82,6 @@ public final class Utils {
     /** Linear interpolation between {@code startValue} and {@code endValue} by {@code fraction}. */
     public static float lerp(final float startValue, final float endValue, final float fraction) {
         return startValue + (fraction * (endValue - startValue));
-    }
-
-    /**
-     * Nested class to avoid verification errors for methods introduced in Android 13 (API 33).
-     */
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private static class Api33Impl {
-        private static <T> T getParcelable(final Bundle in, final String key,
-                final Class<T> clazz) {
-            return in.getParcelable(key, clazz);
-        }
     }
 
     /** Do not initialize. */

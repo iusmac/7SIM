@@ -9,14 +9,13 @@ android {
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }
 
     buildTypes {
         release {
-            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -35,7 +34,7 @@ android {
     }
 }
 
-addCompileOnlyJar('android-33.jar')
+addCompileOnlyJar('android-34.jar')
 
 dependencies {
     implementation libs.annotation

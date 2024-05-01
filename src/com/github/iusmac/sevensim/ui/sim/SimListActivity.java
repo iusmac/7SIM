@@ -96,7 +96,7 @@ public class SimListActivity extends Hilt_SimListActivity
     private void commitFragment() {
         mLogger.d("commitFragment().");
 
-        final int containerViewId = com.android.settingslib.widget.R.id.content_frame;
+        final int containerViewId = com.android.settingslib.collapsingtoolbar.R.id.content_frame;
         getSupportFragmentManager().beginTransaction().add(containerViewId,
                 new SimListFragment()).commit();
     }

@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Hyvin tärkeä"</string>
     <string name="foreground_notification_paused_in_background_title">"Keskeytetty taustalla"</string>
     <string name="foreground_notification_call_in_progress_text">"Puhelu kesken…"</string>
+    <string name="preference_not_set">"Ei asetettu"</string>
 </resources>

@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.library'
+}
+
+def SettingsLibBannerMessagePreference = '../fwb/packages/SettingsLib/BannerMessagePreference'
+
+android {
+    namespace 'com.android.settingslib.widget.preference.banner'
+
+    defaultConfig {
+        minSdk 28
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ["${SettingsLibBannerMessagePreference}/res"]
+            java.srcDirs = ["${SettingsLibBannerMessagePreference}/src"]
+        }
+    }
+}
+
+dependencies {
+    implementation libs.preference
+    implementation project(':SettingsLib:SettingsTheme')
+    implementation project(':SettingsLib:Utils')
+}

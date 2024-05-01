@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Çox əhəmiyyətli"</string>
     <string name="foreground_notification_paused_in_background_title">"Arxa fonda dayandırıldı"</string>
     <string name="foreground_notification_call_in_progress_text">"Zəng davam edir…"</string>
+    <string name="preference_not_set">"Ayarlanmayıb"</string>
 </resources>

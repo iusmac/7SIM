@@ -6,6 +6,7 @@ import android.telephony.TelephonyManager;
 
 import androidx.annotation.GuardedBy;
 import androidx.annotation.WorkerThread;
+import androidx.core.os.BundleCompat;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
@@ -270,7 +271,7 @@ public final class TelephonyController {
             }
         }
 
-        final Subscription sub = Utils.getParcelable(mRequestMetadata, KEY_SUBSCRIPTION,
+        final Subscription sub = BundleCompat.getParcelable(mRequestMetadata, KEY_SUBSCRIPTION,
                 Subscription.class);
 
         final boolean expectedEnabled = sub.isSimEnabled();
@@ -365,7 +366,7 @@ public final class TelephonyController {
                 default: return;
             }
 
-            final Subscription sub = Utils.getParcelable(mRequestMetadata, KEY_SUBSCRIPTION,
+            final Subscription sub = BundleCompat.getParcelable(mRequestMetadata, KEY_SUBSCRIPTION,
                     Subscription.class);
 
             if (sub.getSlotIndex() != slotIndex) {

@@ -5,8 +5,6 @@ import android.view.MenuItem;
 
 import androidx.lifecycle.ViewModel;
 
-import com.android.settingslib.widget.R;
-
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 
@@ -30,7 +28,8 @@ public final class PreferenceListActivity extends Hilt_PreferenceListActivity {
         mLogger.d("onCreate().");
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+            getSupportFragmentManager().beginTransaction().replace(
+                    com.android.settingslib.collapsingtoolbar.R.id.content_frame,
                     new PreferenceListFragment()).commit();
         }
     }

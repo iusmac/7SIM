@@ -225,20 +225,20 @@ If you're a ROM maintainer and wish to integrate this app into your ROM, follow 
 1. Choose one of the following methods to add the app to the Android sources:
    - As a remote project via [Local Manifests](https://gerrit.googlesource.com/git-repo/+/master/docs/manifest-format.md#Local-Manifests):
      ```xml
-     <remote name="iusmac" fetch="https://github.com/iusmac" revision="13.0-dev" />
+     <remote name="iusmac" fetch="https://github.com/iusmac" revision="14.0-dev" />
      <project path="packages/apps/7SIM" name="7SIM" remote="iusmac" />
      ```
    - As an in-tree package within the device tree directory:
      ```sh
-     git clone --depth=1 -b 13.0-dev https://github.com/iusmac/7SIM.git
+     git clone --depth=1 -b 14.0-dev https://github.com/iusmac/7SIM.git
      ```
    - Or better — as Git [Submodule/Subtree](https://training.github.com/downloads/submodule-vs-subtree-cheat-sheet/):
      ```sh
-     git submodule add --depth=1 -b 13.0-dev https://github.com/iusmac/7SIM.git
+     git submodule add --depth=1 -b 14.0-dev https://github.com/iusmac/7SIM.git
      ```
      OR
      ```sh
-     git subtree add --prefix=7SIM https://github.com/iusmac/7SIM.git 13.0-dev --squash
+     git subtree add --prefix=7SIM https://github.com/iusmac/7SIM.git 14.0-dev --squash
      ```
 2. Add app module to a product makefile (e.g., `device.mk`):
    ```
@@ -270,7 +270,7 @@ If you're a ROM maintainer and wish to integrate this app into your ROM, follow 
 ### Using Gradle Build Tool
 
 **Requirements:**
-- Android 13 SDK or newer with access to hidden APIs and internal resources
+- Android 14 SDK or newer with access to hidden APIs and internal resources
 > [!TIP]
 > If you don't have one already, you can use our own `android.jar` that you can find at
 > [`prebuilts/jars/`](./prebuilts/jars/). Replace it with the stock one in the Android SDK directory.
@@ -280,7 +280,7 @@ If you're a ROM maintainer and wish to integrate this app into your ROM, follow 
 
 As mentioned above, the 7SIM app is an extension of the built-in Settings app. In order to have the
 same UI, and also write less code, it relies on some parts of the
-[SettingsLib](https://android.googlesource.com/platform/frameworks/base.git/+/refs/tags/android-13.0.0_r75/packages/SettingsLib/)
+[SettingsLib](https://android.googlesource.com/platform/frameworks/base.git/+/refs/tags/android-14.0.0_r31/packages/SettingsLib/)
 package that you can download automatically using this script:
 ```sh
 ./SettingsLib/fetch.sh
@@ -303,7 +303,7 @@ To enable debug logging on releases with R8, see [Debug Opt-in Logging](#debug-o
 
 ### Using Soong Build System
 **Requirements:**
-- Android 13 and later source code base
+- Android 14 and later source code base
 > [!NOTE]
 > The app stability is not guaranteed when building against the upstream source code base.
 

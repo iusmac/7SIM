@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"Importância elevada"</string>
     <string name="foreground_notification_paused_in_background_title">"Paus. em segundo plano"</string>
     <string name="foreground_notification_call_in_progress_text">"Chamada em andamento…"</string>
+    <string name="preference_not_set">"Não definido"</string>
 </resources>

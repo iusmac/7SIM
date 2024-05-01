@@ -43,4 +43,5 @@
     <string name="notification_important_channel_name">"খুব গুরুত্বপূর্ণ"</string>
     <string name="foreground_notification_paused_in_background_title">"পশ্চাদপটে বিরাম দেওয়া আছে"</string>
     <string name="foreground_notification_call_in_progress_text">"কল করা হচ্ছে…"</string>
+    <string name="preference_not_set">"সেট করা হয়নি"</string>
 </resources>

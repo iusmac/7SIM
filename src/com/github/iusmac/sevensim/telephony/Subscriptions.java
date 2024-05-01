@@ -216,7 +216,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         // alterations from outside
         persistSubscriptionState(sub.getId(), sub.getSimState());
 
-        mSubscriptionsDao.insertOrUpdate(sub);
+        mSubscriptionsDao.upsert(sub);
     }
 
     /**
