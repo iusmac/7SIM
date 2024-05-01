@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0-beta](https://github.com/iusmac/7SIM/compare/v1.0.3-beta...v1.1.0-beta) (2024-05-01)
+
+
+### :sparkles: Features
+
+* **#15:** adapt to Android 14.0 ([#16](https://github.com/iusmac/7SIM/issues/16)) ([e15dda0](https://github.com/iusmac/7SIM/commit/e15dda0ff164878cee05c5a914c60f49bd3c9a17))
+
 ## [1.0.3-beta](https://github.com/iusmac/7SIM/compare/v1.0.2-beta...v1.0.3-beta) (2024-04-29)
 
 
