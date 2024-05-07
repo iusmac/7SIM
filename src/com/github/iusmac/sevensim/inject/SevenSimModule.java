@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
@@ -42,6 +43,15 @@ public final class SevenSimModule {
                     AppDatabaseDE.class, "app_database.sqlite");
 
         return builder.addTypeConverter(typeConverter).build();
+    }
+
+    @Singleton
+    @Provides
+    static AppDatabaseCE provideAppDatabaseCE(final @ApplicationContext Context context) {
+        final RoomDatabase.Builder<AppDatabaseCE> builder =
+            Room.databaseBuilder(context, AppDatabaseCE.class, "app_database.sqlite");
+
+        return builder.build();
     }
 
     @Named("Debug")

@@ -29,6 +29,8 @@ import com.github.iusmac.sevensim.scheduler.DaysOfWeek;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduleEntity;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.scheduler.SubscriptionSchedulerSummaryBuilder;
+import com.github.iusmac.sevensim.telephony.PinEntity;
+import com.github.iusmac.sevensim.telephony.PinStorage;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 
 import dagger.assisted.Assisted;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public final class SchedulerViewModel extends ViewModel {
@@ -86,7 +89,8 @@ public final class SchedulerViewModel extends ViewModel {
     private final MutableLiveData<LocalTime> mMutableEndTime;
     private LiveData<CharSequence> mObservableEndTimeSummary;
 
-    private final MutableLiveData<Object> mMutablePinEntity;
+    private final MutableLiveData<Optional<PinEntity>> mMutablePinEntity =
+        new MutableLiveData<>(Optional.empty());
     private LiveData<CharSequence> mObservablePinPresenceSummary;
     private final MutableLiveData<Boolean> mMutablePinTaskLock = new MutableLiveData<>(false);
 
@@ -97,6 +101,7 @@ public final class SchedulerViewModel extends ViewModel {
     private final SubscriptionScheduler mSubscriptionScheduler;
     private final Subscriptions mSubscriptions;
     private final SubscriptionSchedulerSummaryBuilder mSubscriptionSchedulerSummaryBuilder;
+    private final PinStorage mPinStorage;
     private final int mSubscriptionId;
 
     @AssistedInject
@@ -106,6 +111,7 @@ public final class SchedulerViewModel extends ViewModel {
             final SubscriptionScheduler subscriptionScheduler,
             final Subscriptions subscriptions,
             final SubscriptionSchedulerSummaryBuilder subscriptionSchedulerSummaryBuilder,
+            final PinStorage pinStorage,
             final @Assisted int subscriptionId,
             final @Assisted Looper looper) {
 
@@ -115,6 +121,7 @@ public final class SchedulerViewModel extends ViewModel {
         mSubscriptionScheduler = subscriptionScheduler;
         mSubscriptions = subscriptions;
         mSubscriptionSchedulerSummaryBuilder = subscriptionSchedulerSummaryBuilder;
+        mPinStorage = pinStorage;
         mSubscriptionId = subscriptionId;
 
         mResources = mContext.getResources();
@@ -125,7 +132,6 @@ public final class SchedulerViewModel extends ViewModel {
         mMutableDaysOfWeek = new MutableLiveData<>(mDaysOfWeekFactory.create());
         mMutableStartTime = new MutableLiveData<>(mMutableStartSchedule.getValue().getTime());
         mMutableEndTime = new MutableLiveData<>(mMutableEndSchedule.getValue().getTime());
-        mMutablePinEntity = new MutableLiveData<>(null);
 
         // Fetch data from the database
         mHandler.post(() -> {
@@ -145,7 +151,10 @@ public final class SchedulerViewModel extends ViewModel {
             if (dayOfWeekBits != 0) {
                 mMutableDaysOfWeek.postValue(mDaysOfWeekFactory.create(dayOfWeekBits));
             }
-            // TODO: load SIM PIN entity here
+            final Optional<PinEntity> pinEntity = mPinStorage.getPin(subscriptionId);
+            if (pinEntity.isPresent()) {
+                mMutablePinEntity.postValue(pinEntity);
+            }
         });
 
         final IntentFilter filter = new IntentFilter();
@@ -301,8 +310,8 @@ public final class SchedulerViewModel extends ViewModel {
     LiveData<CharSequence> getPinPresenceSummary() {
         if (mObservablePinPresenceSummary == null) {
             mObservablePinPresenceSummary = Transformations.map(mMutablePinEntity, (pinEntity) ->
-                    mResources.getString(pinEntity != null ? R.string.scheduler_pin_set_summary :
-                        R.string.scheduler_pin_unset_summary));
+                    mResources.getString(pinEntity.isPresent() ? R.string.scheduler_pin_set_summary
+                        : R.string.scheduler_pin_unset_summary));
         }
         return mObservablePinPresenceSummary;
     }
@@ -363,9 +372,14 @@ public final class SchedulerViewModel extends ViewModel {
             // Acquire lock till asynchronous request completes
             mMutablePinTaskLock.postValue(true);
 
-            // TODO: persist SIM PIN entity here
-            mLogger.i("handleOnPinChanged() : pin = %s.", pin);
-            mMutablePinEntity.postValue(pin);
+            final PinEntity pinEntity = mMutablePinEntity.getValue().orElseGet(() -> {
+                final PinEntity p = new PinEntity();
+                p.setSubscriptionId(mSubscriptionId);
+                return p;
+            });
+            pinEntity.setClearPin(pin);
+            mPinStorage.storePin(pinEntity);
+            mMutablePinEntity.postValue(Optional.of(pinEntity));
 
             // Release lock
             mMutablePinTaskLock.postValue(false);
@@ -415,14 +429,15 @@ public final class SchedulerViewModel extends ViewModel {
             mMutableEndSchedule.setValue(defaultSchedule);
         }
 
+        mMutablePinEntity.getValue().ifPresent((pin) -> {
+            mMutablePinEntity.setValue(Optional.empty());
+            mHandler.post(() -> mPinStorage.deletePin(pin));
+        });
+
         if (!schedulesToRemove.isEmpty()) {
             mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
         }
 
-        mHandler.post(() -> {
-            // TODO: remove SIM PIN entity here
-            mMutablePinEntity.postValue(null);
-        });
         refreshNextUpcomingScheduleSummaryAsync();
     }
 
@@ -438,7 +453,7 @@ public final class SchedulerViewModel extends ViewModel {
      * @return {@code true} if the SIM PIN code has been set, otherwise {@code false}.
      */
     boolean isPinPresent() {
-        return mMutablePinEntity.getValue() != null;
+        return mMutablePinEntity.getValue().isPresent();
     }
 
     /**
