@@ -108,7 +108,7 @@ public final class SimListViewModel extends ViewModel {
         mHandler.removeCallbacksAndMessages(null);
     }
 
-    static final class SimEntry {
+    final class SimEntry {
         private final Subscription subscription;
         private final CharSequence nextUpcomingScheduleSummary;
 
