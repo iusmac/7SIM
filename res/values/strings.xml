@@ -54,6 +54,10 @@
     <string name="scheduler_start_time_none_summary">"Will <b>never</b> turn on automatically"</string>
     <string name="scheduler_end_time_none_summary">"Will <b>never</b> turn off automatically"</string>
     <string name="scheduler_no_schedule_summary">"No schedule"</string>
+    <string name="scheduler_pin_title">SIM PIN</string>
+    <string name="scheduler_pin_set_summary">PIN has been set</string>
+    <string name="scheduler_pin_unset_summary">Enter SIM PIN</string>
+    <string name="scheduler_pin_invalid_hint">Type a PIN that is 4 to 8 numbers.</string>
 
     <string name="background_restricted_title">"Background usage required"</string>
     <string name="background_restricted_notification_text">"This app has been prevented from running in the background.\nTouch here to allow background usage."</string>
@@ -76,4 +80,5 @@
     <string name="scheduler_days_of_week_key" translatable="false">"scheduler_days_of_week"</string>
     <string name="scheduler_start_time_key" translatable="false">"scheduler_start_time"</string>
     <string name="scheduler_end_time_key" translatable="false">"scheduler_end_time"</string>
+    <string name="scheduler_pin_key" translatable="false">"scheduler_pin"</string>
 </resources>

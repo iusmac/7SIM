@@ -67,7 +67,8 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        menu.findItem(R.id.scheduler_reset).setEnabled(getViewModel().schedulerExists());
+        menu.findItem(R.id.scheduler_reset).setEnabled(getViewModel().schedulerExists() ||
+                getViewModel().isPinPresent());
         return true;
     }
 

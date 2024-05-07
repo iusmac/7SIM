@@ -3,12 +3,15 @@ package com.github.iusmac.sevensim.ui.scheduler;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
+import androidx.preference.EditTextPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
@@ -18,6 +21,8 @@ import com.android.settingslib.widget.MainSwitchPreference;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
+import com.github.iusmac.sevensim.Utils;
+import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreference;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreferenceDialogFragmentCompat;
 
@@ -39,6 +44,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
     private String mPrefDaysOfWeekKey;
     private String mPrefStartTimeKey;
     private String mPrefEndTimeKey;
+    private String mPrefPinKey;
     private SchedulerViewModel mViewModel;
 
     @Override
@@ -50,6 +56,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         mPrefDaysOfWeekKey = getString(R.string.scheduler_days_of_week_key);
         mPrefStartTimeKey = getString(R.string.scheduler_start_time_key);
         mPrefEndTimeKey = getString(R.string.scheduler_end_time_key);
+        mPrefPinKey = getString(R.string.scheduler_pin_key);
     }
 
     @Override
@@ -70,6 +77,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         setupDaysOfWeekPref();
         setupTimePref(TimeType.START_TIME);
         setupTimePref(TimeType.END_TIME);
+        setupPinPref();
     }
 
     private void setupMainSwitchPref() {
@@ -107,6 +115,40 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         mViewModel.getTime(which).observe(getViewLifecycleOwner(), (time) ->
                     timePref.setTime(time.toString()));
         timeSummary.observe(getViewLifecycleOwner(), (summary) -> timePref.setSummary(summary));
+    }
+
+    private void setupPinPref() {
+        final EditTextPreference pinPref = findPreference(mPrefPinKey);
+
+        pinPref.setOnBindEditTextListener((editText) -> {
+            // Clear input junk from the previous usage
+            editText.setText("");
+
+            // Allow only numbers in the input field
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER |
+                    InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+
+            // Limit the maximum PIN length as per UICC specs
+            editText.setFilters(new InputFilter[] {
+                new InputFilter.LengthFilter(TelephonyUtils.PIN_MAX_PIN_LENGTH)
+            });
+        });
+
+        mViewModel.getPinPresenceSummary().observe(getViewLifecycleOwner(), (summary) ->
+                pinPref.setSummary(summary));
+
+        mViewModel.getPinTaskLock().observe(getViewLifecycleOwner(), (isPinTaskLockHeld) ->
+                pinPref.setEnabled(!isPinTaskLockHeld));
+    }
+
+    private void handleOnPinChanged(final String pin) {
+        // Proceed only if PIN string meets the UICC specs
+        if (!TelephonyUtils.isValidPin(pin)) {
+            Utils.makeToast(requireContext(), getString(R.string.scheduler_pin_invalid_hint));
+            return;
+        }
+
+        mViewModel.handleOnPinChanged(pin);
     }
 
     @SuppressWarnings("deprecation")
@@ -183,6 +225,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
             if (isStartTime || key.equals(mPrefEndTimeKey)) {
                 mViewModel.handleOnTimeChanged(isStartTime ? TimeType.START_TIME :
                         TimeType.END_TIME, value);
+            } else if (key.equals(mPrefPinKey)) {
+                handleOnPinChanged(value);
             } else {
                 mLogger.wtf("putString() : unhandled key = " + key);
             }
@@ -194,6 +238,9 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
             if (isStartTime || key.equals(mPrefEndTimeKey)) {
                 return mViewModel.getTime(isStartTime ? TimeType.START_TIME :
                         TimeType.END_TIME).getValue().toString();
+            }
+            if (key.equals(mPrefPinKey)) {
+                return null;
             }
             mLogger.wtf("getString() : unhandled key = " + key);
             return defValue;

@@ -86,6 +86,10 @@ public final class SchedulerViewModel extends ViewModel {
     private final MutableLiveData<LocalTime> mMutableEndTime;
     private LiveData<CharSequence> mObservableEndTimeSummary;
 
+    private final MutableLiveData<Object> mMutablePinEntity;
+    private LiveData<CharSequence> mObservablePinPresenceSummary;
+    private final MutableLiveData<Boolean> mMutablePinTaskLock = new MutableLiveData<>(false);
+
     @SuppressLint("StaticFieldLeak")
     private final Context mContext;
     private final Logger mLogger;
@@ -121,6 +125,7 @@ public final class SchedulerViewModel extends ViewModel {
         mMutableDaysOfWeek = new MutableLiveData<>(mDaysOfWeekFactory.create());
         mMutableStartTime = new MutableLiveData<>(mMutableStartSchedule.getValue().getTime());
         mMutableEndTime = new MutableLiveData<>(mMutableEndSchedule.getValue().getTime());
+        mMutablePinEntity = new MutableLiveData<>(null);
 
         // Fetch data from the database
         mHandler.post(() -> {
@@ -140,6 +145,7 @@ public final class SchedulerViewModel extends ViewModel {
             if (dayOfWeekBits != 0) {
                 mMutableDaysOfWeek.postValue(mDaysOfWeekFactory.create(dayOfWeekBits));
             }
+            // TODO: load SIM PIN entity here
         });
 
         final IntentFilter filter = new IntentFilter();
@@ -290,6 +296,25 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
+     * @return An observable human-readable status indicating PIN presence.
+     */
+    LiveData<CharSequence> getPinPresenceSummary() {
+        if (mObservablePinPresenceSummary == null) {
+            mObservablePinPresenceSummary = Transformations.map(mMutablePinEntity, (pinEntity) ->
+                    mResources.getString(pinEntity != null ? R.string.scheduler_pin_set_summary :
+                        R.string.scheduler_pin_unset_summary));
+        }
+        return mObservablePinPresenceSummary;
+    }
+
+    /**
+     * @return An observable lock state of the SIM PIN task.
+     */
+    LiveData<Boolean> getPinTaskLock() {
+        return mMutablePinTaskLock;
+    }
+
+    /**
      * @param enabled {@code true} if the scheduler is being enabled, otherwise {@code false}.
      */
     void handleOnEnabledStateChanged(final boolean enabled) {
@@ -326,6 +351,25 @@ public final class SchedulerViewModel extends ViewModel {
             which == TimeType.START_TIME ? mMutableStartTime : mMutableEndTime;
         mutableTime.setValue(time);
         persist();
+    }
+
+    /**
+     * @param pin The SIM PIN as string.
+     */
+    void handleOnPinChanged(final @NonNull String pin) {
+        mLogger.d("handleOnPinChanged().");
+
+        mHandler.post(() -> {
+            // Acquire lock till asynchronous request completes
+            mMutablePinTaskLock.postValue(true);
+
+            // TODO: persist SIM PIN entity here
+            mLogger.i("handleOnPinChanged() : pin = %s.", pin);
+            mMutablePinEntity.postValue(pin);
+
+            // Release lock
+            mMutablePinTaskLock.postValue(false);
+        });
     }
 
     /**
@@ -371,7 +415,14 @@ public final class SchedulerViewModel extends ViewModel {
             mMutableEndSchedule.setValue(defaultSchedule);
         }
 
-        mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
+        if (!schedulesToRemove.isEmpty()) {
+            mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
+        }
+
+        mHandler.post(() -> {
+            // TODO: remove SIM PIN entity here
+            mMutablePinEntity.postValue(null);
+        });
         refreshNextUpcomingScheduleSummaryAsync();
     }
 
@@ -381,6 +432,13 @@ public final class SchedulerViewModel extends ViewModel {
     boolean schedulerExists() {
         return mMutableStartSchedule.getValue().getId() > 0L ||
             mMutableEndSchedule.getValue().getId() > 0L;
+    }
+
+    /**
+     * @return {@code true} if the SIM PIN code has been set, otherwise {@code false}.
+     */
+    boolean isPinPresent() {
+        return mMutablePinEntity.getValue() != null;
     }
 
     /**
@@ -454,6 +512,7 @@ public final class SchedulerViewModel extends ViewModel {
                     mMutableDaysOfWeek.postValue(mMutableDaysOfWeek.getValue());
                     mMutableStartTime.postValue(mMutableStartTime.getValue());
                     mMutableEndTime.postValue(mMutableEndTime.getValue());
+                    mMutablePinEntity.postValue(mMutablePinEntity.getValue());
                     // Refresh the next upcoming schedule summary locale-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
                     break;
