@@ -457,6 +457,14 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
+     * @return {@code true} if we need to authenticate the user with their credentials for further
+     * crypto operations on the SIM PIN code.
+     */
+    boolean isAuthenticationRequired() {
+        return mPinStorage.isAuthenticationRequired();
+    }
+
+    /**
      * Create a valid {@link SubscriptionScheduleEntity} instance with default values.
      *
      * @param which One of {@link TimeType} to determine what type of schedule to create.

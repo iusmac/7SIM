@@ -2,11 +2,13 @@ package com.github.iusmac.sevensim.inject;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.telecom.TelecomManager;
 
+import androidx.biometric.BiometricManager;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
@@ -105,6 +107,18 @@ public final class SevenSimModule {
     @Provides
     static AudioManager provideAudioManager(final @ApplicationContext Context context) {
         return ContextCompat.getSystemService(context, AudioManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static BiometricManager provideBiometricManager(final @ApplicationContext Context context) {
+        return BiometricManager.from(context);
+    }
+
+    @Singleton
+    @Provides
+    static KeyguardManager provideKeyguardManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, KeyguardManager.class);
     }
 
     /** Do not initialize. */

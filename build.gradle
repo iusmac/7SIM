@@ -18,6 +18,9 @@ buildscript {
             // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/appcompat/appcompat/
             appcompat            :  'androidx.appcompat:appcompat:1.7.0-beta01',
+            // https://mvnrepository.com/artifact/androidx.biometric/biometric
+            // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/biometric/biometric/
+            biometric            :  'androidx.biometric:biometric:1.2.0-alpha05', // TODO: AOSP sources use 1.2.0-alpha06; upgrade when available in maven central
             // https://mvnrepository.com/artifact/androidx.collection/collection
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/collection/collection-jvm/
             collection           :  'androidx.collection:collection:1.4.0-alpha02',
@@ -186,6 +189,7 @@ addCompileOnlyJar('android-34.jar')
 
 dependencies {
     implementation libs.annotation
+    implementation libs.biometric
     implementation libs.collection
     implementation libs.core
     implementation libs.livedata

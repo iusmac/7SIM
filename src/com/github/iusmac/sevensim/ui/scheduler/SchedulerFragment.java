@@ -1,12 +1,17 @@
 package com.github.iusmac.sevensim.ui.scheduler;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,12 +28,15 @@ import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.telephony.TelephonyUtils;
+import com.github.iusmac.sevensim.ui.AuthenticationPromptActivity;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreference;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreferenceDialogFragmentCompat;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -36,6 +44,24 @@ import static com.github.iusmac.sevensim.ui.scheduler.SchedulerViewModel.TimeTyp
 
 @AndroidEntryPoint(PreferenceFragmentCompat.class)
 public final class SchedulerFragment extends Hilt_SchedulerFragment {
+    private static final String ACTION_AUTH_HANDLE_ON_PIN_CHANGED =
+        "action_auth_handle_on_pin_changed";
+
+    private static final String ACTION_AUTH_HANDLE_ON_ENABLED_STATE_CHANGED =
+        "action_auth_handle_on_enabled_state_changed";
+
+    private static final String ACTION_AUTH_HANDLE_ON_DAYS_OF_WEEK_CHANGED =
+        "action_auth_handle_on_days_of_week_changed";
+
+    private static final String ACTION_AUTH_HANDLE_ON_TIME_CHANGED =
+        "action_auth_handle_on_time_changed";
+
+    private static final String EXTRA_PIN = "pin";
+    private static final String EXTRA_ENABLED = "enabled";
+    private static final String EXTRA_DAYS_OF_WEEK = "days_of_week";
+    private static final String EXTRA_TIME_TYPE = "time_type";
+    private static final String EXTRA_TIME = "time";
+
     @Inject
     Logger.Factory mLoggerFactory;
 
@@ -46,6 +72,44 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
     private String mPrefEndTimeKey;
     private String mPrefPinKey;
     private SchedulerViewModel mViewModel;
+    private final ActivityResultLauncher<Intent> mAuthenticationPromptLauncher =
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                this::onAuthResult);
+
+    private MainSwitchPreference mMainSwitchPref;
+
+    private void onAuthResult(final ActivityResult result) {
+        mLogger.d("onAuthResult(result=%s).", result);
+
+        if (result.getResultCode() != Activity.RESULT_OK) {
+            return;
+        }
+
+        final Intent data = result.getData();
+        final String action = data.getAction() != null ? data.getAction() : "";
+        switch (action) {
+            case ACTION_AUTH_HANDLE_ON_ENABLED_STATE_CHANGED:
+                mViewModel.handleOnEnabledStateChanged(data.getBooleanExtra(EXTRA_ENABLED, false));
+                break;
+
+            case ACTION_AUTH_HANDLE_ON_DAYS_OF_WEEK_CHANGED:
+                final Set<String> values = Arrays.stream(data
+                        .getStringArrayExtra(EXTRA_DAYS_OF_WEEK)).collect(Collectors.toSet());
+                mViewModel.handleOnDaysOfWeekChanged(values);
+                break;
+
+            case ACTION_AUTH_HANDLE_ON_TIME_CHANGED:
+                final TimeType which = TimeType.valueOf(data.getStringExtra(EXTRA_TIME_TYPE));
+                mViewModel.handleOnTimeChanged(which, data.getStringExtra(EXTRA_TIME));
+                break;
+
+            case ACTION_AUTH_HANDLE_ON_PIN_CHANGED:
+                mViewModel.handleOnPinChanged(data.getStringExtra(EXTRA_PIN));
+                break;
+
+            default: mLogger.wtf("onAuthResult(result=%s) : unhandled action: %s.", result, action);
+        }
+    }
 
     @Override
     public void onAttach(final Context context) {
@@ -81,14 +145,28 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
     }
 
     private void setupMainSwitchPref() {
-        final MainSwitchPreference mainSwitchPref = findPreference(mPrefEnabledKey);
+        mMainSwitchPref = findPreference(mPrefEnabledKey);
 
         mViewModel.getSchedulerEnabledState().observe(getViewLifecycleOwner(), (isEnabled) ->
-            mainSwitchPref.setChecked(isEnabled));
+            mMainSwitchPref.setChecked(isEnabled));
     }
 
+    @SuppressWarnings("unchecked")
     private void setupDaysOfWeekPref() {
         final MultiSelectListPreference daysOfWeekPref = findPreference(mPrefDaysOfWeekKey);
+
+        daysOfWeekPref.setOnPreferenceChangeListener((pref, value) -> {
+            final Set<String> values = (Set<String>) value;
+            if (!values.isEmpty() && mViewModel.getSchedulerEnabledState().getValue()
+                    && mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
+                final Bundle payload = new Bundle(1);
+                payload.putStringArray(EXTRA_DAYS_OF_WEEK,
+                        values.toArray(new String[values.size()]));
+                authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_DAYS_OF_WEEK_CHANGED, payload);
+                return false;
+            }
+            return true;
+        });
 
         mViewModel.getDaysOfWeekValues().observe(getViewLifecycleOwner(), (values) ->
                 daysOfWeekPref.setValues(values));
@@ -110,6 +188,18 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         final boolean isStartTime = which == TimeType.START_TIME;
         final TimePickerPreference timePref = findPreference(isStartTime ? mPrefStartTimeKey :
                 mPrefEndTimeKey);
+        timePref.setOnPreferenceChangeListener((pref, value) -> {
+            if (mViewModel.getSchedulerEnabledState().getValue()
+                    && !mViewModel.getDaysOfWeekValues().getValue().isEmpty()
+                    && mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
+                final Bundle payload = new Bundle(2);
+                payload.putString(EXTRA_TIME_TYPE, which.toString());
+                payload.putString(EXTRA_TIME, (String) value);
+                authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_TIME_CHANGED, payload);
+                return false;
+            }
+            return true;
+        });
         final LiveData<CharSequence> timeSummary = isStartTime ? mViewModel.getStartTimeSummary() :
             mViewModel.getEndTimeSummary();
         mViewModel.getTime(which).observe(getViewLifecycleOwner(), (time) ->
@@ -148,7 +238,26 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
             return;
         }
 
-        mViewModel.handleOnPinChanged(pin);
+        // Authenticate the user again to unlock the hardware-backed KeyStore for further crypto
+        // operations on the provided SIM PIN code
+        if (mViewModel.isAuthenticationRequired()) {
+            final Bundle payload = new Bundle(1);
+            payload.putString(EXTRA_PIN, pin);
+            authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_PIN_CHANGED, payload);
+        } else {
+            mViewModel.handleOnPinChanged(pin);
+        }
+    }
+
+    /**
+     * @param action The action to run after authenticating the user.
+     * @param extras The Bundle holding payload data.
+     */
+    private void authenticateAndRunAction(final String action, final Bundle payload) {
+        final Intent i = new Intent(requireContext(), AuthenticationPromptActivity.class);
+        i.setAction(action);
+        i.putExtras(payload);
+        mAuthenticationPromptLauncher.launch(i);
     }
 
     @SuppressWarnings("deprecation")
@@ -186,7 +295,15 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         @Override
         public void putBoolean(final String key, final boolean value) {
             if (key.equals(mPrefEnabledKey)) {
-                mViewModel.handleOnEnabledStateChanged(value);
+                if (value && !mViewModel.getDaysOfWeekValues().getValue().isEmpty()
+                        && mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
+                    final Bundle payload = new Bundle(1);
+                    payload.putBoolean(EXTRA_ENABLED, value);
+                    authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_ENABLED_STATE_CHANGED, payload);
+                    mMainSwitchPref.updateStatus(!value); // revert toggle state
+                } else {
+                    mViewModel.handleOnEnabledStateChanged(value);
+                }
             } else {
                 mLogger.wtf("putBoolean() : unhandled key = " + key);
             }

@@ -1,6 +1,9 @@
 package com.github.iusmac.sevensim.telephony;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -49,6 +52,7 @@ public final class PinEntity {
         return "PinEntity {"
             + " id=" + mId
             + " subscriptionId=" + mSubscriptionId
+            + " clearPin.isEmpty=" + TextUtils.isEmpty(mClearPin)
             + " }";
     }
 }
