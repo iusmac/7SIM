@@ -6,7 +6,7 @@ buildscript {
         // https://mvnrepository.com/artifact/androidx.room/room-runtime
         // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/room/room-compiler/
         // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/room/room-runtime/
-        def room_version = '2.6.1' // TODO: AOSP sources use 2.7.0-alpha01; upgrade when available in maven central
+        def room_version = '2.7.0-alpha01'
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-android
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
         // https://android.googlesource.com/platform/external/dagger2
@@ -17,7 +17,7 @@ buildscript {
             annotation           :  'androidx.annotation:annotation:1.8.0-alpha01',
             // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/appcompat/appcompat/
-            appcompat            :  'androidx.appcompat:appcompat:1.7.0-alpha03', // TODO: AOSP sources use 1.7.0-alpha04; upgrade when available in maven central
+            appcompat            :  'androidx.appcompat:appcompat:1.7.0-beta01',
             // https://mvnrepository.com/artifact/androidx.collection/collection
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/collection/collection-jvm/
             collection           :  'androidx.collection:collection:1.4.0-alpha02',
