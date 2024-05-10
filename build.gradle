@@ -17,7 +17,7 @@ buildscript {
             annotation           :  'androidx.annotation:annotation:1.8.0-alpha01',
             // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/appcompat/appcompat/
-            appcompat            :  'androidx.appcompat:appcompat:1.7.0-alpha03', // TODO: AOSP sources use 1.7.0-alpha04; upgrade when available in maven central
+            appcompat            :  'androidx.appcompat:appcompat:1.7.0-beta01',
             // https://mvnrepository.com/artifact/androidx.collection/collection
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/collection/collection-jvm/
             collection           :  'androidx.collection:collection:1.4.0-alpha02',
