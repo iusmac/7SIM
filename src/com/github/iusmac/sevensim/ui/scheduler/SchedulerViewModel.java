@@ -372,14 +372,18 @@ public final class SchedulerViewModel extends ViewModel {
             // Acquire lock till asynchronous request completes
             mMutablePinTaskLock.postValue(true);
 
-            final PinEntity pinEntity = mMutablePinEntity.getValue().orElseGet(() -> {
+            PinEntity pinEntity = mMutablePinEntity.getValue().orElseGet(() -> {
                 final PinEntity p = new PinEntity();
                 p.setSubscriptionId(mSubscriptionId);
                 return p;
             });
             pinEntity.setClearPin(pin);
-            mPinStorage.storePin(pinEntity);
-            mMutablePinEntity.postValue(Optional.of(pinEntity));
+            if (mPinStorage.encrypt(pinEntity)) {
+                mPinStorage.storePin(pinEntity);
+            } else {
+                pinEntity = null;
+            }
+            mMutablePinEntity.postValue(Optional.ofNullable(pinEntity));
 
             // Release lock
             mMutablePinTaskLock.postValue(false);

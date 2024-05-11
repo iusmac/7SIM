@@ -26,10 +26,14 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 
+import java.security.KeyStore;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.github.iusmac.sevensim.SysProp;
+
+import static com.github.iusmac.sevensim.telephony.PinStorage.ANDROID_KEYSTORE_PROVIDER;
 
 /** Application level module. */
 @InstallIn(SingletonComponent.class)
@@ -119,6 +123,23 @@ public final class SevenSimModule {
     @Provides
     static KeyguardManager provideKeyguardManager(final @ApplicationContext Context context) {
         return ContextCompat.getSystemService(context, KeyguardManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static KeyStore provideKeyStore() {
+        for (int i = 1; i <= 3; i++) {
+            try {
+                final KeyStore keystore = KeyStore.getInstance(ANDROID_KEYSTORE_PROVIDER);
+                keystore.load(/*param=*/ null);
+                if (keystore != null) {
+                    return keystore;
+                }
+            } catch (Exception e) {
+                android.util.Log.e("7SIM", "Attempt " + i + "/3 failed to open KeyStore.", e);
+            }
+        }
+        throw new RuntimeException("Failed to instantiate Android KeyStore.");
     }
 
     /** Do not initialize. */

@@ -15,6 +15,9 @@ public interface PinStorageDao {
     @Delete
     void delete(PinEntity pin);
 
+    @Query("SELECT COUNT(*) FROM pin_storage")
+    int getCount();
+
     @Query("SELECT * FROM pin_storage WHERE sub_id = :subId LIMIT 1")
     Optional<PinEntity> findBySubscriptionId(int subId);
 }
