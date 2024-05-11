@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
@@ -49,7 +50,7 @@ public final class TimePickerPreferenceDialogFragmentCompat
     public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
         final TimePickerPreference preference = getTimePickerPreference();
         final String time = LocalTime.of(hourOfDay, minute).toString();
-        if (preference.callChangeListener(time)) {
+        if (!TextUtils.equals(preference.getTime(), time) && preference.callChangeListener(time)) {
             preference.setTime(time);
         }
     }
