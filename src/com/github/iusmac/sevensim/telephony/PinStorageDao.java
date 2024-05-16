@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Query;
 import androidx.room.Upsert;
 
+import java.util.List;
 import java.util.Optional;
 
 @Dao
@@ -14,6 +15,9 @@ public interface PinStorageDao {
 
     @Delete
     void delete(PinEntity pin);
+
+    @Query("SELECT * FROM pin_storage")
+    List<PinEntity> loadAll();
 
     @Query("SELECT COUNT(*) FROM pin_storage")
     int getCount();

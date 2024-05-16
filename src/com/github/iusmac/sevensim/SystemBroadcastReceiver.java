@@ -38,6 +38,7 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
 
         mLogger.d("onReceive() : intent=" + intent);
 
+        final LocalDateTime now = LocalDateTime.now();
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
             case Intent.ACTION_BOOT_COMPLETED:
@@ -47,6 +48,13 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // app, the user's preference will be kept and launcher icon will be hidden again.
                 // This also ensures proper app backup data restore
                 mLauncherIconVisibilityManagerProvider.get().updateVisibility();
+
+                // Need to reschedule the next weekly repeat schedule processing iteration again, as
+                // it was already done during Direct Boot mode when the LOCKED_BOOT_COMPLETED event
+                // fired, but the scheduler did not have access to the SIM subscription PIN storage,
+                // which is encrypted using the user authenticated bound secret key
+                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
+                        now.plusMinutes(1), /*decryptPinStorage=*/ true);
                 break;
 
             case Intent.ACTION_MY_PACKAGE_REPLACED:
@@ -59,8 +67,6 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
 
             case Intent.ACTION_TIMEZONE_CHANGED:
             case Intent.ACTION_TIME_CHANGED:
-                final LocalDateTime now = LocalDateTime.now();
-
                 // Need to sync the enabled state of all SIM subscriptions available on the device
                 // with their existing weekly repeat schedules on any alteration to the system
                 // time

@@ -6,6 +6,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.os.UserManager;
 import android.telecom.TelecomManager;
 
 import androidx.biometric.BiometricManager;
@@ -140,6 +141,12 @@ public final class SevenSimModule {
             }
         }
         throw new RuntimeException("Failed to instantiate Android KeyStore.");
+    }
+
+    @Singleton
+    @Provides
+    static UserManager provideUserManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, UserManager.class);
     }
 
     /** Do not initialize. */

@@ -383,6 +383,15 @@ public final class SchedulerViewModel extends ViewModel {
             } else {
                 pinEntity = null;
             }
+
+            // In order to supply the SIM subscription PIN codes to the active SIM subscriptions
+            // found on the device when processing schedules at the stated time, we need to
+            // re-schedule using the list of all decrypted SIM PIN entities
+            final List<PinEntity> pinEntities = mPinStorage.getPinEntities();
+            pinEntities.forEach((pinEntity1) -> mPinStorage.decrypt(pinEntity1));
+            mSubscriptionScheduler.updateNextWeeklyRepeatScheduleProcessingIter(
+                    LocalDateTime.now().plusMinutes(1), pinEntities);
+
             mMutablePinEntity.postValue(Optional.ofNullable(pinEntity));
 
             // Release lock

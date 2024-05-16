@@ -20,6 +20,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableEntryException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.crypto.Cipher;
@@ -70,6 +71,16 @@ public final class PinStorage {
     }
 
     /**
+     * Retrieve the list containing encrypted SIM subscription PIN entities.
+     *
+     * @return The list of <b>encrypted</b> SIM subscription PIN entities, otherwise empty if no
+     * entities in the PIN storage. To decrypt use {@link #decrypt(PinEntity)}.
+     */
+    public @NonNull List<PinEntity> getPinEntities() {
+        return mPinStorageDao.loadAll();
+    }
+
+    /**
      * Retrieve the SIM PIN entity for a SIM subscription ID from the storage.
      *
      * @param subId The subscription ID for which to retrieve the SIM PIN entity.
@@ -78,6 +89,15 @@ public final class PinStorage {
      */
     public Optional<PinEntity> getPin(final int subId) {
         return mPinStorageDao.findBySubscriptionId(subId);
+    }
+
+    /**
+     * Get the total number of SIM subscription PIN entities currently in storage.
+     *
+     * @return The number of {@link PinEntity} objects found.
+     */
+    public int getCount() {
+        return mPinStorageDao.getCount();
     }
 
     /**
@@ -109,7 +129,7 @@ public final class PinStorage {
 
         mPinStorageDao.delete(pinEntity);
 
-        if (mPinStorageDao.getCount() == 0) {
+        if (getCount() == 0) {
             mLogger.d("deletePin() : No more PIN entities left - deleting the secret key...");
             deleteSecretKey();
         }

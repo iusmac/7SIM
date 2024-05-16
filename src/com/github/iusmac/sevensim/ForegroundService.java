@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -18,12 +19,15 @@ import androidx.annotation.GuardedBy;
 import androidx.core.content.ContextCompat;
 
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
+import com.github.iusmac.sevensim.telephony.PinEntity;
+import com.github.iusmac.sevensim.telephony.PinStorage;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 
 import dagger.Lazy;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -79,6 +83,14 @@ public final class ForegroundService extends Hilt_ForegroundService {
      */
     private static final String EXTRA_OVERRIDE_USER_PREFERENCE = "override_user_preference";
 
+    /** Key holding a {@link Boolean} of whether to trigger decryption of the {@link PinStorage}. */
+    private static final String EXTRA_DECRYPT_PIN_STORAGE = "decrypt_pin_storage";
+
+    /**
+     * Key holding a {@link Bundle} of clear SIM PIN codes associated with their corresponding SIM
+     * subscription ID. */
+    private static final String EXTRA_CLEAR_PIN_CODES = "clear_pin_codes";
+
     /**
      * Indicates the waiting time, in milliseconds, after which this service should initiate an
      * immediate termination. A timeout of 3 minutes should be enough to complete all tasks and die
@@ -118,6 +130,9 @@ public final class ForegroundService extends Hilt_ForegroundService {
     @Inject
     ActivityManager mActivityManager;
 
+    @Inject
+    Lazy<PinStorage> mPinStorageLazy;
+
     private Logger mLogger;
     private Worker mWorker;
 
@@ -147,16 +162,49 @@ public final class ForegroundService extends Hilt_ForegroundService {
     }
 
     /**
-     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)}.
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)},
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}.
      */
-    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
-            final LocalDateTime compareTime) {
+    private static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime, final boolean decryptPinStorage,
+            final Bundle clearPinCodes) {
 
         final Intent i = new Intent(ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER);
         if (compareTime != null) {
             i.putExtra(EXTRA_TIME_KEY, compareTime.toString());
         }
+        i.putExtra(EXTRA_DECRYPT_PIN_STORAGE, decryptPinStorage);
+        i.putExtra(EXTRA_CLEAR_PIN_CODES, clearPinCodes);
         startAction(context, i);
+    }
+
+    /**
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)},
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}.
+     */
+    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime, final Bundle clearPinCodes) {
+
+        updateNextWeeklyRepeatScheduleProcessingIter(context, compareTime, false, clearPinCodes);
+    }
+
+    /**
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)},
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}.
+     */
+    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime, final boolean decryptPinStorage) {
+
+        updateNextWeeklyRepeatScheduleProcessingIter(context, compareTime, decryptPinStorage, null);
+    }
+
+    /**
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)}.
+     */
+    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime) {
+
+        updateNextWeeklyRepeatScheduleProcessingIter(context, compareTime, false, null);
     }
 
     public static void onSubscriptionsChanged(final Context context, final LocalDateTime dateTime) {
@@ -219,12 +267,31 @@ public final class ForegroundService extends Hilt_ForegroundService {
             intent.getBooleanExtra(EXTRA_OVERRIDE_USER_PREFERENCE, false);
         final int subId = intent.getIntExtra(CarrierConfigManager.EXTRA_SUBSCRIPTION_INDEX,
                 SubscriptionManager.INVALID_SUBSCRIPTION_ID);
+        final Bundle clearPinCodes = intent.getBundleExtra(EXTRA_CLEAR_PIN_CODES);
+        final boolean decryptPinStorage = intent.getBooleanExtra(EXTRA_DECRYPT_PIN_STORAGE, false);
 
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
             case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER:
-                mWorker.execute(() -> dateTime.ifPresent((ldt) -> mSubscriptionSchedulerLazy.get()
-                            .updateNextWeeklyRepeatScheduleProcessingIter(ldt)), startId);
+                mWorker.execute(() -> dateTime.ifPresent((ldt) -> {
+                    List<PinEntity> pinEntities = null;
+                    if (decryptPinStorage || clearPinCodes != null) {
+                        pinEntities = mPinStorageLazy.get().getPinEntities();
+                        for (final PinEntity pinEntity : pinEntities) {
+                            if (decryptPinStorage) {
+                                mPinStorageLazy.get().decrypt(pinEntity);
+                            } else if (clearPinCodes != null) {
+                                final String clearPin = clearPinCodes.getString(String.valueOf(
+                                            pinEntity.getSubscriptionId()));
+                                if (clearPin != null) {
+                                    pinEntity.setClearPin(clearPin);
+                                }
+                            }
+                        }
+                    }
+                    mSubscriptionSchedulerLazy.get()
+                        .updateNextWeeklyRepeatScheduleProcessingIter(ldt, pinEntities);
+                }), startId);
                 break;
 
             case ACTION_SYNC_ALL_SUBSCRIPTIONS_ENABLED_STATE:

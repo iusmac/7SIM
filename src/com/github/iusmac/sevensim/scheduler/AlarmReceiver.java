@@ -5,15 +5,19 @@ import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.telephony.PinEntity;
+import com.github.iusmac.sevensim.telephony.PinStorage;
 import com.github.iusmac.sevensim.ForegroundService;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -34,6 +38,9 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
     @Inject
     Provider<SubscriptionScheduler> mSubscriptionSchedulerProvider;
 
+    @Inject
+    Provider<PinStorage> mPinStorageProvider;
+
     private Logger mLogger;
 
     @Override
@@ -47,6 +54,7 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
         mLogger.d("onReceive() : isBgRestricted=%s,intent=%s.", isBgRestricted, intent);
 
         final LocalDateTime now = LocalDateTime.now();
+        final Bundle clearPinCodes = intent.getExtras();
 
         // Normally, we keep the SIM card disabled after a reboot if it was manually disabled by the
         // user, but the schedules should reset it when it comes time to process them at the stated
@@ -67,13 +75,25 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
         // the issue via a notification.
         if (!isBgRestricted) {
             ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
-                    now.plusMinutes(1));
+                    now.plusMinutes(1), clearPinCodes);
         } else {
             final PendingResult result = goAsync();
             AsyncHandler.post(() -> {
                 try {
+                    List<PinEntity> pinEntities = null;
+                    if (clearPinCodes != null) {
+                        pinEntities = mPinStorageProvider.get().getPinEntities();
+                        for (final PinEntity pinEntity : pinEntities) {
+                            final String clearPin = clearPinCodes.getString(String.valueOf(
+                                        pinEntity.getSubscriptionId()));
+                            if (clearPin != null) {
+                                pinEntity.setClearPin(clearPin);
+                            }
+                        }
+                    }
                     mSubscriptionSchedulerProvider.get()
-                        .updateNextWeeklyRepeatScheduleProcessingIter(now.plusMinutes(1));
+                        .updateNextWeeklyRepeatScheduleProcessingIter(now.plusMinutes(1),
+                                    pinEntities);
                 } finally {
                     result.finish();
                 }
