@@ -66,6 +66,7 @@
 
     <string name="foreground_notification_paused_in_background_title">"Paused in background"</string>
     <string name="foreground_notification_call_in_progress_text">"Call in progress…"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Unlock to continue…"</string>
 
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_background_restricted_banner_key" translatable="false">"sim_list_background_restricted_banner"</string>

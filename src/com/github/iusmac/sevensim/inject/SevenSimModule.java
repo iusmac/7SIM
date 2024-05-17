@@ -3,6 +3,7 @@ package com.github.iusmac.sevensim.inject;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -147,6 +148,14 @@ public final class SevenSimModule {
     @Provides
     static UserManager provideUserManager(final @ApplicationContext Context context) {
         return ContextCompat.getSystemService(context, UserManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static DevicePolicyManager provideDevicePolicyManager(
+            final @ApplicationContext Context context) {
+
+        return ContextCompat.getSystemService(context, DevicePolicyManager.class);
     }
 
     /** Do not initialize. */

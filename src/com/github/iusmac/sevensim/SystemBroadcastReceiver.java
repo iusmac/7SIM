@@ -1,5 +1,7 @@
 package com.github.iusmac.sevensim;
 
+import android.app.KeyguardManager;
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +30,12 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
     @Inject
     Provider<LauncherIconVisibilityManager> mLauncherIconVisibilityManagerProvider;
 
+    @Inject
+    Provider<DevicePolicyManager> mDevicePolicyManagerProvider;
+
+    @Inject
+    Provider<KeyguardManager> mKeyguardManagerProvider;
+
     private Logger mLogger;
 
     @Override
@@ -49,12 +57,33 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // This also ensures proper app backup data restore
                 mLauncherIconVisibilityManagerProvider.get().updateVisibility();
 
+                final int encryptionStatus = Utils.IS_AT_LEAST_T ? -1 :
+                    mDevicePolicyManagerProvider.get().getStorageEncryptionStatus();
+
                 // Need to reschedule the next weekly repeat schedule processing iteration again, as
                 // it was already done during Direct Boot mode when the LOCKED_BOOT_COMPLETED event
-                // fired, but the scheduler did not have access to the SIM subscription PIN storage,
-                // which is encrypted using the user authenticated bound secret key
-                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
-                        now.plusMinutes(1), /*decryptPinStorage=*/ true);
+                // fired, but the scheduler did not have access to the SIM PIN storage, which is
+                // encrypted using the user authenticated bound secret key.
+                // Note that, Direct Boot mode behaves differently on devices running on Android 12
+                // or lower with Full-Disk Encryption (FDE) enabled, i.e., the BOOT_COMPLETED event
+                // is delivered right after the LOCKED_BOOT_COMPLETED event and the user is still
+                // locked. Thus, we need to wait for the user to unlock the device in order to
+                // access the user authentication bound secret key
+                switch (encryptionStatus) {
+                    case DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED:
+                    case DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE:
+                    case DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_DEFAULT_KEY:
+                        if (mKeyguardManagerProvider.get().isDeviceSecure()) {
+                            UserAuthenticationObserverService
+                                .updateNextWeeklyRepeatScheduleProcessingIter(context,
+                                        now.plusMinutes(1), /*decryptPinStorage=*/ true);
+                            break;
+                        }
+
+                    default:
+                        ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
+                                now.plusMinutes(1), /*decryptPinStorage=*/ true);
+                }
                 break;
 
             case Intent.ACTION_MY_PACKAGE_REPLACED:

@@ -155,5 +155,11 @@
             android:exported="false"
             android:theme="@*android:style/Theme.DeviceDefault.Settings.Dialog.NoActionBar">
         </activity>
+
+        <service
+            android:name=".UserAuthenticationObserverService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted">
+        </service>
     </application>
 </manifest>

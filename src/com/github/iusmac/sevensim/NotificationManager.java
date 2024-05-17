@@ -21,6 +21,7 @@ public final class NotificationManager {
     static final int FOREGROUND_NOTIFICATION_ID = 1;
     private static final int BACKGROUND_RESTRICTED_NOTIFICATION_ID = 2;
     static final int CALL_IN_PROGRESS_NOTIFICATION_ID = 3;
+    static final int UNLOCK_TO_CONTINUE_NOTIFICATION_ID = 4;
     private static final String FOREGROUND_NOTIFICATION_CHANNEL_ID =
         "foreground_notification_channel";
     private static final String IMPORTANT_NOTIFICATION_CHANNEL_ID =
@@ -96,6 +97,25 @@ public final class NotificationManager {
     Notification buildCallInProgressForegroundNotification() {
         final String text =
             mContext.getString(R.string.foreground_notification_call_in_progress_text);
+        final Notification notification = new NotificationCompat.Builder(mContext,
+                buildForegroundServiceNotification())
+            .setContentTitle(mResources.getString(
+                        R.string.foreground_notification_paused_in_background_title))
+            .setContentText(text)
+            .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+            .build();
+
+        return notification;
+    }
+
+    /**
+     * Build and return a new notification to inform the user that currently, execution of a
+     * background task via {@link UserAuthenticationObserverService} is halted because device is
+     * locked.
+     */
+    Notification buildUnlockToContinueNotification() {
+        final String text =
+            mResources.getString(R.string.foreground_notification_unlock_to_continue_text);
         final Notification notification = new NotificationCompat.Builder(mContext,
                 buildForegroundServiceNotification())
             .setContentTitle(mResources.getString(
