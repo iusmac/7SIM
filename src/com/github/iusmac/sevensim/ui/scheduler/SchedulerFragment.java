@@ -22,6 +22,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.android.settingslib.widget.BannerMessagePreference;
 import com.android.settingslib.widget.MainSwitchPreference;
 
 import com.github.iusmac.sevensim.Logger;
@@ -138,6 +139,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupMainSwitchPref();
+        setupPinErrorPref();
         setupDaysOfWeekPref();
         setupTimePref(TimeType.START_TIME);
         setupTimePref(TimeType.END_TIME);
@@ -149,6 +151,27 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
 
         mViewModel.getSchedulerEnabledState().observe(getViewLifecycleOwner(), (isEnabled) ->
             mMainSwitchPref.setChecked(isEnabled));
+    }
+
+    private void setupPinErrorPref() {
+        final BannerMessagePreference pinErrorPref =
+            findPreference(getString(R.string.scheduler_pin_error_key));
+
+        pinErrorPref
+            .setPositiveButtonText(R.string.scheduler_pin_banner_enter_pin_code_button_text)
+            .setPositiveButtonOnClickListener((view) ->
+                    onDisplayPreferenceDialog((EditTextPreference) findPreference(mPrefPinKey)));
+
+        mViewModel.getPinTaskLock().observe(getViewLifecycleOwner(), (isLockHeld) ->
+                pinErrorPref.setEnabled(!isLockHeld));
+
+        mViewModel.getPinErrorMessage().observe(getViewLifecycleOwner(), (pinErrorMessage) -> {
+            pinErrorMessage.ifPresent((error) -> {
+                pinErrorPref.setTitle(error.title);
+                pinErrorPref.setSummary(error.reason);
+            });
+            pinErrorPref.setVisible(pinErrorMessage.isPresent());
+        });
     }
 
     @SuppressWarnings("unchecked")

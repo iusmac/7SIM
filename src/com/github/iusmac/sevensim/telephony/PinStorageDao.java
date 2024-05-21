@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim.telephony;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Query;
@@ -23,5 +24,5 @@ public interface PinStorageDao {
     int getCount();
 
     @Query("SELECT * FROM pin_storage WHERE sub_id = :subId LIMIT 1")
-    Optional<PinEntity> findBySubscriptionId(int subId);
+    LiveData<Optional<PinEntity>> findObservableBySubscriptionId(int subId);
 }

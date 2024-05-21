@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.github.iusmac.sevensim.DateTimeUtils;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
+import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.scheduler.DayOfWeek;
 import com.github.iusmac.sevensim.scheduler.DaysOfWeek;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduleEntity;
@@ -89,10 +90,11 @@ public final class SchedulerViewModel extends ViewModel {
     private final MutableLiveData<LocalTime> mMutableEndTime;
     private LiveData<CharSequence> mObservableEndTimeSummary;
 
-    private final MutableLiveData<Optional<PinEntity>> mMutablePinEntity =
-        new MutableLiveData<>(Optional.empty());
+    private final MediatorLiveData<Optional<PinEntity>> mMediatorPinEntity =
+        new MediatorLiveData<>(Optional.empty());
     private LiveData<CharSequence> mObservablePinPresenceSummary;
     private final MutableLiveData<Boolean> mMutablePinTaskLock = new MutableLiveData<>(false);
+    private LiveData<Optional<PinErrorMessage>> mObseravblePinErrorMessage;
 
     @SuppressLint("StaticFieldLeak")
     private final Context mContext;
@@ -132,6 +134,8 @@ public final class SchedulerViewModel extends ViewModel {
         mMutableDaysOfWeek = new MutableLiveData<>(mDaysOfWeekFactory.create());
         mMutableStartTime = new MutableLiveData<>(mMutableStartSchedule.getValue().getTime());
         mMutableEndTime = new MutableLiveData<>(mMutableEndSchedule.getValue().getTime());
+        mMediatorPinEntity.addSource(mPinStorage.getObservablePin(mSubscriptionId), (pinEntity) ->
+                mMediatorPinEntity.setValue(pinEntity));
 
         // Fetch data from the database
         mHandler.post(() -> {
@@ -150,10 +154,6 @@ public final class SchedulerViewModel extends ViewModel {
             }
             if (dayOfWeekBits != 0) {
                 mMutableDaysOfWeek.postValue(mDaysOfWeekFactory.create(dayOfWeekBits));
-            }
-            final Optional<PinEntity> pinEntity = mPinStorage.getPin(subscriptionId);
-            if (pinEntity.isPresent()) {
-                mMutablePinEntity.postValue(pinEntity);
             }
         });
 
@@ -309,7 +309,7 @@ public final class SchedulerViewModel extends ViewModel {
      */
     LiveData<CharSequence> getPinPresenceSummary() {
         if (mObservablePinPresenceSummary == null) {
-            mObservablePinPresenceSummary = Transformations.map(mMutablePinEntity, (pinEntity) ->
+            mObservablePinPresenceSummary = Transformations.map(mMediatorPinEntity, (pinEntity) ->
                     mResources.getString(pinEntity.isPresent() ? R.string.scheduler_pin_set_summary
                         : R.string.scheduler_pin_unset_summary));
         }
@@ -321,6 +321,31 @@ public final class SchedulerViewModel extends ViewModel {
      */
     LiveData<Boolean> getPinTaskLock() {
         return mMutablePinTaskLock;
+    }
+
+    /**
+     * @return An observable containing a human-readable PIN error message, if any.
+     */
+    LiveData<Optional<PinErrorMessage>> getPinErrorMessage() {
+        if (mObseravblePinErrorMessage == null) {
+            mObseravblePinErrorMessage = Transformations.map(mMediatorPinEntity, (pinEntity) ->
+                    pinEntity.map((pin) -> {
+                        final String title, reason;
+                        if (pin.isCorrupted()) {
+                            title = mResources.getString(R.string.sim_pin_operation_failed);
+                            reason = mResources.getString(
+                                    R.string.scheduler_pin_banner_sim_pin_decryption_failed_reason);
+                            return new PinErrorMessage(title, reason);
+                        } else if (pin.isInvalid()) {
+                            title = mResources.getString(R.string.sim_unlock_failed);
+                            reason = mResources.getString(
+                                    R.string.scheduler_pin_banner_wrong_sim_pin_code_reason);
+                            return new PinErrorMessage(title, reason);
+                        }
+                        return null;
+                    }));
+        }
+        return mObseravblePinErrorMessage;
     }
 
     /**
@@ -372,16 +397,20 @@ public final class SchedulerViewModel extends ViewModel {
             // Acquire lock till asynchronous request completes
             mMutablePinTaskLock.postValue(true);
 
-            PinEntity pinEntity = mMutablePinEntity.getValue().orElseGet(() -> {
+            final PinEntity pinEntity = mMediatorPinEntity.getValue().orElseGet(() -> {
                 final PinEntity p = new PinEntity();
                 p.setSubscriptionId(mSubscriptionId);
                 return p;
             });
+            pinEntity.setInvalid(false);
             pinEntity.setClearPin(pin);
             if (mPinStorage.encrypt(pinEntity)) {
                 mPinStorage.storePin(pinEntity);
             } else {
-                pinEntity = null;
+                Utils.makeToast(mContext, mResources.getString(R.string.sim_pin_operation_failed));
+                // Unconditionally propagate an empty instance since unencrypted PIN entities cannot
+                // be persisted on disk, thus the mediator will remain unchanged
+                mMediatorPinEntity.postValue(Optional.empty());
             }
 
             // In order to supply the SIM subscription PIN codes to the active SIM subscriptions
@@ -391,8 +420,6 @@ public final class SchedulerViewModel extends ViewModel {
             pinEntities.forEach((pinEntity1) -> mPinStorage.decrypt(pinEntity1));
             mSubscriptionScheduler.updateNextWeeklyRepeatScheduleProcessingIter(
                     LocalDateTime.now().plusMinutes(1), pinEntities);
-
-            mMutablePinEntity.postValue(Optional.ofNullable(pinEntity));
 
             // Release lock
             mMutablePinTaskLock.postValue(false);
@@ -442,10 +469,8 @@ public final class SchedulerViewModel extends ViewModel {
             mMutableEndSchedule.setValue(defaultSchedule);
         }
 
-        mMutablePinEntity.getValue().ifPresent((pin) -> {
-            mMutablePinEntity.setValue(Optional.empty());
-            mHandler.post(() -> mPinStorage.deletePin(pin));
-        });
+        mMediatorPinEntity.getValue().ifPresent((pin) -> mHandler.post(() ->
+                    mPinStorage.deletePin(pin)));
 
         if (!schedulesToRemove.isEmpty()) {
             mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
@@ -466,7 +491,7 @@ public final class SchedulerViewModel extends ViewModel {
      * @return {@code true} if the SIM PIN code has been set, otherwise {@code false}.
      */
     boolean isPinPresent() {
-        return mMutablePinEntity.getValue().isPresent();
+        return mMediatorPinEntity.getValue().isPresent();
     }
 
     /**
@@ -534,6 +559,16 @@ public final class SchedulerViewModel extends ViewModel {
         mHandler.removeCallbacksAndMessages(null);
     }
 
+    final class PinErrorMessage {
+        final String title;
+        final String reason;
+
+        private PinErrorMessage(final String title, final String reason) {
+            this.title = title;
+            this.reason = reason;
+        }
+    }
+
     private final class IntentReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
@@ -548,7 +583,7 @@ public final class SchedulerViewModel extends ViewModel {
                     mMutableDaysOfWeek.postValue(mMutableDaysOfWeek.getValue());
                     mMutableStartTime.postValue(mMutableStartTime.getValue());
                     mMutableEndTime.postValue(mMutableEndTime.getValue());
-                    mMutablePinEntity.postValue(mMutablePinEntity.getValue());
+                    mMediatorPinEntity.postValue(mMediatorPinEntity.getValue());
                     // Refresh the next upcoming schedule summary locale-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
                     break;

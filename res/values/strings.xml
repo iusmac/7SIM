@@ -58,6 +58,9 @@
     <string name="scheduler_pin_set_summary">PIN has been set</string>
     <string name="scheduler_pin_unset_summary">Enter SIM PIN</string>
     <string name="scheduler_pin_invalid_hint">Type a PIN that is 4 to 8 numbers.</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Couldn't decrypt SIM PIN code. Re-enter SIM PIN to fix."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Incorrect SIM PIN code. Re-enter the correct PIN code."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Enter PIN code"</string>
 
     <string name="background_restricted_title">"Background usage required"</string>
     <string name="background_restricted_notification_text">"This app has been prevented from running in the background.\nTouch here to allow background usage."</string>
@@ -67,6 +70,11 @@
     <string name="foreground_notification_paused_in_background_title">"Paused in background"</string>
     <string name="foreground_notification_call_in_progress_text">"Call in progress…"</string>
     <string name="foreground_notification_unlock_to_continue_text">"Unlock to continue…"</string>
+
+    <string name="pin_error_with_carrier_name_template" translatable="false">"<xliff:g id="pin_error_text">%1$s</xliff:g> (<xliff:g id="carrier">%2$s</xliff:g>)"</string>
+    <string name="notification_tap_to_fix_text">Tap to fix.</string>
+    <string name="sim_pin_operation_failed">"SIM PIN operation failed!"</string>
+    <string name="sim_unlock_failed">"SIM unlock request unsuccessful!"</string>
 
     <string name="sim_list_key" translatable="false">"sim_list"</string>
     <string name="sim_list_background_restricted_banner_key" translatable="false">"sim_list_background_restricted_banner"</string>
@@ -82,4 +90,5 @@
     <string name="scheduler_start_time_key" translatable="false">"scheduler_start_time"</string>
     <string name="scheduler_end_time_key" translatable="false">"scheduler_end_time"</string>
     <string name="scheduler_pin_key" translatable="false">"scheduler_pin"</string>
+    <string name="scheduler_pin_error_key" translatable="false">"scheduler_pin_error"</string>
 </resources>

@@ -32,6 +32,12 @@ public final class PinEntity {
     @ColumnInfo(name = "iv")
     private byte[] mIV;
 
+    @ColumnInfo(name = "invalid")
+    private boolean mInvalid;
+
+    @ColumnInfo(name = "corrupted")
+    private boolean mCorrupted;
+
     @Ignore
     private String mClearPin;
 
@@ -59,6 +65,7 @@ public final class PinEntity {
         mClearPin = pin;
         mData = null;
         mIV = null;
+        mCorrupted = false;
     }
 
     byte[] getData() {
@@ -77,6 +84,22 @@ public final class PinEntity {
         mIV = iv;
     }
 
+    public boolean isCorrupted() {
+        return mCorrupted;
+    }
+
+    void setCorrupted(final boolean corrupted) {
+        mCorrupted = corrupted;
+    }
+
+    public boolean isInvalid() {
+        return mInvalid;
+    }
+
+    public void setInvalid(final boolean invalid) {
+        mInvalid = invalid;
+    }
+
     public boolean isEncrypted() {
         return mData != null && mIV != null;
     }
@@ -89,6 +112,8 @@ public final class PinEntity {
             + " data=[{ " + (mData != null ? "has" : "empty") + " data }]"
             + " IV=[{ " + (mIV != null ? "has" : "empty") + " data }]"
             + " clearPin.isEmpty=" + TextUtils.isEmpty(mClearPin)
+            + " corrupted=" + mCorrupted
+            + " invalid=" + mInvalid
             + " }";
     }
 }

@@ -330,9 +330,15 @@ public final class SubscriptionScheduler {
         // stored in the volatile memory of the pending operations controller, and there's no way to
         // directly obtain pending operations from the Android OS until the alarm goes off
         if (pinEntities != null) {
-            pinEntities.forEach((pinEntity) ->
-                    mAlarmIntent.putExtra(String.valueOf(pinEntity.getSubscriptionId()),
-                        pinEntity.getClearPin()));
+            pinEntities.forEach((pinEntity) -> {
+                if (pinEntity.isCorrupted() || pinEntity.isInvalid()) {
+                    mPinStorageLazy.get().handleBadPinEntity(pinEntity);
+                }
+                // Note that, we propagate the PIN further even if it may be bad, so that we receive
+                // it back, and re-run the same logic to re-raise awareness of the issue
+                mAlarmIntent.putExtra(String.valueOf(pinEntity.getSubscriptionId()),
+                        pinEntity.getClearPin());
+            });
         }
 
         // If found an eligible schedule, then re-schedule the old alarm or schedule a new one,

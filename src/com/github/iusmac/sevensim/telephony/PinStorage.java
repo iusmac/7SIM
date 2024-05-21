@@ -9,9 +9,11 @@ import android.text.TextUtils;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
+import androidx.lifecycle.LiveData;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.NotificationManager;
 import com.github.iusmac.sevensim.Utils;
 
 import dagger.Lazy;
@@ -59,15 +61,21 @@ public final class PinStorage {
     private final PinStorageDao mPinStorageDao;
     private final Lazy<KeyguardManager> mKeyguardManagerLazy;
     private final Lazy<KeyStore> mKeyStoreLazy;
+    private final Lazy<Subscriptions> mSubscriptionsLazy;
+    private final Lazy<NotificationManager> mNotificationManagerLazy;
 
     @Inject
     public PinStorage(final Logger.Factory loggerFactory, final AppDatabaseCE database,
-            final Lazy<KeyguardManager> keyguardManagerLazy, final Lazy<KeyStore> keyStoreLazy) {
+            final Lazy<KeyguardManager> keyguardManagerLazy, final Lazy<KeyStore> keyStoreLazy,
+            final Lazy<Subscriptions> subscriptionsLazy,
+            final Lazy<NotificationManager> notificationManager) {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mPinStorageDao = database.pinStorageDao();
         mKeyguardManagerLazy = keyguardManagerLazy;
         mKeyStoreLazy = keyStoreLazy;
+        mSubscriptionsLazy = subscriptionsLazy;
+        mNotificationManagerLazy = notificationManager;
     }
 
     /**
@@ -81,14 +89,14 @@ public final class PinStorage {
     }
 
     /**
-     * Retrieve the SIM PIN entity for a SIM subscription ID from the storage.
+     * Retrieve the observable SIM PIN entity for a SIM subscription ID from the storage.
      *
      * @param subId The subscription ID for which to retrieve the SIM PIN entity.
-     * @return An Optional containing the SIM PIN entity, if any. The SIM PIN entity instance will
-     * be <b>encrypted</b>. To decrypt use {@link #decrypt(PinEntity)}.
+     * @return An observable Optional containing the SIM PIN entity, if any. The SIM PIN entity
+     * instance will be <b>encrypted</b>. To decrypt use {@link #decrypt(PinEntity)}.
      */
-    public Optional<PinEntity> getPin(final int subId) {
-        return mPinStorageDao.findBySubscriptionId(subId);
+    public LiveData<Optional<PinEntity>> getObservablePin(final int subId) {
+        return mPinStorageDao.findObservableBySubscriptionId(subId);
     }
 
     /**
@@ -193,6 +201,12 @@ public final class PinStorage {
         if (!pinEntity.isEncrypted()) {
             throw new RuntimeException("Attempting to decrypt an unencrypted entity!");
         }
+        if (pinEntity.isCorrupted()) {
+            mLogger.w("decrypt(pinEntity=%s) : Attempting to decrypt a \"corrupted\" entity!",
+                    pinEntity);
+            return false;
+        }
+        pinEntity.setCorrupted(true);
         final SecretKey secretKey = getOrCreateSecretKey();
         if (secretKey == null) {
             mLogger.e("decrypt(pinEntity=%s) : SecretKey is null!.", pinEntity);
@@ -208,7 +222,37 @@ public final class PinStorage {
             mLogger.e("decrypt(pinEntity=%s) : %s", pinEntity, e);
             return false;
         }
+        pinEntity.setCorrupted(false);
         return true;
+    }
+
+    /**
+     * Handle the SIM PIN entity that is detected to be "bad", i.e., corrupted (cannot be decrypted)
+     * or invalid (cannot unlock SIM card).
+     *
+     * @param pinEntity The bad SIM PIN entity to process.
+     */
+    public void handleBadPinEntity(final @NonNull PinEntity pinEntity) {
+        mLogger.d("handleBadPinEntity(pinEntity=%s).", pinEntity);
+
+        if (!(pinEntity.isInvalid() || pinEntity.isCorrupted())) {
+            mLogger.w("handleBadPinEntity() : Not a \"bad\" PIN entity: %s.", pinEntity);
+            return;
+        }
+
+        // Memoize bad PIN entity when we check again next time
+        storePin(pinEntity);
+
+        final int subId = pinEntity.getSubscriptionId();
+        // Notify the user about bad PIN codes but only for currently active SIM subscriptions
+        // found on the device
+        mSubscriptionsLazy.get().getSubscriptionForSubId(subId).ifPresent((sub) -> {
+            if (pinEntity.isCorrupted()) {
+                mNotificationManagerLazy.get().showSimPinOperationFailedNotification(sub);
+            } else if (pinEntity.isInvalid()) {
+                mNotificationManagerLazy.get().showSimUnlockFailedNotification(sub);
+            }
+        });
     }
 
     /**
