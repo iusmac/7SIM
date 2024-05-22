@@ -70,7 +70,7 @@ public final class NotificationManager {
      */
     void showBackgroundRestrictedNotification() {
         final PendingIntent pIntent = PendingIntent.getActivityAsUser(mContext, /*requestCode=*/ 0,
-                mApplicationInfo.getAppDetailsSettingsActivityIntent(),
+                mApplicationInfo.getAppBatterySettingsActivityIntent(),
                 PendingIntent.FLAG_IMMUTABLE, /*options=*/ null, UserHandle.CURRENT);
 
         final String text = mResources.getString(R.string.background_restricted_notification_text);
