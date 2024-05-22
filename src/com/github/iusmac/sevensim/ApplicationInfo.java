@@ -83,13 +83,16 @@ public final class ApplicationInfo {
     }
 
     /**
-     * Get the activity intent to show screen of details about this application within the built-in
-     * Settings app.
+     * Get the activity intent to show screen of battery settings for this application within the
+     * built-in Settings app.
      */
-    public Intent getAppDetailsSettingsActivityIntent() {
-        final Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + mPackageName));
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+    public Intent getAppBatterySettingsActivityIntent() {
+        final String action = Utils.IS_AT_LEAST_S ? Settings.ACTION_VIEW_ADVANCED_POWER_USAGE_DETAIL
+            : "android.settings.APP_BATTERY_SETTINGS";
+        final Intent i = new Intent(action, Uri.parse("package:" + mPackageName));
+        // Highlight the preference fragment when launched
+        i.putExtra("request_ignore_background_restriction", true);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         return i;
     }
 

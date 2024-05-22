@@ -82,7 +82,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
             .setAttentionLevel(BannerMessagePreference.AttentionLevel.HIGH)
             .setPositiveButtonText(R.string.background_restricted_button_prioritize_app)
             .setPositiveButtonOnClickListener((view) ->
-                startActivity(mApplicationInfoLazy.get().getAppDetailsSettingsActivityIntent()));
+                startActivity(mApplicationInfoLazy.get().getAppBatterySettingsActivityIntent()));
     }
 
     private void setupDisclaimerBanner() {
