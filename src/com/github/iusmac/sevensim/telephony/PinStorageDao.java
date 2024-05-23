@@ -11,6 +11,9 @@ import java.util.Optional;
 
 @Dao
 public interface PinStorageDao {
+    static final String SELECT_BY_SUBSCRIPTION_ID_RAW_QUERY =
+        "SELECT * FROM pin_storage WHERE sub_id = :subId LIMIT 1";
+
     @Upsert
     long upsert(PinEntity pin);
 
@@ -23,6 +26,9 @@ public interface PinStorageDao {
     @Query("SELECT COUNT(*) FROM pin_storage")
     int getCount();
 
-    @Query("SELECT * FROM pin_storage WHERE sub_id = :subId LIMIT 1")
+    @Query(SELECT_BY_SUBSCRIPTION_ID_RAW_QUERY)
     LiveData<Optional<PinEntity>> findObservableBySubscriptionId(int subId);
+
+    @Query(SELECT_BY_SUBSCRIPTION_ID_RAW_QUERY)
+    Optional<PinEntity> findBySubscriptionId(int subId);
 }

@@ -21,12 +21,14 @@ import androidx.core.content.ContextCompat;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.telephony.PinEntity;
 import com.github.iusmac.sevensim.telephony.PinStorage;
+import com.github.iusmac.sevensim.telephony.SimPinFeeder;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 
 import dagger.Lazy;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -73,6 +75,11 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
     /** Action to trigger when the SIM subscriptions have been changed. */
     private static final String ACTION_SUBSCRIPTIONS_CHANGED = "ACTION_SUBSCRIPTIONS_CHANGED";
+
+    /**
+     * Action to trigger the process of supplying SIM PIN codes for the SIM cards that require them.
+     */
+    private static final String ACTION_UNLOCK_SIM_CARDS = "ACTION_UNLOCK_SIM_CARDS";
 
     /** Key holding the stringified value of the {@link LocalDateTime} in the Intent's payload. */
     private static final String EXTRA_TIME_KEY = "time";
@@ -132,6 +139,9 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
     @Inject
     Lazy<PinStorage> mPinStorageLazy;
+
+    @Inject
+    SimPinFeeder.Factory mSimPinFeederFactory;
 
     private Logger mLogger;
     private Worker mWorker;
@@ -210,6 +220,13 @@ public final class ForegroundService extends Hilt_ForegroundService {
     public static void onSubscriptionsChanged(final Context context, final LocalDateTime dateTime) {
         final Intent i = new Intent(ACTION_SUBSCRIPTIONS_CHANGED);
         i.putExtra(EXTRA_TIME_KEY, dateTime.toString());
+        startAction(context, i);
+    }
+
+    /** @see SimPinFeeder */
+    public static void unlockSimCards(final Context context, final Bundle clearPinCodes) {
+        final Intent i = new Intent(ACTION_UNLOCK_SIM_CARDS);
+        i.putExtra(EXTRA_CLEAR_PIN_CODES, clearPinCodes);
         startAction(context, i);
     }
 
@@ -312,6 +329,36 @@ public final class ForegroundService extends Hilt_ForegroundService {
             case ACTION_SUBSCRIPTIONS_CHANGED:
                 mWorker.execute(() -> dateTime.ifPresent((ldt) ->
                             mSubscriptionsLazy.get().syncSubscriptions(ldt)), startId);
+                break;
+
+            case ACTION_UNLOCK_SIM_CARDS:
+                mWorker.execute(() -> {
+                    if (clearPinCodes != null) {
+                        final List<PinEntity> usablePinEntities = new ArrayList<>();
+                        for (final PinEntity pinEntity : mPinStorageLazy.get().getPinEntities()) {
+                            final String clearPin = clearPinCodes.getString(String.valueOf(
+                                        pinEntity.getSubscriptionId()));
+                            if (clearPin != null) {
+                                pinEntity.setClearPin(clearPin);
+                                usablePinEntities.add(pinEntity);
+                            }
+                        }
+                        final SimPinFeeder simPinFeeder =
+                            mSimPinFeederFactory.create(usablePinEntities);
+                        simPinFeeder.start();
+                        try {
+                            // Wait until the task is finished, otherwise the Worker will mark it as
+                            // completed on return, and, (potentially) terminate the service too
+                            // early in case it's the last task, or because of short-lived
+                            // tasks scheduled later. The lock isn't expected to last more than a
+                            // couple of seconds
+                            simPinFeeder.join();
+                        } catch (InterruptedException ignored) {
+                            // Worker is shutting down
+                            simPinFeeder.cancel();
+                        }
+                    }
+                }, startId);
                 break;
 
             default:

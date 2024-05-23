@@ -62,6 +62,12 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
         final boolean overrideUserPreference = true;
         ForegroundService.syncAllSubscriptionsEnabledState(context, now, overrideUserPreference);
 
+        // If we have the clear SIM PIN codes, then trigger the process of unlocking all the SIM
+        // cards that are in the PIN state
+        if (clearPinCodes != null && !clearPinCodes.isEmpty()) {
+            ForegroundService.unlockSimCards(context, clearPinCodes);
+        }
+
         // Schedule the next iteration processing of weekly repeat schedules to happen no earlier
         // than one minute from now as we already processed schedules at this time. Note that, if
         // the background usage is restricted, we won't be able to re-schedule using foreground

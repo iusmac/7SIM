@@ -89,6 +89,17 @@ public final class PinStorage {
     }
 
     /**
+     * Retrieve the SIM PIN entity for a SIM subscription ID from the storage.
+     *
+     * @param subId The subscription ID for which to retrieve the SIM PIN entity.
+     * @return An Optional containing the SIM PIN entity, if any. The SIM PIN entity instance will
+     * be <b>encrypted</b>. To decrypt use {@link #decrypt(PinEntity)}.
+     */
+    public Optional<PinEntity> getPin(final int subId) {
+        return mPinStorageDao.findBySubscriptionId(subId);
+    }
+
+    /**
      * Retrieve the observable SIM PIN entity for a SIM subscription ID from the storage.
      *
      * @param subId The subscription ID for which to retrieve the SIM PIN entity.
@@ -241,7 +252,15 @@ public final class PinStorage {
         }
 
         // Memoize bad PIN entity when we check again next time
-        storePin(pinEntity);
+        if (!pinEntity.isEncrypted()) {
+            getPin(pinEntity.getSubscriptionId()).ifPresent((encryptedPin) -> {
+                encryptedPin.setInvalid(pinEntity.isInvalid());
+                encryptedPin.setCorrupted(pinEntity.isCorrupted());
+                storePin(encryptedPin);
+            });
+        } else {
+            storePin(pinEntity);
+        }
 
         final int subId = pinEntity.getSubscriptionId();
         // Notify the user about bad PIN codes but only for currently active SIM subscriptions
