@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Začas. ustav. v ozadju"</string>
     <string name="foreground_notification_call_in_progress_text">"Klic poteka …"</string>
     <string name="preference_not_set">"Ni nastavljeno"</string>
+    <string name="scheduler_pin_title">"Koda PIN za kartico SIM"</string>
+    <string name="scheduler_pin_set_summary">"Koda PIN je nastavljena"</string>
+    <string name="scheduler_pin_unset_summary">"Vnesite kodo PIN kartice SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Vnesite kodo PIN, ki vsebuje od štiri do osem številk."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"PIN koda SIM kartice ni bilo mogoče dešifrirati. Vnesite PIN kodo SIM kartice znova, da popravite težavo."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Napačna koda PIN kartice SIM. Vnovič vnesite pravilno kodo PIN."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Vnesite kodo PIN kartice SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Odklenite, če želite nadaljevati …"</string>
+    <string name="notification_tap_to_fix_text">"Dotaknite se, da to popravite"</string>
+    <string name="sim_pin_operation_failed">"Postopek za odklepanje s kodo PIN kartice SIM ni uspel."</string>
+    <string name="sim_unlock_failed">"Zahteva za odklepanje SIM-a neuspešna."</string>
 </resources>

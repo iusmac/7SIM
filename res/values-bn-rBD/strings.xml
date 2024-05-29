@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"পশ্চাদপটে বিরাম দেওয়া আছে"</string>
     <string name="foreground_notification_call_in_progress_text">"কল করা হচ্ছে…"</string>
     <string name="preference_not_set">"সেট করা হয়নি"</string>
+    <string name="scheduler_pin_title">"সিম পিন"</string>
+    <string name="scheduler_pin_set_summary">"পিন সেট করা হয়েছে"</string>
+    <string name="scheduler_pin_unset_summary">"সিমের পিন লিখুন"</string>
+    <string name="scheduler_pin_invalid_hint">"একটি ৪ থেকে ৮ সংখ্যার পিন লিখুন।"</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM পিন কোড ডিক্রিপ্ট করা যায়নি। সমস্যা সমাধানের জন্য পুনরায় SIM পিন কোডটি প্রবেশ করুন।"</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"সিম কার্ডের ভুল পিন কোড দিয়েছেন। সঠিক PIN কোড পুনরায় লিখুন৷"</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"সিমের পিন লিখুন"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"চালিয়ে যেতে আনলক করুন…"</string>
+    <string name="notification_tap_to_fix_text">"ঠিক করতে ট্যাপ করুন"</string>
+    <string name="sim_pin_operation_failed">"সিম পিন দিয়ে আনলক করা যায়নি!"</string>
+    <string name="sim_unlock_failed">"সিম আনলক অনুরোধ ব্যর্থ হয়েছে!"</string>
 </resources>

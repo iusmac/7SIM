@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Arxa fonda dayandırıldı"</string>
     <string name="foreground_notification_call_in_progress_text">"Zəng davam edir…"</string>
     <string name="preference_not_set">"Ayarlanmayıb"</string>
+    <string name="scheduler_pin_title">"SIM PIN"</string>
+    <string name="scheduler_pin_set_summary">"PIN ayarlandı"</string>
+    <string name="scheduler_pin_unset_summary">"SIM PIN'ni daxil edin"</string>
+    <string name="scheduler_pin_invalid_hint">"4–8 rəqəmli PIN daxil edin."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN kodunu deşifrə etmək mümkün olmadı. Problemi həll etmək üçün SIM PIN kodunu yenidən daxil edin."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Yanlış SIM PIN kodu. Düzgün PIN kodu yenidən daxil edin."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"SIM PIN'ni daxil edin"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Davam etmək üçün kilidi açın…"</string>
+    <string name="notification_tap_to_fix_text">"Həll etmək üçün klikləyin"</string>
+    <string name="sim_pin_operation_failed">"SIM PIN əməliyyatı alınmadı!"</string>
+    <string name="sim_unlock_failed">"SIM kilid açma sorğusu uğursuz oldu."</string>
 </resources>

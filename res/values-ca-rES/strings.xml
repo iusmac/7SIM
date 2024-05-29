@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Posada en pausa de fons"</string>
     <string name="foreground_notification_call_in_progress_text">"Trucada en curs…"</string>
     <string name="preference_not_set">"No definit"</string>
+    <string name="scheduler_pin_title">"PIN de la SIM"</string>
+    <string name="scheduler_pin_set_summary">"S'ha definit el PIN"</string>
+    <string name="scheduler_pin_unset_summary">"Introdueix el PIN de la SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Escriu un PIN que tingui entre 4 i 8 números."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"No s'ha pogut desxifrar el codi PIN de la SIM. Torna a introduir el codi PIN de la SIM per solucionar-ho."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"El codi PIN de la SIM no és correcte. Torna a introduir el codi PIN correcte."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Introdueix el PIN de la SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Desbloqueja per continuar…"</string>
+    <string name="notification_tap_to_fix_text">"Toca per solucionar el problema"</string>
+    <string name="sim_pin_operation_failed">"Ha fallat l'operació del PIN de la SIM"</string>
+    <string name="sim_unlock_failed">"La petició de desbloqueig del SIM no ha tingut èxit."</string>
 </resources>

@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Peatatud taustal"</string>
     <string name="foreground_notification_call_in_progress_text">"Kõne on pooleli …"</string>
     <string name="preference_not_set">"Määramata"</string>
+    <string name="scheduler_pin_title">"SIM-kaardi PIN-kood"</string>
+    <string name="scheduler_pin_set_summary">"PIN-kood on määratud"</string>
+    <string name="scheduler_pin_unset_summary">"Sisestage SIM-kaardi PIN-kood"</string>
+    <string name="scheduler_pin_invalid_hint">"Sisestage 4–8-numbriline PIN-kood."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM-kaardi PIN-koodi ei õnnestunud dešifreerida. Sisestage SIM-kaardi PIN-kood uuesti, et probleem lahendada."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM-i vale PIN-kood. Sisestage uuesti õige PIN-kood."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Sisestage SIM-kaardi PIN-kood"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Jätkamiseks avage …"</string>
+    <string name="notification_tap_to_fix_text">"Puudutage parandamiseks"</string>
+    <string name="sim_pin_operation_failed">"SIM-kaardi PIN-koodi toiming ebaõnnestus."</string>
+    <string name="sim_unlock_failed">"SIM avamise taotlus nurjus."</string>
 </resources>

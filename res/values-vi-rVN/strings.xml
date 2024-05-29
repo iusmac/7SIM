@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Đã tạm dừng trong nền"</string>
     <string name="foreground_notification_call_in_progress_text">"Cuộc gọi đang diễn ra…"</string>
     <string name="preference_not_set">"Chưa đặt"</string>
+    <string name="scheduler_pin_title">"Mã PIN của SIM"</string>
+    <string name="scheduler_pin_set_summary">"Mã PIN đã được đặt"</string>
+    <string name="scheduler_pin_unset_summary">"Nhập mã PIN của SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Nhập mã PIN có từ 4 đến 8 số."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Không thể giải mã mã PIN của SIM. Nhập lại mã PIN của SIM để sửa chữa vấn đề."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Mã PIN của SIM không chính xác. Hãy nhập lại mã PIN chính xác."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Nhập mã PIN của SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Mở khóa để tiếp tục…"</string>
+    <string name="notification_tap_to_fix_text">"Hãy nhấn để sửa"</string>
+    <string name="sim_pin_operation_failed">"Thao tác mã PIN của SIM không thành công!"</string>
+    <string name="sim_unlock_failed">"Yêu cầu mở khóa SIM không thành công."</string>
 </resources>

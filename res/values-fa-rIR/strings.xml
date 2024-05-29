@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"در پس‌زمینه موقتاً متوقف شد"</string>
     <string name="foreground_notification_call_in_progress_text">"تماس در حال انجام…"</string>
     <string name="preference_not_set">"تنظیم نشده"</string>
+    <string name="scheduler_pin_title">"پین سیم کارت"</string>
+    <string name="scheduler_pin_set_summary">"پین تنظیم شد"</string>
+    <string name="scheduler_pin_unset_summary">"پین سیم‌کارت را وارد کنید"</string>
+    <string name="scheduler_pin_invalid_hint">"یک پین ۴ تا ۸ رقمی را تایپ کنید."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"قادر به رمز پین کارت سیم را رمزگشایی نکرد. برای رفع مشکل مجدداً رمز پین کارت سیم را وارد کنید."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"کد پین سیم‌کارت اشتباه است. پین کد صحیح را دوباره وارد کنید."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"پین سیم‌کارت را وارد کنید"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"برای ادامه دادن، قفل را باز کنید…"</string>
+    <string name="notification_tap_to_fix_text">"برای برطرف کردن مشکل، ضربه بزنید"</string>
+    <string name="sim_pin_operation_failed">"عملیات پین سیم‌کارت ناموفق بود!"</string>
+    <string name="sim_unlock_failed">"درخواست بازگشایی قفل سیمکارت ناموفق بود."</string>
 </resources>

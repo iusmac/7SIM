@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Приостановлено в фоновом режиме"</string>
     <string name="foreground_notification_call_in_progress_text">"Выполняется телефонный звонок…"</string>
     <string name="preference_not_set">"Не указано"</string>
+    <string name="scheduler_pin_title">"PIN-код SIM-карты"</string>
+    <string name="scheduler_pin_set_summary">"PIN-код был установлен"</string>
+    <string name="scheduler_pin_unset_summary">"Введите PIN-код SIM-карты"</string>
+    <string name="scheduler_pin_invalid_hint">"Введите PIN-код (от 4 до 8 цифр)."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Не удалось расшифровать PIN-код SIM-карты. Введите PIN-код SIM-карты снова, чтобы исправить проблему."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Неверный PIN-код SIM-карты. Повторно введите правильный PIN-код."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Введите PIN-код SIM-карты"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Разблокируйте устройство, чтобы продолжить…"</string>
+    <string name="notification_tap_to_fix_text">"Нажмите здесь, чтобы исправить."</string>
+    <string name="sim_pin_operation_failed">"Не удалось разблокировать SIM-карту"</string>
+    <string name="sim_unlock_failed">"Не удалось выполнить запрос на разблокировку SIM-карты."</string>
 </resources>

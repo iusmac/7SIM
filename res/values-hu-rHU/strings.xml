@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Szünetel a háttérben"</string>
     <string name="foreground_notification_call_in_progress_text">"Hívás folyamatban…"</string>
     <string name="preference_not_set">"Nincs beállítva"</string>
+    <string name="scheduler_pin_title">"SIM-kártya PIN-kódja"</string>
+    <string name="scheduler_pin_set_summary">"A PIN-kód beállítva"</string>
+    <string name="scheduler_pin_unset_summary">"Adja meg a SIM-kártya PIN-kódját"</string>
+    <string name="scheduler_pin_invalid_hint">"Írjon be egy 4–8 számjegyű PIN-kódot."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nem sikerült feloldani a SIM PIN kódot. Az hiba javításához írd be újra a SIM PIN kódot."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Helytelen PIN-kód a SIM-kártyához. Adja meg újra a helyes PIN kódot."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Adja meg a SIM-kártya PIN-kódját"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"A folytatáshoz oldja fel a zárolást…"</string>
+    <string name="notification_tap_to_fix_text">"Koppintson a javításhoz"</string>
+    <string name="sim_pin_operation_failed">"A SIM-kártya PIN-művelete sikertelen!"</string>
+    <string name="sim_unlock_failed">"Sikertelen SIM feloldási kérelem."</string>
 </resources>

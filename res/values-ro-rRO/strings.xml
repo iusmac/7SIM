@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Întreruptă în fundal"</string>
     <string name="foreground_notification_call_in_progress_text">"Se apelează…"</string>
     <string name="preference_not_set">"Nesetată"</string>
+    <string name="scheduler_pin_title">"PIN SIM"</string>
+    <string name="scheduler_pin_set_summary">"Codul PIN a fost setat"</string>
+    <string name="scheduler_pin_unset_summary">"Introdu codul PIN al cardului SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Introdu un cod PIN alcătuit din 4 până la 8 cifre."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nu s-a putut decripta codul PIN al cartelei SIM. Introduceți din nou codul PIN al SIM-ului pentru a remedia problema."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"PIN-ul cardului SIM e incorect. Reintrodu codul PIN corect."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Introdu codul PIN al cardului SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Deblocați pentru a continua…"</string>
+    <string name="notification_tap_to_fix_text">"Atinge pentru a remedia"</string>
+    <string name="sim_pin_operation_failed">"Deblocarea cu ajutorul codului PIN pentru cardul SIM nu a reușit!"</string>
+    <string name="sim_unlock_failed">"Cererea de deblocare pentru SIM a eșuat."</string>
 </resources>

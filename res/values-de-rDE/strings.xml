@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Im Hintergrund pausiert"</string>
     <string name="foreground_notification_call_in_progress_text">"Anruf in Arbeit…"</string>
     <string name="preference_not_set">"Nicht festgelegt"</string>
+    <string name="scheduler_pin_title">"PIN für SIM-Karte"</string>
+    <string name="scheduler_pin_set_summary">"Die PIN wurde festgelegt."</string>
+    <string name="scheduler_pin_unset_summary">"Gib die SIM-PIN ein"</string>
+    <string name="scheduler_pin_invalid_hint">"Gib eine 4- bis 8-stellige PIN ein."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Der SIM-PIN-Code konnte nicht entschlüsselt werden. Geben Sie den SIM-PIN-Code erneut ein, um das Problem zu beheben."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Falscher PIN-Code für die SIM-Karte. Gib den richtigen PIN-Code ein."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Gib die SIM-PIN ein"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Zum Fortfahren entsperren…"</string>
+    <string name="notification_tap_to_fix_text">"Tippen, um das Problem zu beheben"</string>
+    <string name="sim_pin_operation_failed">"Fehler beim Entsperren der SIM-Karte mit der PIN."</string>
+    <string name="sim_unlock_failed">"Entsperren der SIM-Karte fehlgeschlagen."</string>
 </resources>

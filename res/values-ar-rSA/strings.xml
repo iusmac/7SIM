@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"متوقف مؤقتًا في الخلفية"</string>
     <string name="foreground_notification_call_in_progress_text">"الاتصال قيد التقدم…"</string>
     <string name="preference_not_set">"لم يتم الضبط"</string>
+    <string name="scheduler_pin_title">"‏رقم التعريف الشخصي لشريحة SIM"</string>
+    <string name="scheduler_pin_set_summary">"‏تم ضبط رمز PIN"</string>
+    <string name="scheduler_pin_unset_summary">"‏أدخل رقم التعريف الشخصي لشريحة SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"اكتب رمز رقم التعريف الشخصي المكوّن من ٤ إلى ٨ أرقام."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"لم يتم فك شفرة رمز PIN لشريحة SIM. أعد إدخال رمز PIN لشريحة SIM لإصلاح المشكلة."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"‏رقم التعريف الشخصي لشريحة SIM غير صحيح. ‏أعد إدخال رمز PIN الصحيح."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"‏أدخل رقم التعريف الشخصي لشريحة SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"فتح القفل للمتابعة…"</string>
+    <string name="notification_tap_to_fix_text">"انقر للإصلاح"</string>
+    <string name="sim_pin_operation_failed">"تعذّر إتمام عملية \"رقم التعريف الشخصي\" لشريحة SIM"</string>
+    <string name="sim_unlock_failed">"فشل طلب إلغاء تأمين SIM."</string>
 </resources>
