@@ -52,14 +52,6 @@ If you're a normal user willing to give it a try, see [Installation](#installati
   > Subscribe to the iusmac/7SIM/issues/1 to be notified when this feature will be fully
   > implemented.
 - Automatically supply the PIN code provided by you to unlock the SIM card
-  > 🚧 **Work-in-Progress**
-  >
-  > This feature is under development. Mostly, the devices lacking the
-  > [capability to turn on/off SIM cards out-of-the-box][faq-check-toggle-uicc-subscription-support]
-  > need it for the best UX. Because of this, this feature has the highest priority over all other
-  > features on the "TO DO" list.
-  >
-  > Subscribe to the iusmac/7SIM/issues/2 to be notified when this feature will be implemented.
 - Automatically detect ongoing call and postpone SIM card deactivation
 - Tinted SIM card icons
 - Real-Time SIM list updates
@@ -218,6 +210,25 @@ The "_Update_" option may be grayed out due to the app being signed with the mai
 keys. You cannot update this application using files from the [release page][releases/latest] as
 they are signed with the public Android platform signature. Therefore, you can get updates of this
 app only from your ROM maintainer with OTA updates.
+</details>
+
+<details>
+<summary id="faq-sim-pin-codes-storing">9. Where's my SIM PIN code stored?</summary>
+
+The SIM PIN codes are stored on disk after being encrypted using the newly generated secret key
+bound to your screen lock credentials, such as PIN/password/pattern or biometric (Android 10 only).
+The secret key will be stored in the [Hardware-backed Keystore](https://source.android.com/docs/security/features/keystore),
+and the user authentication will take place for every use of the key. This is the highest security
+level you can have on an Android device.
+
+> ⚠️  Warning
+>
+> If "_None_" or "_Swipe_" is set as your screen lock method, the default (known to everyone) key
+> will be used to encrypt your SIM PIN codes. Although the decryption will require physical access
+> to the device, this is the <strong>lowest</strong> possible level of protection, as the data can
+> be easily accessed (especially on a rooted device), if your phone is lost or stolen.
+
+See also [Irreversibly Invalidated SIM PIN Codes](#3-irreversibly-invalidated-sim-pin-codes)
 </details>
 
 # For ROM Maintainers
@@ -460,6 +471,16 @@ because the Android OS doesn't notify apps of Airplane Mode state changes unless
 subscribes to these changes and remains working in the background. Since this app was developed on
 purpose to not waste system resources and do all the work on-demand, there is currently no
 workaround to this.
+
+#### 3. Irreversibly Invalidated SIM PIN Codes
+The SIM PIN codes will become unusable under the following conditions:
+1. After disabling the secure screen lock method (e.g., re-configuring it to "_None_" or "_Swipe_")
+2. After clearing the data for the **system built-in Settings app** via "App Info > Storage & Cache >
+   Clear storage"
+
+These actions will irreversibly invalidate the secret key, making the SIM PIN decryption operation
+impossible. To restore functionality, you'll need to provide all SIM PIN codes again to regenerate
+the secret key.
 
 # Contributing
 ### Contribute Code
