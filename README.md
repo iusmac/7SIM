@@ -32,7 +32,7 @@ If you're a normal user willing to give it a try, see [Installation](#installati
 ##### Screenshots
 <p>
   <img src="images/home-a13-dark.jpg" width="200" alt="Home A13 Dark Screenshot" />
-  <img src="images/scheduler-a13-light.jpg" width="200" alt="Scheduler A13 Light Screenshot" />
+  <img src="images/scheduler-a14-light.jpg" width="200" alt="Scheduler A14 Light Screenshot" />
   <img src="images/home-a10-light.jpg" width="200" alt="Home A10 Light Screenshot" />
   <img src="images/scheduler-a10-dark.jpg" width="200" alt="Scheduler A10 Dark Screenshot" />
 </p>
