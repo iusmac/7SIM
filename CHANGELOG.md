@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0-beta](https://github.com/iusmac/7SIM/compare/v1.1.0-beta...v1.2.0-beta) (2024-06-02)
+
+
+### :sparkles: Features
+
+* **#2:** automatically supply the PIN code to unlock the SIM card ([#20](https://github.com/iusmac/7SIM/issues/20)) ([bf404f6](https://github.com/iusmac/7SIM/commit/bf404f62a51f831cf8e6f3a753800166c9c24a13))
+
+
+### :wrench: Feature Tweaks
+
+* get the background restriction option faster ([#22](https://github.com/iusmac/7SIM/issues/22)) ([c2c64e4](https://github.com/iusmac/7SIM/commit/c2c64e4f82b5bf89369664146905346558cc54b2))
+
 ## [1.1.0-beta](https://github.com/iusmac/7SIM/compare/v1.0.3-beta...v1.1.0-beta) (2024-05-01)
 
 
