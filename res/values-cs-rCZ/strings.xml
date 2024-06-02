@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Pozastaveno na pozadí"</string>
     <string name="foreground_notification_call_in_progress_text">"Probíhá hovor…"</string>
     <string name="preference_not_set">"Nenastaveno"</string>
+    <string name="scheduler_pin_title">"Kód PIN SIM karty"</string>
+    <string name="scheduler_pin_set_summary">"Kód PIN byl nastaven"</string>
+    <string name="scheduler_pin_unset_summary">"Zadejte kód PIN SIM karty"</string>
+    <string name="scheduler_pin_invalid_hint">"Zadejte kód PIN o délce 4–8 číslic."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nepodařilo se dešifrovat PIN kód SIM karty. Zadejte znovu PIN kód SIM karty, aby se problém vyřešil."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Zadali jste nesprávný PIN SIM karty. Znovu zadejte správný kód PIN."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Zadejte kód PIN SIM karty"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Pokračujte odemknutím…"</string>
+    <string name="notification_tap_to_fix_text">"Problém odstraníte klepnutím"</string>
+    <string name="sim_pin_operation_failed">"Operace pomocí kódu PIN SIM karty se nezdařila."</string>
+    <string name="sim_unlock_failed">"Požadavek odemknutí SIM neúspěšný."</string>
 </resources>

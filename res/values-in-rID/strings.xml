@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Dijeda di latar belakang"</string>
     <string name="foreground_notification_call_in_progress_text">"Panggilan sedang berlangsung…"</string>
     <string name="preference_not_set">"Belum disetel"</string>
+    <string name="scheduler_pin_title">"PIN SIM"</string>
+    <string name="scheduler_pin_set_summary">"PIN telah ditetapkan"</string>
+    <string name="scheduler_pin_unset_summary">"Masukkan PIN SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Ketikkan PIN berupa 4 sampai 8 angka."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Tidak dapat mendekripsi kode PIN SIM. Masukkan kembali kode PIN SIM untuk memperbaikinya."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Kode PIN SIM salah. Masukkan kembali kode PIN yang benar."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Masukkan PIN SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Buka kunci untuk melanjutkan…"</string>
+    <string name="notification_tap_to_fix_text">"Ketuk untuk memperbaiki"</string>
+    <string name="sim_pin_operation_failed">"Operasi PIN SIM gagal!"</string>
+    <string name="sim_unlock_failed">"Permintaan membuka kunci SIM tidak berhasil."</string>
 </resources>

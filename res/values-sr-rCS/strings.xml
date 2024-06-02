@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Паузирано у позадини"</string>
     <string name="foreground_notification_call_in_progress_text">"Позивање је у току…"</string>
     <string name="preference_not_set">"Није подешено"</string>
+    <string name="scheduler_pin_title">"PIN за SIM"</string>
+    <string name="scheduler_pin_set_summary">"PIN је постављен"</string>
+    <string name="scheduler_pin_unset_summary">"Унесите PIN за SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Унесите PIN који има 4–8 бројева."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"ПИН-код SIM-карте није могао бити дешифрован. Поново унесите ПИН-код SIM-карте како бисте исправили проблем."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Нетачан PIN за SIM кôд. Поново унесите исправни PIN кôд."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Унесите PIN за SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Откључајте да бисте наставили…"</string>
+    <string name="notification_tap_to_fix_text">"Додирните да бисте исправили"</string>
+    <string name="sim_pin_operation_failed">"Радња са PIN кодом за SIM није успела!"</string>
+    <string name="sim_unlock_failed">"Не могу да откључам SIM картицу."</string>
 </resources>

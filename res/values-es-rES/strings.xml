@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Pausada en segundo plano"</string>
     <string name="foreground_notification_call_in_progress_text">"Llamada en curso…"</string>
     <string name="preference_not_set">"Sin establecer"</string>
+    <string name="scheduler_pin_title">"PIN de la tarjeta SIM"</string>
+    <string name="scheduler_pin_set_summary">"El PIN se ha establecido."</string>
+    <string name="scheduler_pin_unset_summary">"Introduce el PIN de la tarjeta SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Escribe un código PIN que tenga entre 4 y 8 dígitos."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"No se pudo descifrar el código PIN de la tarjeta SIM. Vuelve a introducir el código PIN de la SIM para solucionarlo."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Código PIN de la SIM incorrecto. Vuelve a introducir el código PIN correcto."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Introduce el PIN de la tarjeta SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Desbloquea para continuar…"</string>
+    <string name="notification_tap_to_fix_text">"Toca para solucionar el problema"</string>
+    <string name="sim_pin_operation_failed">"No se ha podido desbloquear la tarjeta SIM con el código PIN."</string>
+    <string name="sim_unlock_failed">"El desbloqueo de tarjeta SIM no se ha realizado correctamente."</string>
 </resources>

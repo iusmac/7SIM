@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -18,12 +19,17 @@ import androidx.annotation.GuardedBy;
 import androidx.core.content.ContextCompat;
 
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
+import com.github.iusmac.sevensim.telephony.PinEntity;
+import com.github.iusmac.sevensim.telephony.PinStorage;
+import com.github.iusmac.sevensim.telephony.SimPinFeeder;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 
 import dagger.Lazy;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -70,6 +76,11 @@ public final class ForegroundService extends Hilt_ForegroundService {
     /** Action to trigger when the SIM subscriptions have been changed. */
     private static final String ACTION_SUBSCRIPTIONS_CHANGED = "ACTION_SUBSCRIPTIONS_CHANGED";
 
+    /**
+     * Action to trigger the process of supplying SIM PIN codes for the SIM cards that require them.
+     */
+    private static final String ACTION_UNLOCK_SIM_CARDS = "ACTION_UNLOCK_SIM_CARDS";
+
     /** Key holding the stringified value of the {@link LocalDateTime} in the Intent's payload. */
     private static final String EXTRA_TIME_KEY = "time";
 
@@ -78,6 +89,14 @@ public final class ForegroundService extends Hilt_ForegroundService {
      * over schedules when synchronizing the SIM subscription(s) enabled state.
      */
     private static final String EXTRA_OVERRIDE_USER_PREFERENCE = "override_user_preference";
+
+    /** Key holding a {@link Boolean} of whether to trigger decryption of the {@link PinStorage}. */
+    private static final String EXTRA_DECRYPT_PIN_STORAGE = "decrypt_pin_storage";
+
+    /**
+     * Key holding a {@link Bundle} of clear SIM PIN codes associated with their corresponding SIM
+     * subscription ID. */
+    private static final String EXTRA_CLEAR_PIN_CODES = "clear_pin_codes";
 
     /**
      * Indicates the waiting time, in milliseconds, after which this service should initiate an
@@ -118,6 +137,12 @@ public final class ForegroundService extends Hilt_ForegroundService {
     @Inject
     ActivityManager mActivityManager;
 
+    @Inject
+    Lazy<PinStorage> mPinStorageLazy;
+
+    @Inject
+    SimPinFeeder.Factory mSimPinFeederFactory;
+
     private Logger mLogger;
     private Worker mWorker;
 
@@ -147,21 +172,61 @@ public final class ForegroundService extends Hilt_ForegroundService {
     }
 
     /**
-     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)}.
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)},
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}.
      */
-    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
-            final LocalDateTime compareTime) {
+    private static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime, final boolean decryptPinStorage,
+            final Bundle clearPinCodes) {
 
         final Intent i = new Intent(ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER);
         if (compareTime != null) {
             i.putExtra(EXTRA_TIME_KEY, compareTime.toString());
         }
+        i.putExtra(EXTRA_DECRYPT_PIN_STORAGE, decryptPinStorage);
+        i.putExtra(EXTRA_CLEAR_PIN_CODES, clearPinCodes);
         startAction(context, i);
+    }
+
+    /**
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)},
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}.
+     */
+    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime, final Bundle clearPinCodes) {
+
+        updateNextWeeklyRepeatScheduleProcessingIter(context, compareTime, false, clearPinCodes);
+    }
+
+    /**
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)},
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}.
+     */
+    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime, final boolean decryptPinStorage) {
+
+        updateNextWeeklyRepeatScheduleProcessingIter(context, compareTime, decryptPinStorage, null);
+    }
+
+    /**
+     * {@link SubscriptionScheduler#updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime)}.
+     */
+    public static void updateNextWeeklyRepeatScheduleProcessingIter(final Context context,
+            final LocalDateTime compareTime) {
+
+        updateNextWeeklyRepeatScheduleProcessingIter(context, compareTime, false, null);
     }
 
     public static void onSubscriptionsChanged(final Context context, final LocalDateTime dateTime) {
         final Intent i = new Intent(ACTION_SUBSCRIPTIONS_CHANGED);
         i.putExtra(EXTRA_TIME_KEY, dateTime.toString());
+        startAction(context, i);
+    }
+
+    /** @see SimPinFeeder */
+    public static void unlockSimCards(final Context context, final Bundle clearPinCodes) {
+        final Intent i = new Intent(ACTION_UNLOCK_SIM_CARDS);
+        i.putExtra(EXTRA_CLEAR_PIN_CODES, clearPinCodes);
         startAction(context, i);
     }
 
@@ -219,12 +284,31 @@ public final class ForegroundService extends Hilt_ForegroundService {
             intent.getBooleanExtra(EXTRA_OVERRIDE_USER_PREFERENCE, false);
         final int subId = intent.getIntExtra(CarrierConfigManager.EXTRA_SUBSCRIPTION_INDEX,
                 SubscriptionManager.INVALID_SUBSCRIPTION_ID);
+        final Bundle clearPinCodes = intent.getBundleExtra(EXTRA_CLEAR_PIN_CODES);
+        final boolean decryptPinStorage = intent.getBooleanExtra(EXTRA_DECRYPT_PIN_STORAGE, false);
 
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
             case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER:
-                mWorker.execute(() -> dateTime.ifPresent((ldt) -> mSubscriptionSchedulerLazy.get()
-                            .updateNextWeeklyRepeatScheduleProcessingIter(ldt)), startId);
+                mWorker.execute(() -> dateTime.ifPresent((ldt) -> {
+                    List<PinEntity> pinEntities = null;
+                    if (decryptPinStorage || clearPinCodes != null) {
+                        pinEntities = mPinStorageLazy.get().getPinEntities();
+                        for (final PinEntity pinEntity : pinEntities) {
+                            if (decryptPinStorage) {
+                                mPinStorageLazy.get().decrypt(pinEntity);
+                            } else if (clearPinCodes != null) {
+                                final String clearPin = clearPinCodes.getString(String.valueOf(
+                                            pinEntity.getSubscriptionId()));
+                                if (clearPin != null) {
+                                    pinEntity.setClearPin(clearPin);
+                                }
+                            }
+                        }
+                    }
+                    mSubscriptionSchedulerLazy.get()
+                        .updateNextWeeklyRepeatScheduleProcessingIter(ldt, pinEntities);
+                }), startId);
                 break;
 
             case ACTION_SYNC_ALL_SUBSCRIPTIONS_ENABLED_STATE:
@@ -245,6 +329,36 @@ public final class ForegroundService extends Hilt_ForegroundService {
             case ACTION_SUBSCRIPTIONS_CHANGED:
                 mWorker.execute(() -> dateTime.ifPresent((ldt) ->
                             mSubscriptionsLazy.get().syncSubscriptions(ldt)), startId);
+                break;
+
+            case ACTION_UNLOCK_SIM_CARDS:
+                mWorker.execute(() -> {
+                    if (clearPinCodes != null) {
+                        final List<PinEntity> usablePinEntities = new ArrayList<>();
+                        for (final PinEntity pinEntity : mPinStorageLazy.get().getPinEntities()) {
+                            final String clearPin = clearPinCodes.getString(String.valueOf(
+                                        pinEntity.getSubscriptionId()));
+                            if (clearPin != null) {
+                                pinEntity.setClearPin(clearPin);
+                                usablePinEntities.add(pinEntity);
+                            }
+                        }
+                        final SimPinFeeder simPinFeeder =
+                            mSimPinFeederFactory.create(usablePinEntities);
+                        simPinFeeder.start();
+                        try {
+                            // Wait until the task is finished, otherwise the Worker will mark it as
+                            // completed on return, and, (potentially) terminate the service too
+                            // early in case it's the last task, or because of short-lived
+                            // tasks scheduled later. The lock isn't expected to last more than a
+                            // couple of seconds
+                            simPinFeeder.join();
+                        } catch (InterruptedException ignored) {
+                            // Worker is shutting down
+                            simPinFeeder.cancel();
+                        }
+                    }
+                }, startId);
                 break;
 
             default:

@@ -4,13 +4,17 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.UserManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
 import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.PhoneCallEndObserverService;
+import com.github.iusmac.sevensim.telephony.PinEntity;
+import com.github.iusmac.sevensim.telephony.PinStorage;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.SubscriptionController;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
@@ -20,6 +24,7 @@ import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 import dagger.Lazy;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -54,6 +59,8 @@ public final class SubscriptionScheduler {
     private final Lazy<SubscriptionController> mSubscriptionControllerLazy;
     private final Lazy<TelephonyController> mTelephonyControllerLazy;
     private final Provider<TelephonyUtils> mTelephonyUtilsProvider;
+    private final Lazy<PinStorage> mPinStorageLazy;
+    private final Lazy<UserManager> mUserManagerLazy;
 
     private final Intent mAlarmIntent;
 
@@ -64,7 +71,9 @@ public final class SubscriptionScheduler {
             final Lazy<Subscriptions> subscriptionsLazy,
             final Lazy<SubscriptionController> subscriptionControllerLazy,
             final Lazy<TelephonyController> telephonyControllerLazy,
-            final Provider<TelephonyUtils> telephonyUtilsProvider) {
+            final Provider<TelephonyUtils> telephonyUtilsProvider,
+            final Lazy<PinStorage> pinStorageLazy,
+            final Lazy<UserManager> userManagerLazy) {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
         mContext = context;
@@ -74,6 +83,8 @@ public final class SubscriptionScheduler {
         mSubscriptionControllerLazy = subscriptionControllerLazy;
         mTelephonyControllerLazy = telephonyControllerLazy;
         mTelephonyUtilsProvider = telephonyUtilsProvider;
+        mPinStorageLazy = pinStorageLazy;
+        mUserManagerLazy = userManagerLazy;
 
         mAlarmIntent = new Intent(context, AlarmReceiver.class);
     }
@@ -273,8 +284,13 @@ public final class SubscriptionScheduler {
      * weekly repeat schedule that occurs on or after the given date-time.
      *
      * @param compareTime The date-time object to compare against.
+     * @param pinEntities The list containing all decrypted SIM subscription PIN entities to be
+     * supplied to the active SIM subscriptions found on the device when processing schedules at the
+     * stated time, otherwise an empty list or {@code null} to leave the existing data unchanged.
      */
-    public void updateNextWeeklyRepeatScheduleProcessingIter(final @NonNull LocalDateTime compareTime) {
+    public void updateNextWeeklyRepeatScheduleProcessingIter(final @NonNull LocalDateTime compareTime,
+            final @Nullable List<PinEntity> pinEntities) {
+
         // Since we don't support seconds and milliseconds, drop them off before rescheduling to get
         // even more alarm accuracy
         final LocalDateTime compareTime2 = compareTime.truncatedTo(ChronoUnit.MINUTES);
@@ -289,8 +305,9 @@ public final class SubscriptionScheduler {
             final Optional<LocalDateTime> nearestDateTime = nearestSchedule.flatMap((schedule) ->
                     getDateTimeAfter(schedule, compareTime2));
 
-            mLogger.d("updateNextWeeklyRepeatScheduleProcessingIter(compareTime=%s) : Found %s, %s",
-                    compareTime, sub, nearestSchedule);
+            mLogger.d("updateNextWeeklyRepeatScheduleProcessingIter(compareTime=%s," +
+                    "pinEntities=%s) : Found %s, %s", compareTime, pinEntities, sub,
+                    nearestSchedule);
 
             if (nearestDateTime.isPresent()) {
                 if (nextProcessingTime.isPresent()) {
@@ -303,16 +320,54 @@ public final class SubscriptionScheduler {
             }
         }
 
-        mLogger.d("updateNextWeeklyRepeatScheduleProcessingIter(compareTime=%s) : " +
-                "nextProcessingTime=%s.", compareTime, nextProcessingTime);
+        mLogger.d("updateNextWeeklyRepeatScheduleProcessingIter(compareTime=%s,pinEntities=%s) : " +
+                "nextProcessingTime=%s.", compareTime, pinEntities, nextProcessingTime);
+
+        // Since the SIM subscription PIN codes are encrypted using the user authentication bound
+        // secret key, for convenience, we want to pass all clear SIM subscription PIN codes to the
+        // system's alarm manager as intent extra data. This allows to workaround the KeyStore
+        // restrictions while preserving the safety and security of the data, as the extras are
+        // stored in the volatile memory of the pending operations controller, and there's no way to
+        // directly obtain pending operations from the Android OS until the alarm goes off
+        if (pinEntities != null) {
+            pinEntities.forEach((pinEntity) -> {
+                if (pinEntity.isCorrupted() || pinEntity.isInvalid()) {
+                    mPinStorageLazy.get().handleBadPinEntity(pinEntity);
+                }
+                // Note that, we propagate the PIN further even if it may be bad, so that we receive
+                // it back, and re-run the same logic to re-raise awareness of the issue
+                mAlarmIntent.putExtra(String.valueOf(pinEntity.getSubscriptionId()),
+                        pinEntity.getClearPin());
+            });
+        }
 
         // If found an eligible schedule, then re-schedule the old alarm or schedule a new one,
         // otherwise, cancel the old alarm
         if (nextProcessingTime.isPresent()) {
             rescheduleNextScheduleProcessingIter(nextProcessingTime.get());
+        } else if (mSubscriptionSchedulesDao.getCount() > 0 &&
+                // Ensure user is unlocked before accessing PIN storage that is backed by CE storage
+                mUserManagerLazy.get().isUserUnlocked() && mPinStorageLazy.get().getCount() > 0) {
+            // At this stage, we should cancel the old alarm, but if there are other schedules for
+            // the SIM subscriptions currently missing in the system, and it's possible that we've
+            // stored at least one clear SIM subscription PIN code in the system's alarm manager, so
+            // to ensure we don't loose it, we'll re-schedule the alarm to "never" go off by using a
+            // "far future" date-time. This date-time is equivalent to 292278994-08-17T09:12:55.807,
+            // or to Long.MAX_VALUE milliseconds (the maximum supported by the alarm manager)
+            final LocalDateTime ldt = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.MAX_VALUE),
+                        ZoneId.systemDefault());
+            rescheduleNextScheduleProcessingIter(ldt);
         } else {
             cancelNextScheduleProcessingIter();
         }
+    }
+
+    /**
+     * Like {@link #updateNextWeeklyRepeatScheduleProcessingIter(LocalDateTime,List)}, but only
+     * re-schedule without overriding the existing SIM subscription PIN entities.
+     */
+    public void updateNextWeeklyRepeatScheduleProcessingIter(final @NonNull LocalDateTime compareTime) {
+        updateNextWeeklyRepeatScheduleProcessingIter(compareTime, null);
     }
 
     /**
@@ -359,7 +414,17 @@ public final class SubscriptionScheduler {
         // are explicitly mutated by the user
         final boolean overrideUserPreference = true;
         syncAllSubscriptionsEnabledState(now, overrideUserPreference);
-        updateNextWeeklyRepeatScheduleProcessingIter(now.plusMinutes(1));
+
+        // In order to supply the SIM subscription PIN codes to the active SIM subscriptions found
+        // on the device when processing schedules at the stated time, we need to re-schedule using
+        // the list, if possible, of all decrypted SIM PIN entities
+        List<PinEntity> pinEntities = null;
+        if (!mPinStorageLazy.get().isAuthenticationRequired()) {
+            pinEntities = mPinStorageLazy.get().getPinEntities();
+            pinEntities.forEach((pinEntity) -> mPinStorageLazy.get().decrypt(pinEntity));
+        }
+
+        updateNextWeeklyRepeatScheduleProcessingIter(now.plusMinutes(1), pinEntities);
     }
 
     /**
@@ -382,8 +447,14 @@ public final class SubscriptionScheduler {
      * @return The pending operation instance.
      */
     private PendingIntent getPendingIntent() {
-        return PendingIntent.getBroadcast(mContext, /*requestCode=*/ 0, mAlarmIntent,
-                PendingIntent.FLAG_IMMUTABLE);
+        int flags = PendingIntent.FLAG_IMMUTABLE;
+        // Since we store the list of clear SIM PIN codes in the intent extra data, we want to
+        // replace the existing data only if the new PIN codes are available, otherwise preserve the
+        // existing extra data
+        if (mAlarmIntent.getExtras() != null) {
+            flags |= PendingIntent.FLAG_UPDATE_CURRENT;
+        }
+        return PendingIntent.getBroadcast(mContext, /*requestCode=*/ 0, mAlarmIntent, flags);
     }
 
     /**

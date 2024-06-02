@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"Wstrzymane w tle"</string>
     <string name="foreground_notification_call_in_progress_text">"Połączenie w toku…"</string>
     <string name="preference_not_set">"Nie ustawiono"</string>
+    <string name="scheduler_pin_title">"Kod PIN do karty SIM"</string>
+    <string name="scheduler_pin_set_summary">"Kod PIN został ustawiony"</string>
+    <string name="scheduler_pin_unset_summary">"Wpisz kod PIN karty SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"Wpisz kod PIN o długości od 4 do 8 cyfr."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nie udało się odszyfrować kodu PIN karty SIM. Wprowadź ponownie kod PIN karty SIM, aby naprawić problem."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Nieprawidłowy kod PIN karty SIM. Ponownie podaj poprawny kod PIN."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"Wpisz kod PIN karty SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"Odblokuj, by kontynuować…"</string>
+    <string name="notification_tap_to_fix_text">"Kliknij, by naprawić"</string>
+    <string name="sim_pin_operation_failed">"Operacja z kodem PIN karty SIM nie udała się."</string>
+    <string name="sim_unlock_failed">"Żądanie odblokowania karty SIM zakończone niepowodzeniem."</string>
 </resources>

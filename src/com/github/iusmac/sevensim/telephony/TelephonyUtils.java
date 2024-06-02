@@ -9,6 +9,7 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.github.iusmac.sevensim.Utils;
 
@@ -19,6 +20,12 @@ import javax.inject.Singleton;
 
 @Singleton
 public final class TelephonyUtils {
+    /** The minimum allowed length of the SIM PIN, as per 3GPP TS 31.101. */
+    private static final int PIN_MIN_PIN_LENGTH = 4;
+
+    /** The maximum allowed length of the SIM PIN, as per 3GPP TS 31.101. */
+    public static final int PIN_MAX_PIN_LENGTH = 8;
+
     private final TelephonyManager mTelephonyManager;
     private final SubscriptionManager mSubManager;
     private final Provider<TelecomManager> mTelecomManagerProvider;
@@ -149,6 +156,14 @@ public final class TelephonyUtils {
     static boolean isAirplaneModeOn(final Context context) {
         return Settings.Global.getInt(context.getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+    }
+
+    /**
+     * @return {@code true} if PIN string meets the UICC specs, otherwise {@code false}.
+     */
+    public static boolean isValidPin(final @Nullable String pin) {
+        final int len = pin != null ? pin.length() : 0;
+        return len >= PIN_MIN_PIN_LENGTH && len <= PIN_MAX_PIN_LENGTH;
     }
 
     /**

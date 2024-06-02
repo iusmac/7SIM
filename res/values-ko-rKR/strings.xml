@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"백그라운드에서 일시중지되었습니다"</string>
     <string name="foreground_notification_call_in_progress_text">"전화 거는 중…"</string>
     <string name="preference_not_set">"설정되지 않음"</string>
+    <string name="scheduler_pin_title">"SIM PIN"</string>
+    <string name="scheduler_pin_set_summary">"PIN이 설정되었습니다."</string>
+    <string name="scheduler_pin_unset_summary">"SIM PIN을 입력하세요"</string>
+    <string name="scheduler_pin_invalid_hint">"4~8자리 숫자로 된 PIN을 입력하세요."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN 코드를 해독할 수 없습니다. 문제를 해결하려면 SIM PIN 코드를 다시 입력하세요."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM의 PIN 코드가 잘못되었습니다. 올바른 PIN 코드를 다시 입력하세요."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"SIM PIN을 입력하세요"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"계속하려면 잠금 해제하세요…"</string>
+    <string name="notification_tap_to_fix_text">"문제를 해결하려면 탭하세요."</string>
+    <string name="sim_pin_operation_failed">"SIM PIN 작업이 실패했습니다."</string>
+    <string name="sim_unlock_failed">"SIM 언락 요청 실패"</string>
 </resources>

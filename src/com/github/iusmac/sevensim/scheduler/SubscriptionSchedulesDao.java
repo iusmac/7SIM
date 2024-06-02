@@ -90,4 +90,12 @@ public interface SubscriptionSchedulesDao {
     */
     @Query("SELECT COUNT(*) FROM subscription_schedules WHERE sub_id = :subId")
     int getCount(int subId);
+
+    /**
+     * Get the total number of weekly repeat schedules currently in the storage.
+     *
+     * @return The row count.
+     */
+    @Query("SELECT COUNT(*) FROM subscription_schedules")
+    int getCount();
 }

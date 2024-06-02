@@ -7,6 +7,11 @@
         android:key="@string/scheduler_enabled_key"
         android:title="@string/scheduler_switch_use_title"/>
 
+    <com.android.settingslib.widget.BannerMessagePreference
+        android:key="@string/scheduler_pin_error_key"
+        app:isPreferenceVisible="false"
+        app:allowDividerBelow="true"/>
+
     <MultiSelectListPreference
         android:key="@string/scheduler_days_of_week_key"
         android:title="@string/scheduler_days_of_week_title"
@@ -22,4 +27,8 @@
         android:key="@string/scheduler_end_time_key"
         android:title="@string/scheduler_end_time_title"
         android:dependency="@string/scheduler_days_of_week_key"/>
+
+    <EditTextPreference
+        android:key="@string/scheduler_pin_key"
+        android:title="@string/scheduler_pin_title"/>
 </PreferenceScreen>

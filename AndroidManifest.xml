@@ -148,5 +148,18 @@
             android:foregroundServiceType="systemExempted"
             android:directBootAware="true">
         </service>
+
+        <activity
+            android:name=".ui.AuthenticationPromptActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@*android:style/Theme.DeviceDefault.Settings.Dialog.NoActionBar">
+        </activity>
+
+        <service
+            android:name=".UserAuthenticationObserverService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted">
+        </service>
     </application>
 </manifest>

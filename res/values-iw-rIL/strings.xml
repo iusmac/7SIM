@@ -44,4 +44,15 @@
     <string name="foreground_notification_paused_in_background_title">"עצר ברקע"</string>
     <string name="foreground_notification_call_in_progress_text">"שיחה מתבצעת…"</string>
     <string name="preference_not_set">"לא מוגדרת"</string>
+    <string name="scheduler_pin_title">"‏קוד הגישה ל-SIM"</string>
+    <string name="scheduler_pin_set_summary">"קוד גישה הוגדר"</string>
+    <string name="scheduler_pin_unset_summary">"‏יש להזין את קוד האימות של כרטיס ה-SIM"</string>
+    <string name="scheduler_pin_invalid_hint">"יש להקליד קוד אימות שאורכו 4 עד 8 ספרות."</string>
+    <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"לא ניתן לפענח את קוד ה-PIN של כרטיס ה-SIM. הזן שוב את קוד ה-PIN של ה-SIM כדי לתקן את הבעיה."</string>
+    <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"‏קוד האימות של כרטיס ה-SIM שגוי. יש להזין שוב את קוד ה-PIN הנכון."</string>
+    <string name="scheduler_pin_banner_enter_pin_code_button_text">"‏יש להזין את קוד האימות של כרטיס ה-SIM"</string>
+    <string name="foreground_notification_unlock_to_continue_text">"יש לבטל את הנעילה כדי להמשיך…"</string>
+    <string name="notification_tap_to_fix_text">"יש להקיש כדי לפתור את הבעיה"</string>
+    <string name="sim_pin_operation_failed">"‏נכשלה פעולת קוד הגישה של כרטיס ה-SIM"</string>
+    <string name="sim_unlock_failed">"בקשת פתיחת SIM נכשלה."</string>
 </resources>
