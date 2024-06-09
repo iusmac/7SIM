@@ -92,7 +92,7 @@ public final class SchedulerViewModel extends ViewModel {
 
     private final MediatorLiveData<Optional<PinEntity>> mMediatorPinEntity =
         new MediatorLiveData<>(Optional.empty());
-    private LiveData<CharSequence> mObservablePinPresenceSummary;
+    private LiveData<Boolean> mObservablePinPresence;
     private final MutableLiveData<Boolean> mMutablePinTaskLock = new MutableLiveData<>(false);
     private LiveData<Optional<PinErrorMessage>> mObseravblePinErrorMessage;
 
@@ -305,15 +305,14 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * @return An observable human-readable status indicating PIN presence.
+     * @return An observable containing the PIN presence status.
      */
-    LiveData<CharSequence> getPinPresenceSummary() {
-        if (mObservablePinPresenceSummary == null) {
-            mObservablePinPresenceSummary = Transformations.map(mMediatorPinEntity, (pinEntity) ->
-                    mResources.getString(pinEntity.isPresent() ? R.string.scheduler_pin_set_summary
-                        : R.string.scheduler_pin_unset_summary));
+    LiveData<Boolean> getPinPresence() {
+        if (mObservablePinPresence == null) {
+            mObservablePinPresence = Transformations.map(mMediatorPinEntity, (pinEntity) ->
+                    pinEntity.isPresent());
         }
-        return mObservablePinPresenceSummary;
+        return mObservablePinPresence;
     }
 
     /**
@@ -477,6 +476,16 @@ public final class SchedulerViewModel extends ViewModel {
         }
 
         refreshNextUpcomingScheduleSummaryAsync();
+    }
+
+    /**
+     * Remove the SIM PIN code, if present.
+     */
+    void removePin() {
+        mLogger.d("removePin().");
+
+        mMediatorPinEntity.getValue().ifPresent((pin) -> mHandler.post(() ->
+                    mPinStorage.deletePin(pin)));
     }
 
     /**

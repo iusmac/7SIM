@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Κλήση σε εξέλιξη…"</string>
     <string name="preference_not_set">"Δεν έχει οριστεί"</string>
     <string name="scheduler_pin_title">"Αριθμός PIN κάρτας SIM"</string>
-    <string name="scheduler_pin_set_summary">"Το PIN έχει οριστεί"</string>
-    <string name="scheduler_pin_unset_summary">"Εισαγωγή αριθμού PIN κάρτας SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Πληκτρολογήστε έναν αριθμό PIN που να αποτελείται από 4 έως 8 αριθμούς."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Δεν ήταν δυνατή η αποκρυπτογράφηση του κωδικού PIN της SIM. Εισαγάγετε ξανά τον κωδικό PIN της SIM για να διορθώσετε το πρόβλημα."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Εσφαλμένος κωδικός PIN κάρτας SIM. Εισαγάγετε ξανά τον κωδικό PIN."</string>

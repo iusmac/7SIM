@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Opkald i gang …"</string>
     <string name="preference_not_set">"Ikke angivet"</string>
     <string name="scheduler_pin_title">"Pinkode til SIM-kort"</string>
-    <string name="scheduler_pin_set_summary">"Pinkoden er blevet indstillet"</string>
-    <string name="scheduler_pin_unset_summary">"Angiv pinkoden til SIM-kortet"</string>
     <string name="scheduler_pin_invalid_hint">"Angiv en pinkode på mellem 4 og 8 tal."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN-koden kunne ikke dekrypteres. Indtast SIM PIN-koden igen for at rette fejlen."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Du har angivet en forkert pinkode til SIM-kortet. Angiv den korrekte PIN-kode."</string>

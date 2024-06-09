@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"کال کی جا رہی ہے…"</string>
     <string name="preference_not_set">"سیٹ نہیں ہے"</string>
     <string name="scheduler_pin_title">"SIM PIN"</string>
-    <string name="scheduler_pin_set_summary">"‏PIN سیٹ کر دیا گیا ہے"</string>
-    <string name="scheduler_pin_unset_summary">"‏SIM PIN درج کریں"</string>
     <string name="scheduler_pin_invalid_hint">"‏ایسا PIN ٹائپ کریں جو 4 تا 8 اعداد پر مشتمل ہو۔"</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM پن کوڈ کو ڈیکرپٹ نہیں کیا جا سکا۔ مسئلہ درست کرنے کے لئے دوبارہ SIM پن کوڈ درج کریں۔"</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM کا غلط PIN کوڈ۔‏صحیح PIN کوڈ دوبارہ درج کریں۔"</string>

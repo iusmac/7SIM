@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Prebieha hovor…"</string>
     <string name="preference_not_set">"Nenastavené"</string>
     <string name="scheduler_pin_title">"Kód PIN SIM karty"</string>
-    <string name="scheduler_pin_set_summary">"Bol nastavený kód PIN"</string>
-    <string name="scheduler_pin_unset_summary">"Zadajte PIN pre SIM kartu"</string>
     <string name="scheduler_pin_invalid_hint">"Zadajte kód PIN s dĺžkou 4 až 8 číslic."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nepodarilo sa dešifrovať PIN kód SIM karty. Zadajte znova PIN kód SIM karty, aby sa problém vyriešil."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Nesprávny kód PIN SIM karty. Znova zadajte správny kód PIN."</string>

@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Chamada em andamento…"</string>
     <string name="preference_not_set">"Não definido"</string>
     <string name="scheduler_pin_title">"PIN do chip"</string>
-    <string name="scheduler_pin_set_summary">"O PIN foi definido"</string>
-    <string name="scheduler_pin_unset_summary">"Informe o PIN do chip"</string>
     <string name="scheduler_pin_invalid_hint">"Digite um PIN com 4 a 8 números."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Não foi possível decifrar o código PIN do cartão SIM. Insira novamente o código PIN do SIM para corrigir o problema."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Código PIN do chip incorreto. Introduza novamente o código PIN correto."</string>

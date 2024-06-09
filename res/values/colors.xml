@@ -2,4 +2,8 @@
 <resources>
     <color name="launcher_background_color">#FFFFDDB4</color>
     <color name="launcher_foreground_color">#FF4F4539</color>
+    <color name="fab_pin_set_background_tint_color">#FFCFEBC0</color>
+    <color name="fab_pin_unset_background_tint_color">#FFF0E3A8</color>
+    <color name="fab_pin_set_tint_color">#1D7233</color>
+    <color name="fab_pin_unset_tint_color">#895900</color>
 </resources>

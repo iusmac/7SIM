@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Klic poteka …"</string>
     <string name="preference_not_set">"Ni nastavljeno"</string>
     <string name="scheduler_pin_title">"Koda PIN za kartico SIM"</string>
-    <string name="scheduler_pin_set_summary">"Koda PIN je nastavljena"</string>
-    <string name="scheduler_pin_unset_summary">"Vnesite kodo PIN kartice SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Vnesite kodo PIN, ki vsebuje od štiri do osem številk."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"PIN koda SIM kartice ni bilo mogoče dešifrirati. Vnesite PIN kodo SIM kartice znova, da popravite težavo."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Napačna koda PIN kartice SIM. Vnovič vnesite pravilno kodo PIN."</string>

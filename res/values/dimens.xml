@@ -16,4 +16,5 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <dimen name="primary_switch_min_width">80dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Puhelu kesken…"</string>
     <string name="preference_not_set">"Ei asetettu"</string>
     <string name="scheduler_pin_title">"SIM-kortin PIN-koodi"</string>
-    <string name="scheduler_pin_set_summary">"PIN-koodi asetettu"</string>
-    <string name="scheduler_pin_unset_summary">"Anna SIM-kortin PIN-koodi"</string>
     <string name="scheduler_pin_invalid_hint">"Anna 4–8-numeroinen PIN-koodi."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM-kortin PIN-koodia ei voitu purkaa. Syötä SIM-kortin PIN-koodi uudelleen korjataksesi ongelman."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Virheellinen SIM-kortin PIN-koodi. Anna uudelleen oikea PIN-koodi."</string>

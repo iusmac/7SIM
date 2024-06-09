@@ -55,9 +55,9 @@
     <string name="scheduler_end_time_none_summary">"Will <b>never</b> turn off automatically"</string>
     <string name="scheduler_no_schedule_summary">"No schedule"</string>
     <string name="scheduler_pin_title">SIM PIN</string>
-    <string name="scheduler_pin_set_summary">PIN has been set</string>
-    <string name="scheduler_pin_unset_summary">Enter SIM PIN</string>
     <string name="scheduler_pin_invalid_hint">Type a PIN that is 4 to 8 numbers.</string>
+    <string name="scheduler_pin_menu_edit_title">"Edit"</string>
+    <string name="scheduler_pin_menu_delete_title">"Delete"</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Couldn't decrypt SIM PIN code. Re-enter SIM PIN to fix."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Incorrect SIM PIN code. Re-enter the correct PIN code."</string>
     <string name="scheduler_pin_banner_enter_pin_code_button_text">"Enter PIN code"</string>
@@ -89,6 +89,5 @@
     <string name="scheduler_days_of_week_key" translatable="false">"scheduler_days_of_week"</string>
     <string name="scheduler_start_time_key" translatable="false">"scheduler_start_time"</string>
     <string name="scheduler_end_time_key" translatable="false">"scheduler_end_time"</string>
-    <string name="scheduler_pin_key" translatable="false">"scheduler_pin"</string>
     <string name="scheduler_pin_error_key" translatable="false">"scheduler_pin_error"</string>
 </resources>

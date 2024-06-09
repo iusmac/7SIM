@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Samtal pågår…"</string>
     <string name="preference_not_set">"Inte angett"</string>
     <string name="scheduler_pin_title">"PIN-kod för SIM-kort"</string>
-    <string name="scheduler_pin_set_summary">"PIN-koden angavs"</string>
-    <string name="scheduler_pin_unset_summary">"Ange pinkod för SIM-kortet"</string>
     <string name="scheduler_pin_invalid_hint">"Ange en pinkod med fyra till åtta siffror."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Det gick inte att dekryptera SIM-PIN-koden. Ange SIM-PIN-koden igen för att åtgärda problemet."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Du angav fel pinkod för SIM-kortet. Ange rätt PIN-kod igen."</string>
