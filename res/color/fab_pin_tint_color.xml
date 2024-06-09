@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true"
+          android:state_enabled="true"
+          android:color="@color/fab_pin_set_tint_color" />
+    <item android:state_enabled="true"
+          android:color="@color/fab_pin_unset_tint_color" />
+
+    <item android:state_enabled="false"
+          android:state_checked="false"
+          android:color="@color/fab_pin_unset_tint_color"
+          android:alpha="?android:attr/disabledAlpha" />
+
+    <item android:state_enabled="false"
+          android:state_checked="true"
+          android:color="@color/fab_pin_set_tint_color"
+          android:alpha="?android:attr/disabledAlpha" />
+</selector>
