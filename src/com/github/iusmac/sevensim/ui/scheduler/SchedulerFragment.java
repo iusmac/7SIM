@@ -5,18 +5,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.InputType;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
+import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.MenuCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.preference.EditTextPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
@@ -30,8 +40,12 @@ import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 import com.github.iusmac.sevensim.ui.AuthenticationPromptActivity;
+import com.github.iusmac.sevensim.ui.components.EditTextDialogFragment;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreference;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreferenceDialogFragmentCompat;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -44,7 +58,9 @@ import javax.inject.Inject;
 import static com.github.iusmac.sevensim.ui.scheduler.SchedulerViewModel.TimeType;
 
 @AndroidEntryPoint(PreferenceFragmentCompat.class)
-public final class SchedulerFragment extends Hilt_SchedulerFragment {
+public final class SchedulerFragment extends Hilt_SchedulerFragment
+    implements FragmentResultListener {
+
     private static final String ACTION_AUTH_HANDLE_ON_PIN_CHANGED =
         "action_auth_handle_on_pin_changed";
 
@@ -62,6 +78,9 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
     private static final String EXTRA_DAYS_OF_WEEK = "days_of_week";
     private static final String EXTRA_TIME_TYPE = "time_type";
     private static final String EXTRA_TIME = "time";
+    private static final String EXTRA_PIN_POPUP_VISIBLE = "pinPopupVisible";
+
+    private static final String PIN_PROMPT_RESULT_REQUEST_KEY = "pin_prompt_result";
 
     @Inject
     Logger.Factory mLoggerFactory;
@@ -71,13 +90,16 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
     private String mPrefDaysOfWeekKey;
     private String mPrefStartTimeKey;
     private String mPrefEndTimeKey;
-    private String mPrefPinKey;
     private SchedulerViewModel mViewModel;
     private final ActivityResultLauncher<Intent> mAuthenticationPromptLauncher =
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 this::onAuthResult);
+    private boolean mPinPopupMenuVisible;
 
     private MainSwitchPreference mMainSwitchPref;
+    private FloatingActionButton mPinFab;
+    private ExtendedFloatingActionButton mAddFab;
+    private PopupMenu mPinPopupMenu;
 
     private void onAuthResult(final ActivityResult result) {
         mLogger.d("onAuthResult(result=%s).", result);
@@ -121,7 +143,6 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         mPrefDaysOfWeekKey = getString(R.string.scheduler_days_of_week_key);
         mPrefStartTimeKey = getString(R.string.scheduler_start_time_key);
         mPrefEndTimeKey = getString(R.string.scheduler_end_time_key);
-        mPrefPinKey = getString(R.string.scheduler_pin_key);
     }
 
     @Override
@@ -135,15 +156,47 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
     }
 
     @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+
+        final RelativeLayout fabContainer = (RelativeLayout)
+            inflater.inflate(R.layout.scheduler_fabs, /*container=*/ null, false);
+
+        mPinFab = fabContainer.findViewById(R.id.fab_pin);
+        mAddFab = fabContainer.findViewById(R.id.fab_add);
+
+        final ViewGroup.MarginLayoutParams marginLp = new ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        // Add FAB container to an outer container that varies depending on the Android version
+        final ViewParent parent = container.getParent();
+        if (parent instanceof CoordinatorLayout) {
+            final CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(marginLp);
+            lp.gravity = Gravity.BOTTOM;
+            ((ViewGroup) parent).addView(fabContainer, lp);
+        } else {
+            final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(marginLp);
+            lp.gravity = Gravity.BOTTOM;
+            container.addView(fabContainer, lp);
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        final FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener(PIN_PROMPT_RESULT_REQUEST_KEY, getViewLifecycleOwner(), this);
 
         setupMainSwitchPref();
         setupPinErrorPref();
         setupDaysOfWeekPref();
         setupTimePref(TimeType.START_TIME);
         setupTimePref(TimeType.END_TIME);
-        setupPinPref();
+        setupPinFab();
+        setupAddFab();
     }
 
     private void setupMainSwitchPref() {
@@ -159,8 +212,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
 
         pinErrorPref
             .setPositiveButtonText(R.string.scheduler_pin_banner_enter_pin_code_button_text)
-            .setPositiveButtonOnClickListener((view) ->
-                    onDisplayPreferenceDialog((EditTextPreference) findPreference(mPrefPinKey)));
+            .setPositiveButtonOnClickListener((view) -> showPinPromptDialog());
 
         mViewModel.getPinTaskLock().observe(getViewLifecycleOwner(), (isLockHeld) ->
                 pinErrorPref.setEnabled(!isLockHeld));
@@ -230,28 +282,61 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         timeSummary.observe(getViewLifecycleOwner(), (summary) -> timePref.setSummary(summary));
     }
 
-    private void setupPinPref() {
-        final EditTextPreference pinPref = findPreference(mPrefPinKey);
-
-        pinPref.setOnBindEditTextListener((editText) -> {
-            // Clear input junk from the previous usage
-            editText.setText("");
-
-            // Allow only numbers in the input field
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER |
-                    InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-
-            // Limit the maximum PIN length as per UICC specs
-            editText.setFilters(new InputFilter[] {
-                new InputFilter.LengthFilter(TelephonyUtils.PIN_MAX_PIN_LENGTH)
-            });
-        });
-
-        mViewModel.getPinPresenceSummary().observe(getViewLifecycleOwner(), (summary) ->
-                pinPref.setSummary(summary));
-
+    private void setupPinFab() {
         mViewModel.getPinTaskLock().observe(getViewLifecycleOwner(), (isPinTaskLockHeld) ->
-                pinPref.setEnabled(!isPinTaskLockHeld));
+                mPinFab.setEnabled(!isPinTaskLockHeld));
+
+        mViewModel.getPinPresence().observe(getViewLifecycleOwner(), (isPresent) ->
+                mPinFab.setImageState(new int[] { isPresent ? android.R.attr.state_checked : 0 },
+                    /*merge=*/ true));
+
+        mPinPopupMenu = new PopupMenu(requireActivity(), mPinFab, Gravity.NO_GRAVITY,
+                /*popupStyleAttr=*/ 0, R.style.PopupMenuDefaultAnimationStyle);
+        final Menu menu = mPinPopupMenu.getMenu();
+        MenuCompat.setGroupDividerEnabled(menu, true);
+        mPinPopupMenu.getMenuInflater().inflate(R.menu.scheduler_pin_options, menu);
+        mPinPopupMenu.setOnMenuItemClickListener((menuItem) -> {
+            final int itemId = menuItem.getItemId();
+            if (R.id.scheduler_pin_edit_option == itemId) {
+                showPinPromptDialog();
+            } else if (R.id.scheduler_pin_delete_option == itemId) {
+                mViewModel.removePin();
+            } else {
+                mLogger.wtf("Unhandled menu option: %s.", menuItem);
+            }
+            return true;
+        });
+        mPinPopupMenu.setOnDismissListener((p) -> mPinPopupMenuVisible = false);
+
+        mPinFab.setOnClickListener((v) -> {
+            if (mViewModel.isPinPresent()) {
+                mPinPopupMenuVisible = true;
+                mPinPopupMenu.show();
+            } else {
+                showPinPromptDialog();
+            }
+        });
+    }
+
+    private void setupAddFab() {
+        final Context context = requireContext();
+
+        mAddFab.setBackgroundColor(getResources().getColor(R.color.fab_add_background_tint_color,
+                context.getTheme()));
+        mAddFab.setOnClickListener((v) -> {
+        });
+    }
+
+    private void showPinPromptDialog() {
+        final EditTextDialogFragment dialogFragment = new EditTextDialogFragment();
+        dialogFragment.setRequestKey(PIN_PROMPT_RESULT_REQUEST_KEY);
+        dialogFragment.setTitle(getString(R.string.scheduler_pin_title));
+        // Allow only numbers in the input field
+        dialogFragment.setInputType(InputType.TYPE_CLASS_NUMBER |
+                InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        // Limit the maximum PIN length as per UICC specs
+        dialogFragment.setMaxInputLength(TelephonyUtils.PIN_MAX_PIN_LENGTH);
+        dialogFragment.show(getParentFragmentManager(), EditTextDialogFragment.TAG);
     }
 
     private void handleOnPinChanged(final String pin) {
@@ -283,6 +368,19 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         mAuthenticationPromptLauncher.launch(i);
     }
 
+    @Override
+    public void onFragmentResult(final String requestKey, final Bundle bundle) {
+        switch (requestKey) {
+            case PIN_PROMPT_RESULT_REQUEST_KEY:
+                handleOnPinChanged(bundle.getString(EditTextDialogFragment.EXTRA_TEXT));
+                break;
+
+            default:
+                mLogger.wtf(new RuntimeException("Unhandled fragment result: " + requestKey +
+                            ",bundle = " + bundle));
+        }
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void onDisplayPreferenceDialog(final @NonNull Preference preference) {
@@ -307,6 +405,33 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
         // androidx.fragment.app.FragmentResultListener API
         f.setTargetFragment(this, /*requestCode=*/ 0);
         f.show(manager, TimePickerPreference.TAG);
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(EXTRA_PIN_POPUP_VISIBLE, mPinPopupMenuVisible);
+    }
+
+    @Override
+    public void onViewStateRestored(final Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            if (mPinPopupMenuVisible = savedInstanceState.getBoolean(EXTRA_PIN_POPUP_VISIBLE)) {
+                mPinFab.post(() -> mPinPopupMenu.show());
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mPinPopupMenu != null) {
+            mPinPopupMenu.dismiss();
+        }
     }
 
     /**
@@ -365,8 +490,6 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
             if (isStartTime || key.equals(mPrefEndTimeKey)) {
                 mViewModel.handleOnTimeChanged(isStartTime ? TimeType.START_TIME :
                         TimeType.END_TIME, value);
-            } else if (key.equals(mPrefPinKey)) {
-                handleOnPinChanged(value);
             } else {
                 mLogger.wtf("putString() : unhandled key = " + key);
             }
@@ -378,9 +501,6 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment {
             if (isStartTime || key.equals(mPrefEndTimeKey)) {
                 return mViewModel.getTime(isStartTime ? TimeType.START_TIME :
                         TimeType.END_TIME).getValue().toString();
-            }
-            if (key.equals(mPrefPinKey)) {
-                return null;
             }
             mLogger.wtf("getString() : unhandled key = " + key);
             return defValue;

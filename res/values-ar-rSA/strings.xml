@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"الاتصال قيد التقدم…"</string>
     <string name="preference_not_set">"لم يتم الضبط"</string>
     <string name="scheduler_pin_title">"‏رقم التعريف الشخصي لشريحة SIM"</string>
-    <string name="scheduler_pin_set_summary">"‏تم ضبط رمز PIN"</string>
-    <string name="scheduler_pin_unset_summary">"‏أدخل رقم التعريف الشخصي لشريحة SIM"</string>
     <string name="scheduler_pin_invalid_hint">"اكتب رمز رقم التعريف الشخصي المكوّن من ٤ إلى ٨ أرقام."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"لم يتم فك شفرة رمز PIN لشريحة SIM. أعد إدخال رمز PIN لشريحة SIM لإصلاح المشكلة."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"‏رقم التعريف الشخصي لشريحة SIM غير صحيح. ‏أعد إدخال رمز PIN الصحيح."</string>

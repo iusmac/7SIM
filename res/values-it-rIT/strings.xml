@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Chiamata in corso…"</string>
     <string name="preference_not_set">"Non impostato"</string>
     <string name="scheduler_pin_title">"PIN della SIM"</string>
-    <string name="scheduler_pin_set_summary">"PIN impostato"</string>
-    <string name="scheduler_pin_unset_summary">"Inserisci il PIN della SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Il PIN deve essere di 4–8 numeri."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Non è stato possibile decodificare il codice PIN della SIM. Inserisci nuovamente il codice PIN della SIM per risolvere il problema."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Codice PIN della SIM errato. Inserisci di nuovo il codice PIN corretto."</string>

@@ -3,4 +3,5 @@
     <color name="launcher_background_color">@android:color/system_accent1_100</color>
     <color name="launcher_foreground_color">@android:color/system_neutral2_700</color>
     <color name="collapsing_toolbar_subtitle_text_color">@android:color/system_neutral2_700</color>
+    <color name="fab_add_background_tint_color">@android:color/system_accent1_100</color>
 </resources>

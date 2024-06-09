@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Anruf in Arbeit…"</string>
     <string name="preference_not_set">"Nicht festgelegt"</string>
     <string name="scheduler_pin_title">"PIN für SIM-Karte"</string>
-    <string name="scheduler_pin_set_summary">"Die PIN wurde festgelegt."</string>
-    <string name="scheduler_pin_unset_summary">"Gib die SIM-PIN ein"</string>
     <string name="scheduler_pin_invalid_hint">"Gib eine 4- bis 8-stellige PIN ein."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Der SIM-PIN-Code konnte nicht entschlüsselt werden. Geben Sie den SIM-PIN-Code erneut ein, um das Problem zu beheben."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Falscher PIN-Code für die SIM-Karte. Gib den richtigen PIN-Code ein."</string>

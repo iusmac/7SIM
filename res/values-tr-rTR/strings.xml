@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Çağrı sürüyor…"</string>
     <string name="preference_not_set">"Ayarlanmadı"</string>
     <string name="scheduler_pin_title">"SIM PIN kodu"</string>
-    <string name="scheduler_pin_set_summary">"PIN ayarlandı"</string>
-    <string name="scheduler_pin_unset_summary">"SIM PIN kodunu girin"</string>
     <string name="scheduler_pin_invalid_hint">"4 ila 8 haneli bir PIN yazın."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN kodu çözülemedi. Sorunu düzeltmek için SIM PIN kodunu yeniden girin."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Yanlış SIM PIN kodu. Doğru PIN kodunu tekrar girin."</string>

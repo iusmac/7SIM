@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Razgovor u tijeku…"</string>
     <string name="preference_not_set">"Nije postavljeno"</string>
     <string name="scheduler_pin_title">"SIM PIN"</string>
-    <string name="scheduler_pin_set_summary">"PIN je postavljen"</string>
-    <string name="scheduler_pin_unset_summary">"Unesite PIN za SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Unesite PIN koji ima od 4 do 8 brojeva."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"PIN kôd SIM kartice nije mogao biti dešifriran. Ponovno unesite PIN kôd SIM kartice kako biste ispravili problem."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"PIN kôd SIM-a nije točan. Ponovo unesite ispravan PIN kôd."</string>

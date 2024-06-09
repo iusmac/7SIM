@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        This resets the popup menu animation style to a shorter one from Gingerbread, aimed to fix
+        the following error when screen oration changes while the popup menu is shown:
+
+            E/WindowManager(2048): android.view.WindowLeaked: Activity **.app.ListActivity has
+                                   leaked window android.widget.PopupWindow$PopupViewContainer@4157a7e8
+                                   that was originally added here
+
+        Ref: https://stackoverflow.com/a/66167797/2569746
+    -->
+    <style name="PopupMenuDefaultAnimationStyle" parent="@android:style/Widget.Material.PopupMenu">
+        <item name="android:popupEnterTransition">@null</item>
+        <item name="android:popupExitTransition">@null</item>
+        <item name="android:popupAnimationStyle">@null</item>
+    </style>
+
+    <style name="fab_pin_rounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>

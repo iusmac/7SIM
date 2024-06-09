@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Извършва се обаждане…"</string>
     <string name="preference_not_set">"Не е зададено"</string>
     <string name="scheduler_pin_title">"ПИН код за SIM карта"</string>
-    <string name="scheduler_pin_set_summary">"PIN кодът е зададен"</string>
-    <string name="scheduler_pin_unset_summary">"Въведете ПИН кода за SIM картата"</string>
     <string name="scheduler_pin_invalid_hint">"Въведете ПИН код с четири до осем цифри."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Не можа да се декриптира PIN кода на SIM картата. Въведете отново PIN кода на SIM картата, за да го поправите."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Неправилен ПИН код за SIM картата. Въведете отново правилния PIN код."</string>

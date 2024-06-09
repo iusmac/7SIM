@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"அழைப்பில்…"</string>
     <string name="preference_not_set">"அமைக்கப்படவில்லை"</string>
     <string name="scheduler_pin_title">"சிம் பின்"</string>
-    <string name="scheduler_pin_set_summary">"பின் அமைக்கப்பட்டது"</string>
-    <string name="scheduler_pin_unset_summary">"சிம் பின்னை உள்ளிடவும்"</string>
     <string name="scheduler_pin_invalid_hint">"4 இலிருந்து 8 எண்கள் உள்ள பின்னை உள்ளிடவும்."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"சிம் பின் குறியீட்டை குறியீடமாக்க முடியவில்லை. பிரச்சினையை சரிசெய்ய சிம் பின் குறியீட்டை மீண்டும் உள்ளிடுக."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"சிம் பின் குறியீடு தவறானது. சரியான PIN குறியீட்டை மீண்டும் உள்ளிடவும்."</string>

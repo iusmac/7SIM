@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Actief gesprek…"</string>
     <string name="preference_not_set">"Niet ingesteld"</string>
     <string name="scheduler_pin_title">"Sim-pincode"</string>
-    <string name="scheduler_pin_set_summary">"Pincode is ingesteld"</string>
-    <string name="scheduler_pin_unset_summary">"Geef de pincode van de simkaart op"</string>
     <string name="scheduler_pin_invalid_hint">"Geef een pincode van vier tot acht cijfers op."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Het is niet gelukt om de pincode van de SIM-kaart te decoderen. Voer de pincode van de simkaart opnieuw in om het probleem op te lossen."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Onjuiste pincode voor simkaart. Geef de juiste pincode opnieuw op."</string>

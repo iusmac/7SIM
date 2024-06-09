@@ -45,8 +45,6 @@
     <string name="foreground_notification_call_in_progress_text">"Ідзе выклік…"</string>
     <string name="preference_not_set">"Не зададзена"</string>
     <string name="scheduler_pin_title">"PIN-код SIM-карты"</string>
-    <string name="scheduler_pin_set_summary">"PIN-код усталяваны"</string>
-    <string name="scheduler_pin_unset_summary">"Увядзіце PIN-код SIM-карты"</string>
     <string name="scheduler_pin_invalid_hint">"Увядзіце PIN-код, які змяшчае ад 4 да 8 лічбаў."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Не ўдалося расшыфраваць PIN-код SIM-карты. Каб выправіць праблему, паўторна ўвядзіце PIN-код SIM-карты."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Няправільны PIN-код SIM-карты. Паўторна увядзіце правільны PIN-код."</string>
