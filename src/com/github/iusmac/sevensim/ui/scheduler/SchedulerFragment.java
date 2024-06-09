@@ -44,6 +44,7 @@ import com.github.iusmac.sevensim.ui.components.EditTextDialogFragment;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreference;
 import com.github.iusmac.sevensim.ui.components.TimePickerPreferenceDialogFragmentCompat;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -97,6 +98,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
 
     private MainSwitchPreference mMainSwitchPref;
     private FloatingActionButton mPinFab;
+    private ExtendedFloatingActionButton mAddFab;
     private PopupMenu mPinPopupMenu;
 
     private void onAuthResult(final ActivityResult result) {
@@ -161,6 +163,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             inflater.inflate(R.layout.scheduler_fabs, /*container=*/ null, false);
 
         mPinFab = fabContainer.findViewById(R.id.fab_pin);
+        mAddFab = fabContainer.findViewById(R.id.fab_add);
 
         final ViewGroup.MarginLayoutParams marginLp = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -193,6 +196,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         setupTimePref(TimeType.START_TIME);
         setupTimePref(TimeType.END_TIME);
         setupPinFab();
+        setupAddFab();
     }
 
     private void setupMainSwitchPref() {
@@ -311,6 +315,15 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             } else {
                 showPinPromptDialog();
             }
+        });
+    }
+
+    private void setupAddFab() {
+        final Context context = requireContext();
+
+        mAddFab.setBackgroundColor(getResources().getColor(R.color.fab_add_background_tint_color,
+                context.getTheme()));
+        mAddFab.setOnClickListener((v) -> {
         });
     }
 

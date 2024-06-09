@@ -20,4 +20,17 @@
         app:shapeAppearanceOverlay="@style/fab_pin_rounded"
         app:maxImageSize="42dp"
         app:srcCompat="@drawable/sd_pin_lock_24dp" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="Add"
+        android:textColor="@color/fab_add_text_color"
+        app:iconTint="@color/fab_add_text_color"
+        app:icon="@drawable/ic_add_24dp" />
 </RelativeLayout>
