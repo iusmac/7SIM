@@ -442,43 +442,6 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * Entirely purge the scheduler and all relative data.
-     */
-    void removeScheduler() {
-        mLogger.d("removeScheduler().");
-
-        final List<SubscriptionScheduleEntity> schedulesToRemove = new ArrayList<>(2);
-
-        mMediatorSchedulerEnabledState.setValue(false);
-        mMutableDaysOfWeek.setValue(mDaysOfWeekFactory.create());
-
-        if (mMutableStartSchedule.getValue().getId() > 0L) {
-            final SubscriptionScheduleEntity defaultSchedule =
-                getDefaultSchedule(TimeType.START_TIME);
-            mMutableStartTime.setValue(defaultSchedule.getTime());
-            schedulesToRemove.add(mMutableStartSchedule.getValue());
-            mMutableStartSchedule.setValue(defaultSchedule);
-        }
-
-        if (mMutableEndSchedule.getValue().getId() > 0L) {
-            final SubscriptionScheduleEntity defaultSchedule =
-                getDefaultSchedule(TimeType.END_TIME);
-            mMutableEndTime.setValue(defaultSchedule.getTime());
-            schedulesToRemove.add(mMutableEndSchedule.getValue());
-            mMutableEndSchedule.setValue(defaultSchedule);
-        }
-
-        mMediatorPinEntity.getValue().ifPresent((pin) -> mHandler.post(() ->
-                    mPinStorage.deletePin(pin)));
-
-        if (!schedulesToRemove.isEmpty()) {
-            mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
-        }
-
-        refreshNextUpcomingScheduleSummaryAsync();
-    }
-
-    /**
      * Remove the SIM PIN code, if present.
      */
     void removePin() {
@@ -486,14 +449,6 @@ public final class SchedulerViewModel extends ViewModel {
 
         mMediatorPinEntity.getValue().ifPresent((pin) -> mHandler.post(() ->
                     mPinStorage.deletePin(pin)));
-    }
-
-    /**
-     * @return {@code true} if the scheduler exists, otherwise {@code false}.
-     */
-    boolean schedulerExists() {
-        return mMutableStartSchedule.getValue().getId() > 0L ||
-            mMutableEndSchedule.getValue().getId() > 0L;
     }
 
     /**
