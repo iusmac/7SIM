@@ -50,6 +50,8 @@ public final class SevenSimModule {
             Room.databaseBuilder(context.createDeviceProtectedStorageContext(),
                     AppDatabaseDE.class, "app_database.sqlite");
 
+        builder.addMigrations(AppDatabaseDE.MIGRATION_1_2);
+
         return builder.addTypeConverter(typeConverter).build();
     }
 

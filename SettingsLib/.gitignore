@@ -7,9 +7,9 @@
 !/CollapsingToolbarBaseActivity/
 /CollapsingToolbarBaseActivity/*
 !/CollapsingToolbarBaseActivity/build.gradle
-!/MainSwitchPreference/
-/MainSwitchPreference/*
-!/MainSwitchPreference/build.gradle
+!/LayoutPreference/
+/LayoutPreference/*
+!/LayoutPreference/build.gradle
 !/SettingsTheme/
 /SettingsTheme/*
 !/SettingsTheme/build.gradle

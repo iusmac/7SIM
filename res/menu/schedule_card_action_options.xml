@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/scheduler_sim_actions_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/scheduler_action_activate_sim"
+            android:title="@string/scheduler_action_activate_sim_long_text" />
+
+        <item
+            android:id="@+id/scheduler_action_deactivate_sim"
+            android:title="@string/scheduler_action_deactivate_sim_long_text" />
+    </group>
+</menu>

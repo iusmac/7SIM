@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="collapsing_toolbar_subtitle_text_color">@android:color/system_accent1_100</color>
+    <color name="fab_add_background_tint_color">@android:color/system_accent1_200</color>
+    <color name="schedule_card_day_selected_text_color">@android:color/system_neutral2_100</color>
+    <color name="schedule_card_day_unselected_stroke_color">@android:color/system_neutral2_600</color>
+    <color name="schedule_card_hairline_color">@android:color/transparent</color>
 </resources>

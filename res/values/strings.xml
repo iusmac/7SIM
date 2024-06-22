@@ -8,6 +8,7 @@
     <string name="restart_to_apply">"You have to restart the application to apply changes"</string>
     <string name="sim_missing">"SIM card missing"</string>
     <string name="preference_not_set">Not set</string>
+    <string name="bullet_separator" translatable="false">\u2022</string>
 
     <string name="disclaimer_banner_content">"Download 7SIM exclusively from the official GitHub page. Files from unknown sources can be malicious!"</string>
 
@@ -42,11 +43,17 @@
     <string name="scheduler_day_of_week_separator">",\u0020"</string>
 
     <string name="scheduler_add_button_text">"Add a schedule"</string>
+    <string name="scheduler_name">"Schedule name"</string>
+    <string name="scheduler_name_hint">"Enter schedule name"</string>
+    <string name="scheduler_name_description">"Schedule name"</string>
+    <string name="scheduler_expand">"Expand schedule"</string>
+    <string name="scheduler_collapse">"Collapse schedule"</string>
+    <string name="scheduler_delete">Delete</string>
     <string name="scheduler_toolbar_reset">"Reset"</string>
-    <string name="scheduler_reset_dialog_message">"This operation cannot be undone.\n\nWould you like to continue?"</string>
+    <string name="scheduler_delete_message">"This operation cannot be undone. Would you like to continue?"</string>
     <string name="scheduler_switch_use_title">"Use schedule"</string>
     <string name="scheduler_days_of_week_title">"Days"</string>
-    <string name="scheduler_days_of_week_none">"None"</string>
+    <string name="scheduler_days_of_week_none">"Never"</string>
     <string name="scheduler_days_of_week_all">"Every day"</string>
     <string name="scheduler_start_time_title">"Start time"</string>
     <string name="scheduler_end_time_title">"End time"</string>
@@ -55,6 +62,11 @@
     <string name="scheduler_start_time_none_summary">"Will <b>never</b> turn on automatically"</string>
     <string name="scheduler_end_time_none_summary">"Will <b>never</b> turn off automatically"</string>
     <string name="scheduler_no_schedule_summary">"No schedule"</string>
+    <string name="scheduler_action_title">"Action"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activate SIM card"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Deactivate SIM card"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Activ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deactiv. SIM"</string>
     <string name="scheduler_pin_title">SIM PIN</string>
     <string name="scheduler_pin_set_summary">PIN has been set</string>
     <string name="scheduler_pin_unset_summary">Enter SIM PIN</string>
@@ -88,9 +100,6 @@
     <string name="sim_list_help_key" translatable="false">"sim_list_help"</string>
     <string name="sim_list_license_key" translatable="false">"sim_list_license"</string>
     <string name="preference_list_show_app_icon_key" translatable="false">"show_launcher_icon"</string>
-    <string name="scheduler_enabled_key" translatable="false">"scheduler_enabled"</string>
-    <string name="scheduler_days_of_week_key" translatable="false">"scheduler_days_of_week"</string>
-    <string name="scheduler_start_time_key" translatable="false">"scheduler_start_time"</string>
-    <string name="scheduler_end_time_key" translatable="false">"scheduler_end_time"</string>
     <string name="scheduler_pin_error_key" translatable="false">"scheduler_pin_error"</string>
+    <string name="scheduler_empty_view_key" translatable="false">"scheduler_empty_view"</string>
 </resources>

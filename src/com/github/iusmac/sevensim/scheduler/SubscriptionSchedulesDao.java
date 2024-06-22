@@ -14,13 +14,13 @@ import java.util.Optional;
 @Dao
 public interface SubscriptionSchedulesDao {
     @Insert
-    List<Long> insertAll(List<SubscriptionScheduleEntity> scheduleEntities);
+    long insert(SubscriptionScheduleEntity scheduleEntity);
 
     @Update
-    void updateAll(List<SubscriptionScheduleEntity> scheduleEntities);
+    void update(SubscriptionScheduleEntity scheduleEntity);
 
     @Delete
-    void deleteAll(List<SubscriptionScheduleEntity> scheduleEntities);
+    void delete(SubscriptionScheduleEntity scheduleEntity);
 
     @Query("SELECT * FROM subscription_schedules WHERE sub_id = :subId")
     List<SubscriptionScheduleEntity> findAllBySubscriptionId(int subId);

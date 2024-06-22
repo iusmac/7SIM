@@ -22,7 +22,7 @@ rootProject.name = '7SIM'
 
 include ':SettingsLib:BannerMessagePreference'
 include ':SettingsLib:CollapsingToolbarBaseActivity'
-include ':SettingsLib:MainSwitchPreference'
+include ':SettingsLib:LayoutPreference'
 include ':SettingsLib:SettingsTheme'
 include ':SettingsLib:TwoTargetPreference'
 include ':SettingsLib:Utils'

@@ -30,6 +30,7 @@ public class EditTextDialogFragment extends DialogFragment {
     private static final String SAVED_TITLE = "title";
     private static final String SAVED_INPUT_TYPE = "inputType";
     private static final String SAVED_MAX_LENGTH = "maxLength";
+    private static final String SAVED_SINGLE_LINE_INPUT = "singleLineInput";
 
     /** Handle completing the {@link EditText} from the IME keyboard. */
     private final TextView.OnEditorActionListener mImeDoneListener = (v, actionId, event) -> {
@@ -58,8 +59,11 @@ public class EditTextDialogFragment extends DialogFragment {
     private String mRequestKey;
     private EditText mEditText;
     private String mTitle;
+    private String mText;
     private int mInputType = -1;
     private int mMaxLength = -1;
+    private boolean mSingleLineInput;
+    private boolean mSelectAllInputOnFocus;
 
     public EditTextDialogFragment() {
     }
@@ -84,6 +88,7 @@ public class EditTextDialogFragment extends DialogFragment {
             setTitle(savedInstanceState.getString(SAVED_TITLE));
             setInputType(savedInstanceState.getInt(SAVED_INPUT_TYPE));
             setMaxInputLength(savedInstanceState.getInt(SAVED_MAX_LENGTH));
+            setSingleLineInput(savedInstanceState.getBoolean(SAVED_SINGLE_LINE_INPUT));
         }
 
         final AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
@@ -117,6 +122,16 @@ public class EditTextDialogFragment extends DialogFragment {
             });
         }
 
+        if (mText != null) {
+            mEditText.setText(mText);
+        }
+        if (mSingleLineInput != false) {
+            mEditText.setSingleLine(mSingleLineInput);
+        }
+        if (mSelectAllInputOnFocus) {
+            mEditText.selectAll();
+        }
+
         return alertDialog;
     }
 
@@ -127,6 +142,17 @@ public class EditTextDialogFragment extends DialogFragment {
      */
     public void setTitle(final @Nullable String title) {
         mTitle = title;
+    }
+
+    /**
+     * Set the text for the {@link EditText}.
+     *
+     * @param text The initial text string to display in the {@link EditText}.
+     *
+     * @attr ref android.R.styleable#TextView_text
+     */
+    public void setText(final @Nullable String text) {
+        mText = text;
     }
 
     /**
@@ -149,6 +175,42 @@ public class EditTextDialogFragment extends DialogFragment {
      */
     public void setMaxInputLength(final int maxLength) {
         mMaxLength = maxLength;
+    }
+
+    /**
+     * Convenience method for calling {@link #setSingleLineInput(boolean)} with {@code true}.
+     */
+    public void setSingleLineInput() {
+        setSingleLineInput(true);
+    }
+
+    /**
+     * Restrict the {@link EditText} to a single-line input.
+     *
+     * @attr ref android.R.styleable#TextView_singleLine
+     *
+     * @param singleLineInput Whether to constraint the {@link EditText} to a single-line input.
+     */
+    public void setSingleLineInput(final boolean singleLineInput) {
+        mSingleLineInput = singleLineInput;
+    }
+
+    /**
+     * Convenience method for calling {@link #selectAllInputOnFocus(boolean)} with {@code true}.
+     */
+    public void selectAllInputOnFocus() {
+        selectAllInputOnFocus(true);
+    }
+
+    /**
+     * Select all the text on dialog open.
+     *
+     * @attr ref android.R.styleable#TextView_selectAllOnFocus
+     *
+     * @param selectAllInputOnFocus Whether to select all text in {@link EditText} on dialog open.
+     */
+    public void selectAllInputOnFocus(final boolean selectAllInputOnFocus) {
+        mSelectAllInputOnFocus = selectAllInputOnFocus;
     }
 
     private void onDone() {

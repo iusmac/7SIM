@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
+import com.github.iusmac.sevensim.ui.UiUtils;
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 import com.github.iusmac.sevensim.ui.components.toolbar.ToolbarDecorator;
 
@@ -95,6 +97,12 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         if (toolbarDecorator.isCollapsingToolbarSupported()) {
             toolbarDecorator.setCollapsingSubtitleImportantForAccessibility(
                     View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+            // Ensure the expanded toolbar isn't overlapped by the FABs that will be located on one
+            // side when running in landscape
+            if (UiUtils.isLandscape(this)) {
+                getCollapsingToolbarLayout().setExpandedTitleMarginEnd(getResources()
+                        .getDimensionPixelSize(R.dimen.fab_container_land_width));
+            }
         } else {
             toolbarDecorator.setSubtitleMarqueeRepeatLimit(-1);
         }
