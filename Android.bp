@@ -43,11 +43,11 @@ android_app {
     },
 
     aaptflags: [
-        "--version-name", "1.2.0-beta", // x-release-please-version
+        "--version-name", "1.2.1-beta", // x-release-please-version
         "--version-code",
         "1" + // x-release-please-major
         "2" + // x-release-please-minor
-        "0",  // x-release-please-patch
+        "1",  // x-release-please-patch
     ],
 
     required: [
