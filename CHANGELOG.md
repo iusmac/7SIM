@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1-beta](https://github.com/iusmac/7SIM/compare/v1.2.0-beta...v1.2.1-beta) (2024-06-24)
+
+
+### :bug: Bug Fixes
+
+* handle SIM PIN decryption on devices without FBE support ([6cb9afa](https://github.com/iusmac/7SIM/commit/6cb9afa7ff06a1549d4587f5b59df9276c450f44))
+
 ## [1.2.0-beta](https://github.com/iusmac/7SIM/compare/v1.1.0-beta...v1.2.0-beta) (2024-06-02)
 
 
