@@ -57,9 +57,6 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // This also ensures proper app backup data restore
                 mLauncherIconVisibilityManagerProvider.get().updateVisibility();
 
-                final int encryptionStatus = Utils.IS_AT_LEAST_T ? -1 :
-                    mDevicePolicyManagerProvider.get().getStorageEncryptionStatus();
-
                 // Need to reschedule the next weekly repeat schedule processing iteration again, as
                 // it was already done during Direct Boot mode when the LOCKED_BOOT_COMPLETED event
                 // fired, but the scheduler did not have access to the SIM PIN storage, which is
@@ -69,7 +66,7 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // is delivered right after the LOCKED_BOOT_COMPLETED event and the user is still
                 // locked. Thus, we need to wait for the user to unlock the device in order to
                 // access the user authentication bound secret key
-                switch (encryptionStatus) {
+                switch (mDevicePolicyManagerProvider.get().getStorageEncryptionStatus()) {
                     case DevicePolicyManager.ENCRYPTION_STATUS_UNSUPPORTED:
                     case DevicePolicyManager.ENCRYPTION_STATUS_INACTIVE:
                     case DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE_DEFAULT_KEY:
