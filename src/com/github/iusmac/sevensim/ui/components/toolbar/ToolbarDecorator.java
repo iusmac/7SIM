@@ -36,7 +36,6 @@ public final class ToolbarDecorator {
     private static final Comparator<TextView> VIEW_TOP_COMPARATOR =
         (v1, v2) -> v1.getTop() - v2.getTop();
 
-    private final boolean mIsRtl;
     private AppBarLayout mAppBarLayout;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private AppBarLayout.OnOffsetChangedListener mOffsetChangedListener;
@@ -52,8 +51,6 @@ public final class ToolbarDecorator {
 
     public ToolbarDecorator(final @NonNull Toolbar toolbar) {
         mToolbar = toolbar;
-
-        mIsRtl = mToolbar.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
 
         for (ViewParent p = mToolbar.getParent(); p != null; p = p.getParent()) {
             if (p instanceof AppBarLayout) {
@@ -340,10 +337,11 @@ public final class ToolbarDecorator {
             updateToolbarDummyView();
             // When the "dummy view" is settled up, use its boundaries for the collapsed subtitle
             mDummyView.filter((v) -> v.getBottom() > 0).ifPresent((dummyView) -> {
-                final int paddingLeft = dummyView.getLeft() + (mIsRtl ?
+                final boolean isRtl = getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+                final int paddingLeft = dummyView.getLeft() + (isRtl ?
                         mToolbar.getTitleMarginEnd() : mToolbar.getTitleMarginStart());
                 final int paddingRight = Math.abs(dummyView.getRight() -
-                        mCollapsingToolbarLayout.getRight()) + (mIsRtl ?
+                        mCollapsingToolbarLayout.getRight()) + (isRtl ?
                         mToolbar.getTitleMarginStart() : mToolbar.getTitleMarginEnd());
 
                 setPadding(paddingLeft, /*top=*/ 0, paddingRight, mFrameworkToolbarMarginTop +
@@ -416,16 +414,6 @@ public final class ToolbarDecorator {
         public ExpandedSubtitle(final Context context) {
             super(context);
 
-            final int expandedTitleMarginStart =
-                mCollapsingToolbarLayout.getExpandedTitleMarginStart();
-            final int expandedTitleMarginEnd = mCollapsingToolbarLayout.getExpandedTitleMarginEnd();
-            final int paddingLeft = mIsRtl ? expandedTitleMarginEnd : expandedTitleMarginStart;
-            final int paddingRight = mIsRtl ? expandedTitleMarginStart : expandedTitleMarginEnd;
-            final int paddingBottom = (int) context.getResources().getDimension(
-                    R.dimen.collapsing_toolbar_subtitle_padding_bottom);
-            // Align horizontally with the expanded title
-            setPadding(paddingLeft, /*top=*/ 0, paddingRight, paddingBottom);
-
             setFactory(() -> new SubtitleTextView(context) {
                 {
                     setTextAppearance(R.style.TextAppearance_CollapsingToolbarExpandedSubtitle);
@@ -439,14 +427,25 @@ public final class ToolbarDecorator {
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
             final int extraMarginBottom = mExpandedTitleMarginBottom + getMeasuredHeight();
             if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() != extraMarginBottom) {
                 // Push the expanded title back as its gravity is set to be at the bottom of the
                 // CollapsingToolbarLayout
                 mCollapsingToolbarLayout.setExpandedTitleMarginBottom(extraMarginBottom);
             }
+
+            final boolean isRtl = getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+            final int expandedTitleMarginStart =
+                mCollapsingToolbarLayout.getExpandedTitleMarginStart();
+            final int expandedTitleMarginEnd = mCollapsingToolbarLayout.getExpandedTitleMarginEnd();
+            final int paddingLeft = isRtl ? expandedTitleMarginEnd : expandedTitleMarginStart;
+            final int paddingRight = isRtl ? expandedTitleMarginStart : expandedTitleMarginEnd;
+            final int paddingBottom = (int) getResources().getDimension(
+                    R.dimen.collapsing_toolbar_subtitle_padding_bottom);
+            // Align horizontally with the expanded title
+            setPadding(paddingLeft, /*top=*/ 0, paddingRight, paddingBottom);
+
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
 
         @Override
