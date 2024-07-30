@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Atinge pentru a remedia"</string>
     <string name="sim_pin_operation_failed">"Deblocarea cu ajutorul codului PIN pentru cardul SIM nu a reușit!"</string>
     <string name="sim_unlock_failed">"Cererea de deblocare pentru SIM a eșuat."</string>
+    <string name="scheduler_name">"Numele programului"</string>
+    <string name="scheduler_name_hint">"Introdu numele programului"</string>
+    <string name="scheduler_name_description">"Numele programului"</string>
+    <string name="scheduler_expand">"Extindeți programul"</string>
+    <string name="scheduler_collapse">"Restrângeți programul"</string>
+    <string name="scheduler_delete">"Ștergeți"</string>
+    <string name="scheduler_action_title">"Acțiune"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activare SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Dezactivare SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Act. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deact. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Editează"</string>
+    <string name="scheduler_pin_menu_delete_title">"Ștergeți"</string>
+    <string name="scheduler_add_button_text">"Adaugă un program"</string>
 </resources>

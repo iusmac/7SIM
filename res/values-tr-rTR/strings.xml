@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Düzeltmek için dokunun"</string>
     <string name="sim_pin_operation_failed">"SIM PIN işlemi başarısız oldu!"</string>
     <string name="sim_unlock_failed">"SIM kilit açma isteği başarısız oldu."</string>
+    <string name="scheduler_name">"Program adı"</string>
+    <string name="scheduler_name_hint">"Program adı girin"</string>
+    <string name="scheduler_name_description">"Program adı"</string>
+    <string name="scheduler_expand">"Takvimi genişlet"</string>
+    <string name="scheduler_collapse">"Takvimi daralt"</string>
+    <string name="scheduler_delete">"Sil"</string>
+    <string name="scheduler_action_title">"Eylem"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM etkin"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM devre dışı"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM aktifleştir."</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM devre dışı"</string>
+    <string name="scheduler_pin_menu_edit_title">"Düzenle"</string>
+    <string name="scheduler_pin_menu_delete_title">"Sil"</string>
+    <string name="scheduler_add_button_text">"Zamanlayıcı ekle"</string>
 </resources>

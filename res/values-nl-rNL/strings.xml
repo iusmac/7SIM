@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tik om het probleem op te lossen"</string>
     <string name="sim_pin_operation_failed">"Bewerking met pincode voor simkaart is mislukt."</string>
     <string name="sim_unlock_failed">"Verzoek voor ontgrendelen SIM mislukt."</string>
+    <string name="scheduler_name">"Naam van planning"</string>
+    <string name="scheduler_name_hint">"Geef naam planning op"</string>
+    <string name="scheduler_name_description">"Naam van planning"</string>
+    <string name="scheduler_expand">"Schema uitbreiden"</string>
+    <string name="scheduler_collapse">"Schema inklappen"</string>
+    <string name="scheduler_delete">"Verwijderen"</string>
+    <string name="scheduler_action_title">"Actie"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM activeren"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM deactiveren"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM activeren"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM deactiveren"</string>
+    <string name="scheduler_pin_menu_edit_title">"Bewerken"</string>
+    <string name="scheduler_pin_menu_delete_title">"Verwijderen"</string>
+    <string name="scheduler_add_button_text">"Tijdsplanning toevoegen"</string>
 </resources>

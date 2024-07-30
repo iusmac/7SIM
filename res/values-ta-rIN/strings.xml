@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"சரிசெய்ய, தட்டவும்"</string>
     <string name="sim_pin_operation_failed">"சிம் பின் செயல்பாடு தோல்வியடைந்தது!"</string>
     <string name="sim_unlock_failed">"SIM பூட்டுநீக்க கோரிக்கை வெற்றியடையவில்லை."</string>
+    <string name="scheduler_name">"கால அட்டவணையின் பெயர்"</string>
+    <string name="scheduler_name_hint">"பெயரை உள்ளிடவும்"</string>
+    <string name="scheduler_name_description">"கால அட்டவணையின் பெயர்"</string>
+    <string name="scheduler_expand">"அட்டவணையை விரிவாக்கு"</string>
+    <string name="scheduler_collapse">"அட்டவணையை சுருக்கவும்"</string>
+    <string name="scheduler_delete">"நீக்கு"</string>
+    <string name="scheduler_action_title">"செயல்"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM செயலாக்க"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM முடக்கு"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM செயலாக்க"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM முடக்க"</string>
+    <string name="scheduler_pin_menu_edit_title">"மாற்று"</string>
+    <string name="scheduler_pin_menu_delete_title">"நீக்கு"</string>
+    <string name="scheduler_add_button_text">"கால அட்டவணையைச் சேர்க்கவும்"</string>
 </resources>

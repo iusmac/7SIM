@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Toque para corrigir."</string>
     <string name="sim_pin_operation_failed">"Falha ao introduzir o PIN do cartão SIM!"</string>
     <string name="sim_unlock_failed">"Pedido de desbloqueio do SIM sem sucesso."</string>
+    <string name="scheduler_name">"Nome do horário"</string>
+    <string name="scheduler_name_hint">"Introduzir nome do horário"</string>
+    <string name="scheduler_name_description">"Nome do horário"</string>
+    <string name="scheduler_expand">"Expandir cronograma"</string>
+    <string name="scheduler_collapse">"Reduzir cronograma"</string>
+    <string name="scheduler_delete">"Eliminar"</string>
+    <string name="scheduler_action_title">"Ação"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Ativar SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Desativar SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Ativ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Desativ. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Editar"</string>
+    <string name="scheduler_pin_menu_delete_title">"Eliminar"</string>
+    <string name="scheduler_add_button_text">"Adicionar uma agenda"</string>
 </resources>

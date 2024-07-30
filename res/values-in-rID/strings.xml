@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Ketuk untuk memperbaiki"</string>
     <string name="sim_pin_operation_failed">"Operasi PIN SIM gagal!"</string>
     <string name="sim_unlock_failed">"Permintaan membuka kunci SIM tidak berhasil."</string>
+    <string name="scheduler_name">"Nama jadwal"</string>
+    <string name="scheduler_name_hint">"Masukkan nama jadwal"</string>
+    <string name="scheduler_name_description">"Nama jadwal"</string>
+    <string name="scheduler_expand">"Perluas jadwal"</string>
+    <string name="scheduler_collapse">"Persempit jadwal"</string>
+    <string name="scheduler_delete">"Hapus"</string>
+    <string name="scheduler_action_title">"Tindakan"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktivasi SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Nonaktif SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktivasi SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Nonaktif. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Edit"</string>
+    <string name="scheduler_pin_menu_delete_title">"Hapus"</string>
+    <string name="scheduler_add_button_text">"Tambahkan jadwal"</string>
 </resources>

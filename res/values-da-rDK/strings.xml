@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tryk for at løse problemet"</string>
     <string name="sim_pin_operation_failed">"Pinkoden til SIM-kortet blev afvist"</string>
     <string name="sim_unlock_failed">"Anmodning om oplåsning af SIM-kort mislykkedes."</string>
+    <string name="scheduler_name">"Navn på tidsplan"</string>
+    <string name="scheduler_name_hint">"Angiv tidsplanens navn"</string>
+    <string name="scheduler_name_description">"Navn på tidsplan"</string>
+    <string name="scheduler_expand">"Udvid tidsplan"</string>
+    <string name="scheduler_collapse">"Skjul tidsplan"</string>
+    <string name="scheduler_delete">"Slet"</string>
+    <string name="scheduler_action_title">"Handling"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktiverer SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Deaktiverer SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deakt. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Rediger"</string>
+    <string name="scheduler_pin_menu_delete_title">"Slet"</string>
+    <string name="scheduler_add_button_text">"Tilføj en tidsplan"</string>
 </resources>

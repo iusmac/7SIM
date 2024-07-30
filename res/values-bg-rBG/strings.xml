@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Докоснете за коригиране"</string>
     <string name="sim_pin_operation_failed">"Операцията с ПИН кода за SIM картата не бе успешна!"</string>
     <string name="sim_unlock_failed">"Неуспешно искане за отключване на СИМ карта."</string>
+    <string name="scheduler_name">"Име на графика"</string>
+    <string name="scheduler_name_hint">"Въведете име на графика"</string>
+    <string name="scheduler_name_description">"Име на графика"</string>
+    <string name="scheduler_expand">"Разширяване на графика"</string>
+    <string name="scheduler_collapse">"Свиване на графика"</string>
+    <string name="scheduler_delete">"Изтриване"</string>
+    <string name="scheduler_action_title">"Действие"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Активиране SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Деактивиране SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Актив. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Деакт. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Редактиране"</string>
+    <string name="scheduler_pin_menu_delete_title">"Изтриване"</string>
+    <string name="scheduler_add_button_text">"Добавяне на график"</string>
 </resources>

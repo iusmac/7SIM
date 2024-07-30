@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Торкніться, щоб виправити"</string>
     <string name="sim_pin_operation_failed">"Помилка введення PIN-коду SIM-карти."</string>
     <string name="sim_unlock_failed">"Не вдалося виконати запит на розблокування SIM."</string>
+    <string name="scheduler_name">"Назва розкладу"</string>
+    <string name="scheduler_name_hint">"Введіть назву розкладу"</string>
+    <string name="scheduler_name_description">"Назва розкладу"</string>
+    <string name="scheduler_expand">"Розгорнути розклад"</string>
+    <string name="scheduler_collapse">"Згорнути розклад"</string>
+    <string name="scheduler_delete">"Видалити"</string>
+    <string name="scheduler_action_title">"Дія"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Активація SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Деактивація SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Акт. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Деакт. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Редагувати"</string>
+    <string name="scheduler_pin_menu_delete_title">"Видалити"</string>
+    <string name="scheduler_add_button_text">"Додати розклад"</string>
 </resources>

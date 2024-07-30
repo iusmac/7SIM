@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"輕觸即可修正問題"</string>
     <string name="sim_pin_operation_failed">"SIM 卡 PIN 碼解鎖失敗！"</string>
     <string name="sim_unlock_failed">"SIM 卡解鎖請求失敗。"</string>
+    <string name="scheduler_name">"排程名稱"</string>
+    <string name="scheduler_name_hint">"輸入排程名稱"</string>
+    <string name="scheduler_name_description">"排程名稱"</string>
+    <string name="scheduler_expand">"展開行程"</string>
+    <string name="scheduler_collapse">"收起行程"</string>
+    <string name="scheduler_delete">"刪除"</string>
+    <string name="scheduler_action_title">"動作"</string>
+    <string name="scheduler_action_activate_sim_long_text">"啟用SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"關閉SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"啟用SIM卡"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"關閉SIM卡"</string>
+    <string name="scheduler_pin_menu_edit_title">"編輯"</string>
+    <string name="scheduler_pin_menu_delete_title">"刪除"</string>
+    <string name="scheduler_add_button_text">"新增行程"</string>
 </resources>

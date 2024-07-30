@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Kliknij, by naprawić"</string>
     <string name="sim_pin_operation_failed">"Operacja z kodem PIN karty SIM nie udała się."</string>
     <string name="sim_unlock_failed">"Żądanie odblokowania karty SIM zakończone niepowodzeniem."</string>
+    <string name="scheduler_name">"Nazwa harmonogramu"</string>
+    <string name="scheduler_name_hint">"Wpisz nazwę harmonogramu"</string>
+    <string name="scheduler_name_description">"Nazwa harmonogramu"</string>
+    <string name="scheduler_expand">"Rozwiń harmonogram"</string>
+    <string name="scheduler_collapse">"Zwiń harmonogram"</string>
+    <string name="scheduler_delete">"Usuń"</string>
+    <string name="scheduler_action_title">"Akcja"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktywacja SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Dezaktywacja SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Akt. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Dezakt. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Edytuj"</string>
+    <string name="scheduler_pin_menu_delete_title">"Usuń"</string>
+    <string name="scheduler_add_button_text">"Dodaj harmonogram"</string>
 </resources>

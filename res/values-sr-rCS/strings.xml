@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Додирните да бисте исправили"</string>
     <string name="sim_pin_operation_failed">"Радња са PIN кодом за SIM није успела!"</string>
     <string name="sim_unlock_failed">"Не могу да откључам SIM картицу."</string>
+    <string name="scheduler_name">"Назив распореда"</string>
+    <string name="scheduler_name_hint">"Унесите назив распореда"</string>
+    <string name="scheduler_name_description">"Назив распореда"</string>
+    <string name="scheduler_expand">"Прошири распоред"</string>
+    <string name="scheduler_collapse">"Смањи распоред"</string>
+    <string name="scheduler_delete">"Избриши"</string>
+    <string name="scheduler_action_title">"Радња"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Активирање SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Деактивирање SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Актив. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Деакт. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Измени"</string>
+    <string name="scheduler_pin_menu_delete_title">"Избриши"</string>
+    <string name="scheduler_add_button_text">"Додајте распоред"</string>
 </resources>

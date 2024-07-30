@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Toca para solucionar el problema"</string>
     <string name="sim_pin_operation_failed">"No se ha podido desbloquear la tarjeta SIM con el código PIN."</string>
     <string name="sim_unlock_failed">"El desbloqueo de tarjeta SIM no se ha realizado correctamente."</string>
+    <string name="scheduler_name">"Nombre de la programación"</string>
+    <string name="scheduler_name_hint">"Nombre de la programación"</string>
+    <string name="scheduler_name_description">"Nombre de la programación"</string>
+    <string name="scheduler_expand">"Expandir horario"</string>
+    <string name="scheduler_collapse">"Contraer horario"</string>
+    <string name="scheduler_delete">"Eliminar"</string>
+    <string name="scheduler_action_title">"Acción"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activando SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Desactivando SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Activ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Desactiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Editar"</string>
+    <string name="scheduler_pin_menu_delete_title">"Eliminar"</string>
+    <string name="scheduler_add_button_text">"Añadir un horario"</string>
 </resources>

@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"点按即可修正问题"</string>
     <string name="sim_pin_operation_failed">"SIM 卡 PIN 码操作失败！"</string>
     <string name="sim_unlock_failed">"SIM 卡解锁请求不成功。"</string>
+    <string name="scheduler_name">"时间表名称"</string>
+    <string name="scheduler_name_hint">"输入时间表名称"</string>
+    <string name="scheduler_name_description">"时间表名称"</string>
+    <string name="scheduler_expand">"展开日程"</string>
+    <string name="scheduler_collapse">"收起日程"</string>
+    <string name="scheduler_delete">"删除"</string>
+    <string name="scheduler_action_title">"动作"</string>
+    <string name="scheduler_action_activate_sim_long_text">"开启SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"关闭SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"开SIM卡"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"关SIM卡"</string>
+    <string name="scheduler_pin_menu_edit_title">"修改"</string>
+    <string name="scheduler_pin_menu_delete_title">"删除"</string>
+    <string name="scheduler_add_button_text">"添加时间安排"</string>
 </resources>

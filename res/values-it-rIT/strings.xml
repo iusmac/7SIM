@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tocca per risolvere il problema"</string>
     <string name="sim_pin_operation_failed">"Operazione con PIN della SIM non riuscita."</string>
     <string name="sim_unlock_failed">"Richiesta sblocco SIM fallita."</string>
+    <string name="scheduler_name">"Nome pianificazione"</string>
+    <string name="scheduler_name_hint">"Inserisci nome della pianificazione"</string>
+    <string name="scheduler_name_description">"Nome pianificazione"</string>
+    <string name="scheduler_expand">"Espandi programma"</string>
+    <string name="scheduler_collapse">"Riduci programma"</string>
+    <string name="scheduler_delete">"Elimina"</string>
+    <string name="scheduler_action_title">"Azione"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Attivazione SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Disattivazione SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Attiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Disattiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Modifica"</string>
+    <string name="scheduler_pin_menu_delete_title">"Elimina"</string>
+    <string name="scheduler_add_button_text">"Aggiungi una pianificazione"</string>
 </resources>

@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Нажмите здесь, чтобы исправить."</string>
     <string name="sim_pin_operation_failed">"Не удалось разблокировать SIM-карту"</string>
     <string name="sim_unlock_failed">"Не удалось выполнить запрос на разблокировку SIM-карты."</string>
+    <string name="scheduler_name">"Название расписания"</string>
+    <string name="scheduler_name_hint">"Введите название расписания"</string>
+    <string name="scheduler_name_description">"Название расписания"</string>
+    <string name="scheduler_expand">"Развернуть расписание"</string>
+    <string name="scheduler_collapse">"Свернуть расписание"</string>
+    <string name="scheduler_delete">"Удалить"</string>
+    <string name="scheduler_action_title">"Действие"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Активация SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Деактивация SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Акт. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Деакт. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Изменить"</string>
+    <string name="scheduler_pin_menu_delete_title">"Удалить"</string>
+    <string name="scheduler_add_button_text">"Добавить расписание"</string>
 </resources>

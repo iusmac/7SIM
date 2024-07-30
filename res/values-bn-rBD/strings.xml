@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"ঠিক করতে ট্যাপ করুন"</string>
     <string name="sim_pin_operation_failed">"সিম পিন দিয়ে আনলক করা যায়নি!"</string>
     <string name="sim_unlock_failed">"সিম আনলক অনুরোধ ব্যর্থ হয়েছে!"</string>
+    <string name="scheduler_name">"সময়সূচির নাম"</string>
+    <string name="scheduler_name_hint">"সময়সূচির নাম লিখুন"</string>
+    <string name="scheduler_name_description">"সময়সূচির নাম"</string>
+    <string name="scheduler_expand">"সময়সূচি প্রসারিত করুন"</string>
+    <string name="scheduler_collapse">"সময়সূচি সংকুচিত করুন"</string>
+    <string name="scheduler_delete">"মুছে দিন"</string>
+    <string name="scheduler_action_title">"অ্যাকশন"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM অ্যাক্টিভেট করুন"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM ডিঅ্যাক্টিভেট করা"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM অ্যাক্টিভেট"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM ডিঅ্যাক্টিভেট"</string>
+    <string name="scheduler_pin_menu_edit_title">"এডিট করুন"</string>
+    <string name="scheduler_pin_menu_delete_title">"মুছে দিন"</string>
+    <string name="scheduler_add_button_text">"সময়সূচী যোগ করুন"</string>
 </resources>

@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Appuyez sur la notification pour résoudre le problème"</string>
     <string name="sim_pin_operation_failed">"Échec du déverrouillage à l'aide du code PIN de la carte SIM."</string>
     <string name="sim_unlock_failed">"La demande de déverrouillage de la carte SIM a échoué."</string>
+    <string name="scheduler_name">"Nom du programme"</string>
+    <string name="scheduler_name_hint">"Saisissez le nom du programme"</string>
+    <string name="scheduler_name_description">"Nom du programme"</string>
+    <string name="scheduler_expand">"Étendre le calendrier"</string>
+    <string name="scheduler_collapse">"Réduire le calendrier"</string>
+    <string name="scheduler_delete">"Supprimer"</string>
+    <string name="scheduler_action_title">"Action"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activation SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Désactivation SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Activ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Désactiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Modifier"</string>
+    <string name="scheduler_pin_menu_delete_title">"Supprimer"</string>
+    <string name="scheduler_add_button_text">"Programmer"</string>
 </resources>

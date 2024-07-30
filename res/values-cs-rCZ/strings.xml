@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Problém odstraníte klepnutím"</string>
     <string name="sim_pin_operation_failed">"Operace pomocí kódu PIN SIM karty se nezdařila."</string>
     <string name="sim_unlock_failed">"Požadavek odemknutí SIM neúspěšný."</string>
+    <string name="scheduler_name">"Název plánu"</string>
+    <string name="scheduler_name_hint">"Zadejte název plánu"</string>
+    <string name="scheduler_name_description">"Název plánu"</string>
+    <string name="scheduler_expand">"Rozbalit rozvrh"</string>
+    <string name="scheduler_collapse">"Sbalit rozvrh"</string>
+    <string name="scheduler_delete">"Smazat"</string>
+    <string name="scheduler_action_title">"Akce"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktivace SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Deaktivace SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deaktiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Upravit"</string>
+    <string name="scheduler_pin_menu_delete_title">"Smazat"</string>
+    <string name="scheduler_add_button_text">"Přidat plán"</string>
 </resources>

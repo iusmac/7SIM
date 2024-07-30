@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Puudutage parandamiseks"</string>
     <string name="sim_pin_operation_failed">"SIM-kaardi PIN-koodi toiming ebaõnnestus."</string>
     <string name="sim_unlock_failed">"SIM avamise taotlus nurjus."</string>
+    <string name="scheduler_name">"Ajakava nimi"</string>
+    <string name="scheduler_name_hint">"Sisestage ajakava nimi"</string>
+    <string name="scheduler_name_description">"Ajakava nimi"</string>
+    <string name="scheduler_expand">"Laienda ajakava"</string>
+    <string name="scheduler_collapse">"Kahanda ajakava"</string>
+    <string name="scheduler_delete">"Kustuta"</string>
+    <string name="scheduler_action_title">"Tegevus"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM aktiveerimine"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM deaktiveerimine"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM-i aktiv."</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM-i deakt."</string>
+    <string name="scheduler_pin_menu_edit_title">"Muuda"</string>
+    <string name="scheduler_pin_menu_delete_title">"Kustuta"</string>
+    <string name="scheduler_add_button_text">"Lisa ajakava"</string>
 </resources>

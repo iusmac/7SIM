@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tryck och åtgärda"</string>
     <string name="sim_pin_operation_failed">"Det gick inte att låsa upp med pinkoden för SIM-kortet."</string>
     <string name="sim_unlock_failed">"Begäran om SIM-upplåsning misslyckades."</string>
+    <string name="scheduler_name">"Schemanamn"</string>
+    <string name="scheduler_name_hint">"Ange schemats namn"</string>
+    <string name="scheduler_name_description">"Schemanamn"</string>
+    <string name="scheduler_expand">"Expandera schema"</string>
+    <string name="scheduler_collapse">"Dölj schema"</string>
+    <string name="scheduler_delete">"Radera"</string>
+    <string name="scheduler_action_title">"Åtgärd"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktiverar SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Avaktiverar SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Avakt. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Redigera"</string>
+    <string name="scheduler_pin_menu_delete_title">"Radera"</string>
+    <string name="scheduler_add_button_text">"Lägg till ett schema"</string>
 </resources>

@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Həll etmək üçün klikləyin"</string>
     <string name="sim_pin_operation_failed">"SIM PIN əməliyyatı alınmadı!"</string>
     <string name="sim_unlock_failed">"SIM kilid açma sorğusu uğursuz oldu."</string>
+    <string name="scheduler_name">"Cədvəlin adı"</string>
+    <string name="scheduler_name_hint">"Adlandırın"</string>
+    <string name="scheduler_name_description">"Cədvəlin adı"</string>
+    <string name="scheduler_expand">"Cədvəli genişləndir"</string>
+    <string name="scheduler_collapse">"Cədvəli yığ"</string>
+    <string name="scheduler_delete">"Silin"</string>
+    <string name="scheduler_action_title">"Hərəkət"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM aktivləşdirmə"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM söndürmə"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM aktiv." "</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM söndür."</string>
+    <string name="scheduler_pin_menu_edit_title">"Redaktə edin"</string>
+    <string name="scheduler_pin_menu_delete_title">"Silin"</string>
+    <string name="scheduler_add_button_text">"Bir cədvəl əlavə et"</string>
 </resources>

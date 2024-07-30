@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Korjaa napauttamalla."</string>
     <string name="sim_pin_operation_failed">"SIM-kortin PIN-toiminto epäonnistui."</string>
     <string name="sim_unlock_failed">"SIM avauspyyntö epäonnistui."</string>
+    <string name="scheduler_name">"Aikataulun nimi"</string>
+    <string name="scheduler_name_hint">"Lisää aikataulun nimi"</string>
+    <string name="scheduler_name_description">"Aikataulun nimi"</string>
+    <string name="scheduler_expand">"Laajenna aikataulu"</string>
+    <string name="scheduler_collapse">"Supista aikataulu"</string>
+    <string name="scheduler_delete">"Poista"</string>
+    <string name="scheduler_action_title">"Toiminto"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktivoidaan SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM deaktivoidaan"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deaktiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Muokkaa"</string>
+    <string name="scheduler_pin_menu_delete_title">"Poista"</string>
+    <string name="scheduler_add_button_text">"Lisää ajoitus"</string>
 </resources>

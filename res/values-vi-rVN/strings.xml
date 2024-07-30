@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Hãy nhấn để sửa"</string>
     <string name="sim_pin_operation_failed">"Thao tác mã PIN của SIM không thành công!"</string>
     <string name="sim_unlock_failed">"Yêu cầu mở khóa SIM không thành công."</string>
+    <string name="scheduler_name">"Tên lịch biểu"</string>
+    <string name="scheduler_name_hint">"Nhập tên lịch biểu"</string>
+    <string name="scheduler_name_description">"Tên lịch biểu"</string>
+    <string name="scheduler_expand">"Mở rộng lịch trình"</string>
+    <string name="scheduler_collapse">"Thu gọn lịch trình"</string>
+    <string name="scheduler_delete">"Xóa"</string>
+    <string name="scheduler_action_title">"Tác vụ"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Kích hoạt SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Hủy SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Kích hoạt SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Hủy kích hoạt SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Chỉnh sửa"</string>
+    <string name="scheduler_pin_menu_delete_title">"Xóa"</string>
+    <string name="scheduler_add_button_text">"Thêm lịch trình"</string>
 </resources>

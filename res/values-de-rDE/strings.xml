@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tippen, um das Problem zu beheben"</string>
     <string name="sim_pin_operation_failed">"Fehler beim Entsperren der SIM-Karte mit der PIN."</string>
     <string name="sim_unlock_failed">"Entsperren der SIM-Karte fehlgeschlagen."</string>
+    <string name="scheduler_name">"Name des Zeitplans"</string>
+    <string name="scheduler_name_hint">"Name für Zeitplan eingeben"</string>
+    <string name="scheduler_name_description">"Name des Zeitplans"</string>
+    <string name="scheduler_expand">"Zeitplan erweitern"</string>
+    <string name="scheduler_collapse">"Zeitplan reduzieren"</string>
+    <string name="scheduler_delete">"Löschen"</string>
+    <string name="scheduler_action_title">"Aktion"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM wird aktiviert"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM wird deaktiviert"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM aktiv."</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM deaktiv."</string>
+    <string name="scheduler_pin_menu_edit_title">"Bearbeiten"</string>
+    <string name="scheduler_pin_menu_delete_title">"Löschen"</string>
+    <string name="scheduler_add_button_text">"Füge einen Zeitplan hinzu"</string>
 </resources>

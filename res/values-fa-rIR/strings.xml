@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"برای برطرف کردن مشکل، ضربه بزنید"</string>
     <string name="sim_pin_operation_failed">"عملیات پین سیم‌کارت ناموفق بود!"</string>
     <string name="sim_unlock_failed">"درخواست بازگشایی قفل سیمکارت ناموفق بود."</string>
+    <string name="scheduler_name">"نام زمان‌بندی"</string>
+    <string name="scheduler_name_hint">"وارد کردن نام زمان‌بندی"</string>
+    <string name="scheduler_name_description">"نام زمان‌بندی"</string>
+    <string name="scheduler_expand">"گسترش برنامه"</string>
+    <string name="scheduler_collapse">"فشردن برنامه"</string>
+    <string name="scheduler_delete">"حذف"</string>
+    <string name="scheduler_action_title">"اقدامات"</string>
+    <string name="scheduler_action_activate_sim_long_text">"فعال‌سازی SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"غیرفعال‌سازی SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"فعالسازی SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"غیرفعال‌سازی SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"ویرایش"</string>
+    <string name="scheduler_pin_menu_delete_title">"حذف"</string>
+    <string name="scheduler_add_button_text">"افزودن یک برنامهٔ زمانی"</string>
 </resources>

@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Toca per solucionar el problema"</string>
     <string name="sim_pin_operation_failed">"Ha fallat l'operació del PIN de la SIM"</string>
     <string name="sim_unlock_failed">"La petició de desbloqueig del SIM no ha tingut èxit."</string>
+    <string name="scheduler_name">"Nom de la programació"</string>
+    <string name="scheduler_name_hint">"Nom de la programació"</string>
+    <string name="scheduler_name_description">"Nom de la programació"</string>
+    <string name="scheduler_expand">"Expandir horari"</string>
+    <string name="scheduler_collapse">"Reduir horari"</string>
+    <string name="scheduler_delete">"Suprimeix"</string>
+    <string name="scheduler_action_title">"Acció"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activant SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Desactivant SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Act. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Desact. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Edita"</string>
+    <string name="scheduler_pin_menu_delete_title">"Suprimeix"</string>
+    <string name="scheduler_add_button_text">"Afegeix-hi una programació"</string>
 </resources>

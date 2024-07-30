@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Націсніце, каб выправіць"</string>
     <string name="sim_pin_operation_failed">"Разблакіраваць SIM-карту PIN-кодам не атрымалася!"</string>
     <string name="sim_unlock_failed">"Не атрымалася выканаць запыт на разблакоўку SIM."</string>
+    <string name="scheduler_name">"Назва раскладу"</string>
+    <string name="scheduler_name_hint">"Увядзіце назву раскладу"</string>
+    <string name="scheduler_name_description">"Назва раскладу"</string>
+    <string name="scheduler_expand">"Раскрыць расклад"</string>
+    <string name="scheduler_collapse">"Згарнуць расклад"</string>
+    <string name="scheduler_delete">"Выдаліць"</string>
+    <string name="scheduler_action_title">"Дзеянне"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Актывацыя SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Адключэнне SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Актыв. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Адкл. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Змяніць"</string>
+    <string name="scheduler_pin_menu_delete_title">"Выдаліць"</string>
+    <string name="scheduler_add_button_text">"Дадаць расклад"</string>
 </resources>

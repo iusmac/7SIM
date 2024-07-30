@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Πατήστε για επιδιόρθωση"</string>
     <string name="sim_pin_operation_failed">"Αποτυχία λειτουργίας κωδικού PIN κάρτας SIM!"</string>
     <string name="sim_unlock_failed">"Αποτυχία ξεκλειδώματος SIM."</string>
+    <string name="scheduler_name">"Όνομα προγράμματος"</string>
+    <string name="scheduler_name_hint">"Εισαγωγή ονόματος προγράμματος"</string>
+    <string name="scheduler_name_description">"Όνομα προγράμματος"</string>
+    <string name="scheduler_expand">"Ανάπτυξη προγράμματος"</string>
+    <string name="scheduler_collapse">"Σύμπτυξη προγράμματος"</string>
+    <string name="scheduler_delete">"Διαγραφή"</string>
+    <string name="scheduler_action_title">"Ενέργεια"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Ενεργοποίηση SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Απενεργοποίηση SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Ενεργ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Απενεργ. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Επεξεργασία"</string>
+    <string name="scheduler_pin_menu_delete_title">"Διαγραφή"</string>
+    <string name="scheduler_add_button_text">"Προσθήκη προγράμματος"</string>
 </resources>

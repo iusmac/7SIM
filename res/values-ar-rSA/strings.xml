@@ -47,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"انقر للإصلاح"</string>
     <string name="sim_pin_operation_failed">"تعذّر إتمام عملية \"رقم التعريف الشخصي\" لشريحة SIM"</string>
     <string name="sim_unlock_failed">"فشل طلب إلغاء تأمين SIM."</string>
+    <string name="scheduler_name">"اسم الجدول الزمني"</string>
+    <string name="scheduler_name_hint">"إدخال اسم الجدول الزمني"</string>
+    <string name="scheduler_name_description">"اسم الجدول الزمني"</string>
+    <string name="scheduler_expand">"توسيع الجدول"</string>
+    <string name="scheduler_collapse">"طي الجدول"</string>
+    <string name="scheduler_delete">"حذف"</string>
+    <string name="scheduler_action_title">"إجراء"</string>
+    <string name="scheduler_action_activate_sim_long_text">"تفعيل SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"إلغاء تفعيل SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"تفعيل بطاقة SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"إلغاء تفعيل SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"تعديل"</string>
+    <string name="scheduler_pin_menu_delete_title">"حذف"</string>
+    <string name="scheduler_add_button_text">"إضافة جدولة"</string>
 </resources>
