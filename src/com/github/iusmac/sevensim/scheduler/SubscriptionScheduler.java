@@ -409,7 +409,7 @@ public final class SubscriptionScheduler {
         // We expect the schedules to take precedence over the user's preference when schedules
         // are explicitly mutated by the user
         final boolean overrideUserPreference = true;
-        syncAllSubscriptionsEnabledState(now, overrideUserPreference);
+        syncSubscriptionEnabledState(schedule.getSubscriptionId(), now, overrideUserPreference);
 
         // In order to supply the SIM subscription PIN codes to the active SIM subscriptions found
         // on the device when processing schedules at the stated time, we need to re-schedule using
