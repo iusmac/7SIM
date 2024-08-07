@@ -94,10 +94,9 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
             case Intent.ACTION_TIMEZONE_CHANGED:
             case Intent.ACTION_TIME_CHANGED:
                 // Need to sync the enabled state of all SIM subscriptions available on the device
-                // with their existing weekly repeat schedules on any alteration to the system
-                // time
+                // with their existing weekly repeat schedules on any alteration to the system time
                 ForegroundService.syncAllSubscriptionsEnabledState(context, now,
-                        /*overrideUserPreference=*/ true);
+                        /*overrideUserPreference=*/ false);
 
                 // Need to reschedule the next weekly repeat schedule processing iteration, as it
                 // relies on a RTC-based alarm, which, in turn is independent of any alteration to
