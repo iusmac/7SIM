@@ -158,6 +158,13 @@ public final class SevenSimModule {
         return ContextCompat.getSystemService(context, DevicePolicyManager.class);
     }
 
+    @Named("LockedBootCompleted")
+    @Singleton
+    @Provides
+    static SysProp provideLockedBootCompletedSysProp() {
+        return new SysProp("locked_boot_completed", /*isPersistent=*/ false);
+    }
+
     /** Do not initialize. */
     private SevenSimModule() {}
 }

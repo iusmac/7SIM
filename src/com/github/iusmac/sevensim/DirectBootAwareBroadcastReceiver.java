@@ -10,8 +10,10 @@ import android.telephony.SubscriptionManager;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * <p>This static broadcast receiver is marked as being {@link ComponentInfo#directBootAware}, and
@@ -24,6 +26,10 @@ import javax.inject.Inject;
 public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAwareBroadcastReceiver {
     @Inject
     Logger.Factory mLoggerFactory;
+
+    @Inject
+    @Named("LockedBootCompleted")
+    SysProp mLockedBootCompletedSysProp;
 
     private Logger mLogger;
 
@@ -39,6 +45,8 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
             case Intent.ACTION_LOCKED_BOOT_COMPLETED:
+                mLockedBootCompletedSysProp.set(Optional.of("1"));
+
                 // Need to sync the enabled state of all SIM subscriptions available on the device
                 // with their existing weekly repeat schedules after the device has finished booting
                 ForegroundService.syncAllSubscriptionsEnabledState(context, now,
@@ -52,6 +60,13 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
                 break;
 
             case CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED:
+                // Ignore carrier config changes during early boot to allow all SIM subscriptions to
+                // fully settle up
+                if (!mLockedBootCompletedSysProp.isTrue()) {
+                    mLogger.d("onReceive() : Ignoring early boot carrier config changes.");
+                    break;
+                }
+
                 // Avoid rebroadcast after unlocking the device as we're direct boot aware
                 if (Utils.IS_AT_LEAST_R && intent.getBooleanExtra(CarrierConfigManager
                             .EXTRA_REBROADCAST_ON_UNLOCK, false)) {
