@@ -6,13 +6,16 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import java.io.IOException;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Named;
 import javax.inject.Provider;
 
 public final class Logger {
     private static final String TAG_PREFIX = "7SIM";
+    private static final AtomicBoolean IS_LOGCAT_CHATTY_ENABLED = new AtomicBoolean();
 
     private final boolean mIsDebuggable;
     private final String mTag;
@@ -24,6 +27,17 @@ public final class Logger {
 
         // Prefix all tags with app name to facilitate searching in massive log files
         mTag = TAG_PREFIX + "." + tag;
+
+        // Allow the app to be "chatty" (send >5 logs/sec.) while debugging to avoid log suppression
+        if (mIsDebuggable && IS_LOGCAT_CHATTY_ENABLED.compareAndSet(false, true)) {
+            try {
+                Runtime.getRuntime().exec(new String[] {
+                    "logcat", "-P", "'" + android.os.Process.myPid() + "'"
+                }).waitFor();
+            } catch (InterruptedException | IOException e) {
+                e("Failed to disable app log suppression in logcat.", e);
+            }
+        }
     }
 
     public boolean isVerboseLoggable() { return mIsDebuggable || Log.isLoggable(mTag, Log.VERBOSE); }
