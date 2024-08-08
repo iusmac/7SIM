@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2-beta](https://github.com/iusmac/7SIM/compare/v1.2.1-beta...v1.2.2-beta) (2024-08-08)
+
+
+### :bug: Bug Fixes
+
+* don't force reset user SIM enabled state after system time alter ([5b414e9](https://github.com/iusmac/7SIM/commit/5b414e937399527d443b9a1bf6307d606df8a0e9))
+* ignore carrier config changes during early boot before syncing SIM cards ([75fbe4b](https://github.com/iusmac/7SIM/commit/75fbe4b1a57262a96926830d951362f841586df7))
+
 ## [1.2.1-beta](https://github.com/iusmac/7SIM/compare/v1.2.0-beta...v1.2.1-beta) (2024-06-24)
 
 
