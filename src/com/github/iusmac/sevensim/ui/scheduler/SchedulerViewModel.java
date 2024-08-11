@@ -11,12 +11,10 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
-import androidx.collection.ArraySet;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,60 +39,29 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.function.BiConsumer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public final class SchedulerViewModel extends ViewModel {
-    enum TimeType {
-        START_TIME(LocalTime.of(8, 0)), END_TIME(LocalTime.of(19, 0));
-
-        private LocalTime mTime;
-
-        TimeType(final LocalTime time) {
-            mTime = time;
-        }
-
-        LocalTime getDefaultLocalTime() {
-            return mTime;
-        }
-    }
-
     private final Resources mResources;
     private final Handler mHandler;
     private final IntentReceiver mIntentReceiver = new IntentReceiver();
 
-    private final MutableLiveData<SubscriptionScheduleEntity> mMutableStartSchedule;
-    private final MutableLiveData<SubscriptionScheduleEntity> mMutableEndSchedule;
-
     private final MutableLiveData<CharSequence>
         mMutableNextUpcomingScheduleSummary = new MutableLiveData<>();
 
-    private MediatorLiveData<Boolean> mMediatorSchedulerEnabledState;
-    private MutableLiveData<Boolean> mMutableSchedulerRepeatCycleState;
-
-    private final MutableLiveData<DaysOfWeek> mMutableDaysOfWeek;
-    private MutableLiveData<Set<String>> mMutableDaysOfWeekValues;
-    private LiveData<Map.Entry<String[], String[]>> mObservableAllDaysOfWeekEntryValues;
-    private LiveData<CharSequence> mObservableDayOfWeekSummary;
-
-    private final MutableLiveData<LocalTime> mMutableStartTime;
-    private LiveData<CharSequence> mObservableStartTimeSummary;
-
-    private final MutableLiveData<LocalTime> mMutableEndTime;
-    private LiveData<CharSequence> mObservableEndTimeSummary;
-
     private final MediatorLiveData<Optional<PinEntity>> mMediatorPinEntity =
         new MediatorLiveData<>(Optional.empty());
-    private LiveData<CharSequence> mObservablePinPresenceSummary;
+    private LiveData<Boolean> mObservablePinPresence;
     private final MutableLiveData<Boolean> mMutablePinTaskLock = new MutableLiveData<>(false);
     private LiveData<Optional<PinErrorMessage>> mObseravblePinErrorMessage;
+
+    private final MutableLiveData<Optional<List<SubscriptionScheduleEntity>>> mMutableSchedules =
+        new MutableLiveData<>(Optional.empty());
+
+    private final MutableLiveData<SubscriptionScheduleEntity> mMutableScheduleAddedListener =
+            new MutableLiveData<>();
 
     @SuppressLint("StaticFieldLeak")
     private final Context mContext;
@@ -129,33 +96,12 @@ public final class SchedulerViewModel extends ViewModel {
         mResources = mContext.getResources();
         mHandler = Handler.createAsync(looper);
 
-        mMutableStartSchedule = new MutableLiveData<>(getDefaultSchedule(TimeType.START_TIME));
-        mMutableEndSchedule = new MutableLiveData<>(getDefaultSchedule(TimeType.END_TIME));
-        mMutableDaysOfWeek = new MutableLiveData<>(mDaysOfWeekFactory.create());
-        mMutableStartTime = new MutableLiveData<>(mMutableStartSchedule.getValue().getTime());
-        mMutableEndTime = new MutableLiveData<>(mMutableEndSchedule.getValue().getTime());
         mMediatorPinEntity.addSource(mPinStorage.getObservablePin(mSubscriptionId), (pinEntity) ->
                 mMediatorPinEntity.setValue(pinEntity));
 
         // Fetch data from the database
-        mHandler.post(() -> {
-            int dayOfWeekBits = 0;
-            final List<SubscriptionScheduleEntity> schedules =
-                mSubscriptionScheduler.findAllBySubscriptionId(subscriptionId);
-            for (final SubscriptionScheduleEntity schedule : schedules) {
-                if (schedule.getSubscriptionEnabled()) {
-                    mMutableStartSchedule.postValue(schedule);
-                    mMutableStartTime.postValue(schedule.getTime());
-                } else {
-                    mMutableEndSchedule.postValue(schedule);
-                    mMutableEndTime.postValue(schedule.getTime());
-                }
-                dayOfWeekBits |= schedule.getDaysOfWeek().getBits();
-            }
-            if (dayOfWeekBits != 0) {
-                mMutableDaysOfWeek.postValue(mDaysOfWeekFactory.create(dayOfWeekBits));
-            }
-        });
+        mHandler.post(() -> mMutableSchedules.postValue(Optional.of(mSubscriptionScheduler
+                    .findAllBySubscriptionId(subscriptionId))));
 
         final IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_LOCALE_CHANGED);
@@ -174,146 +120,28 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * @return An observable of the enabled state of this scheduler.
+     * @return An observable containing the list of schedules, if any.
      */
-    LiveData<Boolean> getSchedulerEnabledState() {
-        if (mMediatorSchedulerEnabledState == null) {
-            mMediatorSchedulerEnabledState = new MediatorLiveData<>();
-            mMediatorSchedulerEnabledState.setValue(false);
-            final Observer<SubscriptionScheduleEntity> observer = (schedule) -> {
-                final boolean enabled = mMutableStartSchedule.getValue().getEnabled() &
-                    mMutableEndSchedule.getValue().getEnabled();
-                mMediatorSchedulerEnabledState.postValue(enabled);
-            };
-            mMediatorSchedulerEnabledState.addSource(mMutableStartSchedule, observer);
-            mMediatorSchedulerEnabledState.addSource(mMutableEndSchedule, observer);
-        }
-        return mMediatorSchedulerEnabledState;
+    LiveData<Optional<List<SubscriptionScheduleEntity>>> getSchedules() {
+        return mMutableSchedules;
     }
 
     /**
-     * @return An observable of the weekly repeat cycle state from the {@link DaysOfWeek} instance
-     * of this scheduler.
+     * @return An observable containing the most recently added schedule, if any.
      */
-    LiveData<Boolean> getSchedulerWeeklyRepeatCycleState() {
-        if (mMutableSchedulerRepeatCycleState == null) {
-            mMutableSchedulerRepeatCycleState = new MutableLiveData<>(false);
-            mMutableDaysOfWeek.observeForever((daysOfWeek) -> {
-                final boolean isRepeating = daysOfWeek.isRepeating();
-                mMutableSchedulerRepeatCycleState.postValue(isRepeating);
-            });
-        }
-        return mMutableSchedulerRepeatCycleState;
+    LiveData<SubscriptionScheduleEntity> getScheduleAddedListener() {
+        return mMutableScheduleAddedListener;
     }
 
     /**
-     * @return An observable of the {@link DaysOfWeek} instance of this scheduler converted to a set
-     * of {@link DayOfWeek} values as strings.
+     * @return An observable containing the PIN presence status.
      */
-    LiveData<Set<String>> getDaysOfWeekValues() {
-        if (mMutableDaysOfWeekValues == null) {
-            mMutableDaysOfWeekValues = new MutableLiveData<>(new ArraySet<>(7));
-            mMutableDaysOfWeek.observeForever((daysOfWeek) -> {
-                final Set<String> values = mMutableDaysOfWeekValues.getValue();
-                values.clear();
-                for (final @DayOfWeek int dayOfWeek : daysOfWeek) {
-                    if (daysOfWeek.isBitOn(dayOfWeek)) {
-                        values.add(Integer.toString(dayOfWeek));
-                    }
-                }
-                mMutableDaysOfWeekValues.postValue(values);
-            });
+    LiveData<Boolean> getPinPresence() {
+        if (mObservablePinPresence == null) {
+            mObservablePinPresence = Transformations.map(mMediatorPinEntity, (pinEntity) ->
+                    pinEntity.isPresent());
         }
-        return mMutableDaysOfWeekValues;
-    }
-
-    /**
-     * @return An observable of all days of the week mapped from the {@link DayOfWeek} values in
-     * human-readable format to corresponding numeric values, ordered according to the current
-     * locale.
-     */
-    LiveData<Map.Entry<String[], String[]>> getAllDaysOfWeekEntryMap() {
-        if (mObservableAllDaysOfWeekEntryValues == null) {
-            final String[] daysOfWeekNames = new String[7];
-            final String[] daysOfWeekValues = new String[7];
-            final Map.Entry<String[], String[]> entryMap =
-                new SimpleEntry<>(daysOfWeekNames, daysOfWeekValues);
-            mObservableAllDaysOfWeekEntryValues =
-                Transformations.map(mMutableDaysOfWeek, (daysOfWeek) -> {
-                    int i = 0;
-                    for (final Iterator<Integer> it = daysOfWeek.iterator(); it.hasNext(); i++) {
-                        final @DayOfWeek int dayOfWeek = it.next();
-                        daysOfWeekNames[i] = daysOfWeek.getDisplayName(dayOfWeek,
-                                /*useLongName=*/ true);
-                        daysOfWeekValues[i] = Integer.toString(dayOfWeek);
-                    }
-                    return entryMap;
-                });
-        }
-        return mObservableAllDaysOfWeekEntryValues;
-    }
-
-    /**
-     * @return An observable containing a "pretty" representation of this scheduler's weekly repeat
-     * schedule as a string.
-     */
-    LiveData<CharSequence> getDaysOfWeekSummary() {
-        if (mObservableDayOfWeekSummary == null) {
-            mObservableDayOfWeekSummary = Transformations.map(mMutableDaysOfWeek, (daysOfWeek) -> {
-                if (!daysOfWeek.isRepeating()) {
-                    return mResources.getString(R.string.scheduler_days_of_week_none);
-                } else if (daysOfWeek.isFullWeek()) {
-                    return mResources.getString(R.string.scheduler_days_of_week_all);
-                } else {
-                    final boolean useLongNames = daysOfWeek.getCount() == 1;
-                    return daysOfWeek.toString(useLongNames);
-                }
-            });
-        }
-        return mObservableDayOfWeekSummary;
-    }
-
-    /**
-     * @param which One of {@link TimeType}.
-     * @return An observable of the time of the requested type as {@link LocalTime} instance of this
-     * scheduler.
-     */
-    LiveData<LocalTime> getTime(final TimeType which) {
-        return which == TimeType.START_TIME ? mMutableStartTime : mMutableEndTime;
-    }
-
-    /**
-     * @return An observable containing a "pretty" representation of this scheduler's start time.
-     */
-    LiveData<CharSequence> getStartTimeSummary() {
-        if (mObservableStartTimeSummary == null) {
-            mObservableStartTimeSummary = Transformations.map(mMutableStartTime, (time) ->
-                    DateTimeUtils.getPrettyTime(mContext, time));
-        }
-        return mObservableStartTimeSummary;
-    }
-
-    /**
-     * @return An observable containing a "pretty" representation of this scheduler's end time.
-     */
-    LiveData<CharSequence> getEndTimeSummary() {
-        if (mObservableEndTimeSummary == null) {
-            mObservableEndTimeSummary = Transformations.map(mMutableEndTime, (time) ->
-                    DateTimeUtils.getPrettyTime(mContext, time));
-        }
-        return mObservableEndTimeSummary;
-    }
-
-    /**
-     * @return An observable human-readable status indicating PIN presence.
-     */
-    LiveData<CharSequence> getPinPresenceSummary() {
-        if (mObservablePinPresenceSummary == null) {
-            mObservablePinPresenceSummary = Transformations.map(mMediatorPinEntity, (pinEntity) ->
-                    mResources.getString(pinEntity.isPresent() ? R.string.scheduler_pin_set_summary
-                        : R.string.scheduler_pin_unset_summary));
-        }
-        return mObservablePinPresenceSummary;
+        return mObservablePinPresence;
     }
 
     /**
@@ -349,42 +177,115 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
+     * @param schedule The schedule entity whose enabled state has been changed.
      * @param enabled {@code true} if the scheduler is being enabled, otherwise {@code false}.
      */
-    void handleOnEnabledStateChanged(final boolean enabled) {
-        mLogger.d("handleOnEnabledStateChanged(enabled=%s).", enabled);
+    void handleOnEnabledStateChanged(final @NonNull SubscriptionScheduleEntity schedule,
+            final boolean enabled) {
 
-        mMediatorSchedulerEnabledState.setValue(enabled);
-        persist();
+        mLogger.d("handleOnEnabledStateChanged(schedule=%s,enabled=%s).", schedule, enabled);
+
+        schedule.setEnabled(enabled);
+        persist(schedule);
     }
 
     /**
-     * @param values The set of {@link DayOfWeek} as strings.
+     * @param schedule The schedule entity whose SIM subscription enabled state has been changed.
+     * @param enabled {@code true} if the SIM subscription is being enabled, otherwise {@code false}.
      */
-    void handleOnDaysOfWeekChanged(final @NonNull Set<String> values) {
-        final DaysOfWeek daysOfWeek = mDaysOfWeekFactory.create(values.stream()
-                .mapToInt(Integer::parseInt).toArray());
+    void handleOnSubscriptionEnabledStateChanged(final @NonNull SubscriptionScheduleEntity schedule,
+            final boolean enabled) {
 
-        mLogger.d("handleOnWeekdaysChanged(values={%s}) : daysOfWeek=%s.", String.join(",", values),
-                daysOfWeek);
+        mLogger.d("handleOnSubscriptionEnabledStateChanged(schedule=%s,enabled=%s).", schedule,
+                enabled);
 
-        mMutableDaysOfWeek.setValue(daysOfWeek);
-        persist();
+        schedule.setSubscriptionEnabled(enabled);
+        persist(schedule);
     }
 
     /**
-     * @param which One of {@link TimeType}.
+     * @param schedule The corresponding schedule entity.
+     * @param dayOfWeek The {@link DayOfWeek} that has been affected.
+     * @param enabled Whether the day of week has been enabled or disabled.
+     */
+    void handleOnDayOfWeekChanged(final SubscriptionScheduleEntity schedule,
+            final @DayOfWeek int dayOfWeek, final boolean enabled) {
+
+        final @DayOfWeek List<Integer> daysOfWeekValues = new ArrayList<>(7);
+        for (final @DayOfWeek int dayOfWeek_ : schedule.getDaysOfWeek()) {
+            if (dayOfWeek == dayOfWeek_) {
+                if (enabled) {
+                    daysOfWeekValues.add(dayOfWeek_);
+                }
+            } else if (schedule.getDaysOfWeek().isBitOn(dayOfWeek_)) {
+                daysOfWeekValues.add(dayOfWeek_);
+            }
+        }
+
+        final DaysOfWeek daysOfWeek =
+            mDaysOfWeekFactory.create(daysOfWeekValues.stream().toArray(Integer[]::new));
+
+        mLogger.d("handleOnDayOfWeekChanged(schedule=%s,dayOfWeek=%d,enabled=%s) : daysOfWeek=%s.",
+                schedule, dayOfWeek, enabled, daysOfWeek);
+
+        schedule.setDaysOfWeek(daysOfWeek);
+        persist(schedule);
+    }
+
+    /**
+     * @param schedule The schedule entity whose time has been changed.
      * @param value The time value in form "H:m", where "H", is the hour of day from 0 to 23
      * (inclusive), and "m", is the minute of hour from 0 to 59 (inclusive).
      */
-    void handleOnTimeChanged(final @NonNull TimeType which, final @NonNull String value) {
-        mLogger.d("handleOnTimeChanged(which=%s,time=%s).", which, value);
+    void handleOnTimeChanged(final @NonNull SubscriptionScheduleEntity schedule,
+            final @NonNull String value) {
 
-        final LocalTime time = LocalTime.parse(value, DateTimeFormatter.ofPattern("H:m"));
-        final MutableLiveData<LocalTime> mutableTime =
-            which == TimeType.START_TIME ? mMutableStartTime : mMutableEndTime;
-        mutableTime.setValue(time);
-        persist();
+        mLogger.d("handleOnTimeChanged(schedule=%s,value=%s).", schedule, value);
+
+        schedule.setTime(DateTimeUtils.parseWallClockTime(value));
+        persist(schedule);
+    }
+
+    /**
+     * Add a new schedule for a picked time. Subscribe to {@link #getScheduleAddedListener()} to
+     * know when the schedule has been added.
+     *
+     * @param value The time value in form "H:m", where "H", is the hour of day from 0 to 23
+     * (inclusive), and "m", is the minute of hour from 0 to 59 (inclusive).
+     */
+    void handleOnTimePicked(final @NonNull String value) {
+        mLogger.d("handleOnTimePicked(value=%s).", value);
+
+        final SubscriptionScheduleEntity schedule =
+            createSchedule(DateTimeUtils.parseWallClockTime(value));
+        persist(schedule);
+    }
+
+    /**
+     * @param schedule The schedule entity whose label has been changed.
+     * @param value The label string value.
+     */
+    void handleOnLabelChanged(final @NonNull SubscriptionScheduleEntity schedule,
+            final @NonNull String value) {
+
+        mLogger.d("handleOnLabelChanged(schedule=%s,value=%s).", schedule, value);
+
+        schedule.setLabel(value.trim().isEmpty() ? null : value);
+        persist(schedule);
+    }
+
+    /**
+     * @param schedule The schedule entity that has been deleted.
+     */
+    void handleOnDeleted(final @NonNull SubscriptionScheduleEntity schedule) {
+        mLogger.d("handleOnDeleted(schedule=%s).", schedule);
+
+        mMutableSchedules.getValue().ifPresent((schedules) -> schedules.remove(schedule));
+        // While we're at it, wipe out the added schedule, as it could be the schedule we just
+        // removed and we don't want it to appear again
+        mMutableScheduleAddedListener.setValue(null);
+        mHandler.post(() -> mSubscriptionScheduler.delete(schedule));
+        refreshNextUpcomingScheduleSummaryAsync();
     }
 
     /**
@@ -443,48 +344,13 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * Entirely purge the scheduler and all relative data.
+     * Remove the SIM PIN code, if present.
      */
-    void removeScheduler() {
-        mLogger.d("removeScheduler().");
-
-        final List<SubscriptionScheduleEntity> schedulesToRemove = new ArrayList<>(2);
-
-        mMediatorSchedulerEnabledState.setValue(false);
-        mMutableDaysOfWeek.setValue(mDaysOfWeekFactory.create());
-
-        if (mMutableStartSchedule.getValue().getId() > 0L) {
-            final SubscriptionScheduleEntity defaultSchedule =
-                getDefaultSchedule(TimeType.START_TIME);
-            mMutableStartTime.setValue(defaultSchedule.getTime());
-            schedulesToRemove.add(mMutableStartSchedule.getValue());
-            mMutableStartSchedule.setValue(defaultSchedule);
-        }
-
-        if (mMutableEndSchedule.getValue().getId() > 0L) {
-            final SubscriptionScheduleEntity defaultSchedule =
-                getDefaultSchedule(TimeType.END_TIME);
-            mMutableEndTime.setValue(defaultSchedule.getTime());
-            schedulesToRemove.add(mMutableEndSchedule.getValue());
-            mMutableEndSchedule.setValue(defaultSchedule);
-        }
+    void removePin() {
+        mLogger.d("removePin().");
 
         mMediatorPinEntity.getValue().ifPresent((pin) -> mHandler.post(() ->
                     mPinStorage.deletePin(pin)));
-
-        if (!schedulesToRemove.isEmpty()) {
-            mHandler.post(() -> mSubscriptionScheduler.deleteAll(schedulesToRemove));
-        }
-
-        refreshNextUpcomingScheduleSummaryAsync();
-    }
-
-    /**
-     * @return {@code true} if the scheduler exists, otherwise {@code false}.
-     */
-    boolean schedulerExists() {
-        return mMutableStartSchedule.getValue().getId() > 0L ||
-            mMutableEndSchedule.getValue().getId() > 0L;
     }
 
     /**
@@ -503,47 +369,31 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * Create a valid {@link SubscriptionScheduleEntity} instance with default values.
+     * Create a valid {@link SubscriptionScheduleEntity} instance representing the given time.
      *
-     * @param which One of {@link TimeType} to determine what type of schedule to create.
-     * @return The requested schedule entity instance.
+     * @param time Time as seen on a wall clock.
+     * @return The schedule entity instance.
      */
-    private SubscriptionScheduleEntity getDefaultSchedule(final TimeType which) {
+    private SubscriptionScheduleEntity createSchedule(final LocalTime time) {
         final SubscriptionScheduleEntity schedule = new SubscriptionScheduleEntity();
         schedule.setSubscriptionId(mSubscriptionId);
-        schedule.setSubscriptionEnabled(which == TimeType.START_TIME);
         schedule.setDaysOfWeek(mDaysOfWeekFactory.create());
-        schedule.setTime(which.getDefaultLocalTime());
+        schedule.setTime(time);
         return schedule;
     }
 
     /**
-     * Persist scheduler changes to the database.
+     * Add a new or persist the changes for an existing schedule to the database.
      */
-    private void persist() {
-        final List<SubscriptionScheduleEntity> inexistentSchedules = new ArrayList<>();
-        final List<SubscriptionScheduleEntity> existentSchedules = new ArrayList<>();
-
-        final BiConsumer<SubscriptionScheduleEntity, LocalTime> process = (outSchedule, time) -> {
-            outSchedule.setEnabled(mMediatorSchedulerEnabledState.getValue());
-            outSchedule.setDaysOfWeek(mMutableDaysOfWeek.getValue());
-            outSchedule.setTime(time);
-            final boolean scheduleExists = outSchedule.getId() > 0L;
-            if (!scheduleExists) {
-                inexistentSchedules.add(outSchedule);
-            } else {
-                existentSchedules.add(outSchedule);
-            }
-        };
-
-        process.accept(mMutableStartSchedule.getValue(), mMutableStartTime.getValue());
-        process.accept(mMutableEndSchedule.getValue(), mMutableEndTime.getValue());
-
-        if (!inexistentSchedules.isEmpty()) {
-            mHandler.post(() -> mSubscriptionScheduler.addAll(inexistentSchedules));
-        }
-        if (!existentSchedules.isEmpty()) {
-            mHandler.post(() -> mSubscriptionScheduler.updateAll(existentSchedules));
+    private void persist(final SubscriptionScheduleEntity schedule) {
+        if (schedule.getId() > 0L) {
+            mHandler.post(() -> mSubscriptionScheduler.update(schedule));
+        } else {
+            mHandler.post(() -> {
+                mSubscriptionScheduler.add(schedule);
+                mMutableSchedules.getValue().ifPresent((schedules) -> schedules.add(schedule));
+                mMutableScheduleAddedListener.postValue(schedule);
+            });
         }
         refreshNextUpcomingScheduleSummaryAsync();
     }
@@ -580,9 +430,6 @@ public final class SchedulerViewModel extends ViewModel {
                 case Intent.ACTION_LOCALE_CHANGED:
                     // Re-post existing values to trigger the chain of listeners, which will
                     // regenerate locale-sensitive data
-                    mMutableDaysOfWeek.postValue(mMutableDaysOfWeek.getValue());
-                    mMutableStartTime.postValue(mMutableStartTime.getValue());
-                    mMutableEndTime.postValue(mMutableEndTime.getValue());
                     mMediatorPinEntity.postValue(mMediatorPinEntity.getValue());
                     // Refresh the next upcoming schedule summary locale-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
@@ -590,10 +437,6 @@ public final class SchedulerViewModel extends ViewModel {
 
                 case Intent.ACTION_TIMEZONE_CHANGED:
                 case Intent.ACTION_TIME_CHANGED:
-                    // Re-post existing values to trigger the chain of listeners, which will
-                    // regenerate time-sensitive data
-                    mMutableStartTime.postValue(mMutableStartTime.getValue());
-                    mMutableEndTime.postValue(mMutableEndTime.getValue());
                     // Refresh the next upcoming schedule summary time-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
             }

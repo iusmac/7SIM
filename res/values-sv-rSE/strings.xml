@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Arbetar i bakgrunden…"</string>
     <string name="foreground_notification_channel_name">"Bakgrundsuppgifter"</string>
     <string name="foreground_notification_channel_description">"Android kräver att ett pågående meddelande visas medan appen är aktiv i bakgrunden. Du kan säkert gömma den här kanalen."</string>
-    <string name="scheduler_toolbar_reset">"Återställ"</string>
-    <string name="scheduler_reset_dialog_message">"Denna åtgärd kan inte ångras.\n\nVill du fortsätta?"</string>
-    <string name="scheduler_switch_use_title">"Använd schema"</string>
-    <string name="scheduler_days_of_week_title">"Dagar"</string>
-    <string name="scheduler_days_of_week_none">"Inga"</string>
+    <string name="scheduler_delete_message">"Denna åtgärd kan inte ångras. Vill du fortsätta?"</string>
+    <string name="scheduler_days_of_week_none">"Aldrig"</string>
     <string name="scheduler_days_of_week_all">"Varje dag"</string>
-    <string name="scheduler_start_time_title">"Starttid"</string>
-    <string name="scheduler_end_time_title">"Sluttid"</string>
     <string name="scheduler_start_time_custom_summary">"Aktiveras automatiskt <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Inaktiveras automatiskt <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Aktiveras <b>aldrig</b> automatiskt"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Viktig avisering"</string>
     <string name="foreground_notification_paused_in_background_title">"Pausad i bakgrunden"</string>
     <string name="foreground_notification_call_in_progress_text">"Samtal pågår…"</string>
-    <string name="preference_not_set">"Inte angett"</string>
     <string name="scheduler_pin_title">"PIN-kod för SIM-kort"</string>
-    <string name="scheduler_pin_set_summary">"PIN-koden angavs"</string>
-    <string name="scheduler_pin_unset_summary">"Ange pinkod för SIM-kortet"</string>
     <string name="scheduler_pin_invalid_hint">"Ange en pinkod med fyra till åtta siffror."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Det gick inte att dekryptera SIM-PIN-koden. Ange SIM-PIN-koden igen för att åtgärda problemet."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Du angav fel pinkod för SIM-kortet. Ange rätt PIN-kod igen."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tryck och åtgärda"</string>
     <string name="sim_pin_operation_failed">"Det gick inte att låsa upp med pinkoden för SIM-kortet."</string>
     <string name="sim_unlock_failed">"Begäran om SIM-upplåsning misslyckades."</string>
+    <string name="scheduler_name">"Schemanamn"</string>
+    <string name="scheduler_name_hint">"Ange schemats namn"</string>
+    <string name="scheduler_name_description">"Schemanamn"</string>
+    <string name="scheduler_expand">"Expandera schema"</string>
+    <string name="scheduler_collapse">"Dölj schema"</string>
+    <string name="scheduler_delete">"Radera"</string>
+    <string name="scheduler_action_title">"Åtgärd"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktiverar SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Avaktiverar SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Avakt. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Redigera"</string>
+    <string name="scheduler_pin_menu_delete_title">"Radera"</string>
+    <string name="scheduler_add_button_text">"Lägg till ett schema"</string>
 </resources>

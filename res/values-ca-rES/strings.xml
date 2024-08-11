@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Es treballa en segon pla…"</string>
     <string name="foreground_notification_channel_name">"Tasques en segon pla"</string>
     <string name="foreground_notification_channel_description">"L'Android requereix mostrar una notificació en curs mentre l’aplicació estigui activa en segon pla. Pots ocultar aquest canal amb seguretat."</string>
-    <string name="scheduler_toolbar_reset">"Restableix"</string>
-    <string name="scheduler_reset_dialog_message">"Aquesta operació no es pot desfer.\n\nVoleu continuar?"</string>
-    <string name="scheduler_switch_use_title">"Utilitza la programació"</string>
-    <string name="scheduler_days_of_week_title">"Dies"</string>
-    <string name="scheduler_days_of_week_none">"Cap"</string>
+    <string name="scheduler_delete_message">"Aquesta operació no es pot desfer. Voleu continuar?"</string>
+    <string name="scheduler_days_of_week_none">"Mai"</string>
     <string name="scheduler_days_of_week_all">"Cada dia"</string>
-    <string name="scheduler_start_time_title">"Hora d’inici"</string>
-    <string name="scheduler_end_time_title">"Hora de finalització"</string>
     <string name="scheduler_start_time_custom_summary">"S'activarà automàticament <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Es desactivarà automàticament <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"No s'activarà <b>mai</b> automàticament"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Molt important"</string>
     <string name="foreground_notification_paused_in_background_title">"Posada en pausa de fons"</string>
     <string name="foreground_notification_call_in_progress_text">"Trucada en curs…"</string>
-    <string name="preference_not_set">"No definit"</string>
     <string name="scheduler_pin_title">"PIN de la SIM"</string>
-    <string name="scheduler_pin_set_summary">"S'ha definit el PIN"</string>
-    <string name="scheduler_pin_unset_summary">"Introdueix el PIN de la SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Escriu un PIN que tingui entre 4 i 8 números."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"No s'ha pogut desxifrar el codi PIN de la SIM. Torna a introduir el codi PIN de la SIM per solucionar-ho."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"El codi PIN de la SIM no és correcte. Torna a introduir el codi PIN correcte."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Toca per solucionar el problema"</string>
     <string name="sim_pin_operation_failed">"Ha fallat l'operació del PIN de la SIM"</string>
     <string name="sim_unlock_failed">"La petició de desbloqueig del SIM no ha tingut èxit."</string>
+    <string name="scheduler_name">"Nom de la programació"</string>
+    <string name="scheduler_name_hint">"Nom de la programació"</string>
+    <string name="scheduler_name_description">"Nom de la programació"</string>
+    <string name="scheduler_expand">"Expandir horari"</string>
+    <string name="scheduler_collapse">"Reduir horari"</string>
+    <string name="scheduler_delete">"Suprimeix"</string>
+    <string name="scheduler_action_title">"Acció"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activant SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Desactivant SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Act. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Desact. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Edita"</string>
+    <string name="scheduler_pin_menu_delete_title">"Suprimeix"</string>
+    <string name="scheduler_add_button_text">"Afegeix-hi una programació"</string>
 </resources>

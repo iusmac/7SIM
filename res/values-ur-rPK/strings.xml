@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"پس منظر میں کام ہو رہا ہے"</string>
     <string name="foreground_notification_channel_name">"پس منظر کے کام"</string>
     <string name="foreground_notification_channel_description">"اینڈرائیڈ خود کو پس منظر میں چالو ہونے کے دوران ایک جاری ہونے والی اطلاعات کی نمائش کی ضرورت ہے۔ آپ اس چینل کو بے خطری سے چھپا سکتے ہیں۔"</string>
-    <string name="scheduler_toolbar_reset">"ری سیٹ کریں"</string>
-    <string name="scheduler_reset_dialog_message">"یہ عمل واپس نہیں کیا جا سکتا ہے۔\n\nکیا آپ جاری رکھنا چاہیں گے؟"</string>
-    <string name="scheduler_switch_use_title">"شیڈول استعمال کریں"</string>
-    <string name="scheduler_days_of_week_title">"دن"</string>
-    <string name="scheduler_days_of_week_none">"کوئی نہیں"</string>
+    <string name="scheduler_delete_message">"یہ عمل واپس نہیں کیا جا سکتا ہے۔ کیا آپ جاری رکھنا چاہیں گے؟"</string>
+    <string name="scheduler_days_of_week_none">"کبھی نہیں"</string>
     <string name="scheduler_days_of_week_all">"روزانہ"</string>
-    <string name="scheduler_start_time_title">"وقت آغاز"</string>
-    <string name="scheduler_end_time_title">"وقت اختتام"</string>
     <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> خودکار طور پر آن ہو جائے گا"</string>
     <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> خودکار طور پر آف ہو جائے گا"</string>
     <string name="scheduler_start_time_none_summary">"<b>کبھی بھی</b> خودکار طور پر آن نہیں ہو گی"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"زیادہ اہمیت"</string>
     <string name="foreground_notification_paused_in_background_title">"پس منظر میں موقوف ہوگیا"</string>
     <string name="foreground_notification_call_in_progress_text">"کال کی جا رہی ہے…"</string>
-    <string name="preference_not_set">"سیٹ نہیں ہے"</string>
     <string name="scheduler_pin_title">"SIM PIN"</string>
-    <string name="scheduler_pin_set_summary">"‏PIN سیٹ کر دیا گیا ہے"</string>
-    <string name="scheduler_pin_unset_summary">"‏SIM PIN درج کریں"</string>
     <string name="scheduler_pin_invalid_hint">"‏ایسا PIN ٹائپ کریں جو 4 تا 8 اعداد پر مشتمل ہو۔"</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM پن کوڈ کو ڈیکرپٹ نہیں کیا جا سکا۔ مسئلہ درست کرنے کے لئے دوبارہ SIM پن کوڈ درج کریں۔"</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM کا غلط PIN کوڈ۔‏صحیح PIN کوڈ دوبارہ درج کریں۔"</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"درست کرنے کیلئے تھپتھپائیں"</string>
     <string name="sim_pin_operation_failed">"‏SIM PIN کی کارروائی ناکام ہوگئی!"</string>
     <string name="sim_unlock_failed">"سِم اَن لاک کی درخواست ناکام ہوگئی!"</string>
+    <string name="scheduler_name">"شیڈول کا نام"</string>
+    <string name="scheduler_name_hint">"شیڈول کا نام درج کریں"</string>
+    <string name="scheduler_name_description">"شیڈول کا نام"</string>
+    <string name="scheduler_expand">"شیڈول کو پھیلائیں"</string>
+    <string name="scheduler_collapse">"شیڈول کو سمیٹیں"</string>
+    <string name="scheduler_delete">"حذف کریں"</string>
+    <string name="scheduler_action_title">"عمل"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM کو فعال"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM غیر فعال"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM فعال"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM غیر فعال"</string>
+    <string name="scheduler_pin_menu_edit_title">"ترمیم کریں"</string>
+    <string name="scheduler_pin_menu_delete_title">"حذف کریں"</string>
+    <string name="scheduler_add_button_text">"شیڈول شامل کریں"</string>
 </resources>

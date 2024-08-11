@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Praca w tle…"</string>
     <string name="foreground_notification_channel_name">"Zadania w tle"</string>
     <string name="foreground_notification_channel_description">"Android wymaga wyświetlania ciągłego, gdy aplikacja jest aktywna w tle. Możesz bezpiecznie ukryć ten kanał."</string>
-    <string name="scheduler_toolbar_reset">"Resetuj"</string>
-    <string name="scheduler_reset_dialog_message">"Ta operacja nie może zostać cofnięta.\n\nCzy chcesz kontynuować?"</string>
-    <string name="scheduler_switch_use_title">"Używaj harmonogramu"</string>
-    <string name="scheduler_days_of_week_title">"Dni"</string>
-    <string name="scheduler_days_of_week_none">"Brak"</string>
+    <string name="scheduler_delete_message">"Ta operacja nie może zostać cofnięta. Czy chcesz kontynuować?"</string>
+    <string name="scheduler_days_of_week_none">"Nigdy"</string>
     <string name="scheduler_days_of_week_all">"Codziennie"</string>
-    <string name="scheduler_start_time_title">"Godzina rozpoczęcia"</string>
-    <string name="scheduler_end_time_title">"Godzina zakończenia"</string>
     <string name="scheduler_start_time_custom_summary">"Włączy się automatycznie <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Wyłączy się automatycznie <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Nigdy</b> nie włączy się automatycznie"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Bardzo ważne"</string>
     <string name="foreground_notification_paused_in_background_title">"Wstrzymane w tle"</string>
     <string name="foreground_notification_call_in_progress_text">"Połączenie w toku…"</string>
-    <string name="preference_not_set">"Nie ustawiono"</string>
     <string name="scheduler_pin_title">"Kod PIN do karty SIM"</string>
-    <string name="scheduler_pin_set_summary">"Kod PIN został ustawiony"</string>
-    <string name="scheduler_pin_unset_summary">"Wpisz kod PIN karty SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Wpisz kod PIN o długości od 4 do 8 cyfr."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nie udało się odszyfrować kodu PIN karty SIM. Wprowadź ponownie kod PIN karty SIM, aby naprawić problem."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Nieprawidłowy kod PIN karty SIM. Ponownie podaj poprawny kod PIN."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Kliknij, by naprawić"</string>
     <string name="sim_pin_operation_failed">"Operacja z kodem PIN karty SIM nie udała się."</string>
     <string name="sim_unlock_failed">"Żądanie odblokowania karty SIM zakończone niepowodzeniem."</string>
+    <string name="scheduler_name">"Nazwa harmonogramu"</string>
+    <string name="scheduler_name_hint">"Wpisz nazwę harmonogramu"</string>
+    <string name="scheduler_name_description">"Nazwa harmonogramu"</string>
+    <string name="scheduler_expand">"Rozwiń harmonogram"</string>
+    <string name="scheduler_collapse">"Zwiń harmonogram"</string>
+    <string name="scheduler_delete">"Usuń"</string>
+    <string name="scheduler_action_title">"Akcja"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktywacja SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Dezaktywacja SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Akt. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Dezakt. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Edytuj"</string>
+    <string name="scheduler_pin_menu_delete_title">"Usuń"</string>
+    <string name="scheduler_add_button_text">"Dodaj harmonogram"</string>
 </resources>

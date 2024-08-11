@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Pərdə arxası iş gedir…"</string>
     <string name="foreground_notification_channel_name">"Arxaplan tapşırıqları"</string>
     <string name="foreground_notification_channel_description">"Android tətbiq arxa fonunda aktivdir zaman davam edən bir bildiri göstərməyi tələb edir. Bu kanalı rahatlıqla gizlədə bilərsiniz."</string>
-    <string name="scheduler_toolbar_reset">"Sıfırlayın"</string>
-    <string name="scheduler_reset_dialog_message">"Bu əməliyyatın geri dönüşü yoxdur.\n\nDavam etmək istərsinizmi?"</string>
-    <string name="scheduler_switch_use_title">"Rejim istifadə edin"</string>
-    <string name="scheduler_days_of_week_title">"Günlər"</string>
-    <string name="scheduler_days_of_week_none">"Heç biri"</string>
+    <string name="scheduler_delete_message">"Bu əməliyyatın geri dönüşü yoxdur. Davam etmək istərsinizmi?"</string>
+    <string name="scheduler_days_of_week_none">"Heç vaxt"</string>
     <string name="scheduler_days_of_week_all">"Hər gün"</string>
-    <string name="scheduler_start_time_title">"Başlama vaxtı"</string>
-    <string name="scheduler_end_time_title">"Bitmə tarixi"</string>
     <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> avtomatik aktiv edəcək"</string>
     <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> avtomatik deaktiv edəcək"</string>
     <string name="scheduler_start_time_none_summary">"<b>Heç vaxt</b> avtomatik aktivləşməyəcək"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Çox əhəmiyyətli"</string>
     <string name="foreground_notification_paused_in_background_title">"Arxa fonda dayandırıldı"</string>
     <string name="foreground_notification_call_in_progress_text">"Zəng davam edir…"</string>
-    <string name="preference_not_set">"Ayarlanmayıb"</string>
     <string name="scheduler_pin_title">"SIM PIN"</string>
-    <string name="scheduler_pin_set_summary">"PIN ayarlandı"</string>
-    <string name="scheduler_pin_unset_summary">"SIM PIN'ni daxil edin"</string>
     <string name="scheduler_pin_invalid_hint">"4–8 rəqəmli PIN daxil edin."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN kodunu deşifrə etmək mümkün olmadı. Problemi həll etmək üçün SIM PIN kodunu yenidən daxil edin."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Yanlış SIM PIN kodu. Düzgün PIN kodu yenidən daxil edin."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Həll etmək üçün klikləyin"</string>
     <string name="sim_pin_operation_failed">"SIM PIN əməliyyatı alınmadı!"</string>
     <string name="sim_unlock_failed">"SIM kilid açma sorğusu uğursuz oldu."</string>
+    <string name="scheduler_name">"Cədvəlin adı"</string>
+    <string name="scheduler_name_hint">"Adlandırın"</string>
+    <string name="scheduler_name_description">"Cədvəlin adı"</string>
+    <string name="scheduler_expand">"Cədvəli genişləndir"</string>
+    <string name="scheduler_collapse">"Cədvəli yığ"</string>
+    <string name="scheduler_delete">"Silin"</string>
+    <string name="scheduler_action_title">"Hərəkət"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM aktivləşdirmə"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM söndürmə"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM aktiv." "</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM söndür."</string>
+    <string name="scheduler_pin_menu_edit_title">"Redaktə edin"</string>
+    <string name="scheduler_pin_menu_delete_title">"Silin"</string>
+    <string name="scheduler_add_button_text">"Bir cədvəl əlavə et"</string>
 </resources>

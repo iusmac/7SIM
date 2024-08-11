@@ -28,10 +28,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -90,30 +88,30 @@ public final class SubscriptionScheduler {
     }
 
     /**
-     * Add a list of new SIM subscription weekly repeat schedules.
+     * Add a new SIM subscription weekly repeat schedule.
      *
-     * @param schedules The schedule entities to add.
+     * @param schedule The schedule entity to add.
      */
-    public void addAll(final @NonNull List<SubscriptionScheduleEntity> schedules) {
-        doSchedulesDatabaseRequest(schedules, ScheduleDatabaseOperationType.ADD);
+    public void add(final @NonNull SubscriptionScheduleEntity schedule) {
+        doScheduleDatabaseRequest(schedule, ScheduleDatabaseOperationType.ADD);
     }
 
     /**
-     * Update a list of existing SIM subscription weekly repeat schedules.
+     * Update an existing SIM subscription weekly repeat schedule.
      *
-     * @param schedules The schedule entities to update.
+     * @param schedule The schedule entity to update.
      */
-    public void updateAll(final @NonNull List<SubscriptionScheduleEntity> schedules) {
-        doSchedulesDatabaseRequest(schedules, ScheduleDatabaseOperationType.UPDATE);
+    public void update(final @NonNull SubscriptionScheduleEntity schedule) {
+        doScheduleDatabaseRequest(schedule, ScheduleDatabaseOperationType.UPDATE);
     }
 
     /**
-     * Delete a list of SIM subscription weekly repeat schedules.
+     * Delete a SIM subscription weekly repeat schedule.
      *
-     * @param schedules The schedule entities to delete.
+     * @param schedule The schedule entity to delete.
      */
-    public void deleteAll(final @NonNull List<SubscriptionScheduleEntity> schedules) {
-        doSchedulesDatabaseRequest(schedules, ScheduleDatabaseOperationType.DELETE);
+    public void delete(final @NonNull SubscriptionScheduleEntity schedule) {
+        doScheduleDatabaseRequest(schedule, ScheduleDatabaseOperationType.DELETE);
     }
 
     /**
@@ -380,40 +378,38 @@ public final class SubscriptionScheduler {
     }
 
     /**
-     * Perform a database operation on a list of schedule entities.
+     * Perform a database operation on a schedule entity.
      *
-     * @param schedules The list of schedule entities.
-     * @param opType The operation name that is performed on the provided schedule entities.
+     * @param schedule The schedule entity to persist.
+     * @param opType The operation name that is performed on the provided schedule entity.
      */
-    private void doSchedulesDatabaseRequest(final List<SubscriptionScheduleEntity> schedules,
+    private void doScheduleDatabaseRequest(final SubscriptionScheduleEntity schedule,
             final ScheduleDatabaseOperationType opType) {
 
         switch (opType) {
             case ADD:
-                final List<Long> ids = mSubscriptionSchedulesDao.insertAll(schedules);
-                final Iterator<SubscriptionScheduleEntity> schedulesIter = schedules.iterator();
-                ids.forEach((id) -> schedulesIter.next().setId(id));
+                final long id = mSubscriptionSchedulesDao.insert(schedule);
+                schedule.setId(id);
                 break;
 
             case UPDATE:
-                mSubscriptionSchedulesDao.updateAll(schedules);
+                mSubscriptionSchedulesDao.update(schedule);
                 break;
 
             case DELETE:
-                mSubscriptionSchedulesDao.deleteAll(schedules);
+                mSubscriptionSchedulesDao.delete(schedule);
                 break;
 
             default: throw new RuntimeException("Unhandled operation type: " + opType);
         }
 
-        mLogger.d("doSchedulesDatabaseRequest(schedules=[%s],opType=%s).",
-                schedules.stream().map(Object::toString).collect(Collectors.joining(",")), opType);
+        mLogger.d("doScheduleDatabaseRequest(schedule=%s,opType=%s).", schedule, opType);
 
         final LocalDateTime now = LocalDateTime.now();
         // We expect the schedules to take precedence over the user's preference when schedules
         // are explicitly mutated by the user
         final boolean overrideUserPreference = true;
-        syncAllSubscriptionsEnabledState(now, overrideUserPreference);
+        syncSubscriptionEnabledState(schedule.getSubscriptionId(), now, overrideUserPreference);
 
         // In order to supply the SIM subscription PIN codes to the active SIM subscriptions found
         // on the device when processing schedules at the stated time, we need to re-schedule using

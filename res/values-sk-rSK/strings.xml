@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Práca na pozadí…"</string>
     <string name="foreground_notification_channel_name">"Úlohy na pozadí"</string>
     <string name="foreground_notification_channel_description">"Android vyžaduje zobrazenie priebežného oznámenia, keď je aplikácia aktívna na pozadí. Tento kanál môžete pokojne skryť."</string>
-    <string name="scheduler_toolbar_reset">"Resetovať"</string>
-    <string name="scheduler_reset_dialog_message">"Túto operáciu nemožno vrátiť späť.\n\nChcete pokračovať?"</string>
-    <string name="scheduler_switch_use_title">"Použiť plán"</string>
-    <string name="scheduler_days_of_week_title">"Dni"</string>
-    <string name="scheduler_days_of_week_none">"Žiadne"</string>
+    <string name="scheduler_delete_message">"Túto operáciu nemožno vrátiť späť. Chcete pokračovať?"</string>
+    <string name="scheduler_days_of_week_none">"Nikdy"</string>
     <string name="scheduler_days_of_week_all">"každý deň"</string>
-    <string name="scheduler_start_time_title">"Čas začatia"</string>
-    <string name="scheduler_end_time_title">"Čas ukončenia"</string>
     <string name="scheduler_start_time_custom_summary">"Zapne sa automaticky <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Vypne sa automaticky <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Nikdy</b> sa automaticky nezapne"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Vysoká dôležitosť"</string>
     <string name="foreground_notification_paused_in_background_title">"Pozastavené na pozadí"</string>
     <string name="foreground_notification_call_in_progress_text">"Prebieha hovor…"</string>
-    <string name="preference_not_set">"Nenastavené"</string>
     <string name="scheduler_pin_title">"Kód PIN SIM karty"</string>
-    <string name="scheduler_pin_set_summary">"Bol nastavený kód PIN"</string>
-    <string name="scheduler_pin_unset_summary">"Zadajte PIN pre SIM kartu"</string>
     <string name="scheduler_pin_invalid_hint">"Zadajte kód PIN s dĺžkou 4 až 8 číslic."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Nepodarilo sa dešifrovať PIN kód SIM karty. Zadajte znova PIN kód SIM karty, aby sa problém vyriešil."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Nesprávny kód PIN SIM karty. Znova zadajte správny kód PIN."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Problém odstránite klepnutím"</string>
     <string name="sim_pin_operation_failed">"Operácia kódu PIN SIM karty zlyhala!"</string>
     <string name="sim_unlock_failed">"Požiadavka na odomknutie SIM bola neúspešná."</string>
+    <string name="scheduler_name">"Názov plánu"</string>
+    <string name="scheduler_name_hint">"Zadajte názov plánu"</string>
+    <string name="scheduler_name_description">"Názov plánu"</string>
+    <string name="scheduler_expand">"Rozbaliť plán"</string>
+    <string name="scheduler_collapse">"Zbaliť plán"</string>
+    <string name="scheduler_delete">"Odstrániť"</string>
+    <string name="scheduler_action_title">"Akcia"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktivácia SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Deaktivácia SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deaktiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Upraviť"</string>
+    <string name="scheduler_pin_menu_delete_title">"Odstrániť"</string>
+    <string name="scheduler_add_button_text">"Pridajte rozvrh"</string>
 </resources>

@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Đang xử lí duới nền…"</string>
     <string name="foreground_notification_channel_name">"Tác vụ chạy nền"</string>
     <string name="foreground_notification_channel_description">"Android yêu cầu hiển thị thông báo liên tục trong khi ứng dụng đang hoạt động ở chế độ nền. Bạn có thể ẩn kênh này an toàn."</string>
-    <string name="scheduler_toolbar_reset">"Đặt lại"</string>
-    <string name="scheduler_reset_dialog_message">"Thao tác này không thể hoàn tác.\n\nTiếp tục đặt lại tất cả các thiết lập về giá trị mặc định?"</string>
-    <string name="scheduler_switch_use_title">"Sử dụng lịch biểu"</string>
-    <string name="scheduler_days_of_week_title">"Ngày"</string>
-    <string name="scheduler_days_of_week_none">"Không có"</string>
+    <string name="scheduler_delete_message">"Thao tác này không thể hoàn tác. Tiếp tục đặt lại tất cả các thiết lập về giá trị mặc định?"</string>
+    <string name="scheduler_days_of_week_none">"Không bao giờ"</string>
     <string name="scheduler_days_of_week_all">"Hàng ngày"</string>
-    <string name="scheduler_start_time_title">"Thời gian bắt đầu"</string>
-    <string name="scheduler_end_time_title">"Thời gian kết thúc"</string>
     <string name="scheduler_start_time_custom_summary">"Sẽ tự động bật <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Sẽ tự động tắt <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Sẽ không <b>bao giờ</b> tự động bật"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Tầm quan trọng cao"</string>
     <string name="foreground_notification_paused_in_background_title">"Đã tạm dừng trong nền"</string>
     <string name="foreground_notification_call_in_progress_text">"Cuộc gọi đang diễn ra…"</string>
-    <string name="preference_not_set">"Chưa đặt"</string>
     <string name="scheduler_pin_title">"Mã PIN của SIM"</string>
-    <string name="scheduler_pin_set_summary">"Mã PIN đã được đặt"</string>
-    <string name="scheduler_pin_unset_summary">"Nhập mã PIN của SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Nhập mã PIN có từ 4 đến 8 số."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Không thể giải mã mã PIN của SIM. Nhập lại mã PIN của SIM để sửa chữa vấn đề."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Mã PIN của SIM không chính xác. Hãy nhập lại mã PIN chính xác."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Hãy nhấn để sửa"</string>
     <string name="sim_pin_operation_failed">"Thao tác mã PIN của SIM không thành công!"</string>
     <string name="sim_unlock_failed">"Yêu cầu mở khóa SIM không thành công."</string>
+    <string name="scheduler_name">"Tên lịch biểu"</string>
+    <string name="scheduler_name_hint">"Nhập tên lịch biểu"</string>
+    <string name="scheduler_name_description">"Tên lịch biểu"</string>
+    <string name="scheduler_expand">"Mở rộng lịch trình"</string>
+    <string name="scheduler_collapse">"Thu gọn lịch trình"</string>
+    <string name="scheduler_delete">"Xóa"</string>
+    <string name="scheduler_action_title">"Tác vụ"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Kích hoạt SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Hủy SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Kích hoạt SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Hủy kích hoạt SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Chỉnh sửa"</string>
+    <string name="scheduler_pin_menu_delete_title">"Xóa"</string>
+    <string name="scheduler_add_button_text">"Thêm lịch trình"</string>
 </resources>

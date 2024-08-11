@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/scheduler_empty_view_blank_header_height"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/body"
+        android:layout_width="148dp"
+        android:layout_height="148dp"
+        android:contentDescription="@string/scheduler_no_schedule_summary" 
+        android:alpha="0.1"
+        android:src="@drawable/ic_no_schedules_48dp" />
+</LinearLayout>

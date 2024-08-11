@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"バックグラウンドで処理しています…"</string>
     <string name="foreground_notification_channel_name">"バックグラウンドタスク"</string>
     <string name="foreground_notification_channel_description">"Android では、アプリがバックグラウンドで動作している間、継続して通知を表示する必要があります。このチャンネルは非表示にしても問題ありません。"</string>
-    <string name="scheduler_toolbar_reset">"リセット"</string>
-    <string name="scheduler_reset_dialog_message">この操作は元に戻せません。\n\n続行しますか？"</string>
-    <string name="scheduler_switch_use_title">"このスケジュールを使用"</string>
-    <string name="scheduler_days_of_week_title">"曜日"</string>
-    <string name="scheduler_days_of_week_none">"指定しない"</string>
+    <string name="scheduler_delete_message">この操作は元に戻せません。続行しますか？"</string>
+    <string name="scheduler_days_of_week_none">"設定しない"</string>
     <string name="scheduler_days_of_week_all">"毎日"</string>
-    <string name="scheduler_start_time_title">"開始時間"</string>
-    <string name="scheduler_end_time_title">"終了時間"</string>
     <string name="scheduler_start_time_custom_summary">"自動的に ON: <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"自動的に OFF: <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>絶対に</b>自動で ON にしない"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"重要度: 高"</string>
     <string name="foreground_notification_paused_in_background_title">"バックグラウンド一時停止"</string>
     <string name="foreground_notification_call_in_progress_text">"通話中…"</string>
-    <string name="preference_not_set">"未設定"</string>
     <string name="scheduler_pin_title">"SIM PIN"</string>
-    <string name="scheduler_pin_set_summary">"PINが設定されました"</string>
-    <string name="scheduler_pin_unset_summary">"SIM PIN を入力してください"</string>
     <string name="scheduler_pin_invalid_hint">"PIN は 4～8 桁の数字で入力してください。"</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIMカードのPINコードを復号化できませんでした。問題を修正するには、SIMのPINコードを再入力してください。"</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM PIN コードが無効です。正しいPINコードを再入力してください。"</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"タップして修正してください"</string>
     <string name="sim_pin_operation_failed">"SIM PIN 操作に失敗しました。"</string>
     <string name="sim_unlock_failed">"SIMロック解除のリクエストを完了できませんでした。"</string>
+    <string name="scheduler_name">"スケジュール名"</string>
+    <string name="scheduler_name_hint">"スケジュール名を入力"</string>
+    <string name="scheduler_name_description">"スケジュール名"</string>
+    <string name="scheduler_expand">"スケジュールを拡張"</string>
+    <string name="scheduler_collapse">"スケジュールを折りたたむ"</string>
+    <string name="scheduler_delete">"削除"</string>
+    <string name="scheduler_action_title">"動作"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIMアクティブ化"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM非アクティブ化"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIMアクティブ"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM非アクティブ"</string>
+    <string name="scheduler_pin_menu_edit_title">"編集"</string>
+    <string name="scheduler_pin_menu_delete_title">"削除"</string>
+    <string name="scheduler_add_button_text">"スケジュールの追加"</string>
 </resources>

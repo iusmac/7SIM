@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Працуе ў заднім плане…"</string>
     <string name="foreground_notification_channel_name">"Фонавыя задачы"</string>
     <string name="foreground_notification_channel_description">"Android патрабуе паказу бягучага апавяшчэння, пакуль праграма актыўная ў фонавым рэжыме. Вы можаце бяспечна схаваць гэты канал."</string>
-    <string name="scheduler_toolbar_reset">"Скінуць"</string>
-    <string name="scheduler_reset_dialog_message">"Гэта аперацыя не можа быць скасавана.\n\nПрацягнуць?"</string>
-    <string name="scheduler_switch_use_title">"Выкарыстоўваць расклад"</string>
-    <string name="scheduler_days_of_week_title">"Дні"</string>
-    <string name="scheduler_days_of_week_none">"Няма"</string>
+    <string name="scheduler_delete_message">"Гэта аперацыя не можа быць скасавана. Працягнуць?"</string>
+    <string name="scheduler_days_of_week_none">"Ніколі"</string>
     <string name="scheduler_days_of_week_all">"Штодзень"</string>
-    <string name="scheduler_start_time_title">"Час пачатку"</string>
-    <string name="scheduler_end_time_title">"Час заканчэння"</string>
     <string name="scheduler_start_time_custom_summary">"Уключыцца аўтаматычна <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Выключыцца аўтаматычна <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Ніколі</b> не ўключаецца аўтаматычна"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Высокая важнасць"</string>
     <string name="foreground_notification_paused_in_background_title">"Прыпынена ў фон. рэжыме"</string>
     <string name="foreground_notification_call_in_progress_text">"Ідзе выклік…"</string>
-    <string name="preference_not_set">"Не зададзена"</string>
     <string name="scheduler_pin_title">"PIN-код SIM-карты"</string>
-    <string name="scheduler_pin_set_summary">"PIN-код усталяваны"</string>
-    <string name="scheduler_pin_unset_summary">"Увядзіце PIN-код SIM-карты"</string>
     <string name="scheduler_pin_invalid_hint">"Увядзіце PIN-код, які змяшчае ад 4 да 8 лічбаў."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Не ўдалося расшыфраваць PIN-код SIM-карты. Каб выправіць праблему, паўторна ўвядзіце PIN-код SIM-карты."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Няправільны PIN-код SIM-карты. Паўторна увядзіце правільны PIN-код."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Націсніце, каб выправіць"</string>
     <string name="sim_pin_operation_failed">"Разблакіраваць SIM-карту PIN-кодам не атрымалася!"</string>
     <string name="sim_unlock_failed">"Не атрымалася выканаць запыт на разблакоўку SIM."</string>
+    <string name="scheduler_name">"Назва раскладу"</string>
+    <string name="scheduler_name_hint">"Увядзіце назву раскладу"</string>
+    <string name="scheduler_name_description">"Назва раскладу"</string>
+    <string name="scheduler_expand">"Раскрыць расклад"</string>
+    <string name="scheduler_collapse">"Згарнуць расклад"</string>
+    <string name="scheduler_delete">"Выдаліць"</string>
+    <string name="scheduler_action_title">"Дзеянне"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Актывацыя SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Адключэнне SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Актыв. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Адкл. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Змяніць"</string>
+    <string name="scheduler_pin_menu_delete_title">"Выдаліць"</string>
+    <string name="scheduler_add_button_text">"Дадаць расклад"</string>
 </resources>

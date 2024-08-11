@@ -56,11 +56,8 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
         final LocalDateTime now = LocalDateTime.now();
         final Bundle clearPinCodes = intent.getExtras();
 
-        // Normally, we keep the SIM card disabled after a reboot if it was manually disabled by the
-        // user, but the schedules should reset it when it comes time to process them at the stated
-        // time
-        final boolean overrideUserPreference = true;
-        ForegroundService.syncAllSubscriptionsEnabledState(context, now, overrideUserPreference);
+        ForegroundService.syncAllSubscriptionsEnabledState(context, now,
+                /*overrideUserPreference=*/ false);
 
         // If we have the clear SIM PIN codes, then trigger the process of unlocking all the SIM
         // cards that are in the PIN state

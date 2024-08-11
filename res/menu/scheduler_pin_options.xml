@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/scheduler_pin_title" android:enabled="false" />
+
+    <group android:id="@+id/scheduler_pin_options">
+        <item
+            android:id="@+id/scheduler_pin_edit_option"
+            android:title="@string/scheduler_pin_menu_edit_title" />
+        <item
+            android:id="@+id/scheduler_pin_delete_option"
+            android:title="@string/scheduler_pin_menu_delete_title" />
+    </group>
+</menu>

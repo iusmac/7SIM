@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Delovanje v ozadju …"</string>
     <string name="foreground_notification_channel_name">"Naloge v ozadju"</string>
     <string name="foreground_notification_channel_description">"Android zahteva prikaz obvestila, ko je aplikacija aktivna v ozadju. Ta kanal lahko varno skrijete."</string>
-    <string name="scheduler_toolbar_reset">"Ponastavi"</string>
-    <string name="scheduler_reset_dialog_message">"Tega opravila se ne da razveljaviti.\n\nAli želite nadaljevati?"</string>
-    <string name="scheduler_switch_use_title">"Uporabi razpored"</string>
-    <string name="scheduler_days_of_week_title">"Dnevi"</string>
-    <string name="scheduler_days_of_week_none">"Brez"</string>
+    <string name="scheduler_delete_message">"Tega opravila se ne da razveljaviti. Ali želite nadaljevati?"</string>
+    <string name="scheduler_days_of_week_none">"Nikoli"</string>
     <string name="scheduler_days_of_week_all">"Vsak dan"</string>
-    <string name="scheduler_start_time_title">"Začetni čas"</string>
-    <string name="scheduler_end_time_title">"Končni čas"</string>
     <string name="scheduler_start_time_custom_summary">"Samodejni vklop <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Samodejni izklop <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Nikoli</b> se ne bo samodejno vklopil"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Visoka pomembnost"</string>
     <string name="foreground_notification_paused_in_background_title">"Začas. ustav. v ozadju"</string>
     <string name="foreground_notification_call_in_progress_text">"Klic poteka …"</string>
-    <string name="preference_not_set">"Ni nastavljeno"</string>
     <string name="scheduler_pin_title">"Koda PIN za kartico SIM"</string>
-    <string name="scheduler_pin_set_summary">"Koda PIN je nastavljena"</string>
-    <string name="scheduler_pin_unset_summary">"Vnesite kodo PIN kartice SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Vnesite kodo PIN, ki vsebuje od štiri do osem številk."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"PIN koda SIM kartice ni bilo mogoče dešifrirati. Vnesite PIN kodo SIM kartice znova, da popravite težavo."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Napačna koda PIN kartice SIM. Vnovič vnesite pravilno kodo PIN."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Dotaknite se, da to popravite"</string>
     <string name="sim_pin_operation_failed">"Postopek za odklepanje s kodo PIN kartice SIM ni uspel."</string>
     <string name="sim_unlock_failed">"Zahteva za odklepanje SIM-a neuspešna."</string>
+    <string name="scheduler_name">"Ime razporeda"</string>
+    <string name="scheduler_name_hint">"Vnesite ime razporeda"</string>
+    <string name="scheduler_name_description">"Ime razporeda"</string>
+    <string name="scheduler_expand">"Razširi urnik"</string>
+    <string name="scheduler_collapse">"Skrči urnik"</string>
+    <string name="scheduler_delete">"Izbriši"</string>
+    <string name="scheduler_action_title">"Dejanje"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktiviranje SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Deaktiviranje SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deaktiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Uredi"</string>
+    <string name="scheduler_pin_menu_delete_title">"Izbriši"</string>
+    <string name="scheduler_add_button_text">"Dodajanje urnika"</string>
 </resources>

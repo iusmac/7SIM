@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"在背景工作中…"</string>
     <string name="foreground_notification_channel_name">"後台任務"</string>
     <string name="foreground_notification_channel_description">"當應用程式在背景執行時，Android 需要開啟顯示持續的通知的權限。您可以安全地隱藏此頻道。"</string>
-    <string name="scheduler_toolbar_reset">"重設"</string>
-    <string name="scheduler_reset_dialog_message">"此操作無法復原。\n\n您要繼續嗎？"</string>
-    <string name="scheduler_switch_use_title">"使用排程"</string>
-    <string name="scheduler_days_of_week_title">"星期幾"</string>
-    <string name="scheduler_days_of_week_none">"無"</string>
+    <string name="scheduler_delete_message">"此操作無法復原。您要繼續嗎？"</string>
+    <string name="scheduler_days_of_week_none">"永不"</string>
     <string name="scheduler_days_of_week_all">"每天"</string>
-    <string name="scheduler_start_time_title">"開始時間"</string>
-    <string name="scheduler_end_time_title">"結束時間"</string>
     <string name="scheduler_start_time_custom_summary">"將於<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> 自動開啟"</string>
     <string name="scheduler_end_time_custom_summary">"將於<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> 自動關閉"</string>
     <string name="scheduler_start_time_none_summary">"<b>永遠</b>不會自動開啟"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"高重要性"</string>
     <string name="foreground_notification_paused_in_background_title">"在背景中暫停"</string>
     <string name="foreground_notification_call_in_progress_text">"通話中…"</string>
-    <string name="preference_not_set">"未設定"</string>
     <string name="scheduler_pin_title">"SIM 卡 PIN 碼"</string>
-    <string name="scheduler_pin_set_summary">"已設定 PIN"</string>
-    <string name="scheduler_pin_unset_summary">"輸入 SIM 卡的 PIN 碼"</string>
     <string name="scheduler_pin_invalid_hint">"請輸入 4 到 8 碼的 PIN 碼。"</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"無法解密SIM卡的PIN碼。請重新輸入SIM卡的PIN碼以解決問題。"</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM 卡 PIN 碼輸入錯誤。重新輸入正確的 PIN 碼。"</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"輕觸即可修正問題"</string>
     <string name="sim_pin_operation_failed">"SIM 卡 PIN 碼解鎖失敗！"</string>
     <string name="sim_unlock_failed">"SIM 卡解鎖請求失敗。"</string>
+    <string name="scheduler_name">"排程名稱"</string>
+    <string name="scheduler_name_hint">"輸入排程名稱"</string>
+    <string name="scheduler_name_description">"排程名稱"</string>
+    <string name="scheduler_expand">"展開行程"</string>
+    <string name="scheduler_collapse">"收起行程"</string>
+    <string name="scheduler_delete">"刪除"</string>
+    <string name="scheduler_action_title">"動作"</string>
+    <string name="scheduler_action_activate_sim_long_text">"啟用SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"關閉SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"啟用SIM卡"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"關閉SIM卡"</string>
+    <string name="scheduler_pin_menu_edit_title">"編輯"</string>
+    <string name="scheduler_pin_menu_delete_title">"刪除"</string>
+    <string name="scheduler_add_button_text">"新增行程"</string>
 </resources>

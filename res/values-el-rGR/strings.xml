@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Εργαζόμαστε στο παρασκήνιο…"</string>
     <string name="foreground_notification_channel_name">"Εργασίες παρασκηνίου"</string>
     <string name="foreground_notification_channel_description">"Το Android απαιτεί να προβάλλεται συνεχώς μια ειδοποίηση όσο η εφαρμογή λειτουργεί στο παρασκήνιο. Μπορείτε να αποκρύψετε με ασφάλεια αυτό το κανάλι."</string>
-    <string name="scheduler_toolbar_reset">"Επαναφορά"</string>
-    <string name="scheduler_reset_dialog_message">"Αυτή η λειτουργία είναι μη αναστρέψιμη.\n\nΘέλετε να συνεχίσετε;"</string>
-    <string name="scheduler_switch_use_title">"Χρήση προγράμματος"</string>
-    <string name="scheduler_days_of_week_title">"Ημέρες"</string>
-    <string name="scheduler_days_of_week_none">"Κανένα"</string>
+    <string name="scheduler_delete_message">"Αυτή η λειτουργία είναι μη αναστρέψιμη. Θέλετε να συνεχίσετε;"</string>
+    <string name="scheduler_days_of_week_none">"Ποτέ"</string>
     <string name="scheduler_days_of_week_all">"Κάθε ημέρα"</string>
-    <string name="scheduler_start_time_title">"Ώρα έναρξης"</string>
-    <string name="scheduler_end_time_title">"Ώρα λήξης"</string>
     <string name="scheduler_start_time_custom_summary">"Θα ενεργοποιείται αυτόματα <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Θα απενεργοποιείται αυτόματα <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Δεν θα ενεργοποιείται <b>ποτέ</b> αυτόματα"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Μεγάλης βαρύτητας"</string>
     <string name="foreground_notification_paused_in_background_title">"Σε παύση στο παρασκήνιο"</string>
     <string name="foreground_notification_call_in_progress_text">"Κλήση σε εξέλιξη…"</string>
-    <string name="preference_not_set">"Δεν έχει οριστεί"</string>
     <string name="scheduler_pin_title">"Αριθμός PIN κάρτας SIM"</string>
-    <string name="scheduler_pin_set_summary">"Το PIN έχει οριστεί"</string>
-    <string name="scheduler_pin_unset_summary">"Εισαγωγή αριθμού PIN κάρτας SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Πληκτρολογήστε έναν αριθμό PIN που να αποτελείται από 4 έως 8 αριθμούς."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Δεν ήταν δυνατή η αποκρυπτογράφηση του κωδικού PIN της SIM. Εισαγάγετε ξανά τον κωδικό PIN της SIM για να διορθώσετε το πρόβλημα."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Εσφαλμένος κωδικός PIN κάρτας SIM. Εισαγάγετε ξανά τον κωδικό PIN."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Πατήστε για επιδιόρθωση"</string>
     <string name="sim_pin_operation_failed">"Αποτυχία λειτουργίας κωδικού PIN κάρτας SIM!"</string>
     <string name="sim_unlock_failed">"Αποτυχία ξεκλειδώματος SIM."</string>
+    <string name="scheduler_name">"Όνομα προγράμματος"</string>
+    <string name="scheduler_name_hint">"Εισαγωγή ονόματος προγράμματος"</string>
+    <string name="scheduler_name_description">"Όνομα προγράμματος"</string>
+    <string name="scheduler_expand">"Ανάπτυξη προγράμματος"</string>
+    <string name="scheduler_collapse">"Σύμπτυξη προγράμματος"</string>
+    <string name="scheduler_delete">"Διαγραφή"</string>
+    <string name="scheduler_action_title">"Ενέργεια"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Ενεργοποίηση SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Απενεργοποίηση SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Ενεργ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Απενεργ. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Επεξεργασία"</string>
+    <string name="scheduler_pin_menu_delete_title">"Διαγραφή"</string>
+    <string name="scheduler_add_button_text">"Προσθήκη προγράμματος"</string>
 </resources>

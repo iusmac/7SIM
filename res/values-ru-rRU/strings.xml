@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Работа в фоновом режиме…"</string>
     <string name="foreground_notification_channel_name">"Фоновые задачи"</string>
     <string name="foreground_notification_channel_description">"Android требует отображения постоянного уведомления, пока приложение активно в фоновом режиме. Вы можете спокойно скрыть этот канал."</string>
-    <string name="scheduler_toolbar_reset">"Сбросить"</string>
-    <string name="scheduler_reset_dialog_message">"Эту операцию невозможно будет отменить.\n\nПродолжить?"</string>
-    <string name="scheduler_switch_use_title">"Использовать расписание"</string>
-    <string name="scheduler_days_of_week_title">"Дни"</string>
-    <string name="scheduler_days_of_week_none">"\u2013"</string>
+    <string name="scheduler_delete_message">"Эту операцию невозможно будет отменить. Продолжить?"</string>
+    <string name="scheduler_days_of_week_none">"Никогда"</string>
     <string name="scheduler_days_of_week_all">"Каждый день"</string>
-    <string name="scheduler_start_time_title">"Время включения"</string>
-    <string name="scheduler_end_time_title">"Время отключения"</string>
     <string name="scheduler_start_time_custom_summary">"Включится автоматически <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Выключится автоматически <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Никогда</b> не включится автоматически"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Высокая важность"</string>
     <string name="foreground_notification_paused_in_background_title">"Приостановлено в фоновом режиме"</string>
     <string name="foreground_notification_call_in_progress_text">"Выполняется телефонный звонок…"</string>
-    <string name="preference_not_set">"Не указано"</string>
     <string name="scheduler_pin_title">"PIN-код SIM-карты"</string>
-    <string name="scheduler_pin_set_summary">"PIN-код был установлен"</string>
-    <string name="scheduler_pin_unset_summary">"Введите PIN-код SIM-карты"</string>
     <string name="scheduler_pin_invalid_hint">"Введите PIN-код (от 4 до 8 цифр)."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Не удалось расшифровать PIN-код SIM-карты. Введите PIN-код SIM-карты снова, чтобы исправить проблему."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Неверный PIN-код SIM-карты. Повторно введите правильный PIN-код."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Нажмите здесь, чтобы исправить."</string>
     <string name="sim_pin_operation_failed">"Не удалось разблокировать SIM-карту"</string>
     <string name="sim_unlock_failed">"Не удалось выполнить запрос на разблокировку SIM-карты."</string>
+    <string name="scheduler_name">"Название расписания"</string>
+    <string name="scheduler_name_hint">"Введите название расписания"</string>
+    <string name="scheduler_name_description">"Название расписания"</string>
+    <string name="scheduler_expand">"Развернуть расписание"</string>
+    <string name="scheduler_collapse">"Свернуть расписание"</string>
+    <string name="scheduler_delete">"Удалить"</string>
+    <string name="scheduler_action_title">"Действие"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Активация SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Деактивация SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Акт. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Деакт. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Изменить"</string>
+    <string name="scheduler_pin_menu_delete_title">"Удалить"</string>
+    <string name="scheduler_add_button_text">"Добавить расписание"</string>
 </resources>

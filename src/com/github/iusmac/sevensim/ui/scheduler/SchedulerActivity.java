@@ -1,13 +1,10 @@
 package com.github.iusmac.sevensim.ui.scheduler;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.core.os.BundleCompat;
@@ -19,6 +16,7 @@ import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
+import com.github.iusmac.sevensim.ui.UiUtils;
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 import com.github.iusmac.sevensim.ui.components.toolbar.ToolbarDecorator;
 
@@ -60,32 +58,6 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
     private boolean mSubscriptionsChangedListenerInitialized;
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.scheduler, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(final Menu menu) {
-        menu.findItem(R.id.scheduler_reset).setEnabled(getViewModel().schedulerExists() ||
-                getViewModel().isPinPresent());
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        final int itemId = item.getItemId();
-        if (android.R.id.home == itemId) {
-            onBackPressed();
-            return true;
-        } else if (R.id.scheduler_reset == itemId) {
-            showResetDialog();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public ViewModel onCreateViewModel() {
         // Make Dagger instantiate @Inject fields prior to the ViewModel creation
         inject();
@@ -125,6 +97,12 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         if (toolbarDecorator.isCollapsingToolbarSupported()) {
             toolbarDecorator.setCollapsingSubtitleImportantForAccessibility(
                     View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+            // Ensure the expanded toolbar isn't overlapped by the FABs that will be located on one
+            // side when running in landscape
+            if (UiUtils.isLandscape(this)) {
+                getCollapsingToolbarLayout().setExpandedTitleMarginEnd(getResources()
+                        .getDimensionPixelSize(R.dimen.fab_container_land_width));
+            }
         } else {
             toolbarDecorator.setSubtitleMarqueeRepeatLimit(-1);
         }
@@ -140,17 +118,6 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         final int containerViewId = com.android.settingslib.collapsingtoolbar.R.id.content_frame;
         getSupportFragmentManager().beginTransaction().add(containerViewId,
                 new SchedulerFragment()).commit();
-    }
-
-    private void showResetDialog() {
-        new AlertDialog.Builder(this)
-            .setTitle(R.string.scheduler_toolbar_reset)
-            .setIconAttribute(android.R.attr.alertDialogIcon)
-            .setMessage(R.string.scheduler_reset_dialog_message)
-            .setPositiveButton(android.R.string.ok, (dialog, id) ->
-                    getViewModel().removeScheduler())
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
     }
 
     @Override

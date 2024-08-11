@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"正在后台工作中…"</string>
     <string name="foreground_notification_channel_name">"后台任务"</string>
     <string name="foreground_notification_channel_description">"当应用程序在后台处于活动状态时，Android 需要显示持续的通知。你可以安全地隐藏这个通道。"</string>
-    <string name="scheduler_toolbar_reset">"重置"</string>
-    <string name="scheduler_reset_dialog_message">"此操作不能撤销。\n\n您要继续吗？"</string>
-    <string name="scheduler_switch_use_title">"使用时间表"</string>
-    <string name="scheduler_days_of_week_title">"星期几"</string>
-    <string name="scheduler_days_of_week_none">"无"</string>
+    <string name="scheduler_delete_message">"此操作不能撤销。您要继续吗？"</string>
+    <string name="scheduler_days_of_week_none">"永不"</string>
     <string name="scheduler_days_of_week_all">"每天"</string>
-    <string name="scheduler_start_time_title">"开始时间"</string>
-    <string name="scheduler_end_time_title">"结束时间"</string>
     <string name="scheduler_start_time_custom_summary">"将在<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>自动开启"</string>
     <string name="scheduler_end_time_custom_summary">"将在<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>自动关闭"</string>
     <string name="scheduler_start_time_none_summary">"将<b>永远</b>不会自动开启"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"重要性：高"</string>
     <string name="foreground_notification_paused_in_background_title">"已在后台暂停"</string>
     <string name="foreground_notification_call_in_progress_text">"正在通话…"</string>
-    <string name="preference_not_set">"未设置"</string>
     <string name="scheduler_pin_title">"SIM 卡 PIN 码"</string>
-    <string name="scheduler_pin_set_summary">"已设置PIN码"</string>
-    <string name="scheduler_pin_unset_summary">"请输入 SIM 卡 PIN 码"</string>
     <string name="scheduler_pin_invalid_hint">"请输入 4 到 8 位数的 PIN 码。"</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"无法解密SIM卡的PIN码。请重新输入SIM卡的PIN码以解决问题。"</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM 卡 PIN 码不正确。请重新输入正确的PIN码。"</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"点按即可修正问题"</string>
     <string name="sim_pin_operation_failed">"SIM 卡 PIN 码操作失败！"</string>
     <string name="sim_unlock_failed">"SIM 卡解锁请求不成功。"</string>
+    <string name="scheduler_name">"时间表名称"</string>
+    <string name="scheduler_name_hint">"输入时间表名称"</string>
+    <string name="scheduler_name_description">"时间表名称"</string>
+    <string name="scheduler_expand">"展开日程"</string>
+    <string name="scheduler_collapse">"收起日程"</string>
+    <string name="scheduler_delete">"删除"</string>
+    <string name="scheduler_action_title">"动作"</string>
+    <string name="scheduler_action_activate_sim_long_text">"开启SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"关闭SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"开SIM卡"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"关SIM卡"</string>
+    <string name="scheduler_pin_menu_edit_title">"修改"</string>
+    <string name="scheduler_pin_menu_delete_title">"删除"</string>
+    <string name="scheduler_add_button_text">"添加时间安排"</string>
 </resources>

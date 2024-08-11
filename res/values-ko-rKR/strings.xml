@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"백그라운드에서 실행 중…"</string>
     <string name="foreground_notification_channel_name">"백그라운드 작업"</string>
     <string name="foreground_notification_channel_description">"안드로이드는 앱이 백그라운드에서 활성 상태인 동안 계속된 알림을 표시해야 합니다. 이 채널을 안전하게 숨길 수 있습니다.이 채널을 안전하게 숨길 수 있습니다."</string>
-    <string name="scheduler_toolbar_reset">"초기화"</string>
-    <string name="scheduler_reset_dialog_message">"이 작업은 되돌릴 수 없습니다.\n\n계속 하시겠습니까?"</string>
-    <string name="scheduler_switch_use_title">"예약 사용"</string>
-    <string name="scheduler_days_of_week_title">"요일"</string>
-    <string name="scheduler_days_of_week_none">"없음"</string>
+    <string name="scheduler_delete_message">"이 작업은 되돌릴 수 없습니다. 계속 하시겠습니까?"</string>
+    <string name="scheduler_days_of_week_none">"차단하지 않음"</string>
     <string name="scheduler_days_of_week_all">"매일"</string>
-    <string name="scheduler_start_time_title">"시작 시간"</string>
-    <string name="scheduler_end_time_title">"종료 시간"</string>
     <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>에 자동으로 켜짐"</string>
     <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>에 자동으로 꺼짐"</string>
     <string name="scheduler_start_time_none_summary">"자동으로 켜지지 <b>않음</b>"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"중요도가 높은 알림 채널"</string>
     <string name="foreground_notification_paused_in_background_title">"백그라운드에서 일시중지되었습니다"</string>
     <string name="foreground_notification_call_in_progress_text">"전화 거는 중…"</string>
-    <string name="preference_not_set">"설정되지 않음"</string>
     <string name="scheduler_pin_title">"SIM PIN"</string>
-    <string name="scheduler_pin_set_summary">"PIN이 설정되었습니다."</string>
-    <string name="scheduler_pin_unset_summary">"SIM PIN을 입력하세요"</string>
     <string name="scheduler_pin_invalid_hint">"4~8자리 숫자로 된 PIN을 입력하세요."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN 코드를 해독할 수 없습니다. 문제를 해결하려면 SIM PIN 코드를 다시 입력하세요."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"SIM의 PIN 코드가 잘못되었습니다. 올바른 PIN 코드를 다시 입력하세요."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"문제를 해결하려면 탭하세요."</string>
     <string name="sim_pin_operation_failed">"SIM PIN 작업이 실패했습니다."</string>
     <string name="sim_unlock_failed">"SIM 언락 요청 실패"</string>
+    <string name="scheduler_name">"예약 이름"</string>
+    <string name="scheduler_name_hint">"예약 이름 입력"</string>
+    <string name="scheduler_name_description">"예약 이름"</string>
+    <string name="scheduler_expand">"일정 확장"</string>
+    <string name="scheduler_collapse">"일정 축소"</string>
+    <string name="scheduler_delete">"삭제"</string>
+    <string name="scheduler_action_title">"작업"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM 활성화"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM 비활성화"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM 활성화"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM 비활성화"</string>
+    <string name="scheduler_pin_menu_edit_title">"수정"</string>
+    <string name="scheduler_pin_menu_delete_title">"삭제"</string>
+    <string name="scheduler_add_button_text">"일정 추가"</string>
 </resources>

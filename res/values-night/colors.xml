@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="schedule_card_expanded_background_color">#ff212121</color>
+    <color name="schedule_card_day_selected_text_color">@android:color/black</color>
+    <color name="schedule_card_hairline_color">#14FFFFFF</color>
+</resources>

@@ -18,7 +18,9 @@
 package com.github.iusmac.sevensim.scheduler;
 
 import android.content.Context;
+import android.icu.text.DateFormatSymbols;
 
+import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -53,7 +55,7 @@ import java.util.stream.IntStream;
  *
  * @see DayOfWeek
  */
-public final class DaysOfWeek implements Iterable<Integer> {
+public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWeek> {
     /**
      * The one-based array mapping days of the week from {@link DayOfWeek#SUNDAY} (index 1) to
      * {@link DayOfWeek#SATURDAY} (index 7) to the bit masks.
@@ -64,6 +66,11 @@ public final class DaysOfWeek implements Iterable<Integer> {
 
     /** The sum of all days of the week bit masks. */
     private static final int ALL_DAYS_OF_WEEK_BITS = 0x7f;
+
+    @GuardedBy("this")
+    private static Locale sDefaultLocaleCache;
+    @GuardedBy("this")
+    private static String[] sDaysOfWeekNarrowStrings;
 
     /** An encoded form of a weekly repeat schedule. */
     private final int mBits;
@@ -252,6 +259,22 @@ public final class DaysOfWeek implements Iterable<Integer> {
     }
 
     /**
+     * Get the textual representation of a {@link DayOfWeek}, such as "S", "M", etc.
+     *
+     * @param dayOfWeek Any of {@link DayOfWeek} values.
+     * @return Single-character weekday name; e.g.: 'S', 'M', 'T', 'W', 'T', 'F', 'S'.
+     */
+    public synchronized @NonNull String getNarrowDisplayName(final @DayOfWeek int dayOfWeek) {
+        final Locale loc = Locale.getDefault();
+        if (sDaysOfWeekNarrowStrings == null || !loc.equals(sDefaultLocaleCache)) {
+            sDaysOfWeekNarrowStrings = DateFormatSymbols.getInstance(loc)
+                .getWeekdays(DateFormatSymbols.STANDALONE, DateFormatSymbols.NARROW);
+            sDefaultLocaleCache = loc;
+        }
+        return sDaysOfWeekNarrowStrings[dayOfWeek];
+    }
+
+    /**
      * Return an iterator allowing iteration over all days of the week, ordered according to the
      * default locale.
      *
@@ -328,6 +351,94 @@ public final class DaysOfWeek implements Iterable<Integer> {
         public DaysOfWeek create(final @DayOfWeek int... daysOfWeek) {
             return create(null, IntStream.of(daysOfWeek).boxed().toArray(Integer[]::new));
         }
+
+        /**
+         * Create a {@link DaysOfWeek} instance representing any or all of the {@link DayOfWeek}
+         * values. */
+        public DaysOfWeek create(final @DayOfWeek Integer... daysOfWeek) {
+            return create(null, daysOfWeek);
+        }
+    }
+
+    /**
+     * <p>Compare this instance against an other {@link DaysOfWeek} instance guaranteeing a natural
+     * weekly repeat cycle order.
+     *
+     * <p>Note that, the comparison algorithm, when applied to multiple instances, will attempt to
+     * first organize items representing the same amount of weekly repeating days into clusters,
+     * then sort. For example,
+     * <ul>
+     *   <li>Cluster 1
+     *     <ul>
+     *       <li>Monday, Tuesday, Wednesday</li>
+     *       <li>Thursday, Friday, Saturday</li>
+     *     </ul>
+     *   </li>
+     *   <li>Cluster 2
+     *     <ul>
+     *       <li>Monday, Tuesday</li>
+     *       <li>Wednesday, Thursday</li>
+     *       <li>Friday, Saturday</li>
+     *     </ul>
+     *   </li>
+     *   <li>Cluster 3
+     *     <ul>
+     *       <li>Monday</li>
+     *       <li>Tuesday</li>
+     *       <li>Wednesday</li>
+     *     </ul>
+     *   </li>
+     * </ul>
+     *
+     * <p>The more days are selected, the higher the cluster will appear in the list.
+     */
+    @Override
+    public int compareTo(final DaysOfWeek daysOfWeek) {
+        int ourBits = mBits;
+        int theirBits = daysOfWeek.mBits;
+
+        // The instances represent the same weekly repeat cycle
+        if (ourBits == theirBits) {
+            return 0;
+        }
+
+        switch (iterator().next()) {
+            case DayOfWeek.MONDAY:
+                // For the correct ordering, when the first day of the week is Monday according to
+                // the current locale, we need to move the Sunday from the rightmost bit to the
+                // leftmost bit after the Saturday
+                ourBits >>= 1;
+                if (isBitOn(DayOfWeek.SUNDAY)) {
+                    ourBits |= 1<<6;
+                }
+
+                theirBits >>= 1;
+                if (daysOfWeek.isBitOn(DayOfWeek.SUNDAY)) {
+                    theirBits |= 1<<6;
+                }
+                break;
+
+            case DayOfWeek.SATURDAY:
+                // For the correct ordering, when the first day of the week is Saturday according to
+                // the current locale, we need to move it from the leftmost bit to the rightmost bit
+                // pushing the Sunday to the 1st bit position
+                ourBits <<=1;
+                if (isBitOn(DayOfWeek.SATURDAY)) {
+                    ourBits ^= 1<<7 | 1<<0;
+                }
+
+                theirBits <<= 1;
+                if (daysOfWeek.isBitOn(DayOfWeek.SATURDAY)) {
+                    theirBits ^= 1<<7 | 1<<0;
+                }
+                break;
+        }
+
+        int result = -Integer.compare(Integer.bitCount(ourBits), Integer.bitCount(theirBits));
+        if (result == 0) {
+            result = ourBits < theirBits ? -1 : 1;
+        }
+        return result;
     }
 
     @Override

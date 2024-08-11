@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Bekerja di belakang layar…"</string>
     <string name="foreground_notification_channel_name">"Proses latar belakang"</string>
     <string name="foreground_notification_channel_description">"Android memerlukan menampilkan pemberitahuan yang sedang berlangsung saat aplikasi aktif di latar belakang. Anda bisa menyembunyikan kanal ini."</string>
-    <string name="scheduler_toolbar_reset">"Reset"</string>
-    <string name="scheduler_reset_dialog_message">"Operasi ini tidak dapat dibatalkan.\n\nApakah Anda ingin melanjutkan?"</string>
-    <string name="scheduler_switch_use_title">"Gunakan jadwal"</string>
-    <string name="scheduler_days_of_week_title">"Hari"</string>
-    <string name="scheduler_days_of_week_none">"Tidak ada"</string>
+    <string name="scheduler_delete_message">"Operasi ini tidak dapat dibatalkan. Apakah Anda ingin melanjutkan?"</string>
+    <string name="scheduler_days_of_week_none">"Tidak pernah"</string>
     <string name="scheduler_days_of_week_all">"Setiap hari"</string>
-    <string name="scheduler_start_time_title">"Waktu mulai"</string>
-    <string name="scheduler_end_time_title">"Waktu selesai"</string>
     <string name="scheduler_start_time_custom_summary">"Akan aktif otomatis <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Akan nonaktif otomatis <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Tidak akan <b>pernah</b> aktif otomatis"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Tingkat kepentingan: tinggi"</string>
     <string name="foreground_notification_paused_in_background_title">"Dijeda di latar belakang"</string>
     <string name="foreground_notification_call_in_progress_text">"Panggilan sedang berlangsung…"</string>
-    <string name="preference_not_set">"Belum disetel"</string>
     <string name="scheduler_pin_title">"PIN SIM"</string>
-    <string name="scheduler_pin_set_summary">"PIN telah ditetapkan"</string>
-    <string name="scheduler_pin_unset_summary">"Masukkan PIN SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Ketikkan PIN berupa 4 sampai 8 angka."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Tidak dapat mendekripsi kode PIN SIM. Masukkan kembali kode PIN SIM untuk memperbaikinya."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Kode PIN SIM salah. Masukkan kembali kode PIN yang benar."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Ketuk untuk memperbaiki"</string>
     <string name="sim_pin_operation_failed">"Operasi PIN SIM gagal!"</string>
     <string name="sim_unlock_failed">"Permintaan membuka kunci SIM tidak berhasil."</string>
+    <string name="scheduler_name">"Nama jadwal"</string>
+    <string name="scheduler_name_hint">"Masukkan nama jadwal"</string>
+    <string name="scheduler_name_description">"Nama jadwal"</string>
+    <string name="scheduler_expand">"Perluas jadwal"</string>
+    <string name="scheduler_collapse">"Persempit jadwal"</string>
+    <string name="scheduler_delete">"Hapus"</string>
+    <string name="scheduler_action_title">"Tindakan"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktivasi SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Nonaktif SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktivasi SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Nonaktif. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Edit"</string>
+    <string name="scheduler_pin_menu_delete_title">"Hapus"</string>
+    <string name="scheduler_add_button_text">"Tambahkan jadwal"</string>
 </resources>

@@ -2,4 +2,15 @@
 <resources>
     <color name="launcher_background_color">#FFFFDDB4</color>
     <color name="launcher_foreground_color">#FF4F4539</color>
+    <color name="fab_pin_set_background_tint_color">#FFCFEBC0</color>
+    <color name="fab_pin_unset_background_tint_color">#FFF0E3A8</color>
+    <color name="fab_pin_set_tint_color">#1D7233</color>
+    <color name="fab_pin_unset_tint_color">#895900</color>
+    <color name="schedule_card_collapsed_background_color">@android:color/transparent</color>
+    <color name="schedule_card_expanded_background_color">#fff5f5f5</color>
+    <color name="schedule_card_day_selected_background_color">?android:attr/textColorSecondary</color>
+    <color name="schedule_card_day_selected_text_color">@android:color/white</color>
+    <color name="schedule_card_day_unselected_stroke_color">?android:attr/colorControlHighlight</color>
+    <color name="schedule_card_arrow_background_color">@android:color/transparent</color>
+    <color name="schedule_card_hairline_color">#28000000</color>
 </resources>

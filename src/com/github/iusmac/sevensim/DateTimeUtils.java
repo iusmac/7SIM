@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Formatter;
@@ -20,6 +21,8 @@ import java.util.Locale;
 import java.util.Optional;
 
 public final class DateTimeUtils {
+    private static final DateTimeFormatter sWallClockTimeFormatter =
+        DateTimeFormatter.ofPattern("H:m");
     private static final int DAY_IN_MS = 24 * 60 * 60 * 1000;
     private static final int EPOCH_JULIAN_DAY = 2440588;
 
@@ -157,6 +160,17 @@ public final class DateTimeUtils {
 
         return getRelativeDateTimeSpanString(context, formatter, relativeFormatter, time, now,
                 /*zoneId=*/ null);
+    }
+
+    /**
+     * Convert a time string value to a {@link LocalTime} instance.
+     *
+     * @param value The time value in form "H:m", where "H", is the hour of day from 0 to 23
+     * (inclusive), and "m", is the minute of hour from 0 to 59 (inclusive).
+     * @return Time as seen on a wall clock.
+     */
+    public static @NonNull LocalTime parseWallClockTime(final @NonNull String value) {
+        return LocalTime.parse(value, sWallClockTimeFormatter);
     }
 
     /**

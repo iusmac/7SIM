@@ -3,32 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.android.settingslib.widget.MainSwitchPreference
-        android:key="@string/scheduler_enabled_key"
-        android:title="@string/scheduler_switch_use_title"/>
-
     <com.android.settingslib.widget.BannerMessagePreference
         android:key="@string/scheduler_pin_error_key"
         app:isPreferenceVisible="false"
         app:allowDividerBelow="true"/>
 
-    <MultiSelectListPreference
-        android:key="@string/scheduler_days_of_week_key"
-        android:title="@string/scheduler_days_of_week_title"
-        android:positiveButtonText="@android:string/ok"
-        android:negativeButtonText="@android:string/cancel"/>
-
-    <com.github.iusmac.sevensim.ui.components.TimePickerPreference
-        android:key="@string/scheduler_start_time_key"
-        android:title="@string/scheduler_start_time_title"
-        android:dependency="@string/scheduler_days_of_week_key"/>
-
-    <com.github.iusmac.sevensim.ui.components.TimePickerPreference
-        android:key="@string/scheduler_end_time_key"
-        android:title="@string/scheduler_end_time_title"
-        android:dependency="@string/scheduler_days_of_week_key"/>
-
-    <EditTextPreference
-        android:key="@string/scheduler_pin_key"
-        android:title="@string/scheduler_pin_title"/>
+    <com.android.settingslib.widget.LayoutPreference
+        android:key="@string/scheduler_empty_view_key"
+        android:layout="@layout/scheduler_empty_view"
+        app:isPreferenceVisible="false"
+        app:allowDividerAbove="true"
+        android:selectable="false"/>
 </PreferenceScreen>

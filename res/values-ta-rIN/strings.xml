@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"பின்னணி வேலை நடக்கிறது …"</string>
     <string name="foreground_notification_channel_name">"பின்னணிக் கட்டுப்பாடுகள்"</string>
     <string name="foreground_notification_channel_description">"Android பின்னணி நிலையில் பயன் திறக்கப்படும் போது செயல்பாடு செய்கின்றது. இந்த சேனலை அமைத்துக்கொள்ள நீங்கள் அமைதியாக மறைக்க முடியும்."</string>
-    <string name="scheduler_toolbar_reset">"மீட்டமை"</string>
-    <string name="scheduler_reset_dialog_message">"இந்தச் செயலைச் செயல்தவிர்க்க முடியாது.\n\nநீங்கள் தொடர விரும்புகிறீர்களா?"</string>
-    <string name="scheduler_switch_use_title">"திட்ட அட்டவணையைப் பயன்படுத்து"</string>
-    <string name="scheduler_days_of_week_title">"நாட்கள்"</string>
-    <string name="scheduler_days_of_week_none">"ஏதுமில்லை"</string>
+    <string name="scheduler_delete_message">"இந்தச் செயலைச் செயல்தவிர்க்க முடியாது. நீங்கள் தொடர விரும்புகிறீர்களா?"</string>
+    <string name="scheduler_days_of_week_none">"ஒரு போதும் வேண்டாம்"</string>
     <string name="scheduler_days_of_week_all">"ஒவ்வொரு நாளும்"</string>
-    <string name="scheduler_start_time_title">"தொடக்க நேரம்"</string>
-    <string name="scheduler_end_time_title">"முடிவு நேரம்"</string>
     <string name="scheduler_start_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> தானாக இயக்கப்படும்"</string>
     <string name="scheduler_end_time_custom_summary">"<![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> தானாக முடக்கப்படும்"</string>
     <string name="scheduler_start_time_none_summary">"<b>ஒருபோதும்</b> தானாக இயக்கப்படாது"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"அதிக முக்கியத்துவம்"</string>
     <string name="foreground_notification_paused_in_background_title">"பின்புலத்தில் இடைநிறுத்தப்பட்டது"</string>
     <string name="foreground_notification_call_in_progress_text">"அழைப்பில்…"</string>
-    <string name="preference_not_set">"அமைக்கப்படவில்லை"</string>
     <string name="scheduler_pin_title">"சிம் பின்"</string>
-    <string name="scheduler_pin_set_summary">"பின் அமைக்கப்பட்டது"</string>
-    <string name="scheduler_pin_unset_summary">"சிம் பின்னை உள்ளிடவும்"</string>
     <string name="scheduler_pin_invalid_hint">"4 இலிருந்து 8 எண்கள் உள்ள பின்னை உள்ளிடவும்."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"சிம் பின் குறியீட்டை குறியீடமாக்க முடியவில்லை. பிரச்சினையை சரிசெய்ய சிம் பின் குறியீட்டை மீண்டும் உள்ளிடுக."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"சிம் பின் குறியீடு தவறானது. சரியான PIN குறியீட்டை மீண்டும் உள்ளிடவும்."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"சரிசெய்ய, தட்டவும்"</string>
     <string name="sim_pin_operation_failed">"சிம் பின் செயல்பாடு தோல்வியடைந்தது!"</string>
     <string name="sim_unlock_failed">"SIM பூட்டுநீக்க கோரிக்கை வெற்றியடையவில்லை."</string>
+    <string name="scheduler_name">"கால அட்டவணையின் பெயர்"</string>
+    <string name="scheduler_name_hint">"பெயரை உள்ளிடவும்"</string>
+    <string name="scheduler_name_description">"கால அட்டவணையின் பெயர்"</string>
+    <string name="scheduler_expand">"அட்டவணையை விரிவாக்கு"</string>
+    <string name="scheduler_collapse">"அட்டவணையை சுருக்கவும்"</string>
+    <string name="scheduler_delete">"நீக்கு"</string>
+    <string name="scheduler_action_title">"செயல்"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM செயலாக்க"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM முடக்கு"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM செயலாக்க"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM முடக்க"</string>
+    <string name="scheduler_pin_menu_edit_title">"மாற்று"</string>
+    <string name="scheduler_pin_menu_delete_title">"நீக்கு"</string>
+    <string name="scheduler_add_button_text">"கால அட்டவணையைச் சேர்க்கவும்"</string>
 </resources>

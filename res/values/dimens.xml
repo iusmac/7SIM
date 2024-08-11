@@ -16,4 +16,20 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <dimen name="primary_switch_min_width">80dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_height">88dp</dimen>
+    <dimen name="fab_container_land_width">160dp</dimen>
+    <dimen name="schedule_margin_top">8dp</dimen>
+    <dimen name="schedule_card_elevation">1dp</dimen>
+    <dimen name="touch_target_min_size">48dp</dimen>
+    <dimen name="schedule_horizontal_padding">16dp</dimen>
+    <dimen name="schedule_start_padding">12dp</dimen>
+    <dimen name="icon_margin">4dp</dimen>
+    <dimen name="day_button_font_size">16sp</dimen>
+    <dimen name="hairline_height">1dp</dimen>
+    <dimen name="gutter_horizontal_padding">24.0dip</dimen>
+    <dimen name="gutter_horizontal_padding_extreme_thin">4.0dip</dimen>
+    <dimen name="gutter_horizontal_padding_thin">16.0dip</dimen>
+    <dimen name="gutter_horizontal_padding_very_thin">8.0dip</dimen>
+    <dimen name="scheduler_empty_view_blank_header_height">128dp</dimen>
 </resources>

@@ -32,9 +32,9 @@ If you're a normal user willing to give it a try, see [Installation](#installati
 ##### Screenshots
 <p>
   <img src="images/home-a13-dark.jpg" width="200" alt="Home A13 Dark Screenshot" />
-  <img src="images/scheduler-a14-light.jpg" width="200" alt="Scheduler A14 Light Screenshot" />
+  <img src="images/scheduler-a14-light.gif" width="200" alt="Scheduler A14 Light Screencast" />
   <img src="images/home-a10-light.jpg" width="200" alt="Home A10 Light Screenshot" />
-  <img src="images/scheduler-a10-dark.jpg" width="200" alt="Scheduler A10 Dark Screenshot" />
+  <img src="images/scheduler-a10-dark.gif" width="200" alt="Scheduler A10 Dark Screencast" />
 </p>
 
 # Features
@@ -43,14 +43,6 @@ If you're a normal user willing to give it a try, see [Installation](#installati
   feature (note that it may not work on some devices due to OEM limitations. Refer to
   [FAQ](#faq) for troubleshooting)
 - Add an arbitrary number of schedules per SIM card
-  > 🚧 **Work-in-Progress**
-  >
-  > This feature is already implement "under the hood", but needs UI overhaul. Currently, the UI
-  > only supports two schedules (`start` and `end`) that are treated as a single schedule sharing
-  > the same days of the week and the <em>Use schedule</em> switch.
-  >
-  > Subscribe to the iusmac/7SIM/issues/1 to be notified when this feature will be fully
-  > implemented.
 - Automatically supply the PIN code provided by you to unlock the SIM card
 - Automatically detect ongoing call and postpone SIM card deactivation
 - Tinted SIM card icons

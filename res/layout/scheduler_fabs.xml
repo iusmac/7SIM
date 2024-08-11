@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="1dp"
+    android:theme="@style/Theme.Material3.DayNight">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/scheduler_pin_title"
+        android:tooltipText="@string/scheduler_pin_title"
+        android:scaleType="centerInside"
+        app:backgroundTint="@color/fab_pin_background_tint_color"
+        app:tint="@color/fab_pin_tint_color"
+        app:shapeAppearanceOverlay="@style/FabRoundedStyle"
+        app:maxImageSize="42dp"
+        app:srcCompat="@drawable/sd_pin_lock_24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:tooltipText="@string/scheduler_add_button_text"
+        android:contentDescription="@string/scheduler_add_button_text"
+        app:tint="@color/fab_add_tint_color"
+        app:fabCustomSize="@dimen/fab_height"
+        app:shapeAppearanceOverlay="@style/FabRoundedStyle"
+        app:srcCompat="@drawable/ic_add_24dp" />
+</RelativeLayout>

@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Procesando en segundo plano …"</string>
     <string name="foreground_notification_channel_name">"Tareas en segundo plano"</string>
     <string name="foreground_notification_channel_description">"Por limitaciones de Android esto requiere mostrar una notificación mientras realiza esta acción en un segundo plano. Puedes ocultar este canal con seguridad."</string>
-    <string name="scheduler_toolbar_reset">"Restablecer"</string>
-    <string name="scheduler_reset_dialog_message">"Esta operación no se puede deshacer.\n\n¿Deseas continuar?"</string>
-    <string name="scheduler_switch_use_title">"Usar programación"</string>
-    <string name="scheduler_days_of_week_title">"Días"</string>
-    <string name="scheduler_days_of_week_none">"Ninguno"</string>
+    <string name="scheduler_delete_message">"Esta operación no se puede deshacer. ¿Deseas continuar?"</string>
+    <string name="scheduler_days_of_week_none">"Nunca"</string>
     <string name="scheduler_days_of_week_all">"Todos los días"</string>
-    <string name="scheduler_start_time_title">"Hora de inicio"</string>
-    <string name="scheduler_end_time_title">"Hora de finalización"</string>
     <string name="scheduler_start_time_custom_summary">"Se activará automáticamente: <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Se desactivará automáticamente: <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"No se activará <b>nunca</b> automáticamente"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Muy importante"</string>
     <string name="foreground_notification_paused_in_background_title">"Pausada en segundo plano"</string>
     <string name="foreground_notification_call_in_progress_text">"Llamada en curso…"</string>
-    <string name="preference_not_set">"Sin establecer"</string>
     <string name="scheduler_pin_title">"PIN de la tarjeta SIM"</string>
-    <string name="scheduler_pin_set_summary">"El PIN se ha establecido."</string>
-    <string name="scheduler_pin_unset_summary">"Introduce el PIN de la tarjeta SIM"</string>
     <string name="scheduler_pin_invalid_hint">"Escribe un código PIN que tenga entre 4 y 8 dígitos."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"No se pudo descifrar el código PIN de la tarjeta SIM. Vuelva a ingresar el código PIN de la SIM para corregirlo."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Código PIN de la SIM incorrecto. Vuelve a introducir el código PIN correcto."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Toca para solucionar el problema"</string>
     <string name="sim_pin_operation_failed">"No se ha podido desbloquear la tarjeta SIM con el código PIN."</string>
     <string name="sim_unlock_failed">"El desbloqueo de tarjeta SIM no se ha realizado correctamente."</string>
+    <string name="scheduler_name">"Nombre de la programación"</string>
+    <string name="scheduler_name_hint">"Nombre de la programación"</string>
+    <string name="scheduler_name_description">"Nombre de la programación"</string>
+    <string name="scheduler_expand">"Expandir horario"</string>
+    <string name="scheduler_collapse">"Contraer horario"</string>
+    <string name="scheduler_delete">"Eliminar"</string>
+    <string name="scheduler_action_title">"Acción"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Activando SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Desactivando SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Activ. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Desactiv. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Editar"</string>
+    <string name="scheduler_pin_menu_delete_title">"Eliminar"</string>
+    <string name="scheduler_add_button_text">"Añadir un horario"</string>
 </resources>

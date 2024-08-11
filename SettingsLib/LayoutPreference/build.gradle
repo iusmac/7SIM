@@ -2,13 +2,11 @@ plugins {
     id 'com.android.library'
 }
 
-def SettingsLibMainSwitchPreference = '../fwb/packages/SettingsLib/MainSwitchPreference'
-
 android {
-    namespace 'com.android.settingslib.widget.mainswitch'
+    namespace 'com.android.settingslib.widget.preference.layout'
 
     defaultConfig {
-        minSdk 28
+        minSdk 21
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -21,15 +19,20 @@ android {
         }
     }
 
-    lint {
+    lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
     sourceSets {
         main {
-            res.srcDirs = ["${SettingsLibMainSwitchPreference}/res"]
-            java.srcDirs = ["${SettingsLibMainSwitchPreference}/src"]
+            res.srcDirs = ['../fwb/packages/SettingsLib/LayoutPreference/res']
+            java.srcDirs = ['../fwb/packages/SettingsLib/LayoutPreference/src']
         }
     }
 }

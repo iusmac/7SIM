@@ -1,5 +1,7 @@
 package com.github.iusmac.sevensim.scheduler;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -29,6 +31,9 @@ public final class SubscriptionScheduleEntity {
     @ColumnInfo(name = "sub_enabled")
     private boolean mSubscriptionEnabled;
 
+    @ColumnInfo(name = "label")
+    private String mLabel;
+
     @ColumnInfo(name = "enabled")
     private boolean mEnabled;
 
@@ -53,6 +58,14 @@ public final class SubscriptionScheduleEntity {
 
     public void setSubscriptionId(final int subId) {
         mSubscriptionId = subId;
+    }
+
+    public String getLabel() {
+        return mLabel;
+    }
+
+    public void setLabel(final String label) {
+        mLabel = label;
     }
 
     public boolean getSubscriptionEnabled() {
@@ -85,6 +98,21 @@ public final class SubscriptionScheduleEntity {
 
     public void setTime(final LocalTime time) {
         mTime = time;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final SubscriptionScheduleEntity compareTo = (SubscriptionScheduleEntity) o;
+        return compareTo.mId == mId
+            && compareTo.mSubscriptionId == mSubscriptionId
+            && compareTo.mSubscriptionEnabled == mSubscriptionEnabled
+            && TextUtils.equals(compareTo.mLabel, mLabel)
+            && compareTo.mEnabled == mEnabled
+            && compareTo.mDaysOfWeek.equals(mDaysOfWeek)
+            && compareTo.mTime.equals(mTime);
     }
 
     @Override

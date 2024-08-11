@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Verarbeitung im Hintergrund …"</string>
     <string name="foreground_notification_channel_name">"Hintergrundprozesse"</string>
     <string name="foreground_notification_channel_description">"Bei Android muss eine laufende Benachrichtigung angezeigt werden, während die App im Hintergrund aktiv ist. Du kannst diesen Kanal sicher ausblenden."</string>
-    <string name="scheduler_toolbar_reset">"Zurücksetzen"</string>
-    <string name="scheduler_reset_dialog_message">"Dieser Vorgang kann nicht rückgängig gemacht werden.\n\nFortfahren?"</string>
-    <string name="scheduler_switch_use_title">"Zeitplan verwenden"</string>
-    <string name="scheduler_days_of_week_title">"Tage"</string>
-    <string name="scheduler_days_of_week_none">"Keine"</string>
+    <string name="scheduler_delete_message">"Dieser Vorgang kann nicht rückgängig gemacht werden. Fortfahren?"</string>
+    <string name="scheduler_days_of_week_none">"Nie"</string>
     <string name="scheduler_days_of_week_all">"Täglich"</string>
-    <string name="scheduler_start_time_title">"Beginn"</string>
-    <string name="scheduler_end_time_title">"Ende"</string>
     <string name="scheduler_start_time_custom_summary">"Wird automatisch <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]> aktiviert"</string>
     <string name="scheduler_end_time_custom_summary">"Wird automatisch <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]> deaktiviert"</string>
     <string name="scheduler_start_time_none_summary">"Wird <b>nie</b> automatisch aktiviert"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Hohe Wichtigkeit"</string>
     <string name="foreground_notification_paused_in_background_title">"Im Hintergrund pausiert"</string>
     <string name="foreground_notification_call_in_progress_text">"Anruf in Arbeit…"</string>
-    <string name="preference_not_set">"Nicht festgelegt"</string>
     <string name="scheduler_pin_title">"PIN für SIM-Karte"</string>
-    <string name="scheduler_pin_set_summary">"Die PIN wurde festgelegt."</string>
-    <string name="scheduler_pin_unset_summary">"Gib die SIM-PIN ein"</string>
     <string name="scheduler_pin_invalid_hint">"Gib eine 4- bis 8-stellige PIN ein."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"Der SIM-PIN-Code konnte nicht entschlüsselt werden. Geben Sie den SIM-PIN-Code erneut ein, um das Problem zu beheben."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Falscher PIN-Code für die SIM-Karte. Gib den richtigen PIN-Code ein."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tippen, um das Problem zu beheben"</string>
     <string name="sim_pin_operation_failed">"Fehler beim Entsperren der SIM-Karte mit der PIN."</string>
     <string name="sim_unlock_failed">"Entsperren der SIM-Karte fehlgeschlagen."</string>
+    <string name="scheduler_name">"Name des Zeitplans"</string>
+    <string name="scheduler_name_hint">"Name für Zeitplan eingeben"</string>
+    <string name="scheduler_name_description">"Name des Zeitplans"</string>
+    <string name="scheduler_expand">"Zeitplan erweitern"</string>
+    <string name="scheduler_collapse">"Zeitplan reduzieren"</string>
+    <string name="scheduler_delete">"Löschen"</string>
+    <string name="scheduler_action_title">"Aktion"</string>
+    <string name="scheduler_action_activate_sim_long_text">"SIM wird aktiviert"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"SIM wird deaktiviert"</string>
+    <string name="scheduler_action_activate_sim_short_text">"SIM aktiv."</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"SIM deaktiv."</string>
+    <string name="scheduler_pin_menu_edit_title">"Bearbeiten"</string>
+    <string name="scheduler_pin_menu_delete_title">"Löschen"</string>
+    <string name="scheduler_add_button_text">"Füge einen Zeitplan hinzu"</string>
 </resources>

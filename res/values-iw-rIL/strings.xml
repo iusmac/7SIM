@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"עובד ברקע…"</string>
     <string name="foreground_notification_channel_name">"משימות רקע"</string>
     <string name="foreground_notification_channel_description">"אנדרואיד דורש להציג התראה מתמשכת בזמן שהאפליקציה פעילה ברקע. ניתן להסתיר את הערוץ הזה ללא חשש."</string>
-    <string name="scheduler_toolbar_reset">"איפוס"</string>
-    <string name="scheduler_reset_dialog_message">"פעולה זו אינה ניתנת לביטול.\n\nלהמשיך?"</string>
-    <string name="scheduler_switch_use_title">"שימוש בלוח זמנים"</string>
-    <string name="scheduler_days_of_week_title">"ימים"</string>
-    <string name="scheduler_days_of_week_none">"ללא"</string>
+    <string name="scheduler_delete_message">"פעולה זו אינה ניתנת לביטול. להמשיך?"</string>
+    <string name="scheduler_days_of_week_none">"אף פעם"</string>
     <string name="scheduler_days_of_week_all">"מדי יום"</string>
-    <string name="scheduler_start_time_title">"שעת התחלה"</string>
-    <string name="scheduler_end_time_title">"שעת סיום"</string>
     <string name="scheduler_start_time_custom_summary">"הפעלה אוטומטית <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"כיבוי אוטומטי <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>לעולם</b> לא תופעל אוטומטית"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"חשיבות גבוהה"</string>
     <string name="foreground_notification_paused_in_background_title">"עצר ברקע"</string>
     <string name="foreground_notification_call_in_progress_text">"שיחה מתבצעת…"</string>
-    <string name="preference_not_set">"לא מוגדרת"</string>
     <string name="scheduler_pin_title">"‏קוד הגישה ל-SIM"</string>
-    <string name="scheduler_pin_set_summary">"קוד גישה הוגדר"</string>
-    <string name="scheduler_pin_unset_summary">"‏יש להזין את קוד האימות של כרטיס ה-SIM"</string>
     <string name="scheduler_pin_invalid_hint">"יש להקליד קוד אימות שאורכו 4 עד 8 ספרות."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"לא ניתן לפענח את קוד ה-PIN של כרטיס ה-SIM. הזן שוב את קוד ה-PIN של ה-SIM כדי לתקן את הבעיה."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"‏קוד האימות של כרטיס ה-SIM שגוי. יש להזין שוב את קוד ה-PIN הנכון."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"יש להקיש כדי לפתור את הבעיה"</string>
     <string name="sim_pin_operation_failed">"‏נכשלה פעולת קוד הגישה של כרטיס ה-SIM"</string>
     <string name="sim_unlock_failed">"בקשת פתיחת SIM נכשלה."</string>
+    <string name="scheduler_name">"שם לוח הזמנים"</string>
+    <string name="scheduler_name_hint">"יש להזין שם ללוח הזמנים"</string>
+    <string name="scheduler_name_description">"שם לוח הזמנים"</string>
+    <string name="scheduler_expand">"הרחב לוח זמנים"</string>
+    <string name="scheduler_collapse">"כווץ לוח זמנים"</string>
+    <string name="scheduler_delete">"מחיקה"</string>
+    <string name="scheduler_action_title">"פעולה"</string>
+    <string name="scheduler_action_activate_sim_long_text">"מפעיל SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"מפסיק SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"מפעיל SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"מפסיק SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"עריכה"</string>
+    <string name="scheduler_pin_menu_delete_title">"מחיקה"</string>
+    <string name="scheduler_add_button_text">"הוסף תזמון"</string>
 </resources>

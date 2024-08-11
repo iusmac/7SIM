@@ -22,14 +22,9 @@
     <string name="foreground_notification_title">"Arbejder i baggrunden…"</string>
     <string name="foreground_notification_channel_name">"Baggrundsopgaver"</string>
     <string name="foreground_notification_channel_description">"Android kræver, at der vises en løbende påmindelse, når app er aktiv i baggrunden. Du kan trygt skjule denne kanal."</string>
-    <string name="scheduler_toolbar_reset">"Nulstil"</string>
-    <string name="scheduler_reset_dialog_message">"Denne opgave kan ikke fortrydes.\n\nFortsæt?"</string>
-    <string name="scheduler_switch_use_title">"Anvend tidsplan"</string>
-    <string name="scheduler_days_of_week_title">"Dage"</string>
-    <string name="scheduler_days_of_week_none">"Ingen"</string>
+    <string name="scheduler_delete_message">"Denne opgave kan ikke fortrydes. Fortsæt?"</string>
+    <string name="scheduler_days_of_week_none">"Aldrig"</string>
     <string name="scheduler_days_of_week_all">"Hver dag"</string>
-    <string name="scheduler_start_time_title">"Starttidspunkt"</string>
-    <string name="scheduler_end_time_title">"Sluttidspunkt"</string>
     <string name="scheduler_start_time_custom_summary">"Aktiveres automatisk <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_end_time_custom_summary">"Deaktiveres automatisk <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Aktiveres <b>aldrig</b> automatisk"</string>
@@ -43,10 +38,7 @@
     <string name="notification_important_channel_name">"Stor vigtighed"</string>
     <string name="foreground_notification_paused_in_background_title">"Standset i baggrunden"</string>
     <string name="foreground_notification_call_in_progress_text">"Opkald i gang …"</string>
-    <string name="preference_not_set">"Ikke angivet"</string>
     <string name="scheduler_pin_title">"Pinkode til SIM-kort"</string>
-    <string name="scheduler_pin_set_summary">"Pinkoden er blevet indstillet"</string>
-    <string name="scheduler_pin_unset_summary">"Angiv pinkoden til SIM-kortet"</string>
     <string name="scheduler_pin_invalid_hint">"Angiv en pinkode på mellem 4 og 8 tal."</string>
     <string name="scheduler_pin_banner_sim_pin_decryption_failed_reason">"SIM PIN-koden kunne ikke dekrypteres. Indtast SIM PIN-koden igen for at rette fejlen."</string>
     <string name="scheduler_pin_banner_wrong_sim_pin_code_reason">"Du har angivet en forkert pinkode til SIM-kortet. Angiv den korrekte PIN-kode."</string>
@@ -55,4 +47,18 @@
     <string name="notification_tap_to_fix_text">"Tryk for at løse problemet"</string>
     <string name="sim_pin_operation_failed">"Pinkoden til SIM-kortet blev afvist"</string>
     <string name="sim_unlock_failed">"Anmodning om oplåsning af SIM-kort mislykkedes."</string>
+    <string name="scheduler_name">"Navn på tidsplan"</string>
+    <string name="scheduler_name_hint">"Angiv tidsplanens navn"</string>
+    <string name="scheduler_name_description">"Navn på tidsplan"</string>
+    <string name="scheduler_expand">"Udvid tidsplan"</string>
+    <string name="scheduler_collapse">"Skjul tidsplan"</string>
+    <string name="scheduler_delete">"Slet"</string>
+    <string name="scheduler_action_title">"Handling"</string>
+    <string name="scheduler_action_activate_sim_long_text">"Aktiverer SIM"</string>
+    <string name="scheduler_action_deactivate_sim_long_text">"Deaktiverer SIM"</string>
+    <string name="scheduler_action_activate_sim_short_text">"Aktiv. SIM"</string>
+    <string name="scheduler_action_deactivate_sim_short_text">"Deakt. SIM"</string>
+    <string name="scheduler_pin_menu_edit_title">"Rediger"</string>
+    <string name="scheduler_pin_menu_delete_title">"Slet"</string>
+    <string name="scheduler_add_button_text">"Tilføj en tidsplan"</string>
 </resources>
