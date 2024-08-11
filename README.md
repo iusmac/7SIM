@@ -19,10 +19,6 @@ If you're a ROM maintainer and wish to ship this app as part of your ROM, see
 
 If you're a normal user willing to give it a try, see [Installation](#installation) section.
 
-> [!NOTE]
-> Although the application is still in BETA phrase and under development, the existing functionality
-> is stable enough for daily use at this point.
-
 ##### Benefits
 - Manually activate/deactivate individual SIM cards with just two taps
 - or automate this process using the integrated scheduler
