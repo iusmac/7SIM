@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/iusmac/7SIM/compare/v1.2.2-beta...v2.0.0) (2024-08-11)
+
+
+### :sparkles: Features
+
+* **#1:** add an arbitrary number of schedules per SIM card ([#24](https://github.com/iusmac/7SIM/issues/24)) ([97d5aff](https://github.com/iusmac/7SIM/commit/97d5affbfd93464324c3c54a42eb181fa75503de))
+
+
+### :hammer_and_wrench: Miscellaneous Chores
+
+* release 2.0.0 ([e10b842](https://github.com/iusmac/7SIM/commit/e10b8425b1dac4becd173ef90392d9784059618f))
+
 ## [1.2.2-beta](https://github.com/iusmac/7SIM/compare/v1.2.1-beta...v1.2.2-beta) (2024-08-08)
 
 
