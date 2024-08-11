@@ -94,4 +94,5 @@
     <string name="preference_list_show_app_icon_key" translatable="false">"show_launcher_icon"</string>
     <string name="scheduler_pin_error_key" translatable="false">"scheduler_pin_error"</string>
     <string name="scheduler_empty_view_key" translatable="false">"scheduler_empty_view"</string>
+    <string name="license_key" translatable="false">"license"</string>
 </resources>
