@@ -257,7 +257,7 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
      * A holder class representing a pending intent associated with its ID (aka startId), that will
      * be processed via {@link #handleIntent(Intent)} when the {@link Worker} starts.
      */
-    private final class PendingTask {
+    private static final class PendingTask {
         final int id;
         final Intent intent;
 

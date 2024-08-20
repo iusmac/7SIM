@@ -210,7 +210,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
                 if (subId > INVALID_SUBSCRIPTION_ID) {
                     return subId;
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) { /* @SuppressWarnings("EmptyCatch") */ }
 
             mLogger.e("getPersistedSubscriptionId(slotIndex=%d) : Invalid SIM subscription ID: %s.",
                     slotIndex, value);
@@ -235,7 +235,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
                     case SimState.DISABLED:
                         return state;
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) { /* @SuppressWarnings("EmptyCatch") */ }
 
             mLogger.e("getPersistedSimState(slotIndex=%d) : Invalid SIM state: %s.",
                     slotIndex, value);
@@ -254,11 +254,10 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
         return mSimIconTintSysProp.get(Optional.empty(), slotIndex).map((value) -> {
             try {
                 return Integer.parseInt(value);
-            } catch (NumberFormatException e) {}
-
-            mLogger.e("getPersistedSimTintColor(slotIndex=%d) : Invalid SIM tint: %s.",
-                    slotIndex, value);
-
+            } catch (NumberFormatException e) {
+                mLogger.e("getPersistedSimTintColor(slotIndex=%d) : Invalid SIM tint: %s.",
+                        slotIndex, value);
+            }
             return null;
         }).orElse(Color.BLACK);
     }
@@ -279,7 +278,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * @param slotIndex The corresponding SIM slot index.
      * @param subId The subscription ID.
      */
-    protected void persistSimSubId(final int slotIndex, final int subId) {
+    private void persistSimSubId(final int slotIndex, final int subId) {
         mSimSubIdSysProp.set(Optional.of(Integer.toString(subId)), slotIndex);
     }
 
@@ -289,7 +288,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * @param slotIndex The corresponding SIM slot index.
      * @param state One of {@link SimState}s.
      */
-    protected void persistSimState(final int slotIndex, final @SimState int state) {
+    private void persistSimState(final int slotIndex, final @SimState int state) {
         mSimStateSysProp.set(Optional.of(Integer.toString(state)), slotIndex);
     }
 
@@ -299,7 +298,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * @param slotIndex The corresponding SIM slot index.
      * @param tint The packed tint color integer.
      */
-    protected void persistSimTintColor(final int slotIndex, final @ColorInt int tint) {
+    private void persistSimTintColor(final int slotIndex, final @ColorInt int tint) {
         mSimIconTintSysProp.set(Optional.of(Integer.toString(tint)), slotIndex);
     }
 
@@ -309,7 +308,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * @param slotIndex The corresponding SIM slot index.
      * @param subscriptionName The subscription name.
      */
-    protected void persistSimName(final int slotIndex, @Nullable String subscriptionName) {
+    private void persistSimName(final int slotIndex, @Nullable String subscriptionName) {
         if ("".equals(subscriptionName)) {
             subscriptionName = null;
         }

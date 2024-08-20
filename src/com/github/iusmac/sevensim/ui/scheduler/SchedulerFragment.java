@@ -52,6 +52,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Comparator;
 
 import javax.inject.Inject;
@@ -209,7 +210,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             final Bundle savedInstanceState) {
 
         final RelativeLayout fabContainer = (RelativeLayout)
-            inflater.inflate(R.layout.scheduler_fabs, /*container=*/ null, false);
+            inflater.inflate(R.layout.scheduler_fabs, null, false);
         mPinFab = fabContainer.findViewById(R.id.fab_pin);
         mAddFab = fabContainer.findViewById(R.id.fab_add);
 
@@ -391,7 +392,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     private void startCreatingSchedule() {
         // Clear the currently selected schedule
         mSelectedSchedule = null;
-        showTimePicker(LocalTime.now());
+        showTimePicker(LocalTime.now(ZoneId.systemDefault()));
     }
 
     private void showPinPromptDialog() {
@@ -479,7 +480,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
 
     private void handleOnScheduleDeleted() {
         if (mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
-            authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_SCHEDULE_DELETED, /*paylaod=*/ null);
+            authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_SCHEDULE_DELETED, /*payload=*/ null);
         } else {
             mItemAdapter.removeItemAt(mItemAdapter.getPosition(mSelectedSchedule.getId()));
             mViewModel.handleOnDeleted(mSelectedSchedule);
@@ -640,7 +641,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
 
     /**
      * @param action The action to run after authenticating the user.
-     * @param extras The Bundle holding payload data.
+     * @param payload The Bundle holding payload data.
      */
     private void authenticateAndRunAction(final String action, final Bundle payload) {
         final Intent i = new Intent(requireContext(), AuthenticationPromptActivity.class);
@@ -785,7 +786,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         super.onViewStateRestored(savedInstanceState);
 
         if (savedInstanceState != null) {
-            if (mPinPopupMenuVisible = savedInstanceState.getBoolean(SAVED_PIN_POPUP_VISIBLE)) {
+            if ((mPinPopupMenuVisible = savedInstanceState.getBoolean(SAVED_PIN_POPUP_VISIBLE))) {
                 mPinFab.post(() -> mPinPopupMenu.show());
             }
             mExpandedScheduleId = savedInstanceState.getLong(SAVED_EXPANDED_SCHEDULE_ID,

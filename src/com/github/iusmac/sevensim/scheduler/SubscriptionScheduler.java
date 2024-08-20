@@ -178,7 +178,7 @@ public final class SubscriptionScheduler {
                 if (needSleep) {
                     try {
                         Thread.sleep(2_000);
-                    } catch (InterruptedException ignored) { }
+                    } catch (InterruptedException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
                 }
             }
 
@@ -405,7 +405,7 @@ public final class SubscriptionScheduler {
 
         mLogger.d("doScheduleDatabaseRequest(schedule=%s,opType=%s).", schedule, opType);
 
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         // We expect the schedules to take precedence over the user's preference when schedules
         // are explicitly mutated by the user
         final boolean overrideUserPreference = true;

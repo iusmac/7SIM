@@ -29,9 +29,9 @@ public final class SysProp {
      * defined in [3].
      *
      * <p>
-     * [1] {@link https://android.googlesource.com/platform/system/sepolicy/+/refs/heads/android-s-beta-4/private/seapp_contexts#140}
-     * [2] {@link https://android.googlesource.com/platform/system/sepolicy/+/refs/heads/android-s-beta-4/private/system_app.te#41}
-     * [3] {@link https://android.googlesource.com/platform/system/sepolicy/+/refs/heads/android-s-beta-4/private/property_contexts#29}
+     * [1] <a href="https://android.googlesource.com/platform/system/sepolicy/+/refs/heads/android-s-beta-4/private/seapp_contexts#140">platform/system/sepolicy/private/seapp_contexts<a/>
+     * [2] <a href="https://android.googlesource.com/platform/system/sepolicy/+/refs/heads/android-s-beta-4/private/system_app.te#41">platform/system/sepolicy/private/system_app.te</a>
+     * [3] <a href="https://android.googlesource.com/platform/system/sepolicy/+/refs/heads/android-s-beta-4/private/property_contexts#29">platform/system/sepolicy/private/property_contexts</a>
     */
     private final String SYSTEM_PROP_BASE_CONTEXT = "service.";
 
@@ -86,19 +86,24 @@ public final class SysProp {
     }
 
     /**
-     * @see SystemProperties#set(String,String)
-     * @param val The value to store in the system property.
+     * Set the system property to a value, if any.
+     *
+     * @param value The value to store in the system property.
      * @param formatArgs Values to fill format specifiers in the property name.
+     *
+     * @see SystemProperties#set(String,String)
      */
     public void set(final Optional<String> value, final Object... formatArgs) {
         SystemProperties.set(getFormattedProp(formatArgs), value.orElse(null));
     }
 
     /**
-     * @see SystemProperties#get(String,String)
+     * Get the value stored in the system property.
+     *
      * @param def The default value in case the property is not set or empty.
      * @param formatArgs Values to fill format specifiers in the property name.
-     * @return The value stored in the system property.
+     *
+     * @see SystemProperties#get(String,String)
      */
     public Optional<String> get(final Optional<String> def, final Object... formatArgs) {
         final String value = SystemProperties.get(getFormattedProp(formatArgs), def.orElse(null));

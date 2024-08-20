@@ -19,7 +19,6 @@ import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 import com.github.iusmac.sevensim.ui.preferences.PreferenceListActivity;
-import com.github.iusmac.sevensim.ui.sim.SimListViewModel.Factory;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -41,7 +40,7 @@ public class SimListActivity extends Hilt_SimListActivity
     Logger.Factory mLoggerFactory;
 
     @Inject
-    Factory mSimListViewModelFactory;
+    SimListViewModel.Factory mSimListViewModelFactory;
 
     @Inject
     Subscriptions mSubscriptions;

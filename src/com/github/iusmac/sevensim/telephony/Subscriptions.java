@@ -533,7 +533,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
                     case SimState.UNKNOWN:
                         return state;
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) { /* @SuppressWarnings("EmptyCatch") */ }
 
             mLogger.e("getPersistedSubscriptionState(subId=%d) : Invalid subscription state: %s.",
                     subId, value);

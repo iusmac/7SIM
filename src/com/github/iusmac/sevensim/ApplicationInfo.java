@@ -51,7 +51,7 @@ public final class ApplicationInfo {
     }
 
     /**
-     * @return The string containing the package version.
+     * Return the string containing the package version.
      */
     public @NonNull String getPackageVersionName() {
         try {
@@ -63,7 +63,7 @@ public final class ApplicationInfo {
     }
 
     /**
-     * @return {@code true} if the application is classified by the OS as a "built-in system"
+     * Return {@code true} if the application is classified by the OS as a "built-in system"
      * application, {@code false} otherwise.
      */
     public boolean isSystemApplication() {
@@ -97,9 +97,7 @@ public final class ApplicationInfo {
     }
 
     /**
-     * @param context The application context for accessing {@link PackageManager}.
-     * @param packageName The name of the package to retrieve overall information of.
-     * @return The array containing package {@link Signature}s.
+     * Return the array containing package {@link Signature}s.
      */
     private Signature[] getPackageSigners() {
         try {

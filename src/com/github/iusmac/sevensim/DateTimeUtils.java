@@ -37,15 +37,16 @@ public final class DateTimeUtils {
             if (dateTime != null) {
                 return Optional.of(LocalDateTime.parse(dateTime));
             }
-        } catch (DateTimeParseException ignored) { }
+        } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
         return Optional.empty();
     }
 
     /**
+     * Get the {@link LocalTime} in pretty format, such as 10:00 AM.
+     *
      * @param context The context for detecting the 12-/24-hour format.
      * @param time The {@link LocalTime} to express in human-readable format according to the
      * current locale.
-     * @return The time in pretty format, such as 10:00 AM.
      */
     public static @NonNull CharSequence getPrettyTime(final @NonNull Context context,
             final @NonNull LocalTime time) {

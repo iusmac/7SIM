@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 /**
  * A {@link DialogFragment} allowing the user to pick a time.
@@ -86,7 +87,7 @@ public class TimePickerDialogFragment extends DialogFragment implements OnTimeSe
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            final LocalTime lt = LocalTime.now();
+            final LocalTime lt = LocalTime.now(ZoneId.systemDefault());
             if (mHourOfDay < 0) {
                 mHourOfDay = lt.getHour();
             }

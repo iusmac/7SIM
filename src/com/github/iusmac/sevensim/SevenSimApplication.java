@@ -45,7 +45,7 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
     }
 
     /**
-     * @return {@code true} if the application has been signed with the AOSP platform signature,
+     * Return {@code true} if the application has been signed with the AOSP platform signature,
      * {@code false} otherwise.
      */
     public boolean hasAospPlatformSignature() {
@@ -53,14 +53,14 @@ public final class SevenSimApplication extends Hilt_SevenSimApplication {
     }
 
     /**
-     * @return The string containing the package version.
+     * Return the string containing the package version.
      */
     public @NonNull String getPackageVersionName() {
         return mApplicationVersion;
     }
 
     /**
-     * @return {@code true} if the application is classified by the OS as a "built-in system"
+     * Return {@code true} if the application is classified by the OS as a "built-in system"
      * application, {@code false} otherwise.
      */
     public boolean isSystemApplication() {

@@ -62,7 +62,7 @@ public final class ToolbarDecorator {
     }
 
     /**
-     * @return Whether the framework's {@link Toolbar} widget is wrapped by a
+     * Return whether the framework's {@link Toolbar} widget is wrapped by a
      * {@link CollapsingToolbarLayout} or not.
      */
     public boolean isCollapsingToolbarSupported() {
@@ -124,7 +124,7 @@ public final class ToolbarDecorator {
     }
 
     /**
-     * @return An Optional containing the title marquee repeat limit, if any.
+     * Return an Optional containing the title marquee repeat limit, if any.
      */
     public OptionalInt getTitleMarqueeRepeatLimit() {
         return mTitleMarqueeRepeatLimit;
@@ -145,7 +145,7 @@ public final class ToolbarDecorator {
     }
 
     /**
-     * @return An Optional containing the subtitle marquee repeat limit, if any.
+     * Return an Optional containing the subtitle marquee repeat limit, if any.
      */
     public OptionalInt getSubtitleMarqueeRepeatLimit() {
         return mSubtitleMarqueeRepeatLimit;
@@ -170,7 +170,11 @@ public final class ToolbarDecorator {
     }
 
     /**
+     * Set whether the collapsing subtitle is important for accessibility.
+     *
      * @param mode The mode for {@link View#setImportantForAccessibility(int)}.
+     *
+     * @see View#setImportantForAccessibility
      */
     public void setCollapsingSubtitleImportantForAccessibility(final int mode) {
         if (mCollapsedSubtitle != null) {
@@ -302,10 +306,10 @@ public final class ToolbarDecorator {
 
             // Fade in/out the collapsed subtitle based on vertical offset once threshold is reached
             final float collapsedSubtitleAlpha = Utils.lerp(
-                    /*startValue=*/ 0,
-                    /*endValue=*/ 1,
-                    /*startFraction=*/ fadeThresholdFraction,
-                    /*endFraction=*/ 1,
+                    /*startValue*/ 0,
+                    /*endValue*/ 1,
+                    /*startFraction*/ fadeThresholdFraction,
+                    /*endFraction*/ 1,
                     scrollFactor);
             mCollapsedSubtitle.setAlpha(collapsedSubtitleAlpha);
 
@@ -321,10 +325,10 @@ public final class ToolbarDecorator {
 
             // Fade in/out the expanded subtitle based on vertical offset until threshold is reached
             final float expandedSubtitleAlpha = Utils.lerp(
-                    /*startValue=*/ 1,
-                    /*endValue=*/ 0,
-                    /*startFraction=*/ fadeStartFraction,
-                    /*endFraction=*/ fadeThresholdFraction,
+                    /*startValue*/ 1,
+                    /*endValue*/ 0,
+                    /*startFraction*/ fadeStartFraction,
+                    /*endFraction*/ fadeThresholdFraction,
                     scrollFactor);
             mExpandedSubtitle.setAlpha(expandedSubtitleAlpha);
         }

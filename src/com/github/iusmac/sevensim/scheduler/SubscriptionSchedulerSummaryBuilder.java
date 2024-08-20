@@ -155,7 +155,7 @@ public final class SubscriptionSchedulerSummaryBuilder {
             final RelativeDateTimeFormatter.Style style = RelativeDateTimeFormatter.Style.SHORT;
             final DisplayContext displayContext = DisplayContext.CAPITALIZATION_NONE;
             mRelativeFormatter = RelativeDateTimeFormatter.getInstance(ULocale.forLocale(loc),
-                    /*NumberFormat=*/ null, style, displayContext);
+                    /*NumberFormat*/ null, style, displayContext);
             mRelativeFormatterLocale = loc;
         }
         return mRelativeFormatter;

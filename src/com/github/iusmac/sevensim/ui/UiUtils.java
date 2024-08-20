@@ -54,6 +54,7 @@ import android.view.animation.Interpolator;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -62,8 +63,6 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-
-import com.github.iusmac.sevensim.R;
 
 import java.util.Locale;
 
@@ -142,14 +141,17 @@ public final class UiUtils {
         };
 
     /**
+     * Helper to create a tinted drawable.
+     *
      * @param context The {@link Context} to access resources.
+     * @param drawableResId The target {@link DrawableRes} resource.
      * @param tint The {@link ColorInt} value to apply.
      * @return A tinted {@link Drawable}, cached instance in most cases.
      */
-    public static @NonNull Drawable createTintedSimIcon(final @NonNull Context context,
-            final @ColorInt int tint) {
+    public static @NonNull Drawable createTintedDrawable(final @NonNull Context context,
+            final @DrawableRes int drawableResId, final @ColorInt int tint) {
 
-        Drawable d = ContextCompat.getDrawable(context, R.drawable.ic_sim);
+        Drawable d = ContextCompat.getDrawable(context, drawableResId);
         d = DrawableCompat.wrap(d);
         DrawableCompat.setTint(d.mutate(), tint);
         return d;
@@ -190,22 +192,24 @@ public final class UiUtils {
     }
 
     /**
+     * Create a format string to display a 12 hours mode time having AM/PM bolded.
+     *
      * @param amPmRatio A value between 0 and 1 that is the ratio of the relative size of the am/pm
      * string to the time string.
      * @param includeSeconds Whether or not to include seconds in the time string.
-     * @return The format string for 12 hours mode time, not including seconds.
      */
     public static CharSequence get12ModeFormat(float amPmRatio, boolean includeSeconds) {
         return get12ModeFormat(amPmRatio, includeSeconds, true, true);
     }
 
     /**
+     * Create a format string to display a 12 hours mode time.
+     *
      * @param amPmRatio A value between 0 and 1 that is the ratio of the relative size of the am/pm
      * string to the time string.
      * @param includeSeconds Whether or not to include seconds in the time string.
      * @param amPmBolded Whether or not to bold the AM/PM.
      * @param amPmDisplayed  Whether or not to show the AM/PM.
-     * @return The Format string for 12 hours mode time, not including seconds.
      */
     public static CharSequence get12ModeFormat(final float amPmRatio, final boolean includeSeconds,
             final boolean amPmBolded, final boolean amPmDisplayed) {
@@ -235,6 +239,11 @@ public final class UiUtils {
         return sp;
     }
 
+    /**
+     * Create a format string to display a 24 hours time.
+     *
+     * @param includeSeconds Whether or not to include seconds in the time string.
+     */
     public static CharSequence get24ModeFormat(boolean includeSeconds) {
         return DateFormat.getBestDateTimePattern(Locale.getDefault(),
                 includeSeconds ? "Hms" : "Hm");
@@ -318,8 +327,9 @@ public final class UiUtils {
     }
 
     /**
+     * Check whether the currently the app is displayed in landscape orientation or not.
+     *
      * @param context The {@link Context} to access resources.
-     * @return Whether the currently the app is displayed in landscape orientation.
      */
     public static boolean isLandscape(final @NonNull Context context) {
         return context.getResources().getConfiguration().orientation ==

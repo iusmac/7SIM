@@ -18,6 +18,7 @@ import com.github.iusmac.sevensim.Utils;
 
 import dagger.Lazy;
 
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -184,7 +185,7 @@ public final class PinStorage {
         try {
             final Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            pinEntity.setData(cipher.doFinal(clearPin.getBytes()));
+            pinEntity.setData(cipher.doFinal(clearPin.getBytes(StandardCharsets.US_ASCII)));
             pinEntity.setIV(cipher.getIV());
         } catch (Exception e) {
             mLogger.e("encrypt(pinEntity=%s) : %s", pinEntity, e);
@@ -228,7 +229,8 @@ public final class PinStorage {
             final GCMParameterSpec spec = new GCMParameterSpec(GCM_PARAMETER_TAG_BIT_LEN,
                     pinEntity.getIV());
             cipher.init(Cipher.DECRYPT_MODE, secretKey, spec);
-            pinEntity.setClearPin(new String(cipher.doFinal(pinEntity.getData())));
+            pinEntity.setClearPin(new String(cipher.doFinal(pinEntity.getData()),
+                        StandardCharsets.US_ASCII));
         } catch (Exception e) {
             mLogger.e("decrypt(pinEntity=%s) : %s", pinEntity, e);
             return false;

@@ -150,8 +150,9 @@ public final class TelephonyUtils {
     }
 
     /**
+     * Return {@code true} if the "Airplane mode" is enabled, otherwise {@code false}.
+     *
      * @param context The context to access content resolver.
-     * @return {@code true} if the "Airplane mode" is enabled, otherwise {@code false}.
      */
     static boolean isAirplaneModeOn(final Context context) {
         return Settings.Global.getInt(context.getContentResolver(),
@@ -159,7 +160,7 @@ public final class TelephonyUtils {
     }
 
     /**
-     * @return {@code true} if PIN string meets the UICC specs, otherwise {@code false}.
+     * Return {@code true} if PIN string meets the UICC specs, otherwise {@code false}.
      */
     public static boolean isValidPin(final @Nullable String pin) {
         final int len = pin != null ? pin.length() : 0;

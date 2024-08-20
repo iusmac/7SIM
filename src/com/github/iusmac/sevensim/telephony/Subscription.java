@@ -195,14 +195,14 @@ public final class Subscription implements Parcelable {
                 if (lastActivatedTime != null) {
                     sub.setLastActivatedTime(LocalDateTime.parse(lastActivatedTime));
                 }
-            } catch (DateTimeParseException ignored) {}
+            } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
 
             try {
                 final String lastDeactivatedTime = in.readString();
                 if (lastDeactivatedTime != null) {
                     sub.setLastDeactivatedTime(LocalDateTime.parse(lastDeactivatedTime));
                 }
-            } catch (DateTimeParseException ignored) {}
+            } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
 
             Optional.ofNullable(in.readString()).ifPresent((v) ->
                     sub.keepDisabledAcrossBoots(Boolean.parseBoolean(v)));
