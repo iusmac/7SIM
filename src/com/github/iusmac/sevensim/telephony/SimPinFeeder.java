@@ -168,22 +168,28 @@ public final class SimPinFeeder extends Thread {
                 // Wait to be notified about new SIM state changes or finish on timeout
                 synchronized (simStatusChangedListener) {
                     if (!mSimStatusChanged) {
-                        try {
-                            // Note that for reliability, we want to wait a maximum of 10 seconds
-                            // for more SIM card state change events before finishing. Normally,
-                            // these events are delivered within a second, but in some edge cases,
-                            // such as under high memory pressure, delivery may be delayed even by
-                            // 2-3 seconds. This also serves as a "window" to give time to the SIM
-                            // cards to enter the PIN state in case we started slightly earlier
-                            simStatusChangedListener.wait(10_000L);
-                            if (!mSimStatusChanged) {
-                                // Timed out. No more events
-                                break threadLoop;
+                        long nowMillis = System.currentTimeMillis();
+                        // Note that for reliability, we want to wait a maximum of 10 seconds for
+                        // more SIM card state change events before finishing. Normally, these
+                        // events are delivered within a second, but in some edge cases, such as
+                        // under high memory pressure, delivery may be delayed even by 2-3 seconds.
+                        // This also serves as a "window" to give time to the SIM cards to enter the
+                        // PIN state in case we started slightly earlier
+                        final long deltaMillis = nowMillis + 10_000L;
+                        do {
+                            try {
+                                simStatusChangedListener.wait(deltaMillis - nowMillis);
+                            } catch (InterruptedException ignored) {
+                                if (mReleased) {
+                                    break threadLoop;
+                                }
                             }
-                        } catch (InterruptedException ignored) {
-                            if (mReleased) {
-                                break threadLoop;
-                            }
+                            nowMillis = System.currentTimeMillis();
+                        } while (!mSimStatusChanged && nowMillis < deltaMillis);
+
+                        if (!mSimStatusChanged) {
+                            // Timed out. No more events
+                            break threadLoop;
                         }
                     }
                     mSimStatusChanged = false;
