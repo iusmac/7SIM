@@ -28,7 +28,7 @@ public final class RoomTypeConverters {
             if (dateTime != null) {
                 return LocalDateTime.parse(dateTime);
             }
-        } catch (DateTimeParseException ignored) {}
+        } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
         return null;
     }
 

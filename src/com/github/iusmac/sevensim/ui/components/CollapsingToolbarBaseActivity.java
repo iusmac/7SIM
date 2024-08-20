@@ -76,7 +76,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     public abstract @Nullable ViewModel onCreateViewModel();
 
     /**
-     * @return The {@link ViewModel} instance created via {@link #onCreateViewModel()}.
+     * Return the {@link ViewModel} instance created via {@link #onCreateViewModel()}.
      */
     public @Nullable ViewModel getViewModel() {
         return mViewModel;

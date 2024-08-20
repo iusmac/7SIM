@@ -39,6 +39,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -112,7 +113,7 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * @return An observable human-readable string summarizing the next upcoming schedule for this
+     * Return an observable human-readable string summarizing the next upcoming schedule for this
      * scheduler's SIM subscription.
      */
     LiveData<CharSequence> getNextUpcomingScheduleSummary() {
@@ -120,21 +121,21 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * @return An observable containing the list of schedules, if any.
+     * Return an observable containing the list of schedules, if any.
      */
     LiveData<Optional<List<SubscriptionScheduleEntity>>> getSchedules() {
         return mMutableSchedules;
     }
 
     /**
-     * @return An observable containing the most recently added schedule, if any.
+     * Return an observable containing the most recently added schedule, if any.
      */
     LiveData<SubscriptionScheduleEntity> getScheduleAddedListener() {
         return mMutableScheduleAddedListener;
     }
 
     /**
-     * @return An observable containing the PIN presence status.
+     * Return an observable containing the PIN presence status.
      */
     LiveData<Boolean> getPinPresence() {
         if (mObservablePinPresence == null) {
@@ -145,14 +146,14 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * @return An observable lock state of the SIM PIN task.
+     * Return an observable lock state of the SIM PIN task.
      */
     LiveData<Boolean> getPinTaskLock() {
         return mMutablePinTaskLock;
     }
 
     /**
-     * @return An observable containing a human-readable PIN error message, if any.
+     * Return an observable containing a human-readable PIN error message, if any.
      */
     LiveData<Optional<PinErrorMessage>> getPinErrorMessage() {
         if (mObseravblePinErrorMessage == null) {
@@ -320,7 +321,7 @@ public final class SchedulerViewModel extends ViewModel {
             final List<PinEntity> pinEntities = mPinStorage.getPinEntities();
             pinEntities.forEach((pinEntity1) -> mPinStorage.decrypt(pinEntity1));
             mSubscriptionScheduler.updateNextWeeklyRepeatScheduleProcessingIter(
-                    LocalDateTime.now().plusMinutes(1), pinEntities);
+                    LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(1), pinEntities);
 
             // Release lock
             mMutablePinTaskLock.postValue(false);
@@ -337,8 +338,9 @@ public final class SchedulerViewModel extends ViewModel {
 
         final CharSequence summary = mSubscriptions.getSubscriptionForSubId(mSubscriptionId)
             .map((sub) -> mSubscriptionSchedulerSummaryBuilder
-                    .buildNextUpcomingSubscriptionScheduleSummary(sub, LocalDateTime.now()))
-            .orElseGet(() -> mResources.getString(R.string.sim_missing));
+                    .buildNextUpcomingSubscriptionScheduleSummary(sub,
+                        LocalDateTime.now(ZoneId.systemDefault()))).orElseGet(() ->
+                    mResources.getString(R.string.sim_missing));
 
         mMutableNextUpcomingScheduleSummary.postValue(summary);
     }
@@ -354,14 +356,14 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
-     * @return {@code true} if the SIM PIN code has been set, otherwise {@code false}.
+     * Return {@code true} if the SIM PIN code has been set, otherwise {@code false}.
      */
     boolean isPinPresent() {
         return mMediatorPinEntity.getValue().isPresent();
     }
 
     /**
-     * @return {@code true} if we need to authenticate the user with their credentials for further
+     * Return {@code true} if we need to authenticate the user with their credentials for further
      * crypto operations on the SIM PIN code.
      */
     boolean isAuthenticationRequired() {
@@ -409,7 +411,7 @@ public final class SchedulerViewModel extends ViewModel {
         mHandler.removeCallbacksAndMessages(null);
     }
 
-    final class PinErrorMessage {
+    static final class PinErrorMessage {
         final String title;
         final String reason;
 
@@ -449,11 +451,12 @@ public final class SchedulerViewModel extends ViewModel {
     }
 
     /**
+     * Return an instance of the {@link ViewModelProvider}.
+     *
      * @param assistedFactory An {@link AssistedFactory} to create the {@link SchedulerViewModel}
      * instance via the {@link AssistedInject} constructor.
      * @param subscriptionId The SIM subscription ID to find the associated schedules for.
      * @param looper The shared (non-main) {@link Looper} instance to perform database requests on.
-     * @return An instance of the {@link ViewModelProvider}.
      */
     static ViewModelProvider.Factory getFactory(final Factory assistedFactory,
             final int subscriptionId, final Looper looper) {

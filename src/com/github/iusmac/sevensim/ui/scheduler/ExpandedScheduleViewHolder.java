@@ -108,7 +108,7 @@ public final class ExpandedScheduleViewHolder extends ScheduleItemViewHolder {
         for (int i = 0; it.hasNext(); i++) {
             final CompoundButton dayButton = mDayButtons[i];
             final @DayOfWeek int dayOfWeek = it.next();
-            dayButton.setText(daysOfWeek.getNarrowDisplayName(dayOfWeek));
+            dayButton.setText(DaysOfWeek.getNarrowDisplayName(dayOfWeek));
             dayButton.setContentDescription(daysOfWeek.getDisplayName(dayOfWeek,
                         /*useLongName*/ true));
 

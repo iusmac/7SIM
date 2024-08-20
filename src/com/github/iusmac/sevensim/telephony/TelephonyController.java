@@ -15,6 +15,7 @@ import com.github.iusmac.sevensim.Utils;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -146,8 +147,10 @@ public final class TelephonyController {
             mRequestMetadata.putString(KEY_LAST_DEACTIVATED_TIME,
                     sub.getLastDeactivatedTime().toString());
 
-            sub.setLastActivatedTime(enabled ? LocalDateTime.now() : LocalDateTime.MIN);
-            sub.setLastDeactivatedTime(!enabled ? LocalDateTime.now() : LocalDateTime.MIN);
+            sub.setLastActivatedTime(enabled ? LocalDateTime.now(ZoneId.systemDefault()) :
+                    LocalDateTime.MIN);
+            sub.setLastDeactivatedTime(!enabled ? LocalDateTime.now(ZoneId.systemDefault()) :
+                    LocalDateTime.MIN);
 
             sub.keepDisabledAcrossBoots(keepDisabledAcrossBoots);
 

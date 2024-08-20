@@ -158,7 +158,8 @@ public final class SimListFragment extends Hilt_SimListFragment {
                 pref.setSwitchEnabled(true);
             }
             pref.setOrder(i);
-            pref.setIcon(UiUtils.createTintedSimIcon(context, sub.getIconTint()));
+            pref.setIcon(UiUtils.createTintedDrawable(context, R.drawable.ic_sim,
+                        sub.getIconTint()));
             pref.setTitle(sub.getSimName());
             pref.setSummary(simEntry.getNextUpcomingScheduleSummary());
             pref.setChecked(sub.isSimEnabled());

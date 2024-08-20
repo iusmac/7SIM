@@ -32,7 +32,7 @@ public final class QsAppLauncherTileService extends TileService {
         aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         if (Utils.IS_AT_LEAST_U) {
             startActivityAndCollapse(PendingIntent.getActivityAsUser(this, /*requestCode=*/ 0,
-                        aIntent, PendingIntent.FLAG_IMMUTABLE, /*bundle=*/ null,
+                        aIntent, PendingIntent.FLAG_IMMUTABLE, /*options=*/ null,
                         UserHandle.CURRENT));
         } else {
             ApiDeprecated.startActivityAndCollapse(this, aIntent);

@@ -11,6 +11,7 @@ import com.github.iusmac.sevensim.launcher.LauncherIconVisibilityManager;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -46,7 +47,7 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
 
         mLogger.d("onReceive() : intent=" + intent);
 
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
             case Intent.ACTION_BOOT_COMPLETED:
@@ -77,6 +78,7 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                             break;
                         }
 
+                        // fall through
                     default:
                         ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
                                 now.plusMinutes(1), /*decryptPinStorage=*/ true);

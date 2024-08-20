@@ -93,7 +93,7 @@ public final class NotificationManager {
 
         try {
             mNotificationManagerCompat.notify(BACKGROUND_RESTRICTED_NOTIFICATION_ID, notification);
-        } catch (SecurityException ignored) {}
+        } catch (SecurityException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
     }
 
     /**
@@ -190,7 +190,7 @@ public final class NotificationManager {
         try {
             mNotificationManagerCompat.notify(SIM_PIN_ERROR_BASE_NOTIFICATION_ID + sub.getId(),
                     notification);
-        } catch (SecurityException ignored) {}
+        } catch (SecurityException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
     }
 
     /** Prepare a channel for foreground notifications. */

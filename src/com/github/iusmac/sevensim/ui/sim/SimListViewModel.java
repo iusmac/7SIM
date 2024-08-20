@@ -23,6 +23,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 
@@ -65,7 +66,7 @@ public final class SimListViewModel extends ViewModel {
     @WorkerThread
     void refreshSimEntries() {
         final SparseArrayCompat<SimEntry> simEntries = new SparseArrayCompat<>();
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         for (Subscription sub : mSubscriptions) {
             mLogger.v("refreshSimEntries() : %s.", sub);
 
@@ -108,7 +109,7 @@ public final class SimListViewModel extends ViewModel {
         mHandler.removeCallbacksAndMessages(null);
     }
 
-    final class SimEntry {
+    static final class SimEntry {
         private final Subscription subscription;
         private final CharSequence nextUpcomingScheduleSummary;
 
@@ -134,10 +135,11 @@ public final class SimListViewModel extends ViewModel {
     }
 
     /**
+     * Return an instance of the {@link ViewModelProvider}.
+     *
      * @param assistedFactory An {@link AssistedFactory} to create the {@link SimListViewModel}
      * instance via the {@link AssistedInject} constructor.
      * @param looper The shared (non-main) {@link Looper} instance to perform database requests on.
-     * @return An instance of the {@link ViewModelProvider}.
      */
     static ViewModelProvider.Factory getFactory(final Factory assistedFactory,
             final Looper looper) {

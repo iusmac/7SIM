@@ -18,6 +18,8 @@ public final class Utils {
         Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
 
     /**
+     * Make a standard toast with long duration.
+     *
      * @param context The application context.
      * @param msg The toast message to show.
      */

@@ -10,6 +10,7 @@ import android.telephony.SubscriptionManager;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -41,7 +42,7 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
 
         mLogger.d("onReceive() : intent=" + intent);
 
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
             case Intent.ACTION_LOCKED_BOOT_COMPLETED:

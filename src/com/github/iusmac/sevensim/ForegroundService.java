@@ -223,7 +223,7 @@ public final class ForegroundService extends Hilt_ForegroundService {
         startAction(context, i);
     }
 
-    /** @see SimPinFeeder */
+    /** See {@link SimPinFeeder}. */
     public static void unlockSimCards(final Context context, final Bundle clearPinCodes) {
         final Intent i = new Intent(ACTION_UNLOCK_SIM_CARDS);
         i.putExtra(EXTRA_CLEAR_PIN_CODES, clearPinCodes);

@@ -100,8 +100,9 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
     }
 
     /**
+     * Return {@link DayOfWeek} encoded in bits as if returned by {@link #getBits()}.
+     *
      * @param daysOfWeek Any or all of the {@link DayOfWeek} values.
-     * @return The {@link DayOfWeek} encoded in bits as if returned by {@link #getBits()}.
      */
     private int convertDaysOfWeekToBits(final @DayOfWeek Integer... daysOfWeek) {
         int bits = 0;
@@ -113,8 +114,9 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
     }
 
     /**
+     * Return {@code true} if the given day of the week is on, {@code false} otherwise.
+     *
      * @param dayOfWeek Any of {@link DayOfWeek} values.
-     * @return {@code true} if the given day of the week is on, {@code false} otherwise.
      */
     public boolean isBitOn(final @DayOfWeek int dayOfWeek) {
         final int bit = DAYS_OF_WEEK_BITS[dayOfWeek];
@@ -122,24 +124,24 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
     }
 
     /**
-     * @return The weekly repeat schedule encoded as an integer.
+     * Return the weekly repeat schedule encoded as an integer.
      */
     public int getBits() { return mBits; }
 
     /**
-     * @return {@code true} if at least one day of the week is enabled in the weekly repeat
-     * schedule, {@code false} otherwise.
+     * Return {@code true} if at least one day of the week is enabled in the weekly repeat schedule,
+     * {@code false} otherwise.
      */
     public boolean isRepeating() { return mBits != 0; }
 
     /**
-     * @return {@code true} if all days of the week are enabled in this weekly repeat schedule,
+     * Return {@code true} if all days of the week are enabled in this weekly repeat schedule,
      * {@code false} otherwise.
      */
     public boolean isFullWeek() { return mBits == ALL_DAYS_OF_WEEK_BITS; }
 
     /**
-     * @return The total number of days of the week enabled in this weekly repeat schedule.
+     * Return the total number of days of the week enabled in this weekly repeat schedule.
      */
     public int getCount() {
         return (int) IntStream
@@ -236,7 +238,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * Get the textual representation of a {@link DayOfWeek}, such as "Fri" or "Friday"
      *
      * @param dayOfWeek Any of {@link DayOfWeek} values.
-     * @param useLongNames If {@code true}, the un-abbreviated day of the week names are used, e.g.
+     * @param useLongName If {@code true}, the un-abbreviated day of the week names are used, e.g.
      * Tuesday, Friday, Saturday, otherwise the abbreviated ones are used, e.g. Tue, Fri, Sat.
      * @param locale The locale to use.
      */
@@ -319,8 +321,9 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
     }
 
     /**
+     * Extract the {@link DayOfWeek} value from a date-time object.
+     *
      * @param ldt The date-time to get the corresponding {@link DayOfWeek} value from.
-     * @return A {@link DayOfWeek} value.
      */
     public static @DayOfWeek int getDayOfWeekFrom(final @NonNull LocalDateTime ldt) {
         return ldt.get(WeekFields.SUNDAY_START.dayOfWeek());

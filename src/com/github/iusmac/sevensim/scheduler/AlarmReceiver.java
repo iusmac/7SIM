@@ -17,6 +17,7 @@ import com.github.iusmac.sevensim.ForegroundService;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,7 +54,7 @@ public final class AlarmReceiver extends Hilt_AlarmReceiver {
 
         mLogger.d("onReceive() : isBgRestricted=%s,intent=%s.", isBgRestricted, intent);
 
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         final Bundle clearPinCodes = intent.getExtras();
 
         ForegroundService.syncAllSubscriptionsEnabledState(context, now,
