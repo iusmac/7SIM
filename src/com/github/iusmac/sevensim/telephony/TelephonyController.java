@@ -171,11 +171,22 @@ public final class TelephonyController {
 
             setSimPowerStateForSlot(slotIndex, simStateInt(enabled));
 
-            try {
-                wait(SET_SIM_POWER_STATE_REQUEST_TIMEOUT_MILLIS);
-            } catch (InterruptedException e) {
-                mLogger.w(logPrefix + "Acquire wait interrupted.");
-            }
+            // Wait for the SIM power request to complete or timeout
+            long nowMillis = System.currentTimeMillis();
+            final long deadlineMillis = nowMillis + SET_SIM_POWER_STATE_REQUEST_TIMEOUT_MILLIS;
+            do {
+                try {
+                    wait(deadlineMillis - nowMillis);
+                } catch (InterruptedException e) {
+                    mLogger.w(logPrefix + "Acquire wait interrupted.");
+                    break;
+                }
+                if (mRequestMetadata.isEmpty()) {
+                    // Request metadata consumed, so we break here as this wasn't a spurious wakeup
+                    break;
+                }
+                nowMillis = System.currentTimeMillis();
+            } while (nowMillis < deadlineMillis);
 
             if (Utils.IS_OLDER_THAN_S) {
                 mSubscriptions.removeOnSimStatusChangedListener(mSimStatusChangedListener);
@@ -369,17 +380,17 @@ public final class TelephonyController {
                 default: return;
             }
 
-            final Subscription sub = BundleCompat.getParcelable(mRequestMetadata, KEY_SUBSCRIPTION,
-                    Subscription.class);
-
-            if (sub.getSlotIndex() != slotIndex) {
-                // Since we're listening to state mutations of all available SIM cards, we can
-                // hypothetically receive a concurrent update for a different SIM card than the one
-                // whose SIM power state we expect to change
-                return;
-            }
-
             synchronized (TelephonyController.this) {
+                final Subscription sub = BundleCompat.getParcelable(mRequestMetadata,
+                        KEY_SUBSCRIPTION, Subscription.class);
+
+                if (sub.getSlotIndex() != slotIndex) {
+                    // Since we're listening to state mutations of all available SIM cards, we can
+                    // hypothetically receive a concurrent update for a different SIM card than the
+                    // one whose SIM power state we expect to change
+                    return;
+                }
+
                 handleOnSetSimPowerStateForSlotFinished(state);
                 TelephonyController.this.notifyAll();
             }

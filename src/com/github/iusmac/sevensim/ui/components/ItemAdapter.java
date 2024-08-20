@@ -48,6 +48,7 @@ import androidx.recyclerview.widget.SortedListAdapterCallback;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Base adapter class for displaying a collection of items. Provides functionality for
@@ -453,6 +454,11 @@ public class ItemAdapter<T extends ItemAdapter.ItemHolder<?>>
          */
         public void onRestoreInstanceState(Bundle bundle) {
             // for subclassers
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(itemId, item);
         }
 
         @Override

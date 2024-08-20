@@ -67,9 +67,10 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
     /** The sum of all days of the week bit masks. */
     private static final int ALL_DAYS_OF_WEEK_BITS = 0x7f;
 
-    @GuardedBy("this")
+    @GuardedBy("DaysOfWeek.class")
     private static Locale sDefaultLocaleCache;
-    @GuardedBy("this")
+
+    @GuardedBy("DaysOfWeek.class")
     private static String[] sDaysOfWeekNarrowStrings;
 
     /** An encoded form of a weekly repeat schedule. */
@@ -266,7 +267,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * @param dayOfWeek Any of {@link DayOfWeek} values.
      * @return Single-character weekday name; e.g.: 'S', 'M', 'T', 'W', 'T', 'F', 'S'.
      */
-    public synchronized @NonNull String getNarrowDisplayName(final @DayOfWeek int dayOfWeek) {
+    public synchronized static @NonNull String getNarrowDisplayName(final @DayOfWeek int dayOfWeek) {
         final Locale loc = Locale.getDefault();
         if (sDaysOfWeekNarrowStrings == null || !loc.equals(sDefaultLocaleCache)) {
             sDaysOfWeekNarrowStrings = DateFormatSymbols.getInstance(loc)

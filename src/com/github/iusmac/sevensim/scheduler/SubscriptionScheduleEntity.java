@@ -9,6 +9,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalTime;
+import java.util.Objects;
 
 /**
  * This class is a data transfer object (DTO), representing a weekly repeat schedule for managing
@@ -113,6 +114,12 @@ public final class SubscriptionScheduleEntity {
             && compareTo.mEnabled == mEnabled
             && compareTo.mDaysOfWeek.equals(mDaysOfWeek)
             && compareTo.mTime.equals(mTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mId, mSubscriptionId, mSubscriptionEnabled, mLabel, mEnabled,
+                mDaysOfWeek, mTime);
     }
 
     @Override

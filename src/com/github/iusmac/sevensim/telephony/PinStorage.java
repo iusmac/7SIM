@@ -52,7 +52,7 @@ public final class PinStorage {
      * The {@link SystemClock#elapsedRealtime()}-based time, when the hardware-backed KeyStore has
      * been unlocked.
      */
-    @GuardedBy("this")
+    @GuardedBy("PinStorage.class")
     private static long sLastKeystoreAuthTimestamp;
 
     /** The default duration, in seconds, of the user authentication bound secret key. */
@@ -379,11 +379,13 @@ public final class PinStorage {
      * Check whether the user should be authenticated with their credentials in order to unlock the
      * hardware-backed KeyStore for further crypto operations.
      */
-    public synchronized boolean isAuthenticationRequired() {
-        final long authTimeout = sLastKeystoreAuthTimestamp == 0 ? 0 : sLastKeystoreAuthTimestamp +
-            DEFAULT_AUTHENTICATION_VALIDITY_DURATION_SECONDS * 1000L;
-        final boolean isKeystoreAuthExpired = authTimeout - SystemClock.elapsedRealtime() < 0;
-        return mKeyguardManagerLazy.get().isDeviceSecure() && isKeystoreAuthExpired;
+    public boolean isAuthenticationRequired() {
+        synchronized (PinStorage.class) {
+            final long authTimeout = sLastKeystoreAuthTimestamp == 0 ? 0 :
+                sLastKeystoreAuthTimestamp + DEFAULT_AUTHENTICATION_VALIDITY_DURATION_SECONDS * 1000L;
+            final boolean isKeystoreAuthExpired = authTimeout - SystemClock.elapsedRealtime() < 0;
+            return mKeyguardManagerLazy.get().isDeviceSecure() && isKeystoreAuthExpired;
+        }
     }
 
     /**

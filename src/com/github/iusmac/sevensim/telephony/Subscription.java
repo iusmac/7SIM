@@ -140,7 +140,7 @@ public final class Subscription implements Parcelable {
             && mName.equals(subToCompare.mName)
             && mLastActivatedTime.equals(subToCompare.mLastActivatedTime)
             && mLastDeactivatedTime.equals(subToCompare.mLastDeactivatedTime)
-            && mKeepDisabledAcrossBoots == subToCompare.mKeepDisabledAcrossBoots;
+            && Objects.equals(mKeepDisabledAcrossBoots, subToCompare.mKeepDisabledAcrossBoots);
     }
 
     @Override
