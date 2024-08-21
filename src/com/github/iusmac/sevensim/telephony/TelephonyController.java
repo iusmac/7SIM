@@ -61,10 +61,11 @@ public final class TelephonyController {
     private static final String KEY_LAST_ACTIVATED_TIME = "last_activated_time";
     private static final String KEY_LAST_DEACTIVATED_TIME = "last_deactivated_time";
     private static final String KEY_KEEP_DISABLED_ACROSS_BOOTS = "keep_disabled_across_boots";
+    private static final String KEY_REQUEST_RESPONSE_CODE = "request_response_code";
 
     /** The globally accessible request metadata used when performing SIM power state mutations. */
-    @GuardedBy("this")
-    private final Bundle mRequestMetadata = new Bundle(4);
+    @GuardedBy("mRequestMetadata")
+    private final Bundle mRequestMetadata = new Bundle(5);
 
     @GuardedBy("this")
     private SimStatusChangedListener mSimStatusChangedListener;
@@ -128,11 +129,10 @@ public final class TelephonyController {
                 return;
             }
 
-            // Globally save metadata needed when handling SIM power change request termination
-            mRequestMetadata.putParcelable(KEY_SUBSCRIPTION, sub);
-            if (sub.getKeepDisabledAcrossBoots() != null) {
-                mRequestMetadata.putBoolean(KEY_KEEP_DISABLED_ACROSS_BOOTS,
-                        sub.getKeepDisabledAcrossBoots());
+            if (enabled == sub.isSimEnabled()) {
+                mLogger.w(logPrefix + "Already in state.");
+                mSubscriptions.notifyAllListeners();
+                return;
             }
 
             // Keep track of SIM state whenever it's mutated. This will be persisted in a volatile
@@ -142,17 +142,25 @@ public final class TelephonyController {
             // SubscriptionManager anymore, even though the SIM is still present in the slot
             sub.setSimState(TelephonyUtils.simStateInt(enabled));
 
-            mRequestMetadata.putString(KEY_LAST_ACTIVATED_TIME,
-                    sub.getLastActivatedTime().toString());
-            mRequestMetadata.putString(KEY_LAST_DEACTIVATED_TIME,
-                    sub.getLastDeactivatedTime().toString());
-
             sub.setLastActivatedTime(enabled ? LocalDateTime.now(ZoneId.systemDefault()) :
                     LocalDateTime.MIN);
             sub.setLastDeactivatedTime(!enabled ? LocalDateTime.now(ZoneId.systemDefault()) :
                     LocalDateTime.MIN);
 
             sub.keepDisabledAcrossBoots(keepDisabledAcrossBoots);
+
+            // Globally save metadata needed when handling SIM power change request termination
+            synchronized (mRequestMetadata) {
+                mRequestMetadata.putParcelable(KEY_SUBSCRIPTION, sub);
+                mRequestMetadata.putString(KEY_LAST_ACTIVATED_TIME,
+                        sub.getLastActivatedTime().toString());
+                mRequestMetadata.putString(KEY_LAST_DEACTIVATED_TIME,
+                        sub.getLastDeactivatedTime().toString());
+                if (sub.getKeepDisabledAcrossBoots() != null) {
+                    mRequestMetadata.putBoolean(KEY_KEEP_DISABLED_ACROSS_BOOTS,
+                            sub.getKeepDisabledAcrossBoots());
+                }
+            }
 
             // Before making any request, persist the subscription associated with the SIM whose
             // power state we're going to change, to immediately reflect the changes on the callers
@@ -175,15 +183,18 @@ public final class TelephonyController {
             long nowMillis = System.currentTimeMillis();
             final long deadlineMillis = nowMillis + SET_SIM_POWER_STATE_REQUEST_TIMEOUT_MILLIS;
             do {
-                try {
-                    wait(deadlineMillis - nowMillis);
-                } catch (InterruptedException e) {
-                    mLogger.w(logPrefix + "Acquire wait interrupted.");
-                    break;
-                }
-                if (mRequestMetadata.isEmpty()) {
-                    // Request metadata consumed, so we break here as this wasn't a spurious wakeup
-                    break;
+                synchronized (mRequestMetadata) {
+                    try {
+                        mRequestMetadata.wait(deadlineMillis - nowMillis);
+                    } catch (InterruptedException e) {
+                        mLogger.w(logPrefix + "Acquire wait interrupted.");
+                        break;
+                    }
+                    if (mRequestMetadata.containsKey(KEY_REQUEST_RESPONSE_CODE)) {
+                        // SIM power request finished, so we break here as this wasn't a spurious
+                        // wakeup nor a timeout
+                        break;
+                    }
                 }
                 nowMillis = System.currentTimeMillis();
             } while (nowMillis < deadlineMillis);
@@ -193,19 +204,25 @@ public final class TelephonyController {
                 mSimStatusChangedListener = null;
             }
 
-            if (!mRequestMetadata.isEmpty()) { // Timed out
+            synchronized (mRequestMetadata) {
                 final int resCode;
-                if (enabled) {
-                    // When trying to enable SIM, but the response from modem timeouts, then we
-                    // know there's no SIM card in the slot. This is an implicit edge case that
-                    // needs to be handled manually, because by Android telephony design, a powered
-                    // up modem won't respond if there's no SIM card
-                    resCode = SET_SIM_POWER_STATE_SIM_ABSENT;
+                if (!mRequestMetadata.containsKey(KEY_REQUEST_RESPONSE_CODE)) { // Timed out
+                    if (enabled) {
+                        // When trying to enable SIM, but the response from modem timeouts, then we
+                        // know there's no SIM card in the slot. This is an implicit edge case that
+                        // needs to be handled manually, because by Android telephony design, a
+                        // powered up modem won't respond if there's no SIM card
+                        resCode = SET_SIM_POWER_STATE_SIM_ABSENT;
+                    } else {
+                        // When trying to disable SIM, but the response from modem timeouts, then
+                        // most likely the device modem does not support
+                        // TelephonyManager#setSimPowerStateForSlot call. So far, this can occur on
+                        // non-QCOM SoCs
+                        resCode = SET_SIM_POWER_STATE_MODEM_TIMEOUT;
+                    }
                 } else {
-                    // When trying to disable SIM, but the response from modem timeouts, then most
-                    // likely the device modem does not support TelephonyManager#setSimPowerStateForSlot
-                    // call. So far, this can occur on non-QCOM SoCs
-                    resCode = SET_SIM_POWER_STATE_MODEM_TIMEOUT;
+                    resCode = mRequestMetadata.getInt(KEY_REQUEST_RESPONSE_CODE);
+                    mRequestMetadata.remove(KEY_REQUEST_RESPONSE_CODE);
                 }
                 handleOnSetSimPowerStateForSlotFinished(resCode);
             }
@@ -220,17 +237,15 @@ public final class TelephonyController {
      * {@link TelephonyManager#CARD_POWER_UP}
      * {@link TelephonyManager#CARD_POWER_DOWN}
      */
-    @GuardedBy("this")
     private void setSimPowerStateForSlot(final int slotIndex, final int state) {
         if (Utils.IS_AT_LEAST_S) {
             final Consumer<Integer> callback = (resCode) -> {
-                synchronized (TelephonyController.this) {
-                    handleOnSetSimPowerStateForSlotFinished(resCode);
-                    TelephonyController.this.notifyAll();
+                synchronized (mRequestMetadata) {
+                    mRequestMetadata.putInt(KEY_REQUEST_RESPONSE_CODE, resCode);
+                    mRequestMetadata.notifyAll();
                 }
             };
-            mTelephonyManager.setSimPowerStateForSlot(slotIndex, state, (runnable) ->
-                    runnable.run(), callback);
+            mTelephonyManager.setSimPowerStateForSlot(slotIndex, state, Runnable::run, callback);
         } else {
             ApiDeprecated.setSimPowerStateForSlot(mTelephonyManager, slotIndex, state);
         }
@@ -239,7 +254,8 @@ public final class TelephonyController {
     /**
      * @param resCode The response code from the modem.
      */
-    @GuardedBy("this")
+    @WorkerThread
+    @GuardedBy("mRequestMetadata")
     private void handleOnSetSimPowerStateForSlotFinished(final int resCode) {
         final String logPrefix = String.format(Locale.getDefault(),
                 "handleOnSetSimPowerStateForSlotFinished(resCode=%d) : requestMetadata=%s",
@@ -339,8 +355,7 @@ public final class TelephonyController {
             mSubscriptions.notifyAllListeners();
         }
 
-        // Nullify all the metadata as we no longer need them + this will also signal that the
-        // response has been successfully handled within the timeout interval
+        // Nullify all the metadata as we no longer need them
         mRequestMetadata.clear();
     }
 
@@ -380,7 +395,7 @@ public final class TelephonyController {
                 default: return;
             }
 
-            synchronized (TelephonyController.this) {
+            synchronized (mRequestMetadata) {
                 final Subscription sub = BundleCompat.getParcelable(mRequestMetadata,
                         KEY_SUBSCRIPTION, Subscription.class);
 
@@ -391,8 +406,8 @@ public final class TelephonyController {
                     return;
                 }
 
-                handleOnSetSimPowerStateForSlotFinished(state);
-                TelephonyController.this.notifyAll();
+                mRequestMetadata.putInt(KEY_REQUEST_RESPONSE_CODE, state);
+                mRequestMetadata.notifyAll();
             }
         }
     }
