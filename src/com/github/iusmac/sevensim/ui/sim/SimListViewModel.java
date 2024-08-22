@@ -88,7 +88,7 @@ public final class SimListViewModel extends ViewModel {
      * @param enabled {@code true} if SIM card should be enabled, {@code false} otherwise.
      */
     void handleOnSimEnabledStateChanged(final int simEntryId, final boolean enabled) {
-        mLogger.d("handleOnSimStateChanged(simEntryId=%d,enabled=%s).", simEntryId, enabled);
+        mLogger.d("handleOnSimEnabledStateChanged(simEntryId=%d,enabled=%s).", simEntryId, enabled);
 
         final SimEntry simEntry = mMutableSimEntries.getValue().get(simEntryId);
         final Subscription sub = simEntry.getSubscription();
