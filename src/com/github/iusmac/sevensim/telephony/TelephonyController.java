@@ -135,6 +135,9 @@ public final class TelephonyController {
                 return;
             }
 
+            // Ensure SIM subscription syncing cannot start in parallel during this operation
+            mSubscriptions.mBlockSubscriptionsSyncFlag.set(true);
+
             // Keep track of SIM state whenever it's mutated. This will be persisted in a volatile
             // memory, so that we can further restore all relevant data. This because when powering
             // down the SIM is the same as removing it, which means the SIM will completely
@@ -226,6 +229,8 @@ public final class TelephonyController {
                 }
                 handleOnSetSimPowerStateForSlotFinished(resCode);
             }
+
+            mSubscriptions.mBlockSubscriptionsSyncFlag.set(false);
         }
     }
 

@@ -71,6 +71,9 @@ public final class SubscriptionController {
             return;
         }
 
+        // Ensure SIM subscription syncing cannot start in parallel during this operation
+        mSubscriptions.mBlockSubscriptionsSyncFlag.set(true);
+
         sub.setSimState(TelephonyUtils.simStateInt(enabled));
         sub.setLastActivatedTime(enabled ? LocalDateTime.now(ZoneId.systemDefault()) :
                 LocalDateTime.MIN);
@@ -79,5 +82,7 @@ public final class SubscriptionController {
         mSubscriptions.persistSubscription(sub);
 
         mSubManager.setUiccApplicationsEnabled(subId, enabled);
+
+        mSubscriptions.mBlockSubscriptionsSyncFlag.set(false);
     }
 }

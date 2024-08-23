@@ -99,6 +99,12 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      */
     private final AtomicBoolean mCarrierConfigChangedReceiverRegistered = new AtomicBoolean();
 
+    /**
+     * Atomic flag indicating whether the synchronization of the internal state of all SIM
+     * subscriptions is blocked or not. Use this to ensure atomic SIM subscription state mutations.
+     */
+    final AtomicBoolean mBlockSubscriptionsSyncFlag = new AtomicBoolean();
+
     private final Context mContext;
     protected final Logger mLogger;
     protected final SubscriptionManager mSubscriptionManager;
@@ -295,6 +301,11 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      */
     @WorkerThread
     public void syncSubscriptions(final LocalDateTime dateTime) {
+        if (mBlockSubscriptionsSyncFlag.get()) {
+            mLogger.w("syncSubscriptions(dateTime=%s) : Operation has been disallowed.", dateTime);
+            return;
+        }
+
         final List<String> removedSubIds = new ArrayList<>(getPersistedUsableSubIds());
         final List<String> usableSubIds = new ArrayList<>();
 
