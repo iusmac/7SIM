@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.1](https://github.com/iusmac/7SIM/compare/v2.0.0...v2.0.1) (2024-08-24)
+
+
+### :bug: Bug Fixes
+
+* address highly critical errorprone issues ([5ca206f](https://github.com/iusmac/7SIM/commit/5ca206ffdf1a26086d8cd7397a46d82de9aca435))
+* **telephony/legacy:** handle potential NPE crash on SIM state change request ([ee36352](https://github.com/iusmac/7SIM/commit/ee36352cf1bd49e20436e6027a350435a45d38cb))
+* **telephony:** prevent SIM subscriptions sync when altering SIM state ([f84351e](https://github.com/iusmac/7SIM/commit/f84351e49ab8519f6559a471bef0e66f6f21a574))
+
 ## [2.0.0](https://github.com/iusmac/7SIM/compare/v1.2.2-beta...v2.0.0) (2024-08-11)
 
 
