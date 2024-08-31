@@ -14,42 +14,42 @@ import android.telephony.TelephonyManager;
 
 import androidx.biometric.BiometricManager;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.AppDatabaseDE;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.SysProp;
+import com.github.iusmac.sevensim.test.FakeAndroidKeyStoreProvider;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
+import dagger.hilt.testing.TestInstallIn;
 
 import java.security.KeyStore;
+import java.security.Security;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import static com.github.iusmac.sevensim.telephony.PinStorage.ANDROID_KEYSTORE_PROVIDER;
+import static org.mockito.Mockito.spy;
 
-/** Application level module. */
-@InstallIn(SingletonComponent.class)
+@TestInstallIn(
+    components = {SingletonComponent.class},
+    replaces = {SevenSimModule.class}
+)
 @Module
-public final class SevenSimModule {
+public final class SevenSimTestModule {
     @Singleton
     @Provides
     static AppDatabaseDE provideAppDatabaseDE(final @ApplicationContext Context context,
             final RoomTypeConverters typeConverter) {
 
-        final RoomDatabase.Builder<AppDatabaseDE> builder =
-            Room.databaseBuilder(context.createDeviceProtectedStorageContext(),
-                    AppDatabaseDE.class, "app_database.sqlite");
+        final var builder = Room.inMemoryDatabaseBuilder(context
+                .createDeviceProtectedStorageContext(), AppDatabaseDE.class);
 
         builder.addMigrations(AppDatabaseDE.MIGRATION_1_2);
 
@@ -59,8 +59,7 @@ public final class SevenSimModule {
     @Singleton
     @Provides
     static AppDatabaseCE provideAppDatabaseCE(final @ApplicationContext Context context) {
-        final RoomDatabase.Builder<AppDatabaseCE> builder =
-            Room.databaseBuilder(context, AppDatabaseCE.class, "app_database.sqlite");
+        final var builder = Room.inMemoryDatabaseBuilder(context, AppDatabaseCE.class);
 
         return builder.build();
     }
@@ -69,21 +68,20 @@ public final class SevenSimModule {
     @Singleton
     @Provides
     static boolean provideDebugState() {
-        return new SysProp("debug", /*isPersistent=*/ false).isTrue() ||
-            new SysProp("debug", /*isPersistent=*/ true).isTrue();
+        return SevenSimModule.provideDebugState();
     }
 
     @Provides
     static SevenSimApplication provideApplicationInstance(
             final @ApplicationContext Context context) {
 
-        return (SevenSimApplication) context;
+        return SevenSimModule.provideApplicationInstance(context);
     }
 
     @Singleton
     @Provides
     static SharedPreferences provideSharedPreferences(final @ApplicationContext Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+        return SevenSimModule.provideSharedPreferences(context);
     }
 
     @Singleton
@@ -91,66 +89,56 @@ public final class SevenSimModule {
     static NotificationManagerCompat provideNotificationManagerCompat(
             final @ApplicationContext Context context) {
 
-        return NotificationManagerCompat.from(context);
+        return spy(SevenSimModule.provideNotificationManagerCompat(context));
     }
 
     @Singleton
     @Provides
     static AlarmManager provideAlarmManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, AlarmManager.class);
+        return spy(SevenSimModule.provideAlarmManager(context));
     }
 
     @Singleton
     @Provides
     static ActivityManager provideActivityManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, ActivityManager.class);
+        return spy(SevenSimModule.provideActivityManager(context));
     }
 
     @Singleton
     @Provides
     static TelecomManager provideTelecomManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, TelecomManager.class);
+        return spy(SevenSimModule.provideTelecomManager(context));
     }
 
     @Singleton
     @Provides
     static AudioManager provideAudioManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, AudioManager.class);
+        return spy(SevenSimModule.provideAudioManager(context));
     }
 
     @Singleton
     @Provides
     static BiometricManager provideBiometricManager(final @ApplicationContext Context context) {
-        return BiometricManager.from(context);
+        return spy(SevenSimModule.provideBiometricManager(context));
     }
 
     @Singleton
     @Provides
     static KeyguardManager provideKeyguardManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, KeyguardManager.class);
+        return spy(SevenSimModule.provideKeyguardManager(context));
     }
 
     @Singleton
     @Provides
     static KeyStore provideKeyStore() {
-        for (int i = 1; i <= 3; i++) {
-            try {
-                final KeyStore keystore = KeyStore.getInstance(ANDROID_KEYSTORE_PROVIDER);
-                keystore.load(/*param=*/ null);
-                if (keystore != null) {
-                    return keystore;
-                }
-            } catch (Exception e) {
-                android.util.Log.e("7SIM", "Attempt " + i + "/3 failed to open KeyStore.", e);
-            }
-        }
-        throw new RuntimeException("Failed to instantiate Android KeyStore.");
+        Security.addProvider(new FakeAndroidKeyStoreProvider());
+        return spy(SevenSimModule.provideKeyStore());
     }
 
     @Singleton
     @Provides
     static UserManager provideUserManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, UserManager.class);
+        return spy(SevenSimModule.provideUserManager(context));
     }
 
     @Singleton
@@ -158,13 +146,13 @@ public final class SevenSimModule {
     static DevicePolicyManager provideDevicePolicyManager(
             final @ApplicationContext Context context) {
 
-        return ContextCompat.getSystemService(context, DevicePolicyManager.class);
+        return spy(SevenSimModule.provideDevicePolicyManager(context));
     }
 
     @Singleton
     @Provides
     static TelephonyManager provideTelephonyManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, TelephonyManager.class);
+        return spy(SevenSimModule.provideTelephonyManager(context));
     }
 
     @Singleton
@@ -172,16 +160,16 @@ public final class SevenSimModule {
     static SubscriptionManager provideSubscriptionManager(
             final @ApplicationContext Context context) {
 
-        return ContextCompat.getSystemService(context, SubscriptionManager.class);
+        return spy(SevenSimModule.provideSubscriptionManager(context));
     }
 
     @Named("LockedBootCompleted")
     @Singleton
     @Provides
     static SysProp provideLockedBootCompletedSysProp() {
-        return new SysProp("locked_boot_completed", /*isPersistent=*/ false);
+        return SevenSimModule.provideLockedBootCompletedSysProp();
     }
 
     /** Do not initialize. */
-    private SevenSimModule() {}
+    private SevenSimTestModule() {}
 }

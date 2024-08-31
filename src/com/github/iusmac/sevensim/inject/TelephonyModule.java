@@ -1,11 +1,5 @@
 package com.github.iusmac.sevensim.inject;
 
-import android.content.Context;
-import android.telephony.SubscriptionManager;
-import android.telephony.TelephonyManager;
-
-import androidx.core.content.ContextCompat;
-
 import com.github.iusmac.sevensim.SysProp;
 import com.github.iusmac.sevensim.telephony.SimState;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
@@ -16,7 +10,6 @@ import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 
 import javax.inject.Named;
@@ -29,20 +22,6 @@ import javax.inject.Singleton;
 @InstallIn(SingletonComponent.class)
 @Module
 public final class TelephonyModule {
-    @Singleton
-    @Provides
-    static TelephonyManager provideTelephonyManager(final @ApplicationContext Context context) {
-        return ContextCompat.getSystemService(context, TelephonyManager.class);
-    }
-
-    @Singleton
-    @Provides
-    static SubscriptionManager provideSubscriptionManager(
-            final @ApplicationContext Context context) {
-
-        return ContextCompat.getSystemService(context, SubscriptionManager.class);
-    }
-
     @Singleton
     @Provides
     static Subscriptions provideSubscriptions(final TelephonyUtils telephonyUtils,
