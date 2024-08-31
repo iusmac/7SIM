@@ -64,6 +64,8 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
     // https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
     id 'net.ltgt.errorprone' version '4.0.1' apply false
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
+    id 'org.jetbrains.kotlinx.kover' version '0.8.3' apply false
 }
 
 allprojects {
@@ -101,6 +103,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'net.ltgt.errorprone'
+apply plugin: 'org.jetbrains.kotlinx.kover'
 
 final def versionNameCommon = [file('version.txt').text.trim()]
 if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
@@ -231,6 +234,37 @@ dependencies {
 
 kapt {
     correctErrorTypes true
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                // excludes class by fully-qualified JVM class name, wildcards
+                // '*' and '?' are available
+                classes(
+                    '*BuildConfig',
+                    // '*\$Factory',
+                    '*.Hilt_*',
+                    '*_ComponentTreeDeps',
+                    '*_HiltComponents*',
+                    '*_Impl',
+                    '*_Impl\$*',
+               )
+                // excludes all classes located in specified package and it
+                // subpackages, wildcards '*' and '?' are available
+                packages(
+                    'com.github.iusmac.sevensim.inject',
+                    'hilt_aggregated_deps',
+                    'dagger.hilt.internal.*',
+                )
+                // excludes all classes and functions, annotated by specified
+                // annotations, wildcards '*' and '?' are available
+                annotatedBy('*Generated*')
+                annotatedBy('*AssistedFactory')
+            }
+        }
+    }
 }
 
 /**

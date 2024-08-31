@@ -42,7 +42,29 @@ runs:
           ${{ inputs.exclude-ci-info == 'false' && format('CI (N. {0} ID {1} from: {2})',
             github.run_number, github.run_id, github.head_ref || github.ref_name) || '' }}
         RELEASE_DEBUG_OPT: ${{ inputs.release-debug-opt }}
-      run: ./gradlew --parallel ${{ inputs.check-build == 'true' && 'build' || 'assemble' }}
+      run: |
+        ./gradlew --parallel \
+        ${{ inputs.check-build == 'true' && 'build koverHtmlReportDebug koverXmlReportDebug' || 'assemble' }}
+    - name: Generate code coverage summary
+      if: inputs.check-build == 'true'
+      id: coverage
+      uses: PavanMudigonda/jacoco-reporter@v5.0
+      with:
+        coverage_results_path: build/reports/kover/reportDebug.xml
+        github_token: ${{ github.token }}
+        skip_check_run: true
+        minimum_coverage: 80
+        fail_below_threshold: false
+    - name: Add coverage report to workflow run summary
+      shell: bash
+      run: |
+        echo "## Coverage (Kover)" >> $GITHUB_STEP_SUMMARY
+        echo "| Outcome | Value |" >> $GITHUB_STEP_SUMMARY
+        echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+        echo "| Code Coverage % | ${{ steps.coverage.outputs.coverage_percentage }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| :heavy_check_mark: Number of Lines Covered | ${{ steps.coverage.outputs.covered_lines }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| :x: Number of Lines Missed | ${{ steps.coverage.outputs.missed_lines }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Total Number of Lines | ${{ steps.coverage.outputs.total_lines }} |" >> $GITHUB_STEP_SUMMARY
     - name: Post Build with Gradle
       shell: bash
       run: ./.github/scripts/post-build-with-gradle.sh
