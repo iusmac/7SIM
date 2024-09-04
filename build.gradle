@@ -121,6 +121,8 @@ if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
 android {
     namespace 'com.github.iusmac.sevensim'
 
+    buildToolsVersion = '34.0.0'
+
     defaultConfig {
         applicationId 'com.github.iusmac.sevensim'
         targetSdk 34

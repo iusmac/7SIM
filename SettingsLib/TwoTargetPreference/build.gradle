@@ -7,6 +7,8 @@ def SettingsLibTwoTargetPreference = '../fwb/packages/SettingsLib/TwoTargetPrefe
 android {
     namespace 'com.android.settingslib.widget.preference.twotarget'
 
+    buildToolsVersion = '34.0.0'
+
     defaultConfig {
         minSdk 21
         targetSdk 34

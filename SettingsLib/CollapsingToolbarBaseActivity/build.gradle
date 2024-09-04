@@ -7,6 +7,8 @@ def SettingsLibCollapsingToolbarBaseActivity = '../fwb/packages/SettingsLib/Coll
 android {
     namespace 'com.android.settingslib.collapsingtoolbar'
 
+    buildToolsVersion = '34.0.0'
+
     defaultConfig {
         minSdk 29
         targetSdk 34
