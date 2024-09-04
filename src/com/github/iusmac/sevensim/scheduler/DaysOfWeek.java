@@ -82,6 +82,9 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * @param context The context for accessing resources.
      * @param bits The {@link #getBits()} values representing the encoded weekly repeat schedule.
      * @param daysOfWeek Any or all of the {@link DayOfWeek} values.
+     * @throws IllegalArgumentException if the passed in bits are not the {@link #getBits()} values
+     * representing the encoded weekly repeat schedule, or if the passed in days of week are not a
+     * valid {@link DayOfWeek}.
      */
     @AssistedInject
     DaysOfWeek(final @ApplicationContext @NonNull Context context,
@@ -92,6 +95,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
 
         int bits_ = 0;
         if (bits != null) {
+            assertBitsValid(bits);
             bits_ = bits;
         } else if (daysOfWeek != null) {
             bits_ = convertDaysOfWeekToBits(daysOfWeek);
@@ -104,12 +108,17 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * Return {@link DayOfWeek} encoded in bits as if returned by {@link #getBits()}.
      *
      * @param daysOfWeek Any or all of the {@link DayOfWeek} values.
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
      */
     private int convertDaysOfWeekToBits(final @DayOfWeek Integer... daysOfWeek) {
         int bits = 0;
-        for (int dayOfWeek : daysOfWeek) {
-            final int bit = DAYS_OF_WEEK_BITS[dayOfWeek];
-            bits = bits | bit;
+        for (final Integer dayOfWeek : daysOfWeek) {
+            if (dayOfWeek != null) {
+                assertDayOfWeekValid(dayOfWeek);
+
+                final int bit = DAYS_OF_WEEK_BITS[dayOfWeek];
+                bits = bits | bit;
+            }
         }
         return bits;
     }
@@ -118,8 +127,11 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * Return {@code true} if the given day of the week is on, {@code false} otherwise.
      *
      * @param dayOfWeek Any of {@link DayOfWeek} values.
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
      */
     public boolean isBitOn(final @DayOfWeek int dayOfWeek) {
+        assertDayOfWeekValid(dayOfWeek);
+
         final int bit = DAYS_OF_WEEK_BITS[dayOfWeek];
         return (mBits & bit) > 0;
     }
@@ -145,9 +157,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * Return the total number of days of the week enabled in this weekly repeat schedule.
      */
     public int getCount() {
-        return (int) IntStream
-            .rangeClosed(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY)
-            .filter(this::isBitOn).count();
+        return Integer.bitCount(mBits);
     }
 
     /**
@@ -157,11 +167,10 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * @param compareDayOfWeek The {@link DayOfWeek} to compare against.
      * @return An Optional containing the number of days between the given day of the week and the
      * previous enabled day of the week, if any.
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
      */
     public OptionalInt getDistanceToPreviousDayOfWeek(final @DayOfWeek int compareDayOfWeek) {
-        if (!isRepeating()) {
-            return OptionalInt.empty();
-        }
+        assertDayOfWeekValid(compareDayOfWeek);
 
         int count = 1, previousDayOfWeek = compareDayOfWeek;
         do {
@@ -184,11 +193,10 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * @param compareDayOfWeek The {@link DayOfWeek} to compare against.
      * @return An Optional containing the number of days between the given day of the week and the
      * next enabled day of the week, if any.
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
      */
     public OptionalInt getDistanceToNextDayOfWeek(final @DayOfWeek int compareDayOfWeek) {
-        if (!isRepeating()) {
-            return OptionalInt.empty();
-        }
+        assertDayOfWeekValid(compareDayOfWeek);
 
         int count = 0, nextDayOfWeek = compareDayOfWeek;
         do {
@@ -242,9 +250,12 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * @param useLongName If {@code true}, the un-abbreviated day of the week names are used, e.g.
      * Tuesday, Friday, Saturday, otherwise the abbreviated ones are used, e.g. Tue, Fri, Sat.
      * @param locale The locale to use.
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
      */
-    public @NonNull String getDisplayName(final @DayOfWeek int dayOfWeek, final boolean useLongName,
-            final @NonNull Locale locale) {
+    public static @NonNull String getDisplayName(final @DayOfWeek int dayOfWeek,
+            final boolean useLongName, final @NonNull Locale locale) {
+
+        assertDayOfWeekValid(dayOfWeek);
 
         final Calendar calendar = Calendar.getInstance(locale);
         calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
@@ -257,7 +268,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      * Like {@link #getDisplayName(int,boolean,Locale)}, but use the default locale.
      */
     @NonNull
-    public String getDisplayName(final @DayOfWeek int dayOfWeek, final boolean useLongName) {
+    public static String getDisplayName(final @DayOfWeek int dayOfWeek, final boolean useLongName) {
         return getDisplayName(dayOfWeek, useLongName, Locale.getDefault());
     }
 
@@ -266,8 +277,11 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
      *
      * @param dayOfWeek Any of {@link DayOfWeek} values.
      * @return Single-character weekday name; e.g.: 'S', 'M', 'T', 'W', 'T', 'F', 'S'.
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
      */
     public synchronized static @NonNull String getNarrowDisplayName(final @DayOfWeek int dayOfWeek) {
+        assertDayOfWeekValid(dayOfWeek);
+
         final Locale loc = Locale.getDefault();
         if (sDaysOfWeekNarrowStrings == null || !loc.equals(sDefaultLocaleCache)) {
             sDaysOfWeekNarrowStrings = DateFormatSymbols.getInstance(loc)
@@ -344,22 +358,37 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
             return create(null, (Integer[]) null);
         }
 
-        /** Create a {@link DaysOfWeek} instance using {@link #getBits} values representing the
-         * encoded weekly repeat schedule. */
+        /**
+         * Create a {@link DaysOfWeek} instance using {@link #getBits} values representing the
+         * encoded weekly repeat schedule.
+         *
+         * @throws IllegalArgumentException if the passed in bits are not the {@link #getBits()} values
+         * representing the encoded weekly repeat schedule.
+         */
         public DaysOfWeek create(final int bits) {
             return create(bits, (Integer[]) null);
         }
 
-        /** Create a {@link DaysOfWeek} instance representing any or all of the {@link DayOfWeek}
-         * values. */
-        public DaysOfWeek create(final @DayOfWeek int... daysOfWeek) {
+        /**
+         * Create a {@link DaysOfWeek} instance representing any or all of the {@link DayOfWeek}
+         * values.
+         *
+         * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
+         */
+        public DaysOfWeek create(final @Nullable @DayOfWeek int... daysOfWeek) {
+            if (daysOfWeek == null) {
+                return create();
+            }
             return create(null, IntStream.of(daysOfWeek).boxed().toArray(Integer[]::new));
         }
 
         /**
          * Create a {@link DaysOfWeek} instance representing any or all of the {@link DayOfWeek}
-         * values. */
-        public DaysOfWeek create(final @DayOfWeek Integer... daysOfWeek) {
+         * values.
+         *
+         * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
+         */
+        public DaysOfWeek create(final @Nullable @DayOfWeek Integer... daysOfWeek) {
             return create(null, daysOfWeek);
         }
     }
@@ -466,7 +495,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
         final StringBuilder builder = new StringBuilder(19);
         builder.append("[");
         if (isBitOn(DayOfWeek.SUNDAY)) {
-            builder.append(builder.length() > 1 ? " Su" : "Su");
+            builder.append("Su");
         }
         if (isBitOn(DayOfWeek.MONDAY)) {
             builder.append(builder.length() > 1 ? " M" : "M");
@@ -488,5 +517,28 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
         }
         builder.append("]");
         return builder.toString();
+    }
+
+    /**
+     * @throws IllegalArgumentException if the passed in value is not a valid {@link DayOfWeek}.
+     */
+    private static void assertDayOfWeekValid(final int dayOfWeek) {
+        if (dayOfWeek < DayOfWeek.SUNDAY || dayOfWeek > DayOfWeek.SATURDAY) {
+            throw new IllegalArgumentException("Invalid day of week: " + dayOfWeek);
+        }
+    }
+
+    /**
+     * @throws IllegalArgumentException if the passed in bits are not the {@link #getBits()} values
+     * representing the encoded weekly repeat schedule.
+     */
+    private static void assertBitsValid(final int bits) {
+        final int extra = ~ALL_DAYS_OF_WEEK_BITS & bits;
+        if (extra != 0) {
+            throw new IllegalArgumentException(String.format(Locale.US,
+                        "Invalid extra bit(s) enabled 0b%s in 0b%s (max allowed is 1<<6 or 0b%s).",
+                        Integer.toBinaryString(extra), Integer.toBinaryString(bits),
+                        Integer.toBinaryString(1<<6)));
+        }
     }
 }
