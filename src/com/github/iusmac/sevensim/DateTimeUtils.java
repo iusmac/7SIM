@@ -3,7 +3,6 @@ package com.github.iusmac.sevensim;
 import android.content.Context;
 import android.icu.text.RelativeDateTimeFormatter;
 import android.icu.util.TimeZone;
-import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import androidx.annotation.NonNull;
@@ -15,9 +14,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Calendar;
 import java.util.Formatter;
-import java.util.Locale;
 import java.util.Optional;
 
 public final class DateTimeUtils {
@@ -39,25 +36,6 @@ public final class DateTimeUtils {
             }
         } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
         return Optional.empty();
-    }
-
-    /**
-     * Get the {@link LocalTime} in pretty format, such as 10:00 AM.
-     *
-     * @param context The context for detecting the 12-/24-hour format.
-     * @param time The {@link LocalTime} to express in human-readable format according to the
-     * current locale.
-     */
-    public static @NonNull CharSequence getPrettyTime(final @NonNull Context context,
-            final @NonNull LocalTime time) {
-
-        final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, time.getHour());
-        calendar.set(Calendar.MINUTE, time.getMinute());
-
-        final CharSequence pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(),
-                DateFormat.is24HourFormat(context) ? "Hm" : "hma");
-        return DateFormat.format(pattern, calendar);
     }
 
     /**
@@ -94,18 +72,14 @@ public final class DateTimeUtils {
      * {@link RelativeDateTimeFormatter#combineDateAndTime(String,String)}.
      * @param time The date-time to describe.
      * @param now The current date-time.
-     * @param zoneId The zone ID to compute the string in. Pass {@code null} to use system default.
      * @return A relative date-time string to display the date-time to describe.
      */
     public static @NonNull CharSequence getRelativeDateTimeSpanString(
             final @NonNull Context context, final @NonNull Formatter formatter,
             final @NonNull RelativeDateTimeFormatter relativeFormatter,
-            final @NonNull LocalDateTime time, final @NonNull LocalDateTime now,
-            @Nullable ZoneId zoneId) {
+            final @NonNull LocalDateTime time, final @NonNull LocalDateTime now) {
 
-        if (zoneId == null) {
-            zoneId = ZoneId.systemDefault();
-        }
+        final ZoneId zoneId = ZoneId.systemDefault();
         final ZonedDateTime zonedTime = time.atZone(zoneId);
         final ZonedDateTime zonedNow = now.atZone(zoneId);
         final long timeMillis = zonedTime.toInstant().toEpochMilli();
@@ -117,7 +91,8 @@ public final class DateTimeUtils {
         int flags = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL;
         if (dayDistance > 1) {
             // Include the day/month like "Wed, Nov 14"
-            flags |= DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE;
+            flags |= DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE |
+                DateUtils.FORMAT_NO_YEAR;
             // Include the year if it differs in both 'time' and 'now'; also compact all to numeric
             // format (e.g.: "14 Nov 2007" -> "11/14/2007")
             if (zonedNow.getYear() != zonedTime.getYear()) {
@@ -148,19 +123,6 @@ public final class DateTimeUtils {
         }
         // otherwise transition to the "[full date], [time]" format
         return commonFormatter.toString();
-    }
-
-    /**
-     * Like {@link #getRelativeDateTimeSpanString(Context,Formatter,RelativeDateTimeFormatter,LocalDateTime,LocalDateTime,ZoneId)},
-     * but use the default zone ID.
-     */
-    public static @NonNull CharSequence getRelativeDateTimeSpanString(
-            final @NonNull Context context, final @NonNull Formatter formatter,
-            final @NonNull RelativeDateTimeFormatter relativeFormatter,
-            final @NonNull LocalDateTime time, final @NonNull LocalDateTime now) {
-
-        return getRelativeDateTimeSpanString(context, formatter, relativeFormatter, time, now,
-                /*zoneId=*/ null);
     }
 
     /**
