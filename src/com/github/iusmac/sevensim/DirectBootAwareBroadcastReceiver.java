@@ -7,6 +7,8 @@ import android.content.pm.ComponentInfo;
 import android.telephony.CarrierConfigManager;
 import android.telephony.SubscriptionManager;
 
+import androidx.annotation.VisibleForTesting;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalDateTime;
@@ -32,7 +34,8 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
     @Named("LockedBootCompleted")
     SysProp mLockedBootCompletedSysProp;
 
-    private Logger mLogger;
+    @VisibleForTesting
+    Logger mLogger;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
