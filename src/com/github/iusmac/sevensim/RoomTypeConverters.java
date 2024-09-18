@@ -7,6 +7,7 @@ import androidx.room.TypeConverter;
 
 import com.github.iusmac.sevensim.scheduler.DaysOfWeek;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -37,6 +38,12 @@ public final class RoomTypeConverters {
         return ldt.toString();
     }
 
+    /**
+     * Provide a {@link DaysOfWeek} from {@link DaysOfWeek#getBits()} values.
+
+     * @throws IllegalArgumentException if the passed in bits are not the
+     * {@link DaysOfWeek#getBits()} values representing the encoded weekly repeat schedule.
+     */
     @TypeConverter
     public @NonNull DaysOfWeek fromBitsToDaysOfWeek(final @Nullable Integer daysOfWeekBits) {
         return daysOfWeekBits == null ? mDaysOfWeekFactory.create() :
@@ -51,10 +58,12 @@ public final class RoomTypeConverters {
     @TypeConverter
     @Nullable
     public LocalTime fromMinutesSinceMidnight(final @Nullable Integer minutesSinceMidnight) {
-        if (minutesSinceMidnight == null) {
-            return null;
-        }
-        return LocalTime.of(minutesSinceMidnight / 60, minutesSinceMidnight % 60);
+        try {
+            if (minutesSinceMidnight != null) {
+                return LocalTime.of(minutesSinceMidnight / 60, minutesSinceMidnight % 60);
+            }
+        } catch (DateTimeException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
+        return null;
     }
 
     @TypeConverter
