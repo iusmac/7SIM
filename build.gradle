@@ -59,6 +59,7 @@ buildscript {
             robolectric_android_all : 'org.robolectric:android-all:14-robolectric-10818077',
             room_compiler        :  "androidx.room:room-compiler:$room_version",
             room_runtime         :  "androidx.room:room-runtime:$room_version",
+            room_testing         :  "androidx.room:room-testing:$room_version",
             // https://mvnrepository.com/artifact/androidx.test/core
             test_core            :  'androidx.test:core:1.6.1',
             // https://mvnrepository.com/artifact/androidx.test.ext/junit
@@ -147,6 +148,11 @@ android {
         targetSdk 34
         versionCode versionNameCommon[0].replaceAll(/\D/, '') as Integer // "x.y.z" => xyz
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     applicationVariants.all { variant ->
@@ -197,6 +203,9 @@ android {
         }
 
         test.java.srcDirs += 'tests/test/java'
+
+        debug.assets.srcDirs += files("$projectDir/schemas".toString())
+        release.assets.srcDirs += files("$projectDir/schemas".toString())
 
         androidTest {
             java.srcDirs += 'tests/androidTest/src/java'
@@ -272,6 +281,7 @@ dependencies {
     testImplementation libs.test_core
     testImplementation libs.robolectric
     testImplementation libs.robolectric_android_all
+    testImplementation libs.room_testing
     androidTestImplementation libs.test_ext_junit
     androidTestImplementation libs.test_rules
     androidTestImplementation libs.test_runner

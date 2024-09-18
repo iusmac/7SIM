@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "c872674885fa84302734802f7fbfca6c",
+    "entities": [
+      {
+        "tableName": "subscriptions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `lastActivatedTime` TEXT, `lastDeactivatedTime` TEXT, `keepDisabledAcrossBoots` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mLastActivatedTime",
+            "columnName": "lastActivatedTime",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mLastDeactivatedTime",
+            "columnName": "lastDeactivatedTime",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mKeepDisabledAcrossBoots",
+            "columnName": "keepDisabledAcrossBoots",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "subscription_schedules",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sub_id` INTEGER NOT NULL, `sub_enabled` INTEGER NOT NULL, `label` TEXT, `enabled` INTEGER NOT NULL, `days_of_week_bits` INTEGER, `minutes_since_midnight` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mSubscriptionId",
+            "columnName": "sub_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mSubscriptionEnabled",
+            "columnName": "sub_enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mLabel",
+            "columnName": "label",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mEnabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mDaysOfWeek",
+            "columnName": "days_of_week_bits",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "mTime",
+            "columnName": "minutes_since_midnight",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_subscription_schedules_sub_id_sub_enabled_enabled_days_of_week_bits",
+            "unique": false,
+            "columnNames": [
+              "sub_id",
+              "sub_enabled",
+              "enabled",
+              "days_of_week_bits"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subscription_schedules_sub_id_sub_enabled_enabled_days_of_week_bits` ON `${TABLE_NAME}` (`sub_id`, `sub_enabled`, `enabled`, `days_of_week_bits`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c872674885fa84302734802f7fbfca6c')"
+    ]
+  }
+}

@@ -16,7 +16,7 @@ import com.github.iusmac.sevensim.telephony.SubscriptionsDao;
  */
 @Database(
     entities = {Subscription.class, SubscriptionScheduleEntity.class},
-    exportSchema = false,
+    exportSchema = true,
     version = 2
 )
 @TypeConverters({RoomTypeConverters.class})
