@@ -21,6 +21,7 @@ import androidx.room.RoomDatabase;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.AppDatabaseDE;
+import com.github.iusmac.sevensim.BuildConfig;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.SysProp;
@@ -69,7 +70,8 @@ public final class SevenSimModule {
     @Singleton
     @Provides
     static boolean provideDebugState() {
-        return new SysProp("debug", /*isPersistent=*/ false).isTrue() ||
+        return BuildConfig.DEBUG || BuildConfig.DEBUG_OPT ||
+            new SysProp("debug", /*isPersistent=*/ false).isTrue() ||
             new SysProp("debug", /*isPersistent=*/ true).isTrue();
     }
 
@@ -180,6 +182,12 @@ public final class SevenSimModule {
     @Provides
     static SysProp provideLockedBootCompletedSysProp() {
         return new SysProp("locked_boot_completed", /*isPersistent=*/ false);
+    }
+
+    @Singleton
+    @Provides
+    static Runtime provideJavaRuntime() {
+        return Runtime.getRuntime();
     }
 
     /** Do not initialize. */

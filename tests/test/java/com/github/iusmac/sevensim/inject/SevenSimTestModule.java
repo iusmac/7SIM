@@ -31,6 +31,7 @@ import dagger.hilt.testing.TestInstallIn;
 
 import java.security.KeyStore;
 import java.security.Security;
+import java.util.Optional;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -65,10 +66,15 @@ public final class SevenSimTestModule {
     }
 
     @Named("Debug")
-    @Singleton
     @Provides
     static boolean provideDebugState() {
-        return SevenSimModule.provideDebugState();
+        final var debug = new SysProp("debug", /*isPersistent=*/ false);
+        final var debugPersistent = new SysProp("debug", /*isPersistent=*/ true);
+        if (debug.get(Optional.empty()).isPresent() ||
+                debugPersistent.get(Optional.empty()).isPresent()) {
+            return debug.isTrue() || debugPersistent.isTrue();
+        }
+        return true;
     }
 
     @Provides
@@ -168,6 +174,12 @@ public final class SevenSimTestModule {
     @Provides
     static SysProp provideLockedBootCompletedSysProp() {
         return SevenSimModule.provideLockedBootCompletedSysProp();
+    }
+
+    @Singleton
+    @Provides
+    static Runtime provideJavaRuntime() {
+        return spy(SevenSimModule.provideJavaRuntime());
     }
 
     /** Do not initialize. */
