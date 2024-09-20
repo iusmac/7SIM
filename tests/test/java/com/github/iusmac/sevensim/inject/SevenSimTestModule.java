@@ -18,10 +18,14 @@ import androidx.room.Room;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.AppDatabaseDE;
+import com.github.iusmac.sevensim.ApplicationInfo;
+import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.NotificationManager;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.SysProp;
 import com.github.iusmac.sevensim.test.FakeAndroidKeyStoreProvider;
+import com.github.iusmac.sevensim.test.TestUtils;
 
 import dagger.Module;
 import dagger.Provides;
@@ -34,9 +38,14 @@ import java.security.Security;
 import java.util.Optional;
 
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.robolectric.util.ReflectionHelpers;
+
 import static org.mockito.Mockito.spy;
+
+import static org.robolectric.Shadows.shadowOf;
 
 @TestInstallIn(
     components = {SingletonComponent.class},
@@ -77,11 +86,35 @@ public final class SevenSimTestModule {
         return true;
     }
 
+    @Singleton
     @Provides
-    static SevenSimApplication provideApplicationInstance(
-            final @ApplicationContext Context context) {
+    static SevenSimApplication provideApplicationInstance(final @ApplicationContext Context context,
+            final Provider<ApplicationInfo> applicationInfoProvider,
+            final Logger.Factory loggerFactory,
+            final Provider<NotificationManager> notificationManagerProvider) {
 
-        return SevenSimModule.provideApplicationInstance(context);
+        // Note that, since a dagger.hilt.android.HiltAndroidApp annotated class cannot be used in
+        // tests, thus it cannot be simply cast from Application class, we'll manually create it and
+        // inject all the required dependencies
+        final var app = new SevenSimApplication();
+        ReflectionHelpers.setField(app, "mApplicationInfoProvider", applicationInfoProvider);
+        ReflectionHelpers.setField(app, "mNotificationManager", notificationManagerProvider);
+        ReflectionHelpers.setField(app, "mLoggerFactory", loggerFactory);
+
+        // Certificates are undefined in unit tests by default, so initialize them to avoid NPEs
+        if (shadowOf(context.getPackageManager()).getInternalMutablePackageInfo(
+                    context.getPackageName()).signingInfo == null) {
+            TestUtils.useAospPlatformSignature(context, false);
+        }
+
+        // Flip the internal flag to short-circuit the hiltInternalInject() call during onCreate(),
+        // otherwise Dagger will override our injected objects with invalid ones that don't have
+        // access to the Application's context and will crash with an NPE upon accessing it
+        ReflectionHelpers.setField(app, "injected", true);
+
+        app.onCreate();
+
+        return app;
     }
 
     @Singleton
