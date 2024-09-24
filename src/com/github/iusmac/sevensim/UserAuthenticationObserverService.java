@@ -13,6 +13,7 @@ import android.os.PowerManager.WakeLock;
 import android.os.UserHandle;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -74,7 +75,8 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
     @Inject
     KeyguardManager mKeyguardManager;
 
-    private Logger mLogger;
+    @VisibleForTesting
+    Logger mLogger;
 
     /**
      * {@link ForegroundService#updateNextWeeklyRepeatScheduleProcessingIter(Context,LocalDateTime,boolean)}.
@@ -130,11 +132,6 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         mLogger.d("onStartCommand(intent=%s,flags=%d,startId=%d).", intent, flags, startId);
-
-        if (intent == null) {
-            stopSelfResult(startId);
-            return START_NOT_STICKY;
-        }
 
         if (mActivityManager.isBackgroundRestricted()) {
             stopSelf();
@@ -221,6 +218,10 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
         final LinkedBlockingQueue<PendingTask> mPendingTasks = new LinkedBlockingQueue<>();
         volatile boolean mReleased;
 
+        public Worker() {
+            setName(UserAuthenticationObserverService.class.getSimpleName() + "WorkerThread");
+        }
+
         /**
          * @param task The {@link PendingTask} to offload onto a separate thread.
          */
@@ -237,11 +238,7 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
                     handleIntent(task.intent);
                     stopSelfResult(task.id);
                     mLogger.d("Worker : Finish processing %s.", task);
-                } catch (InterruptedException ignored) {
-                    if (mReleased) {
-                        return;
-                    }
-                }
+                } catch (InterruptedException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
             }
         }
 
@@ -279,8 +276,10 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
      * @param intent The intent containing action and payload data. Note that, this function will
      * take care of intent context and other fields.
      */
-    private static void startAction(final Context context, Intent intent) {
+    @VisibleForTesting
+    static void startAction(final Context context, Intent intent) {
         synchronized (sWakeLockSyncLock) {
+            final boolean wasHeld = sWakeLock != null && sWakeLock.isHeld();
             // Hold wake lock to ensure that the service will start and operate till termination
             acquire(context);
             try {
@@ -288,7 +287,11 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
                 intent.setClass(context, UserAuthenticationObserverService.class);
                 context.startForegroundServiceAsUser(intent, UserHandle.CURRENT);
             } finally {
-                sWakeLock.release();
+                // Since our WakeLock doesn't count references, we need to ensure to not to release
+                // it for an action that acquired it a moment ago, and probably still requires it
+                if (!wasHeld) {
+                    sWakeLock.release();
+                }
             }
         }
     }
