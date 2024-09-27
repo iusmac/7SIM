@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
@@ -66,6 +67,7 @@ public final class PinStorage {
     private final Lazy<NotificationManager> mNotificationManagerLazy;
 
     @Inject
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public PinStorage(final Logger.Factory loggerFactory, final AppDatabaseCE database,
             final Lazy<KeyguardManager> keyguardManagerLazy, final Lazy<KeyStore> keyStoreLazy,
             final Lazy<Subscriptions> subscriptionsLazy,

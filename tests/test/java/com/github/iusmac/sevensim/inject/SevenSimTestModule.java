@@ -24,9 +24,16 @@ import com.github.iusmac.sevensim.NotificationManager;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.SysProp;
+import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
+import com.github.iusmac.sevensim.telephony.PinStorage;
+import com.github.iusmac.sevensim.telephony.SubscriptionController;
+import com.github.iusmac.sevensim.telephony.Subscriptions;
+import com.github.iusmac.sevensim.telephony.TelephonyController;
+import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 import com.github.iusmac.sevensim.test.FakeAndroidKeyStoreProvider;
 import com.github.iusmac.sevensim.test.TestUtils;
 
+import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.android.qualifiers.ApplicationContext;
@@ -213,6 +220,24 @@ public final class SevenSimTestModule {
     @Provides
     static Runtime provideJavaRuntime() {
         return spy(SevenSimModule.provideJavaRuntime());
+    }
+
+    @Singleton
+    @Provides
+    static SubscriptionScheduler provideSubscriptionScheduler(final Logger.Factory loggerFactory,
+            final @ApplicationContext Context context, final Lazy<AlarmManager> alarmManagerLazy,
+            final AppDatabaseDE appDatabaseDE,
+            final Lazy<Subscriptions> subscriptionsLazy,
+            final Lazy<SubscriptionController> subscriptionControllerLazy,
+            final Lazy<TelephonyController> telephonyControllerLazy,
+            final Provider<TelephonyUtils> telephonyUtilsProvider,
+            final Lazy<PinStorage> pinStorageLazy,
+            final Lazy<UserManager> userManagerLazy) {
+
+        return spy(new SubscriptionScheduler(loggerFactory, context, alarmManagerLazy,
+                    appDatabaseDE, subscriptionsLazy, subscriptionControllerLazy,
+                    telephonyControllerLazy, telephonyUtilsProvider, pinStorageLazy,
+                    userManagerLazy));
     }
 
     /** Do not initialize. */
