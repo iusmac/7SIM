@@ -12,6 +12,7 @@ import android.telephony.CarrierConfigManager;
 import android.telephony.SubscriptionManager;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
@@ -81,7 +82,8 @@ public final class PhoneCallEndObserverService extends Hilt_PhoneCallEndObserver
     @Inject
     TelephonyUtils mTelephonyUtils;
 
-    private Logger mLogger;
+    @VisibleForTesting
+    Logger mLogger;
 
     /** {@link SubscriptionScheduler#syncSubscriptionEnabledState(int,LocalDateTime,boolean)}. */
     public static void syncSubscriptionEnabledState(final Context context, final int subId,
@@ -132,11 +134,6 @@ public final class PhoneCallEndObserverService extends Hilt_PhoneCallEndObserver
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         mLogger.d("onStartCommand(intent=%s,flags=%d,startId=%d).", intent, flags, startId);
 
-        if (intent == null) {
-            stopSelfResult(startId);
-            return START_NOT_STICKY;
-        }
-
         if (mActivityManager.isBackgroundRestricted()) {
             stopSelf();
             return START_NOT_STICKY;
@@ -182,7 +179,8 @@ public final class PhoneCallEndObserverService extends Hilt_PhoneCallEndObserver
      * @param callback The callback to invoke on the main thread when the phone call ended.
      * @param taskId The task ID for which to call {@link #stopSelfResult(int)} on completion.
      */
-    private void onCallEnded(final Runnable callback, final int taskId) {
+    @VisibleForTesting
+    void onCallEnded(final Runnable callback, final int taskId) {
         synchronized (sWakeLockSyncLock) {
             // Re-acquire wake lock until the phone call ended
             acquire(this);
@@ -231,7 +229,8 @@ public final class PhoneCallEndObserverService extends Hilt_PhoneCallEndObserver
      * @param intent The intent containing action and payload data. Note that, this function will
      * take care of intent context and other fields.
      */
-    private static void startAction(final Context context, Intent intent) {
+    @VisibleForTesting
+    static void startAction(final Context context, Intent intent) {
         synchronized (sWakeLockSyncLock) {
             // Hold wake lock to ensure that the service will start and operate till termination
             acquire(context);
