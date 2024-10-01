@@ -7,6 +7,8 @@ import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.text.TextUtils;
 
+import androidx.annotation.VisibleForTesting;
+
 import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.ui.MainActivity;
@@ -39,7 +41,8 @@ public final class QsAppLauncherTileService extends TileService {
         }
     }
 
-    private void updateTileStrings() {
+    @VisibleForTesting
+    void updateTileStrings() {
         final Tile tile = getQsTile();
         final CharSequence subtitle = getString(R.string.app_description);
         if (!TextUtils.equals(tile.getSubtitle(), subtitle)) {
