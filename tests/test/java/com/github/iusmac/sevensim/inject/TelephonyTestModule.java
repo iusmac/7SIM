@@ -2,6 +2,7 @@ package com.github.iusmac.sevensim.inject;
 
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.telephony.TelephonyManager;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.Logger;
@@ -11,6 +12,7 @@ import com.github.iusmac.sevensim.telephony.PinStorage;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 import com.github.iusmac.sevensim.telephony.SubscriptionsImpl;
 import com.github.iusmac.sevensim.telephony.SubscriptionsImplLegacy;
+import com.github.iusmac.sevensim.telephony.TelephonyController;
 import com.github.iusmac.sevensim.telephony.TelephonyUtils;
 
 import dagger.Lazy;
@@ -53,6 +55,17 @@ public final class TelephonyTestModule {
 
         return spy(new PinStorage(loggerFactory, database, keyguardManagerLazy, keyStoreLazy,
                     subscriptionsLazy, notificationManager));
+    }
+
+    @Singleton
+    @Provides
+    static TelephonyController provideTelephonyController(final @ApplicationContext Context context,
+            final Logger.Factory loggerFactory,
+            final TelephonyManager telephonyManager,
+            final SubscriptionsImplLegacy subscriptions) {
+
+        return spy(new TelephonyController(context, loggerFactory, telephonyManager,
+                    subscriptions));
     }
 
     @Named("Telephony/SimSubId")

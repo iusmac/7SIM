@@ -3,6 +3,7 @@ package com.github.iusmac.sevensim.test;
 import android.content.Context;
 import android.content.pm.Signature;
 import android.content.pm.SigningInfo;
+import android.telephony.SubscriptionInfo;
 
 import androidx.annotation.Nullable;
 
@@ -11,6 +12,7 @@ import com.github.iusmac.sevensim.ApplicationInfo;
 import java.util.Arrays;
 
 import org.robolectric.shadow.api.Shadow;
+import org.robolectric.util.ReflectionHelpers;
 
 import static android.content.pm.ApplicationInfo.FLAG_SYSTEM;
 import static android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
@@ -197,6 +199,13 @@ public final class TestUtils {
             (packageInfo.applicationInfo.flags & ~(FLAG_UPDATED_SYSTEM_APP | FLAG_SYSTEM))
             // If needed, enable only one flag but not both
             | (isSystemApp ? (isUpdatedSystemApp ? FLAG_UPDATED_SYSTEM_APP : FLAG_SYSTEM) : 0);
+    }
+
+    /** Set the response of {@link SubscriptionInfo#areUiccApplicationsEnabled}. */
+    public static void setAreUiccApplicationsEnabled(final SubscriptionInfo subInfo,
+            final boolean enabled) {
+
+        ReflectionHelpers.setField(subInfo, "mAreUiccApplicationsEnabled", enabled);
     }
 
     /** Do not initialize. */

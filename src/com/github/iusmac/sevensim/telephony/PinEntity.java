@@ -94,7 +94,8 @@ public final class PinEntity {
         return mCorrupted;
     }
 
-    void setCorrupted(final boolean corrupted) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    public void setCorrupted(final boolean corrupted) {
         mCorrupted = corrupted;
     }
 

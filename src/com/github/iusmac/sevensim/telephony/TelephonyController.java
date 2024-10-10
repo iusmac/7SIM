@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 import androidx.core.os.BundleCompat;
 
@@ -76,6 +77,7 @@ public final class TelephonyController {
     private final SubscriptionsImplLegacy mSubscriptions;
 
     @Inject
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public TelephonyController(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory,
             final TelephonyManager telephonyManager,

@@ -31,7 +31,7 @@ import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
 @Entity(
     tableName = "subscriptions"
 )
-public final class Subscription implements Parcelable {
+public class Subscription implements Parcelable {
     @PrimaryKey
     @ColumnInfo(name = "id")
     private int mId = INVALID_SUBSCRIPTION_ID;
