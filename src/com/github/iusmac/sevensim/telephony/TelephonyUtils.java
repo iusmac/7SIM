@@ -33,7 +33,7 @@ public final class TelephonyUtils {
     private final boolean mHasUiccSubscriptionToggleCapability;
 
     @Inject
-    public TelephonyUtils(final TelephonyManager telephonyManager,
+    TelephonyUtils(final TelephonyManager telephonyManager,
             final SubscriptionManager subscriptionManager,
             final Provider<TelecomManager> telecomManagerProvider,
             final Provider<AudioManager> audioManagerProvider,
