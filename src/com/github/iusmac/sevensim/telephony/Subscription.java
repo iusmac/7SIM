@@ -13,7 +13,6 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
@@ -190,20 +189,8 @@ public class Subscription implements Parcelable {
             sub.setSimState(in.readInt());
             sub.setIconTint(in.readInt());
             sub.setSimName(in.readString());
-            try {
-                final String lastActivatedTime = in.readString();
-                if (lastActivatedTime != null) {
-                    sub.setLastActivatedTime(LocalDateTime.parse(lastActivatedTime));
-                }
-            } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
-
-            try {
-                final String lastDeactivatedTime = in.readString();
-                if (lastDeactivatedTime != null) {
-                    sub.setLastDeactivatedTime(LocalDateTime.parse(lastDeactivatedTime));
-                }
-            } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
-
+            sub.setLastActivatedTime(LocalDateTime.parse(in.readString()));
+            sub.setLastDeactivatedTime(LocalDateTime.parse(in.readString()));
             Optional.ofNullable(in.readString()).ifPresent((v) ->
                     sub.keepDisabledAcrossBoots(Boolean.parseBoolean(v)));
 
