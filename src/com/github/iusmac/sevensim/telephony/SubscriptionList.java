@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 abstract class SubscriptionList implements Iterator<Subscription> {
-    protected int mLastIndex, mCurrentIndex;
-    protected Subscription mNextElementCandidate;
+    int mLastIndex, mCurrentIndex;
+    Subscription mNextElementCandidate;
 
     /**
      * The visible list of {@link SubscriptionInfo}s including disabled ones, or {@code null} if no
      * SIM cards in the device.
      */
-    protected final List<SubscriptionInfo> mVisibleSubInfoList;
+    final List<SubscriptionInfo> mVisibleSubInfoList;
 
-    protected SubscriptionList(final SubscriptionManager subscriptionManager) {
+    SubscriptionList(final SubscriptionManager subscriptionManager) {
         mVisibleSubInfoList = subscriptionManager.getSelectableSubscriptionInfoList();
     }
 

@@ -32,7 +32,7 @@ import javax.inject.Singleton;
 @Singleton
 public final class SubscriptionsImpl extends Subscriptions {
     @Inject
-    public SubscriptionsImpl(final @ApplicationContext Context context,
+    SubscriptionsImpl(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
             final SubscriptionManager subscriptionManager,
             final @Named("Telephony/SubState") SysProp subStateSysProp,
