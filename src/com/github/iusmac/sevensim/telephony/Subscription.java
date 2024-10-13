@@ -31,6 +31,10 @@ import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
     tableName = "subscriptions"
 )
 public class Subscription implements Parcelable {
+    static final @SimState int DEFAULT_SIM_STATE = SimState.UNKNOWN;
+    static final @ColorInt int DEFAULT_ICON_TINT = Color.BLACK;
+    static final String DEFAULT_SIM_NAME = "";
+
     @PrimaryKey
     @ColumnInfo(name = "id")
     private int mId = INVALID_SUBSCRIPTION_ID;
@@ -39,13 +43,13 @@ public class Subscription implements Parcelable {
     private int mSlotIndex = INVALID_SIM_SLOT_INDEX;
 
     @Ignore
-    private @SimState int mSimState = SimState.UNKNOWN;
+    private @SimState int mSimState = DEFAULT_SIM_STATE;
 
     @Ignore
-    private @ColorInt int mIconTint = Color.BLACK;
+    private @ColorInt int mIconTint = DEFAULT_ICON_TINT;
 
     @Ignore
-    private String mName = "";
+    private String mName = DEFAULT_SIM_NAME;
 
     @ColumnInfo(name = "lastActivatedTime")
     private LocalDateTime mLastActivatedTime = LocalDateTime.MIN;

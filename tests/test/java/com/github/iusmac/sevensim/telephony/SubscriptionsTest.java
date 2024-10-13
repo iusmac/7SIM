@@ -2,6 +2,7 @@ package com.github.iusmac.sevensim.telephony;
 
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.util.ExceptionUtils;
 
 import com.github.iusmac.sevensim.test.MockitoHiltAndroidTestBase;
@@ -33,6 +34,9 @@ public abstract class SubscriptionsTest extends MockitoHiltAndroidTestBase {
 
     @Inject
     SubscriptionManager mSubscriptionManager;
+
+    @Inject
+    TelephonyManager mTelephonyManager;
 
     abstract Subscriptions provideSubscriptionsImpl();
 
@@ -98,5 +102,9 @@ public abstract class SubscriptionsTest extends MockitoHiltAndroidTestBase {
 
     void setAvailableSubscriptionInfoList(final List<SubscriptionInfo> subInfos) {
         shadowOf(mSubscriptionManager).setAvailableSubscriptionInfoList(subInfos);
+    }
+
+    void setActiveModemCount(final int count) {
+        shadowOf(mTelephonyManager).setActiveModemCount(count);
     }
 }

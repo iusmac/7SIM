@@ -13,6 +13,11 @@ public final class SubscriptionPropertyMatchers {
     public static TypeSafeMatcher<Subscription> withSubId(final int expectedSubId) {
         return new WithSubIdMatcher(expectedSubId);
     }
+
+    /** Matches a {@link Subscription} with SIM slot index. */
+    public static TypeSafeMatcher<Subscription> withSlotIndex(final int expectedSlotIndex) {
+        return new WithSlotIndexMatcher(expectedSlotIndex);
+    }
 }
 
 final class WithSubIdMatcher extends SubscriptionPropertyMatcher {
@@ -39,6 +44,35 @@ final class WithSubIdMatcher extends SubscriptionPropertyMatcher {
 
         super.describeMismatchSafely(subscription, mismatchDescription);
         mismatchDescription.appendText("with ID ").appendValue(subscription.getId());
+    }
+}
+
+final class WithSlotIndexMatcher extends SubscriptionPropertyMatcher {
+    private final int mExpectedSlotIndex;
+
+    WithSlotIndexMatcher(int expectedSlotIndex) {
+        mExpectedSlotIndex = expectedSlotIndex;
+    }
+
+    @Override
+    protected boolean matchesSafely(final Subscription subscription) {
+        return subscription.getSlotIndex() == mExpectedSlotIndex;
+    }
+
+    @Override
+    public void describeTo(Description description) {
+        super.describeTo(description);
+        description.appendText("with SIM slot index ")
+            .appendValue(mExpectedSlotIndex);
+    }
+
+    @Override
+    protected void describeMismatchSafely(final Subscription subscription,
+            final Description mismatchDescription) {
+
+        super.describeMismatchSafely(subscription, mismatchDescription);
+        mismatchDescription.appendText("with SIM slot index ")
+            .appendValue(subscription.getSlotIndex());
     }
 }
 
