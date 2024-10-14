@@ -1,6 +1,11 @@
 package com.github.iusmac.sevensim.telephony;
 
+import com.github.iusmac.sevensim.test.TestUtils;
+
 import dagger.hilt.android.testing.HiltAndroidTest;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -8,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.robolectric.shadows.ShadowSubscriptionManager.SubscriptionInfoBuilder;
+
 import org.robolectric.RobolectricTestRunner;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
@@ -80,5 +86,54 @@ public final class SubscriptionsImplTest extends SubscriptionsTest {
         assertThat("Shouldn't assign SIM slot index for this Subscriptions implementation.",
                 sub.getSlotIndex(), is(INVALID_SIM_SLOT_INDEX));
         assertThat(sub.getSimState(), is(SimState.DISABLED));
+    }
+
+    @Test
+    public void test_syncSubscriptions_ShouldSyncWhenWasEnabledBefore() {
+        final var subInfo = SubscriptionInfoBuilder.newBuilder()
+            .setId(1)
+            .buildSubscriptionInfo();
+        TestUtils.setAreUiccApplicationsEnabled(subInfo, false);
+        setAvailableSubscriptionInfoList(subInfo);
+
+        mSubscriptionStateSysProp.set(Optional.of(String.valueOf(SimState.ENABLED)),
+                subInfo.getSubscriptionId());
+        mUsableSimSubIdsSysProp.set(Optional.of(String.valueOf(subInfo.getSubscriptionId())));
+
+        assertFutureDone(EXECUTOR.submit(() -> mSubscriptions.syncSubscriptions(DATE_TIME)));
+
+        final var sub = assertFutureDone(EXECUTOR.submit(() ->
+                    mSubscriptions.getSubscriptionForSubId(subInfo.getSubscriptionId())));
+        assertThat(sub.get().getLastActivatedTime(), is(LocalDateTime.MIN));
+        assertThat(sub.get().getLastDeactivatedTime(), is(DATE_TIME));
+
+        assertThat(mSubscriptionStateSysProp.get(Optional.empty(), subInfo.getSubscriptionId()),
+                is(Optional.of(String.valueOf(SimState.DISABLED))));
+    }
+
+    @Test
+    public void test_syncSubscriptions_ShouldSyncWithCurrentStateWhenInvalidPersistedSubscriptionState() {
+        final var subInfo1 = SubscriptionInfoBuilder.newBuilder()
+            .setId(1)
+            .buildSubscriptionInfo();
+        TestUtils.setAreUiccApplicationsEnabled(subInfo1, false);
+
+        final var subInfo2 = SubscriptionInfoBuilder.newBuilder()
+            .setId(2)
+            .buildSubscriptionInfo();
+        TestUtils.setAreUiccApplicationsEnabled(subInfo2, true);
+
+        setAvailableSubscriptionInfoList(subInfo1, subInfo2);
+
+        mSubscriptionStateSysProp.set(Optional.of("junk"), subInfo1.getSubscriptionId());
+        mSubscriptionStateSysProp.set(Optional.of("-1"), subInfo2.getSubscriptionId());
+
+        assertFutureDone(EXECUTOR.submit(() ->
+                    provideSubscriptionsImpl().syncSubscriptions(DATE_TIME)));
+
+        assertThat(mSubscriptionStateSysProp.get(Optional.empty(), subInfo1.getSubscriptionId()),
+                is(Optional.of(String.valueOf(SimState.DISABLED))));
+        assertThat(mSubscriptionStateSysProp.get(Optional.empty(), subInfo2.getSubscriptionId()),
+                is(Optional.of(String.valueOf(SimState.ENABLED))));
     }
 }

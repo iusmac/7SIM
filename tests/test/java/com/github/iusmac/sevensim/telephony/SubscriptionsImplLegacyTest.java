@@ -7,6 +7,7 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 
 import com.github.iusmac.sevensim.SysProp;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -292,5 +293,61 @@ public final class SubscriptionsImplLegacyTest extends SubscriptionsTest {
 
         assertThat(sub.getSlotIndex(), is(subInfo.getSimSlotIndex()));
         assertThat(sub.getSimState(), is(SimState.ENABLED));
+    }
+
+    @Test
+    public void test_syncSubscriptions_ShouldSyncWhenWasEnabledBefore() {
+        final var sub = new Subscription();
+        sub.setId(1);
+        sub.setSlotIndex(0);
+
+        mSubscriptionStateSysProp.set(Optional.of(String.valueOf(SimState.ENABLED)), sub.getId());
+        mUsableSimSubIdsSysProp.set(Optional.of(String.valueOf(sub.getId())));
+
+        // Persist as DISABLED in volatile memory to trigger restoring during syncing
+        mSimSubIdSysProp.set(Optional.of(String.valueOf(sub.getId())), sub.getSlotIndex());
+        mSimStateSysProp.set(Optional.of(String.valueOf(SimState.DISABLED)), sub.getSlotIndex());
+        assertFutureDone(EXECUTOR.submit(() -> mSubscriptionsDao.upsert(sub)));
+
+        assertFutureDone(EXECUTOR.submit(() -> mSubscriptions.syncSubscriptions(DATE_TIME)));
+
+        final var sub_ = assertFutureDone(EXECUTOR.submit(() ->
+                    mSubscriptions.getSubscriptionForSimSlotIndex(sub.getSlotIndex())));
+        assertThat(sub_.get().getLastActivatedTime(), is(LocalDateTime.MIN));
+        assertThat(sub_.get().getLastDeactivatedTime(), is(DATE_TIME));
+
+        assertThat(mSubscriptionStateSysProp.get(Optional.empty(), sub.getId()),
+                is(Optional.of(String.valueOf(SimState.DISABLED))));
+    }
+
+    @Test
+    public void test_syncSubscriptions_ShouldSyncWithCurrentStateWhenInvalidPersistedSubscriptionState() {
+        final var subInfo1 = SubscriptionInfoBuilder.newBuilder()
+            .setId(1)
+            .setSimSlotIndex(0)
+            .buildSubscriptionInfo();
+
+        final var sub2 = new Subscription();
+        sub2.setId(2);
+        sub2.setSlotIndex(1);
+
+        setAvailableSubscriptionInfoList(subInfo1);
+        setActiveModemCount(2);
+
+        // Persist as DISABLED in volatile memory to trigger restoring during syncing
+        mSimSubIdSysProp.set(Optional.of(String.valueOf(sub2.getId())), sub2.getSlotIndex());
+        mSimStateSysProp.set(Optional.of(String.valueOf(SimState.DISABLED)), sub2.getSlotIndex());
+        assertFutureDone(EXECUTOR.submit(() -> mSubscriptionsDao.upsert(sub2)));
+
+        mSubscriptionStateSysProp.set(Optional.of("junk"), subInfo1.getSubscriptionId());
+        mSubscriptionStateSysProp.set(Optional.of("-1"), sub2.getId());
+
+        assertFutureDone(EXECUTOR.submit(() ->
+                    provideSubscriptionsImpl().syncSubscriptions(DATE_TIME)));
+
+        assertThat(mSubscriptionStateSysProp.get(Optional.empty(), subInfo1.getSubscriptionId()),
+                is(Optional.of(String.valueOf(SimState.ENABLED))));
+        assertThat(mSubscriptionStateSysProp.get(Optional.empty(), sub2.getId()),
+                is(Optional.of(String.valueOf(SimState.DISABLED))));
     }
 }

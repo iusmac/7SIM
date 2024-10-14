@@ -76,7 +76,7 @@ public final class SubscriptionsImpl extends Subscriptions {
      */
     @Override
     @WorkerThread
-    protected Subscription createSubscription(final SubscriptionInfo subInfo) {
+    Subscription createSubscription(final SubscriptionInfo subInfo) {
         final Subscription sub = super.createSubscription(subInfo);
 
         // Note that, we intentionally don't assign the slot index for the subscription here,

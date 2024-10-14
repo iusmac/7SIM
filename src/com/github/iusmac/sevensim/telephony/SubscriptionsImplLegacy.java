@@ -141,7 +141,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * {@inheritDoc}
      */
     @Override
-    protected Subscription createSubscription(final SubscriptionInfo subInfo) {
+    Subscription createSubscription(final SubscriptionInfo subInfo) {
         final Subscription sub = super.createSubscription(subInfo);
 
         sub.setSlotIndex(subInfo.getSimSlotIndex());
@@ -161,7 +161,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * memory.
      */
     @Override
-    protected void persistSubscription(final Subscription sub) {
+    void persistSubscription(final Subscription sub) {
         final int slotIndex = sub.getSlotIndex();
         persistSimSubId(slotIndex, sub.getId());
         persistSimState(slotIndex, sub.getSimState());
