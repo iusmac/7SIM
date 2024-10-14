@@ -15,6 +15,7 @@ import android.telephony.TelephonyManager;
 import androidx.biometric.BiometricManager;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.AppDatabaseDE;
@@ -43,6 +44,7 @@ import dagger.hilt.testing.TestInstallIn;
 import java.security.KeyStore;
 import java.security.Security;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import javax.inject.Named;
 import javax.inject.Provider;
@@ -60,6 +62,9 @@ import static org.robolectric.Shadows.shadowOf;
 )
 @Module
 public final class SevenSimTestModule {
+    private static final AtomicReferenceArray<RoomDatabase> DATABASES =
+        new AtomicReferenceArray<>(2);
+
     @Singleton
     @Provides
     static AppDatabaseDE provideAppDatabaseDE(final @ApplicationContext Context context,
@@ -69,8 +74,9 @@ public final class SevenSimTestModule {
                 .createDeviceProtectedStorageContext(), AppDatabaseDE.class);
 
         builder.addMigrations(AppDatabaseDE.MIGRATION_1_2);
+        builder.addTypeConverter(typeConverter);
 
-        return builder.addTypeConverter(typeConverter).build();
+        return (AppDatabaseDE) DATABASES.updateAndGet(0, (oldDB) -> builder.build());
     }
 
     @Singleton
@@ -78,7 +84,7 @@ public final class SevenSimTestModule {
     static AppDatabaseCE provideAppDatabaseCE(final @ApplicationContext Context context) {
         final var builder = Room.inMemoryDatabaseBuilder(context, AppDatabaseCE.class);
 
-        return builder.build();
+        return (AppDatabaseCE) DATABASES.updateAndGet(1, (oldDB) -> builder.build());
     }
 
     @Named("Debug")
@@ -238,6 +244,27 @@ public final class SevenSimTestModule {
                     appDatabaseDE, subscriptionsLazy, subscriptionControllerLazy,
                     telephonyControllerLazy, telephonyUtilsProvider, pinStorageLazy,
                     userManagerLazy));
+    }
+
+    /**
+     * Call this to close all opened {@link RoomDatabase}s during the tests.
+     * <p>
+     * It could be helpful to avoid warnings by {@link dalvik.system.CloseGuard} in testing infra.
+     * You need to be sure that the used database finished all operations and won't be accessed
+     * anymore.
+     *
+     * @see https://android-review.googlesource.com/c/platform/frameworks/support/+/2625941
+     */
+    public static void closeAllDatabases() {
+        for (int i = 0, size = DATABASES.length(); i < size; i++) {
+            final var db = DATABASES.get(i);
+            if (db != null) {
+                if (db.isOpen()) {
+                    db.close();
+                }
+                DATABASES.set(i, null);
+            }
+        }
     }
 
     /** Do not initialize. */

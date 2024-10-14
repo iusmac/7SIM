@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.CallSuper;
 
+import com.github.iusmac.sevensim.inject.SevenSimTestModule;
+
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
@@ -11,6 +13,7 @@ import dagger.hilt.android.testing.HiltTestApplication;
 
 import javax.inject.Inject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 
@@ -36,5 +39,10 @@ public class MockitoHiltAndroidTestBase {
     @CallSuper
     public void setUp() {
         mHiltRule.inject();
+    }
+
+    @After
+    public final void closeAllDatabases() {
+        SevenSimTestModule.closeAllDatabases();
     }
 }
