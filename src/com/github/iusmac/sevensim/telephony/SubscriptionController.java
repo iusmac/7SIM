@@ -38,7 +38,7 @@ public final class SubscriptionController {
     private final SubscriptionsImpl mSubscriptions;
 
     @Inject
-    public SubscriptionController(final Logger.Factory loggerFactory,
+    SubscriptionController(final Logger.Factory loggerFactory,
             final SubscriptionManager subscriptionManager,
             final SubscriptionsImpl subscriptions) {
 
