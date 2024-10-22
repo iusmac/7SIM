@@ -8,14 +8,19 @@ import android.telephony.SubscriptionInfo;
 import androidx.annotation.Nullable;
 
 import com.github.iusmac.sevensim.ApplicationInfo;
+import com.github.iusmac.sevensim.telephony.PinEntity;
 
 import java.util.Arrays;
 
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
 import org.robolectric.shadow.api.Shadow;
 import org.robolectric.util.ReflectionHelpers;
 
 import static android.content.pm.ApplicationInfo.FLAG_SYSTEM;
 import static android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
+
+import static org.hamcrest.Matchers.equalTo;
 
 import static org.robolectric.Shadows.shadowOf;
 
@@ -206,6 +211,46 @@ public final class TestUtils {
             final boolean enabled) {
 
         ReflectionHelpers.setField(subInfo, "mAreUiccApplicationsEnabled", enabled);
+    }
+
+    /** Matches an encrypted {@link PinEntity}. */
+    public static FeatureMatcher<PinEntity, Boolean> encrypted() {
+        return new FeatureMatcher<>(equalTo(true), "encrypted", "encrypted") {
+            @Override
+            protected Boolean featureValueOf(final PinEntity pinEntity) {
+                return pinEntity.isEncrypted();
+            }
+        };
+    }
+
+    /** Matches a {@link PinEntity} with {@link PinEntity#isInvalid} flag. */
+    public static FeatureMatcher<PinEntity, Boolean> invalid() {
+        return new FeatureMatcher<>(equalTo(true), "with invalid flag", "invalid flag") {
+            @Override
+            protected Boolean featureValueOf(final PinEntity pinEntity) {
+                return pinEntity.isInvalid();
+            }
+        };
+    }
+
+    /** Matches a {@link PinEntity} with {@link PinEntity#isCorrupted} flag. */
+    public static FeatureMatcher<PinEntity, Boolean> corrupted() {
+        return new FeatureMatcher<>(equalTo(true), "with corrupted flag", "corrupted flag") {
+            @Override
+            protected Boolean featureValueOf(final PinEntity pinEntity) {
+                return pinEntity.isCorrupted();
+            }
+        };
+    }
+
+    /** Matches a {@link PinEntity} with the given subscription ID. */
+    public static FeatureMatcher<PinEntity, Integer> withSubId(final Matcher<Integer> matcher) {
+        return new FeatureMatcher<>(matcher, "with subscription ID", "subscription ID") {
+            @Override
+            protected Integer featureValueOf(final PinEntity pinEntity) {
+                return pinEntity.getSubscriptionId();
+            }
+        };
     }
 
     /** Do not initialize. */

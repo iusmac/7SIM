@@ -14,6 +14,7 @@ import java.security.KeyStoreException;
 import java.security.KeyStoreSpi;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
+import java.security.ProviderException;
 import java.security.SecureRandom;
 import java.security.UnrecoverableEntryException;
 import java.security.UnrecoverableKeyException;
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.crypto.KeyGenerator;
@@ -36,6 +38,47 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
 
         put("KeyStore.AndroidKeyStore", FakeAndroidKeyStore.class.getName());
         put("KeyGenerator.AES", AesKeyGenerator.class.getName());
+
+        setAESKeyGenerationAlwaysFails(false);
+    }
+
+    /**
+     * Return the latest {@link KeyStore.Entry} removed using {@link KeyStore#deleteEntry}, if any.
+     */
+    public Optional<KeyStore.Entry> getLatestRemovedEntry() {
+        return Optional.ofNullable(FakeAndroidKeyStore.latestRemovedEntry);
+    }
+
+    /**
+     * Control whether AES key generation should always fail with a {@link RuntimeException} when
+     * calling {@link KeyGenerator#generateKey} for <strong>all</strong> instances.
+     */
+    public void setAESKeyGenerationAlwaysFails(final boolean shouldAlwaysFail) {
+        AesKeyGenerator.sKeyGenerationAlwaysFails = shouldAlwaysFail;
+    }
+
+    /**
+     * Control whether a {@link NoSuchAlgorithmException} should be thrown when reading an alias
+     * using {@link KeyStore#getEntry} or {@link KeyStore#getKey}.
+     */
+    public void needThrowNoSuchAlgorithmExceptionWhenReadingAlias(final boolean needThrow) {
+        FakeAndroidKeyStore.throwNoSuchAlgorithmExceptionWhenReadingAlias = needThrow;
+    }
+
+    /**
+     * Control whether an {@link UnrecoverableEntryException} should be thrown when reading an alias
+     * using {@link KeyStore#getEntry}.
+     */
+    public void needThrowUnrecoverableEntryExceptionWhenReadingAlias(final boolean needThrow) {
+        FakeAndroidKeyStore.throwUnrecoverableEntryExceptionWhenReadingAlias = needThrow;
+    }
+
+    /**
+     * Control whether a {@link KeyStoreException} should be thrown on any interaction when the
+     * (FakeAndroid)KeyStore is uninitialized.
+     */
+    public void setAndroidKeyStoreInitialized(final boolean initialized) {
+        FakeAndroidKeyStore.initialized = initialized;
     }
 
     public static final class FakeAndroidKeyStore extends KeyStoreSpi {
@@ -50,14 +93,37 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
             }
         }
 
+        private static volatile KeyStore.Entry latestRemovedEntry;
+        private static volatile boolean initialized = true;
+        private static volatile boolean throwNoSuchAlgorithmExceptionWhenReadingAlias;
+        private static volatile boolean throwUnrecoverableEntryExceptionWhenReadingAlias;
+
         {
             storedKeys.clear();
+            latestRemovedEntry = null;
+            initialized = true;
+            throwNoSuchAlgorithmExceptionWhenReadingAlias = false;
+            throwUnrecoverableEntryExceptionWhenReadingAlias = false;
+        }
+
+        private static void assertInitialized() throws KeyStoreException {
+            if (!initialized) {
+                throw new KeyStoreException();
+            }
         }
 
         @Override
         public KeyStore.Entry engineGetEntry(String alias, ProtectionParameter protParam)
                 throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableEntryException {
 
+            assertInitialized();
+
+            if (throwNoSuchAlgorithmExceptionWhenReadingAlias) {
+                throw new NoSuchAlgorithmException();
+            }
+            if (throwUnrecoverableEntryExceptionWhenReadingAlias) {
+                throw new UnrecoverableEntryException();
+            }
             return storedKeys.get(alias);
         }
 
@@ -65,6 +131,7 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
         public void engineSetEntry(String alias, KeyStore.Entry entry, ProtectionParameter protParam)
                 throws KeyStoreException {
 
+            assertInitialized();
             storedKeys.put(alias, entry);
         }
 
@@ -89,7 +156,9 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
 
         @Override
         public void engineDeleteEntry(String alias) throws KeyStoreException {
-            storedKeys.remove(alias);
+            assertInitialized();
+
+            latestRemovedEntry = storedKeys.remove(alias);
         }
 
         @Override
@@ -132,6 +201,9 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
         public Key engineGetKey(String alias, char[] password) throws NoSuchAlgorithmException,
                UnrecoverableKeyException {
 
+            if (throwNoSuchAlgorithmExceptionWhenReadingAlias) {
+                throw new NoSuchAlgorithmException();
+            }
             final var entry = storedKeys.get(alias);
             return entry == null ? null : ((KeyStore.SecretKeyEntry) entry).getSecretKey();
         }
@@ -170,17 +242,23 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
 
         @Override
         public void engineSetCertificateEntry(String alias, Certificate cert) throws KeyStoreException {
+            assertInitialized();
+
             wrapped.setCertificateEntry(alias, cert);
         }
 
         @Override
         public void engineSetKeyEntry(String alias, byte[] key, Certificate[] chain) throws KeyStoreException {
+            assertInitialized();
+
             wrapped.setKeyEntry(alias, key, chain);
         }
 
         @Override
         public void engineSetKeyEntry(String alias, Key key, char[] password, Certificate[] chain)
             throws KeyStoreException {
+
+            assertInitialized();
 
             wrapped.setKeyEntry(alias, key, password, chain);
         }
@@ -228,13 +306,31 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
         }
 
         private static volatile KeyGenParameterSpec latestSpec;
+        private static volatile boolean sKeyGenerationAlwaysFails;
 
         {
             latestSpec = null;
         }
 
+        /**
+         * Return the latest {@link KeyGenParameterSpec} used to create this generator, if any.
+         */
+        public static Optional<KeyGenParameterSpec> getLatestParameterSpec() {
+            return Optional.ofNullable(latestSpec);
+        }
+
         @Override
         protected SecretKey engineGenerateKey() {
+            try {
+                FakeAndroidKeyStore.assertInitialized();
+            } catch (KeyStoreException e) {
+                throw new ProviderException(e);
+            }
+
+            if (sKeyGenerationAlwaysFails) {
+                throw new RuntimeException("Key generation was disabled.");
+            }
+
             final var key = wrapped.generateKey();
             FakeAndroidKeyStore.storedKeys.put(latestSpec.getKeystoreAlias(),
                     new KeyStore.SecretKeyEntry(key));

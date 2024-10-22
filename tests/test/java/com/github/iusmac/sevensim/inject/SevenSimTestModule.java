@@ -183,7 +183,14 @@ public final class SevenSimTestModule {
     @Singleton
     @Provides
     static KeyStore provideKeyStore() {
-        Security.addProvider(new FakeAndroidKeyStoreProvider());
+        final var fakeProvider = new FakeAndroidKeyStoreProvider();
+        // The previous provider *must* be absolutely removed before adding a new one since the
+        // provider manager checks (by name) if it has already been installed, otherwise the same
+        // instance will be used for the whole JVM session, and cause sneaky behaviors after
+        // changing SDK version, such as "android.some.clazz is in unnamed module of loader
+        // org.robolectric.internal.AndroidSandbox$SdkSandboxClassLoader"
+        Security.removeProvider(fakeProvider.getName());
+        Security.addProvider(fakeProvider);
         return spy(SevenSimModule.provideKeyStore());
     }
 

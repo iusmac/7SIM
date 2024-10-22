@@ -18,6 +18,8 @@ buildscript {
             // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/appcompat/appcompat/
             appcompat            :  'androidx.appcompat:appcompat:1.7.0-beta01',
+            // https://mvnrepository.com/artifact/androidx.arch.core/core-testing
+            arch_core_testing    :  'androidx.arch.core:core-testing:2.2.0',
             // https://mvnrepository.com/artifact/org.awaitility/awaitility
             awaitility           :  'org.awaitility:awaitility:4.2.2',
             // https://mvnrepository.com/artifact/androidx.biometric/biometric
@@ -276,6 +278,7 @@ dependencies {
     implementation project(path: ':SettingsLib:SettingsTheme')
     implementation project(path: ':SettingsLib:TwoTargetPreference')
 
+    testImplementation libs.arch_core_testing
     testImplementation libs.awaitility
     testImplementation libs.hamcrest
     testImplementation libs.junit
