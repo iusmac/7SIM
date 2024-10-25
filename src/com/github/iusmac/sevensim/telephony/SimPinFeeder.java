@@ -1,8 +1,6 @@
 package com.github.iusmac.sevensim.telephony;
 
-import android.content.Context;
 import android.os.RemoteException;
-import android.os.ServiceManager;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 
@@ -21,6 +19,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -34,6 +33,7 @@ import java.util.List;
 public final class SimPinFeeder extends Thread {
     private boolean mSimStatusChanged;
     private volatile boolean mReleased;
+    private final Duration mTimeout;
     private final SparseArrayCompat<PinEntity> mPinEntities;
     private final SparseArrayCompat<SimCard> mSimCardsCache = new SparseArrayCompat<>();
 
@@ -42,12 +42,15 @@ public final class SimPinFeeder extends Thread {
     private final TelephonyManager mTelephonyManager;
     private final Lazy<PinStorage> mPinStorageLazy;
     private final Lazy<NotificationManager> mNotificationManagerLazy;
+    private final Lazy<ITelephony> mITelephonyLazy;
 
     @AssistedInject
     SimPinFeeder(final Logger.Factory loggerFactory, final Subscriptions subscriptions,
-            final TelephonyUtils telephonyUtils, final TelephonyManager telephonyManager,
+            final TelephonyManager telephonyManager,
             final Lazy<PinStorage> pinStorageLazy,
             final Lazy<NotificationManager> notificationManagerLazy,
+            final Lazy<ITelephony> itelephonyLazy,
+            final @Assisted @NonNull Duration timeout,
             final @Assisted @NonNull List<PinEntity> decryptedPinEntities) {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
@@ -55,6 +58,9 @@ public final class SimPinFeeder extends Thread {
         mTelephonyManager = telephonyManager;
         mPinStorageLazy = pinStorageLazy;
         mNotificationManagerLazy = notificationManagerLazy;
+        mITelephonyLazy = itelephonyLazy;
+
+        mTimeout = timeout;
 
         // Convert to a sparse array for easier mutation and querying by subscription ID
         mPinEntities = new SparseArrayCompat<>(decryptedPinEntities.size());
@@ -92,7 +98,10 @@ public final class SimPinFeeder extends Thread {
 
                 mLogger.v("Processing %s with PIN: %s.", simCard, pinEntity);
 
-                if (pinEntity != null && simCard.isPinRequired()) {
+                if (pinEntity != null && !simCard.isSimEnabled()) {
+                    mLogger.i("Ignoring SIM unlock of a disabled SIM card: %s.", simCard);
+                    mPinEntities.remove(simCard.getSubId());
+                } else if (pinEntity != null && simCard.isPinRequired()) {
                     // The SIM card is locked and requires the user's SIM PIN to unlock, but the
                     // remaining PIN attempt counter doesn't equal to 3, which means the user is
                     // racing with us and may have already tried to unlock the SIM card and made a
@@ -175,7 +184,7 @@ public final class SimPinFeeder extends Thread {
                         // under high memory pressure, delivery may be delayed even by 2-3 seconds.
                         // This also serves as a "window" to give time to the SIM cards to enter the
                         // PIN state in case we started slightly earlier
-                        final long deltaMillis = nowMillis + 10_000L;
+                        final long deltaMillis = nowMillis + mTimeout.toMillis();
                         do {
                             try {
                                 simStatusChangedListener.wait(deltaMillis - nowMillis);
@@ -210,7 +219,7 @@ public final class SimPinFeeder extends Thread {
         interrupt();
     }
 
-    /** Refresh the list of currently enabled SIM cards in the system. */
+    /** Refresh the list of currently available SIM cards in the system. */
     private void refreshSimCardCacheList() {
         mLogger.d("refreshSimCardCacheList().");
 
@@ -219,13 +228,10 @@ public final class SimPinFeeder extends Thread {
 
             mLogger.v("refreshSimCardCacheList() : Processing %s.", sub);
 
-            if (sub.isSimEnabled()) {
-                if (!mSimCardsCache.containsKey(subId)) {
-                    final TelephonyManager tm = mTelephonyManager.createForSubscriptionId(subId);
-                    mSimCardsCache.put(subId, new SimCard(sub, tm));
-                }
-            } else {
-                mSimCardsCache.remove(subId);
+            final SimCard oldSimCard = mSimCardsCache.get(subId);
+            if (oldSimCard == null || oldSimCard.isSimEnabled() != sub.isSimEnabled()) {
+                final TelephonyManager tm = mTelephonyManager.createForSubscriptionId(subId);
+                mSimCardsCache.put(subId, new SimCard(sub, tm));
             }
         }
     }
@@ -247,6 +253,11 @@ public final class SimPinFeeder extends Thread {
         /** Return the corresponding subscription ID this SIM card is pinned to. */
         int getSubId() {
             return mSubscription.getId();
+        }
+
+        /** Return whether the corresponding SIM subscription is enabled. **/
+        boolean isSimEnabled() {
+            return mSubscription.isSimEnabled();
         }
 
         /** Return the corresponding SIM subscription instance. */
@@ -284,11 +295,11 @@ public final class SimPinFeeder extends Thread {
                         // even though the TelephonyManager is pinned to a different subId. So,
                         // we'll follow the AOSP way of eluding the TelephonyManager and directly
                         // communicate with the telephony service. See https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-10.0.0_r41/packages/SystemUI/src/com/android/keyguard/KeyguardSimPinView.java#260
-                        result = ITelephony.Stub.asInterface(ServiceManager
-                                .checkService(Context.TELEPHONY_SERVICE))
+                        result = mITelephonyLazy.get()
                             .supplyPinReportResultForSubscriber(mSubscription.getId(), pin);
                     } catch (RemoteException e) {
-                        mLogger.e("%s: RemoteException for supplyPinReportResult: %s.", this, e);
+                        mLogger.e("SimCard(subId=%d): RemoteException for ITelephony#supplyPinReportResultForSubscriber: %s.",
+                                mSubscription.getId(), e);
                         result = new int[0];
                     }
                 }
@@ -338,17 +349,33 @@ public final class SimPinFeeder extends Thread {
      * Factory to create {@link SimPinFeeder} instances via the {@link AssistedInject} constructor.
      */
     @AssistedFactory
-    public interface Factory {
+    public static abstract class Factory {
         /**
-         * Create a {@link SimPinFeeder} instance for the given list of unencrypted SIM subscription
-         * PIN entities.
+         * Create a {@link SimPinFeeder} instance for the given timeout duration and list of
+         * unencrypted SIM subscription PIN entities.
+         *
+         * @param timeout The duration of time to wait for all available SIM cards to enter into the
+         * PIN state before finishing.
+         * @param decryptedPinEntities The list containing decrypted SIM subscription PIN entities
+         * to be supplied to the enabled SIM cards found on the device that require them.
+         * @return An instance of {@link SimPinFeeder} ready to start supplying SIM PIN codes to all
+         * SIM cards that needs it after the {@link #start()} method has been invoked.
+         */
+        abstract SimPinFeeder create(@NonNull Duration timeout,
+                @NonNull List<PinEntity> decryptedPinEntities);
+
+        /**
+         * Create a {@link SimPinFeeder} instance with a fixed timeout duration of 10 seconds for
+         * the given list of unencrypted SIM subscription PIN entities.
          *
          * @param decryptedPinEntities The list containing decrypted SIM subscription PIN entities
          * to be supplied to the enabled SIM cards found on the device that require them.
          * @return An instance of {@link SimPinFeeder} ready to start supplying SIM PIN codes to all
          * SIM cards that needs it after the {@link #start()} method has been invoked.
          */
-        SimPinFeeder create(@NonNull List<PinEntity> decryptedPinEntities);
+        public SimPinFeeder create(@NonNull List<PinEntity> decryptedPinEntities) {
+            return create(Duration.ofSeconds(10), decryptedPinEntities);
+        }
     }
 
     /**

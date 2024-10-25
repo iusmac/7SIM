@@ -4,6 +4,8 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
+import com.android.internal.telephony.ITelephony;
+
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.NotificationManager;
@@ -66,6 +68,12 @@ public final class TelephonyTestModule {
 
         return spy(new TelephonyController(context, loggerFactory, telephonyManager,
                     subscriptions));
+    }
+
+    @Singleton
+    @Provides
+    static ITelephony provideITelephony() {
+        return spy(TelephonyModule.provideITelephony());
     }
 
     @Named("Telephony/SimSubId")

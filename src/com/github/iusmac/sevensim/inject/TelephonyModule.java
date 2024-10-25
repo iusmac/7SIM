@@ -1,5 +1,10 @@
 package com.github.iusmac.sevensim.inject;
 
+import android.content.Context;
+import android.os.ServiceManager;
+
+import com.android.internal.telephony.ITelephony;
+
 import com.github.iusmac.sevensim.SysProp;
 import com.github.iusmac.sevensim.telephony.SimState;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
@@ -30,6 +35,12 @@ public final class TelephonyModule {
 
         return (telephonyUtils.canDisableUiccSubscription() ? subscriptionsImplProvider :
                 subscriptionsImplLegacyProvider).get();
+    }
+
+    @Singleton
+    @Provides
+    static ITelephony provideITelephony() {
+        return ITelephony.Stub.asInterface(ServiceManager.checkService(Context.TELEPHONY_SERVICE));
     }
 
     /**
