@@ -5,6 +5,7 @@ import android.app.KeyguardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -34,7 +35,7 @@ import javax.inject.Inject;
 public final class AuthenticationPromptActivity extends Hilt_AuthenticationPromptActivity {
     private final ActivityResultLauncher<Intent> mVerifyAuthLock = Utils.IS_AT_LEAST_R ? null :
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result) ->
-                onAuthResult(result != null ? result.getResultCode() : Activity.RESULT_CANCELED));
+                onAuthResult(result.getResultCode()));
 
     @Inject
     Logger.Factory mLoggerFactory;
@@ -55,19 +56,18 @@ public final class AuthenticationPromptActivity extends Hilt_AuthenticationPromp
 
         mLogger.d("onCreate().");
 
-        if (savedInstanceState == null) {
-            if (Utils.IS_AT_LEAST_R) {
-                launchBiometricPrompt();
-            } else {
-                final Intent credentialIntent = ApiDeprecated.createConfirmDeviceCredentialIntent(
-                        mKeyguardManagerLazy.get(), /*title=*/ null, /*description=*/ null);
-                if (credentialIntent == null) {
-                    mLogger.e("onCreate() : Confirm device credential intent is null.");
-                    onAuthResult(Activity.RESULT_CANCELED);
-                    return;
-                }
-                mVerifyAuthLock.launch(credentialIntent);
+        if (Utils.IS_AT_LEAST_R) {
+            launchBiometricPrompt();
+        } else if (savedInstanceState == null) {
+            @SuppressWarnings({"deprecation"})
+            final Intent credentialIntent = mKeyguardManagerLazy.get()
+                .createConfirmDeviceCredentialIntent(/*title=*/ null, /*description=*/ null);
+            if (credentialIntent == null) {
+                mLogger.e("onCreate() : Confirm device credential intent is null.");
+                onAuthResult(Activity.RESULT_CANCELED);
+                return;
             }
+            mVerifyAuthLock.launch(credentialIntent);
         }
     }
 
@@ -77,12 +77,12 @@ public final class AuthenticationPromptActivity extends Hilt_AuthenticationPromp
         if (resultCode == Activity.RESULT_OK) {
             // For reliability, we add a tolerance of 1.5s to avoid any time discrepancies when
             // calculating authentication validity the next time
-            final int toleranceSec = 1_500;
-            PinStorage.setLastKeystoreAuthTimestamp(SystemClock.elapsedRealtime() - toleranceSec);
+            final int toleranceMillis = 1_500;
+            PinStorage.setLastKeystoreAuthTimestamp(SystemClock.elapsedRealtime() -
+                    toleranceMillis);
         }
 
-        final Intent propagateIntent = getIntent() != null ? getIntent() : new Intent();
-        setResult(resultCode, propagateIntent);
+        setResult(resultCode, getIntent());
         finish();
     }
 
@@ -118,15 +118,5 @@ public final class AuthenticationPromptActivity extends Hilt_AuthenticationPromp
         promptBuilder.setTitle(strings.getSettingName()).setSubtitle(strings.getPromptMessage());
         promptBuilder.setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL);
         return promptBuilder.build();
-    }
-
-    /** Nested class to suppress warnings only for API methods annotated as Deprecated. */
-    @SuppressWarnings({"deprecation"})
-    private static class ApiDeprecated {
-        static Intent createConfirmDeviceCredentialIntent(final KeyguardManager km,
-                final CharSequence title, final CharSequence description) {
-
-            return km.createConfirmDeviceCredentialIntent(title, description);
-        }
     }
 }
