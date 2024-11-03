@@ -11,6 +11,8 @@ buildscript {
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
         // https://android.googlesource.com/platform/external/dagger2
         def hilt_version = '2.47'
+        // https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
+        roborazzi_version = '1.29.0'
         libs = [
             // https://mvnrepository.com/artifact/androidx.annotation/annotation
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/annotation/annotation-jvm/
@@ -59,6 +61,8 @@ buildscript {
             recyclerview         :  'androidx.recyclerview:recyclerview:1.4.0-alpha01',
             // https://mvnrepository.com/artifact/org.robolectric/robolectric
             robolectric          :  'org.robolectric:robolectric:4.13',
+            roborazzi            :  "io.github.takahirom.roborazzi:roborazzi:$roborazzi_version",
+            roborazzi_junit_rule :  "io.github.takahirom.roborazzi:roborazzi-junit-rule:$roborazzi_version",
             // https://mvnrepository.com/artifact/org.robolectric/android-all
             robolectric_android_all : 'org.robolectric:android-all:14-robolectric-10818077',
             room_compiler        :  "androidx.room:room-compiler:$room_version",
@@ -77,6 +81,10 @@ buildscript {
             viewmodel            :  'androidx.lifecycle:lifecycle-viewmodel:2.8.0-alpha02'
         ]
     }
+
+    dependencies {
+        classpath "io.github.takahirom.roborazzi:roborazzi-gradle-plugin:$roborazzi_version"
+    }
 }
 
 plugins {
@@ -90,6 +98,7 @@ plugins {
     id 'net.ltgt.errorprone' version '4.0.1' apply false
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
     id 'org.jetbrains.kotlinx.kover' version '0.8.3' apply false
+    id 'io.github.takahirom.roborazzi' version "$roborazzi_version" apply false
 }
 
 allprojects {
@@ -128,6 +137,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'org.jetbrains.kotlinx.kover'
+apply plugin: 'io.github.takahirom.roborazzi'
 
 final def versionNameCommon = [file('version.txt').text.trim()]
 if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
@@ -249,6 +259,9 @@ android {
     testOptions {
         unitTests {
             includeAndroidResources = true
+            all {
+                it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+            }
         }
     }
 }
@@ -287,6 +300,8 @@ dependencies {
     testImplementation libs.test_core
     testImplementation libs.robolectric
     testImplementation libs.robolectric_android_all
+    testImplementation libs.roborazzi
+    testImplementation libs.roborazzi_junit_rule
     testImplementation libs.room_testing
     androidTestImplementation libs.test_ext_junit
     androidTestImplementation libs.test_rules
