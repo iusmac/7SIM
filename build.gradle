@@ -38,6 +38,8 @@ buildscript {
             core                 :  'androidx.core:core:1.13.0-beta01',
             // https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
             errorprone           :  'com.google.errorprone:error_prone_core:2.30.0',
+            // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
+            espresso             :  'androidx.test.espresso:espresso-core:3.6.1',
             // https://mvnrepository.com/artifact/org.hamcrest/hamcrest
             hamcrest             :  'org.hamcrest:hamcrest:3.0',
             hilt_android         :  "com.google.dagger:hilt-android:$hilt_version",
@@ -294,6 +296,9 @@ dependencies {
     testImplementation libs.arch_core_testing
     testImplementation libs.awaitility
     testImplementation libs.hamcrest
+    testImplementation (libs.espresso) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
     testImplementation libs.junit
     testImplementation libs.hilt_android_testing
     testImplementation libs.mockito
@@ -303,6 +308,7 @@ dependencies {
     testImplementation libs.roborazzi
     testImplementation libs.roborazzi_junit_rule
     testImplementation libs.room_testing
+    testImplementation libs.test_ext_junit
     androidTestImplementation libs.test_ext_junit
     androidTestImplementation libs.test_rules
     androidTestImplementation libs.test_runner
