@@ -53,8 +53,7 @@ public final class PreferenceListFragment extends Hilt_PreferenceListFragment {
 
     private void setupShowAppIconPref() {
          final Preference showAppIconPref = findPreference(mPrefShowAppIconKey);
-         showAppIconPref.setEnabled(mLauncherIconVisibilityManager.canHide() ||
-                 !mLauncherIconVisibilityManager.isVisible());
+         showAppIconPref.setEnabled(mLauncherIconVisibilityManager.canHide());
          showAppIconPref.setOnPreferenceChangeListener((pref, value) -> {
              final boolean enabled = (Boolean) value;
              // Aware the user that the icon will be hidden only after app restart
@@ -76,7 +75,7 @@ public final class PreferenceListFragment extends Hilt_PreferenceListFragment {
             if (key.equals(mPrefShowAppIconKey)) {
                 mLauncherIconVisibilityManager.setVisibility(value);
             } else {
-                mLogger.wtf("putBoolean() : unhandled key = " + key);
+                mLogger.wtf("putBoolean() : unhandled key = %s.", key);
             }
         }
 
@@ -86,7 +85,7 @@ public final class PreferenceListFragment extends Hilt_PreferenceListFragment {
                 return mLauncherIconVisibilityManager.getUserVisibilityPreference().orElseGet(() ->
                         mLauncherIconVisibilityManager.isVisible());
             } else {
-                mLogger.wtf("getBoolean() : unhandled key = " + key);
+                mLogger.wtf("getBoolean() : unhandled key = %s.", key);
             }
             return defVal;
         }
