@@ -25,6 +25,8 @@ import com.github.iusmac.sevensim.NotificationManager;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.SysProp;
+import com.github.iusmac.sevensim.SystemTimeProvider;
+import com.github.iusmac.sevensim.SystemTimeProviderFakeImpl;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
 import com.github.iusmac.sevensim.telephony.PinStorage;
 import com.github.iusmac.sevensim.telephony.SubscriptionController;
@@ -251,6 +253,12 @@ public final class SevenSimTestModule {
                     appDatabaseDE, subscriptionsLazy, subscriptionControllerLazy,
                     telephonyControllerLazy, telephonyUtilsProvider, pinStorageLazy,
                     userManagerLazy));
+    }
+
+    @Singleton
+    @Provides
+    static SystemTimeProvider provideSystemTimeProvider() {
+        return new SystemTimeProviderFakeImpl();
     }
 
     /**

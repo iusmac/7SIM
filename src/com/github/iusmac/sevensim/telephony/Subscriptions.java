@@ -513,6 +513,17 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     }
 
     /**
+     * Check if a listener exists in this subscriptions provider.
+     *
+     * @param cb The callback listener to check.
+     * @return {@code true} if the listener already added, otherwise {@code false}.
+     */
+    @VisibleForTesting
+    public boolean hasOnSubscriptionsChangedListener(final OnSubscriptionsChangedListener cb) {
+        return mOnSubscriptionsChangedListeners.contains(cb);
+    }
+
+    /**
      * Start the receiver that will notify us of various carrier config changes.
      */
     private void registerCarrierConfigChangedReceiver() {

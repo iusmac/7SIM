@@ -25,6 +25,8 @@ import com.github.iusmac.sevensim.BuildConfig;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
 import com.github.iusmac.sevensim.SysProp;
+import com.github.iusmac.sevensim.SystemTimeProvider;
+import com.github.iusmac.sevensim.SystemTimeProviderImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -188,6 +190,12 @@ public final class SevenSimModule {
     @Provides
     static Runtime provideJavaRuntime() {
         return Runtime.getRuntime();
+    }
+
+    @Singleton
+    @Provides
+    static SystemTimeProvider provideSystemTimeProvider() {
+        return new SystemTimeProviderImpl();
     }
 
     /** Do not initialize. */

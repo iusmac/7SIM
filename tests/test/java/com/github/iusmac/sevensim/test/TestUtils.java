@@ -3,6 +3,8 @@ package com.github.iusmac.sevensim.test;
 import android.content.Context;
 import android.content.pm.Signature;
 import android.content.pm.SigningInfo;
+import android.os.Looper;
+import android.provider.Settings;
 import android.telephony.SubscriptionInfo;
 
 import androidx.annotation.Nullable;
@@ -11,6 +13,7 @@ import com.github.iusmac.sevensim.ApplicationInfo;
 import com.github.iusmac.sevensim.telephony.PinEntity;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeoutException;
 
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
@@ -19,6 +22,8 @@ import org.robolectric.util.ReflectionHelpers;
 
 import static android.content.pm.ApplicationInfo.FLAG_SYSTEM;
 import static android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static org.hamcrest.Matchers.equalTo;
 
@@ -251,6 +256,44 @@ public final class TestUtils {
                 return pinEntity.getSubscriptionId();
             }
         };
+    }
+
+    /**
+     * Use this helper method like {@code CountDownLatch.wait()} to make the main (UI) thread looper
+     * that is also running the test, to wait for the non-main (worker) thread to become idle.
+     * <p>
+     * By default, the worker looper will be in "unpaused" state, so it will be "moved" by the main
+     * thread looper, as they both share the same system clock. Since both of them run in parallel,
+     * and there isn't any synchronization between the two, it's possible that the worker can take a
+     * little bit longer to complete, so the test won't see the result what makes it flaky.
+     * <p>
+     * It will timeout after 60 seconds of waiting to prevent the tests from hanging forever.
+     */
+    public static void waitWorkerThreadLooperUntilIdle(final Looper workerLooper)
+            throws TimeoutException {
+
+        if (workerLooper == Looper.getMainLooper()) {
+            throw new AssertionError("Expected non-main looper.");
+        }
+        final var timeout = System.currentTimeMillis() + SECONDS.toMillis(60);
+        final var shadowLooper = shadowOf(workerLooper);
+        while (System.currentTimeMillis() <= timeout) {
+            if (shadowLooper.isIdle()) {
+                return;
+            }
+        }
+        throw new TimeoutException(
+                "Waited for the worker thread " + workerLooper + " to become idle for 60 seconds. "
+                + "Most likely, an unhandled exception has occurred in the worker thread.");
+    }
+
+    /**
+     * Set {@code true} if times should be formatted as 24-hour times, {@code false} if times should
+     * be formatted as 12-hour (AM/PM) times, or {@code null} to base on the user's chosen locale.
+     */
+    public static void set24Hour(final Context context, final Boolean is24Hour) {
+        final var value = is24Hour == null ? null : is24Hour ? "24" : "12";
+        Settings.System.putString(context.getContentResolver(), Settings.System.TIME_12_24, value);
     }
 
     /** Do not initialize. */

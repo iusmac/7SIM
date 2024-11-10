@@ -431,13 +431,6 @@ public final class ToolbarDecorator {
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            final int extraMarginBottom = mExpandedTitleMarginBottom + getMeasuredHeight();
-            if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() != extraMarginBottom) {
-                // Push the expanded title back as its gravity is set to be at the bottom of the
-                // CollapsingToolbarLayout
-                mCollapsingToolbarLayout.setExpandedTitleMarginBottom(extraMarginBottom);
-            }
-
             final boolean isRtl = getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
             final int expandedTitleMarginStart =
                 mCollapsingToolbarLayout.getExpandedTitleMarginStart();
@@ -450,6 +443,13 @@ public final class ToolbarDecorator {
             setPadding(paddingLeft, /*top=*/ 0, paddingRight, paddingBottom);
 
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+            final int extraMarginBottom = mExpandedTitleMarginBottom + getMeasuredHeight();
+            if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() != extraMarginBottom) {
+                // Push the expanded title back as its gravity is set to be at the bottom of the
+                // CollapsingToolbarLayout
+                mCollapsingToolbarLayout.setExpandedTitleMarginBottom(extraMarginBottom);
+            }
         }
 
         @Override

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.iusmac.sevensim.Logger;
+import com.github.iusmac.sevensim.SystemTimeProvider;
 import com.github.iusmac.sevensim.scheduler.SubscriptionSchedulerSummaryBuilder;
 import com.github.iusmac.sevensim.telephony.Subscription;
 import com.github.iusmac.sevensim.telephony.SubscriptionController;
@@ -23,7 +24,6 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 
@@ -36,6 +36,7 @@ public final class SimListViewModel extends ViewModel {
     private final Lazy<SubscriptionController> mSubscriptionControllerLazy;
     private final Lazy<TelephonyController> mTelephonyControllerLazy;
     private final SubscriptionSchedulerSummaryBuilder mSubscriptionSchedulerSummaryBuilder;
+    private final SystemTimeProvider mSystemTimeProvider;
 
     private final Handler mHandler;
 
@@ -45,6 +46,7 @@ public final class SimListViewModel extends ViewModel {
             final Lazy<SubscriptionController> subscriptionControllerLazy,
             final Lazy<TelephonyController> telephonyControllerLazy,
             final SubscriptionSchedulerSummaryBuilder subscriptionSchedulerSummaryBuilder,
+            final SystemTimeProvider systemTimeProvider,
             final @Assisted Looper looper) {
 
         mLogger = loggerFactory.create(getClass().getSimpleName());
@@ -52,6 +54,7 @@ public final class SimListViewModel extends ViewModel {
         mSubscriptionControllerLazy = subscriptionControllerLazy;
         mTelephonyControllerLazy = telephonyControllerLazy;
         mSubscriptionSchedulerSummaryBuilder = subscriptionSchedulerSummaryBuilder;
+        mSystemTimeProvider = systemTimeProvider;
 
         mHandler = Handler.createAsync(looper);
     }
@@ -66,7 +69,7 @@ public final class SimListViewModel extends ViewModel {
     @WorkerThread
     void refreshSimEntries() {
         final SparseArrayCompat<SimEntry> simEntries = new SparseArrayCompat<>();
-        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+        final LocalDateTime now = mSystemTimeProvider.now();
         for (Subscription sub : mSubscriptions) {
             mLogger.v("refreshSimEntries() : %s.", sub);
 
@@ -148,13 +151,13 @@ public final class SimListViewModel extends ViewModel {
             @Override
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(final Class<T> modelClass) {
-                if (modelClass.isAssignableFrom(SimListViewModel.class)) {
+                if (modelClass == SimListViewModel.class) {
                     // The @AssistedFactory requires a 1-1 mapping for the returned type, so
                     // explicitly cast it to satisfy the compiler and ignore the unchecked cast for
                     // now. It's safe till it's done inside this If-block
                     return (T) assistedFactory.create(looper);
                 }
-                throw new IllegalArgumentException("Unknown ViewModel class.");
+                throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass);
             }
         };
     }

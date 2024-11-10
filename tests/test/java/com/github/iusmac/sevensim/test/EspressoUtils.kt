@@ -9,11 +9,15 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceGroup.PreferencePositionCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.BoundedDiagnosingMatcher
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.util.HumanReadables
+import androidx.test.espresso.util.TreeIterables
 
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity
 
@@ -97,7 +101,8 @@ fun withPreferenceKey(resId: Int): WithPreferenceKeyMatcher = WithPreferenceKeyM
 class WithPreferenceKeyMatcher private constructor(
     val mKeyResId: Int,
     val mKey: String?,
-): BoundedDiagnosingMatcher<View, View>(View::class.java) {
+    val mStride: Int = 0,
+): BoundedDiagnosingMatcher<View, View>(View::class.java), StrideableViewMatcher {
     private var mContext: Context? = null
     private var mView: View? = null
 
@@ -115,7 +120,13 @@ class WithPreferenceKeyMatcher private constructor(
         } else {
             description.appendText("key: ").appendValue(mKey)
         }
+        if (mStride != 0) {
+            description.appendText(" and with stride for sibling traversal of ").appendValue(mStride)
+        }
     }
+
+    override fun strideSiblings(stride: Int): StrideableViewMatcher =
+        WithPreferenceKeyMatcher(mKeyResId, mKey, stride)
 
     override protected fun matchesSafely(
         view: View,
@@ -151,7 +162,7 @@ class WithPreferenceKeyMatcher private constructor(
         val key = mKey ?: mContext!!.getString(mKeyResId)
         val pos = (adapter as PreferencePositionCallback).getPreferenceAdapterPosition(key)
         if (pos != RecyclerView.NO_POSITION) {
-            mView = rv.layoutManager!!.findViewByPosition(pos)
+            mView = rv.layoutManager!!.findViewByPosition(pos + mStride)
         } else {
             mismatchDescription
                 .appendValue(adapter)
@@ -159,5 +170,65 @@ class WithPreferenceKeyMatcher private constructor(
                 .appendValue(key)
         }
         return false // maybe found the Preference-View pair, but still ignore this RecyclerView
+    }
+}
+
+/**
+ * A matcher for views that allows specifying a stride to control the direction and steps when
+ * matching sibling views.
+ */
+interface StrideableViewMatcher : Matcher<View> {
+    /**
+     * @param stride The stride value to use for sibling traversal. Positive values indicate forward
+     * traversal, and negative values indicate backward traversal.
+     * @return A new instance of this matcher configured with the specified stride.
+     */
+    fun strideSiblings(stride: Int): StrideableViewMatcher
+}
+
+/** Returns an action that performs action on a single child view satisfying the given matcher. */
+fun actionOnChild(
+    childMatcher: Matcher<View>,
+    viewAction: ViewAction,
+) = ActionOnChildViewAction(childMatcher, viewAction)
+
+class ActionOnChildViewAction(
+    val childMatcher: Matcher<View>,
+    val viewAction: ViewAction,
+): ViewAction {
+    override fun getConstraints(): Matcher<View> = any(View::class.java)
+
+    override fun getDescription(): String = String.format(Locale.ROOT,
+        "%s on child matching: %s", viewAction.description, childMatcher)
+
+    override fun perform(uiController: UiController, parent: View) {
+        val childs = arrayListOf<View>()
+        for (view in TreeIterables.breadthFirstViewTraversal(parent)) {
+            if (childMatcher.matches(view)) {
+                childs += view
+            }
+        }
+        try {
+            if (childs.isEmpty()) {
+                throw RuntimeException(
+                    String.format("No child view found matching: %s", childMatcher))
+            }
+            if (childs.size > 1) {
+                val ambiguousViewError = StringBuilder()
+                ambiguousViewError.append(
+                    String.format("Found more than one sub-view matching: %s\n", childMatcher))
+                childs.forEach {
+                    ambiguousViewError.append("$it\n")
+                }
+                throw RuntimeException(ambiguousViewError.toString())
+            }
+            viewAction.perform(uiController, childs[0])
+        } catch (e: RuntimeException) {
+            throw PerformException.Builder()
+                .withActionDescription(this.description)
+                .withViewDescription(HumanReadables.describe(parent))
+                .withCause(e)
+                .build()
+        }
     }
 }
