@@ -128,6 +128,7 @@ public final class SubscriptionScheduleEntity {
         + " id=" + mId
         + " subscriptionId=" + mSubscriptionId
         + " subscriptionEnabled=" + mSubscriptionEnabled
+        + " label=\"" + mLabel + "\""
         + " enabled=" + mEnabled
         + " daysOfWeek=" + mDaysOfWeek
         + " time=" + mTime

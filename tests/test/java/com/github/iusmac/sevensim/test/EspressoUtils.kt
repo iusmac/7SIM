@@ -2,29 +2,40 @@ package com.github.iusmac.sevensim.test
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.view.View
+import android.widget.TimePicker
 
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup.PreferencePositionCallback
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.BoundedDiagnosingMatcher
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.util.HumanReadables
 import androidx.test.espresso.util.TreeIterables
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity
 
 import com.github.takahirom.roborazzi.captureRoboImage
 
 import java.time.Duration
+import java.time.LocalTime
 import java.util.Locale
+
+import junit.framework.AssertionFailedError
 
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -43,11 +54,22 @@ fun Activity.setAppBarExpanded(expanded: Boolean) =
 
 /** Shortcut to launch an activity scenario. */
 inline fun <reified A : Activity> ActivityLauncher(
-    appBarExpanded: Boolean = false,
+    appBarExpanded: Boolean? = null,
     block: (ActivityScenario<A>) -> Unit,
-) = ActivityScenario.launch(A::class.java).use { scenario ->
+) = ActivityLauncher<A>(Intent(), appBarExpanded, block)
+
+/** Shortcut to launch an activity scenario. */
+inline fun <reified A : Activity> ActivityLauncher(
+    startActivityIntent: Intent = Intent(),
+    appBarExpanded: Boolean? = null,
+    block: (ActivityScenario<A>) -> Unit,
+) = ActivityScenario.launch<A>(Intent(startActivityIntent).apply {
+        setClass(getInstrumentation().getTargetContext(), A::class.java)
+    }).use { scenario ->
         scenario.onActivity {
-            it.setAppBarExpanded(appBarExpanded)
+            appBarExpanded?.run {
+                it.setAppBarExpanded(this)
+            }
         }
         block(scenario)
     }
@@ -62,6 +84,10 @@ inline fun <reified A : Activity> ActivityLauncher(
 fun ViewInteraction.captureRoboImage(
     idleFor: Duration,
 ) = perform(ImageCaptureViewAction(idleFor))
+
+/** Like {@link ViewInteraction#captureRoboImage(Duration)}, but as a view action. */
+fun captureRoboImage(idleFor: Duration = Duration.ZERO): ViewAction =
+    ImageCaptureViewAction(idleFor)
 
 private class ImageCaptureViewAction(
     val idleFor: Duration,
@@ -145,6 +171,24 @@ class WithPreferenceKeyMatcher private constructor(
         val rv = view as RecyclerView
         val adapter = when (rv.adapter) {
             is PreferencePositionCallback -> rv.adapter
+            is ConcatAdapter -> (rv.adapter as ConcatAdapter).adapters.find {
+                return@find (it is PreferencePositionCallback).also { isPreferenceAdapter ->
+                    if (!isPreferenceAdapter) {
+                        mismatchDescription
+                            .appendValue(it)
+                            .appendText(" must implement ")
+                            .appendValue(PreferencePositionCallback::class.java)
+                            .appendText("\n")
+                    }
+                }
+            }.also {
+                if (it == null) {
+                    mismatchDescription
+                        .appendText("ConcatAdapter not containing adapters implementing ")
+                        .appendValue(PreferencePositionCallback::class.java)
+                    return false
+                }
+            }
             null -> {
                 mismatchDescription
                     .appendValue(RecyclerView.Adapter::class.java)
@@ -230,5 +274,24 @@ class ActionOnChildViewAction(
                 .withCause(e)
                 .build()
         }
+    }
+}
+
+/**
+ * Returns a {@link ViewAssertion} that asserts that the view is a {@link TimePicker} showing the
+ * given wall clock time.
+ */
+fun showsTime(wantedTime: LocalTime): ViewAssertion = ShowsTimeAssertion(wantedTime)
+
+private class ShowsTimeAssertion(val wantedTime: LocalTime): ViewAssertion {
+    override fun check(view: View, noViewException: NoMatchingViewException?) {
+        if (noViewException != null) {
+            throw noViewException
+        }
+        assertThat(view, isAssignableFrom(TimePicker::class.java))
+        val showingTime = (view as TimePicker).let {
+            LocalTime.of(it.hour, it.minute)
+        }
+        assertThat(showingTime, `is`(wantedTime))
     }
 }

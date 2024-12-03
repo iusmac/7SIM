@@ -96,7 +96,7 @@ public final class CollapsedScheduleViewHolder extends ScheduleItemViewHolder {
             final SubscriptionScheduleEntity schedule) {
 
         final String label = schedule.getLabel();
-        if (label != null && label.length() != 0) {
+        if (label != null) {
             mLabel.setText(label);
             mLabel.setVisibility(View.VISIBLE);
             mLabel.setContentDescription(context.getString(R.string.scheduler_name_description)
@@ -131,11 +131,6 @@ public final class CollapsedScheduleViewHolder extends ScheduleItemViewHolder {
     @Override
     public Animator onAnimateChange(final ViewHolder oldHolder, final ViewHolder newHolder,
             final long duration) {
-
-        if (!(oldHolder instanceof ScheduleItemViewHolder)
-                || !(newHolder instanceof ScheduleItemViewHolder)) {
-            return null;
-        }
 
         final boolean isCollapsing = this == newHolder;
         setChangingViewsAlpha(isCollapsing ? 0f : mAnnotationsAlpha);

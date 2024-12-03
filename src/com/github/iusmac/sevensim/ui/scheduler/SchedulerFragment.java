@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.VisibleForTesting;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.MenuCompat;
 import androidx.fragment.app.FragmentManager;
@@ -35,6 +36,7 @@ import com.android.settingslib.widget.LayoutPreference;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
+import com.github.iusmac.sevensim.SystemTimeProvider;
 import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.scheduler.DayOfWeek;
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduleEntity;
@@ -52,7 +54,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import dagger.hilt.android.AndroidEntryPoint;
 
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.Comparator;
 
 import javax.inject.Inject;
@@ -123,29 +124,37 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     @Inject
     ExpandedScheduleViewHolder.Factory mExpandedScheduleViewHolderFactory;
 
+    @Inject
+    SystemTimeProvider mSystemTimeProvider;
+
     private Logger mLogger;
     private SchedulerViewModel mViewModel;
     private final ActivityResultLauncher<Intent> mAuthenticationPromptLauncher =
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 this::onAuthResult);
     private boolean mPinPopupMenuVisible;
-    private long mExpandedScheduleId = INVALID_SCHEDULE_ID,
+    @VisibleForTesting
+    long mExpandedScheduleId = INVALID_SCHEDULE_ID,
             mSelectedScheduleId = INVALID_SCHEDULE_ID,
             mScrollToScheduleId = INVALID_SCHEDULE_ID;
     private Bundle mExpandedScheduleSavedState;
-    private SubscriptionScheduleEntity mSelectedSchedule;
+    @VisibleForTesting
+    SubscriptionScheduleEntity mSelectedSchedule;
 
     private RecyclerView mRecyclerView;
     private ConcatAdapter mConcatAdapter;
-    private final ItemAdapter<ScheduleItemHolder> mItemAdapter =
+    @VisibleForTesting
+    final ItemAdapter<ScheduleItemHolder> mItemAdapter =
         new ItemAdapter<>(ScheduleItemHolder.class, SCHEDULE_ITEM_HOLDER_SORTER);
 
     private LayoutPreference mEmptyViewPref;
     private FloatingActionButton mPinFab;
     private FloatingActionButton mAddFab;
-    private PopupMenu mPinPopupMenu;
+    @VisibleForTesting
+    PopupMenu mPinPopupMenu;
 
-    private void onAuthResult(final ActivityResult result) {
+    @VisibleForTesting
+    void onAuthResult(final ActivityResult result) {
         mLogger.d("onAuthResult(result=%s).", result);
 
         if (result.getResultCode() != Activity.RESULT_OK) {
@@ -159,7 +168,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         }
 
         final Intent data = result.getData();
-        final String action = data.getAction() != null ? data.getAction() : "";
+        final String action = data.getAction();
         switch (action) {
             case ACTION_AUTH_HANDLE_ON_ENABLED_STATE_CHANGED:
                 handleOnEnabledStateChanged(data.getBooleanExtra(EXTRA_ENABLED, false));
@@ -171,7 +180,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
                 break;
 
             case ACTION_AUTH_HANDLE_ON_DAYS_OF_WEEK_CHANGED:
-                handleOnDayOfWeekChangedChanged(data.getIntExtra(EXTRA_DAY_OF_WEEK, 0),
+                handleOnDayOfWeekChanged(data.getIntExtra(EXTRA_DAY_OF_WEEK, 0),
                         data.getBooleanExtra(EXTRA_DAY_OF_WEEK_ENABLED, false));
                 break;
 
@@ -284,18 +293,16 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             @Override
             public void onItemChanged(final ItemAdapter.ItemHolder<?> holder) {
                 if (((ScheduleItemHolder) holder).isExpanded()) {
-                    if (mExpandedScheduleId != holder.itemId) {
+                    if (mExpandedScheduleId != INVALID_SCHEDULE_ID) {
                         // Collapse the prior expanded schedule
                         final ScheduleItemHolder itemHolder =
                             mItemAdapter.findItemById(mExpandedScheduleId);
-                        if (itemHolder != null) {
-                            itemHolder.collapse();
-                        }
-                        // Record the freshly expanded item
-                        mExpandedScheduleId = holder.itemId;
-                        scrollToSchedule(holder.itemId);
+                        itemHolder.collapse();
                     }
-                } else if (mExpandedScheduleId == holder.itemId) {
+                    // Record the freshly expanded item
+                    mExpandedScheduleId = holder.itemId;
+                    scrollToSchedule(holder.itemId);
+                } else {
                     // The expanded schedule is now collapsed so update the tracking id
                     mExpandedScheduleId = INVALID_SCHEDULE_ID;
                 }
@@ -310,10 +317,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             @Override
             public void onItemRangeRemoved(final int positionStart, final int itemCount) {
                 // Show or hide the empty view as appropriate
-                if (mItemAdapter.getItemCount() == 0) {
-                    mRecyclerView.post(() -> mRecyclerView.getItemAnimator().isRunning(() ->
-                                mEmptyViewPref.setVisible(mItemAdapter.getItemCount() == 0)));
-                }
+                mRecyclerView.post(() -> mRecyclerView.getItemAnimator().isRunning(() ->
+                            mEmptyViewPref.setVisible(mItemAdapter.getItemCount() == 0)));
             }
 
             @Override
@@ -342,7 +347,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
                 // Be ready to expand & scroll to this newly added schedule later
                 mScrollToScheduleId = schedule.getId();
                 mEmptyViewPref.setVisible(false);
-                mRecyclerView.post(() -> addAdapterItems(new ScheduleItemHolder(schedule, this)));
+                addAdapterItems(new ScheduleItemHolder(schedule, this));
             }
         });
     }
@@ -368,6 +373,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
                 mViewModel.removePin();
             } else {
                 mLogger.wtf("Unhandled menu option: %s.", menuItem);
+                return false;
             }
             return true;
         });
@@ -392,10 +398,11 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     private void startCreatingSchedule() {
         // Clear the currently selected schedule
         mSelectedSchedule = null;
-        showTimePicker(LocalTime.now(ZoneId.systemDefault()));
+        showTimePicker(mSystemTimeProvider.now().toLocalTime());
     }
 
-    private void showPinPromptDialog() {
+    @VisibleForTesting
+    void showPinPromptDialog() {
         final EditTextDialogFragment dialogFragment =
             new EditTextDialogFragment(PIN_PROMPT_RESULT_REQUEST_KEY);
         dialogFragment.setTitle(getString(R.string.scheduler_pin_title));
@@ -407,7 +414,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         dialogFragment.show(getParentFragmentManager(), EditTextDialogFragment.TAG);
     }
 
-    private void handleOnTimePicked(final String time) {
+    @VisibleForTesting
+    void handleOnTimePicked(final String time) {
         if (mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
             final Bundle payload = new Bundle(1);
             payload.putString(EXTRA_TIME, time);
@@ -428,13 +436,15 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         }
     }
 
-    private void handleOnLabelChanged(final String label) {
+    @VisibleForTesting
+    void handleOnLabelChanged(final String label) {
         mViewModel.handleOnLabelChanged(mSelectedSchedule, label);
         // Reflect the updated label text in the selected schedule
         refreshScheduleItem(mSelectedSchedule.getId());
     }
 
-    private void handleOnEnabledStateChanged(final boolean enabled) {
+    @VisibleForTesting
+    void handleOnEnabledStateChanged(final boolean enabled) {
         if (mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
             final Bundle payload = new Bundle(1);
             payload.putBoolean(EXTRA_ENABLED, enabled);
@@ -446,7 +456,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         }
     }
 
-    private void handleOnSubscriptionEnabledStateChanged(boolean enabled) {
+    @VisibleForTesting
+    void handleOnSubscriptionEnabledStateChanged(boolean enabled) {
         if (mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
             final Bundle payload = new Bundle(1);
             payload.putBoolean(EXTRA_SIM_ENABLED, enabled);
@@ -459,7 +470,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         }
     }
 
-    private void handleOnDayOfWeekChangedChanged(final @DayOfWeek int dayOfWeek,
+    @VisibleForTesting
+    void handleOnDayOfWeekChanged(final @DayOfWeek int dayOfWeek,
             final boolean enabled) {
 
         if (mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
@@ -478,7 +490,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         }
     }
 
-    private void handleOnScheduleDeleted() {
+    @VisibleForTesting
+    void handleOnScheduleDeleted() {
         if (mViewModel.isPinPresent() && mViewModel.isAuthenticationRequired()) {
             authenticateAndRunAction(ACTION_AUTH_HANDLE_ON_SCHEDULE_DELETED, /*payload=*/ null);
         } else {
@@ -491,7 +504,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         }
     }
 
-    private void handleOnPinChanged(final String pin) {
+    @VisibleForTesting
+    void handleOnPinChanged(final String pin) {
         // Proceed only if PIN string meets the UICC specs
         if (!TelephonyUtils.isValidPin(pin)) {
             Utils.makeToast(requireContext(), getString(R.string.scheduler_pin_invalid_hint));
@@ -528,7 +542,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         } else {
             if (items.length == 1) {
                 mItemAdapter.addItem(items[0]);
-            } else if (items.length > 1) {
+            } else {
                 mItemAdapter.addItems(items, /*mayModifyInput=*/ true);
             }
 
@@ -536,9 +550,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             if (mSelectedScheduleId != INVALID_SCHEDULE_ID) {
                 final ScheduleItemHolder itemHolder =
                     mItemAdapter.findItemById(mSelectedScheduleId);
-                if (itemHolder != null) {
-                    mSelectedSchedule = itemHolder.item;
-                }
+                mSelectedSchedule = itemHolder.item;
                 mSelectedScheduleId = INVALID_SCHEDULE_ID;
             }
 
@@ -553,14 +565,10 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
             if (mExpandedScheduleId != INVALID_SCHEDULE_ID) {
                 final ScheduleItemHolder itemHolder =
                     mItemAdapter.findItemById(mExpandedScheduleId);
-                if (itemHolder != null) {
-                    mScrollToScheduleId = mExpandedScheduleId;
-                    if (mExpandedScheduleSavedState != null) {
-                        itemHolder.onRestoreInstanceState(mExpandedScheduleSavedState);
-                        mExpandedScheduleSavedState = null;
-                    }
-                } else {
-                    mExpandedScheduleId = INVALID_SCHEDULE_ID;
+                mScrollToScheduleId = mExpandedScheduleId;
+                if (mExpandedScheduleSavedState != null) {
+                    itemHolder.onRestoreInstanceState(mExpandedScheduleSavedState);
+                    mExpandedScheduleSavedState = null;
                 }
             }
 
@@ -608,7 +616,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
                 enabled);
 
         mSelectedSchedule = schedule;
-        handleOnDayOfWeekChangedChanged(dayOfWeek, enabled);
+        handleOnDayOfWeekChanged(dayOfWeek, enabled);
     }
 
     @Override
@@ -655,7 +663,8 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     /**
      * @param time The desired time to be used by the picker.
      */
-    private void showTimePicker(final LocalTime time) {
+    @VisibleForTesting
+    void showTimePicker(final LocalTime time) {
         dismissTimePicker();
         final TimePickerDialogFragment dialogFragment =
             new TimePickerDialogFragment(TIME_PICKER_RESULT_REQUEST_KEY);
@@ -677,9 +686,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
      */
     private void scrollToSchedule(long scheduleId) {
         int localPosition = mItemAdapter.getPosition(scheduleId);
-        if (localPosition != RecyclerView.NO_POSITION) {
-            smoothScrollTo(getScheduleGlobalPosition(localPosition));
-        }
+        smoothScrollTo(getScheduleGlobalPosition(localPosition));
     }
 
     private void smoothScrollTo(int position) {
@@ -699,11 +706,9 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
      */
     private void refreshScheduleItem(final long scheduleId) {
         final ScheduleItemHolder itemHolder = mItemAdapter.findItemById(scheduleId);
-        if (itemHolder != null) {
-            // Although, our item views don't rely on payloads, we pass some "dummy" data to avoid
-            // triggering changing animations on rebind
-            itemHolder.notifyItemChanged(scheduleId);
-        }
+        // Although, our item views don't rely on payloads, we pass some "dummy" data to avoid
+        // triggering changing animations on rebind
+        itemHolder.notifyItemChanged(scheduleId);
     }
 
     @Override
@@ -770,11 +775,9 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         if (mExpandedScheduleId != INVALID_SCHEDULE_ID) {
             outState.putLong(SAVED_EXPANDED_SCHEDULE_ID, mExpandedScheduleId);
             final ScheduleItemHolder itemHolder = mItemAdapter.findItemById(mExpandedScheduleId);
-            if (itemHolder != null) {
-                final Bundle bundle = new Bundle();
-                itemHolder.onSaveInstanceState(bundle);
-                outState.putBundle(SAVED_EXPANDED_SCHEDULE_STATE, bundle);
-            }
+            final Bundle bundle = new Bundle();
+            itemHolder.onSaveInstanceState(bundle);
+            outState.putBundle(SAVED_EXPANDED_SCHEDULE_STATE, bundle);
         }
         if (mSelectedSchedule != null) {
             outState.putLong(SAVED_SELECTED_SCHEDULE_ID, mSelectedSchedule.getId());
@@ -802,9 +805,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     public void onDestroy() {
         super.onDestroy();
 
-        if (mPinPopupMenu != null) {
-            mPinPopupMenu.dismiss();
-        }
+        mPinPopupMenu.dismiss();
     }
 
     /**

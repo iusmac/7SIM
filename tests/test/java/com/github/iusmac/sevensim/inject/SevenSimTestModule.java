@@ -33,6 +33,7 @@ import com.github.iusmac.sevensim.telephony.SubscriptionController;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
 import com.github.iusmac.sevensim.telephony.TelephonyController;
 import com.github.iusmac.sevensim.telephony.TelephonyUtils;
+import com.github.iusmac.sevensim.test.AsyncTestTaskExecutor;
 import com.github.iusmac.sevensim.test.FakeAndroidKeyStoreProvider;
 import com.github.iusmac.sevensim.test.TestUtils;
 
@@ -77,6 +78,7 @@ public final class SevenSimTestModule {
 
         builder.addMigrations(AppDatabaseDE.MIGRATION_1_2);
         builder.addTypeConverter(typeConverter);
+        builder.setQueryExecutor(AsyncTestTaskExecutor.INSTANCE);
 
         return (AppDatabaseDE) DATABASES.updateAndGet(0, (oldDB) -> builder.build());
     }
@@ -85,6 +87,8 @@ public final class SevenSimTestModule {
     @Provides
     static AppDatabaseCE provideAppDatabaseCE(final @ApplicationContext Context context) {
         final var builder = Room.inMemoryDatabaseBuilder(context, AppDatabaseCE.class);
+
+        builder.setQueryExecutor(AsyncTestTaskExecutor.INSTANCE);
 
         return (AppDatabaseCE) DATABASES.updateAndGet(1, (oldDB) -> builder.build());
     }

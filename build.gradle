@@ -13,6 +13,9 @@ buildscript {
         def hilt_version = '2.47'
         // https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
         roborazzi_version = '1.29.0'
+        // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
+        // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-contrib
+        def espresso_version = '3.6.1'
         libs = [
             // https://mvnrepository.com/artifact/androidx.annotation/annotation
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/annotation/annotation-jvm/
@@ -39,7 +42,8 @@ buildscript {
             // https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
             errorprone           :  'com.google.errorprone:error_prone_core:2.30.0',
             // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
-            espresso             :  'androidx.test.espresso:espresso-core:3.6.1',
+            espresso             :  "androidx.test.espresso:espresso-core:$espresso_version",
+            espresso_contrib     :  "androidx.test.espresso:espresso-contrib:$espresso_version",
             // https://mvnrepository.com/artifact/org.hamcrest/hamcrest
             hamcrest             :  'org.hamcrest:hamcrest:3.0',
             hilt_android         :  "com.google.dagger:hilt-android:$hilt_version",
@@ -298,6 +302,9 @@ dependencies {
     testImplementation libs.awaitility
     testImplementation libs.hamcrest
     testImplementation (libs.espresso) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testImplementation (libs.espresso_contrib) {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
     testImplementation libs.junit

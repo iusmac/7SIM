@@ -7,6 +7,7 @@ import android.os.HandlerThread;
 import android.os.Process;
 import android.view.View;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.core.os.BundleCompat;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,7 +29,8 @@ import javax.inject.Inject;
 public final class SchedulerActivity extends Hilt_SchedulerActivity
     implements Subscriptions.OnSubscriptionsChangedListener {
 
-    private static final Handler sHandler;
+    @VisibleForTesting
+    static final Handler sHandler;
     static {
         final HandlerThread handlerThread = new HandlerThread(
                 SchedulerActivity.class.getSimpleName() + "ViewModelThread",
@@ -72,6 +74,9 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         }
 
         mSubscription = BundleCompat.getParcelable(extras, EXTRA_SUBSCRIPTION, Subscription.class);
+        if (mSubscription == null) {
+            throw new IllegalArgumentException("Subscription is NULL!");
+        }
 
         final ViewModelProvider.Factory vmpFactory =
             SchedulerViewModel.getFactory(mViewModelFactory, mSubscription.getId(),

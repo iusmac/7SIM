@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.pm.Signature;
 import android.content.pm.SigningInfo;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.telephony.SubscriptionInfo;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 
 import com.github.iusmac.sevensim.ApplicationInfo;
@@ -268,8 +270,10 @@ public final class TestUtils {
      * little bit longer to complete, so the test won't see the result what makes it flaky.
      * <p>
      * It will timeout after 60 seconds of waiting to prevent the tests from hanging forever.
+     *
+     * @return {@code true} when the given looper was already idle, {@code false} otherwise.
      */
-    public static void waitWorkerThreadLooperUntilIdle(final Looper workerLooper)
+    public static boolean waitWorkerThreadLooperUntilIdle(final Looper workerLooper)
             throws TimeoutException {
 
         if (workerLooper == Looper.getMainLooper()) {
@@ -277,10 +281,12 @@ public final class TestUtils {
         }
         final var timeout = System.currentTimeMillis() + SECONDS.toMillis(60);
         final var shadowLooper = shadowOf(workerLooper);
+        var wasAlreadyIdle = true;
         while (System.currentTimeMillis() <= timeout) {
             if (shadowLooper.isIdle()) {
-                return;
+                return wasAlreadyIdle;
             }
+            wasAlreadyIdle = false;
         }
         throw new TimeoutException(
                 "Waited for the worker thread " + workerLooper + " to become idle for 60 seconds. "
@@ -294,6 +300,42 @@ public final class TestUtils {
     public static void set24Hour(final Context context, final Boolean is24Hour) {
         final var value = is24Hour == null ? null : is24Hour ? "24" : "12";
         Settings.System.putString(context.getContentResolver(), Settings.System.TIME_12_24, value);
+    }
+
+    /**
+     * Use this helper method like {@code CountDownLatch.wait()} to make the main (UI) thread looper
+     * that is also running the test, to wait for the {@link AsyncTestTaskExecutor} used by all
+     * databases to perform asynchronous queries and tasks, including LiveData invalidation,
+     * Flowable scheduling and ListenableFuture tasks, to become idle.
+     * <p>
+     * This method will also drain the main looper after waiting, to ensure the UI is up-to-date if
+     * using Room's LiveData implementation to observe changes to the database only on is UI active.
+     * <p>
+     * It will timeout after 60 seconds of waiting to prevent the tests from hanging forever.
+     */
+    @MainThread
+    public static void waitDatabasesUntilIdle() throws TimeoutException {
+        final var timeout = System.currentTimeMillis() + SECONDS.toMillis(60);
+        final var shadowMainLooper = shadowOf(Looper.getMainLooper());
+        var settledUp = true;
+        while (System.currentTimeMillis() <= timeout) {
+            if (!waitWorkerThreadLooperUntilIdle(AsyncTestTaskExecutor.INSTANCE.getLooper())) {
+                settledUp = false;
+            }
+            // After the database became idle, the Room library could have scheduled on the main
+            // thread a task to re-compute the LiveData, so we need to run it now and wait again
+            if (shadowMainLooper.getNextScheduledTaskTime().toMillis() ==
+                    SystemClock.uptimeMillis()) {
+                shadowMainLooper.idle();
+                settledUp = false;
+            }
+            if (settledUp) {
+                return;
+            }
+            settledUp = true;
+        }
+        throw new TimeoutException(
+                "Waited for databases & main loopers to become idle for 60 seconds.");
     }
 
     /** Do not initialize. */
