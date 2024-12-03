@@ -350,6 +350,7 @@ kover {
                 // subpackages, wildcards '*' and '?' are available
                 packages(
                     'com.github.iusmac.sevensim.inject',
+                    'com.github.iusmac.sevensim.ui.components',
                     'hilt_aggregated_deps',
                     'dagger.hilt.internal.*',
                 )
