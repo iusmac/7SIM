@@ -4,7 +4,7 @@
         <uses-library android:name="android.test.runner" />
     </application>
 
-    <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
+    <instrumentation android:name="com.github.iusmac.sevensim.HiltTestRunner"
              android:targetPackage="com.github.iusmac.sevensim"
              android:label="Tests for 7SIM application."/>
 </manifest>

@@ -167,7 +167,7 @@ android {
         applicationId 'com.github.iusmac.sevensim'
         targetSdk 34
         versionCode versionNameCommon[0].replaceAll(/\D/, '') as Integer // "x.y.z" => xyz
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'com.github.iusmac.sevensim.HiltTestRunner'
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
@@ -317,9 +317,23 @@ dependencies {
     testImplementation libs.roborazzi_junit_rule
     testImplementation libs.room_testing
     testImplementation libs.test_ext_junit
-    androidTestImplementation libs.test_ext_junit
-    androidTestImplementation libs.test_rules
-    androidTestImplementation libs.test_runner
+
+    androidTestImplementation libs.hamcrest
+    androidTestImplementation (libs.junit) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.hilt_android_testing) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.test_ext_junit) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.test_rules) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.test_runner) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
 
     errorprone libs.errorprone
     annotationProcessor libs.errorprone
