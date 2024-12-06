@@ -48,6 +48,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
@@ -78,7 +79,8 @@ public final class ExpandedScheduleViewHolder extends ScheduleItemViewHolder {
     private final View mDeleteConfirmContainer;
 
     private final CompoundButton[] mDayButtons;
-    private final PopupMenu mActionPopupMenu;
+    @VisibleForTesting
+    final PopupMenu mActionPopupMenu;
 
     @AssistedInject
     ExpandedScheduleViewHolder(final DaysOfWeek.Factory daysOfWeekFactory,
@@ -109,7 +111,7 @@ public final class ExpandedScheduleViewHolder extends ScheduleItemViewHolder {
             final CompoundButton dayButton = mDayButtons[i];
             final @DayOfWeek int dayOfWeek = it.next();
             dayButton.setText(DaysOfWeek.getNarrowDisplayName(dayOfWeek));
-            dayButton.setContentDescription(daysOfWeek.getDisplayName(dayOfWeek,
+            dayButton.setContentDescription(DaysOfWeek.getDisplayName(dayOfWeek,
                         /*useLongName*/ true));
 
             // Button handler
@@ -218,7 +220,7 @@ public final class ExpandedScheduleViewHolder extends ScheduleItemViewHolder {
     private void bindEditLabel(final Context context, final SubscriptionScheduleEntity schedule) {
         final String label = schedule.getLabel();
         mEditLabel.setText(label);
-        mEditLabel.setContentDescription(label != null && label.length() > 0
+        mEditLabel.setContentDescription(label != null
                 ? context.getString(R.string.scheduler_name_description) + " " + label
                 : context.getString(R.string.scheduler_name_hint));
     }
@@ -235,11 +237,6 @@ public final class ExpandedScheduleViewHolder extends ScheduleItemViewHolder {
     @Override
     public Animator onAnimateChange(final ViewHolder oldHolder, final ViewHolder newHolder,
             final long duration) {
-
-        if (!(oldHolder instanceof ScheduleItemViewHolder)
-                || !(newHolder instanceof ScheduleItemViewHolder)) {
-            return null;
-        }
 
         final boolean isExpanding = this == newHolder;
         UiUtils.setBackgroundAlpha(itemView, isExpanding ? 0 : 255);

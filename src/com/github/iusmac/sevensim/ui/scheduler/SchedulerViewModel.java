@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
@@ -22,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.github.iusmac.sevensim.DateTimeUtils;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
+import com.github.iusmac.sevensim.SystemTimeProvider;
 import com.github.iusmac.sevensim.Utils;
 import com.github.iusmac.sevensim.scheduler.DayOfWeek;
 import com.github.iusmac.sevensim.scheduler.DaysOfWeek;
@@ -37,9 +39,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +72,7 @@ public final class SchedulerViewModel extends ViewModel {
     private final Subscriptions mSubscriptions;
     private final SubscriptionSchedulerSummaryBuilder mSubscriptionSchedulerSummaryBuilder;
     private final PinStorage mPinStorage;
+    private final SystemTimeProvider mSystemTimeProvider;
     private final int mSubscriptionId;
 
     @AssistedInject
@@ -82,6 +83,7 @@ public final class SchedulerViewModel extends ViewModel {
             final Subscriptions subscriptions,
             final SubscriptionSchedulerSummaryBuilder subscriptionSchedulerSummaryBuilder,
             final PinStorage pinStorage,
+            final SystemTimeProvider systemTimeProvider,
             final @Assisted int subscriptionId,
             final @Assisted Looper looper) {
 
@@ -92,6 +94,7 @@ public final class SchedulerViewModel extends ViewModel {
         mSubscriptions = subscriptions;
         mSubscriptionSchedulerSummaryBuilder = subscriptionSchedulerSummaryBuilder;
         mPinStorage = pinStorage;
+        mSystemTimeProvider = systemTimeProvider;
         mSubscriptionId = subscriptionId;
 
         mResources = mContext.getResources();
@@ -295,10 +298,9 @@ public final class SchedulerViewModel extends ViewModel {
     void handleOnPinChanged(final @NonNull String pin) {
         mLogger.d("handleOnPinChanged().");
 
+        // Acquire lock till asynchronous request completes
+        mMutablePinTaskLock.setValue(true);
         mHandler.post(() -> {
-            // Acquire lock till asynchronous request completes
-            mMutablePinTaskLock.postValue(true);
-
             final PinEntity pinEntity = mMediatorPinEntity.getValue().orElseGet(() -> {
                 final PinEntity p = new PinEntity();
                 p.setSubscriptionId(mSubscriptionId);
@@ -310,9 +312,6 @@ public final class SchedulerViewModel extends ViewModel {
                 mPinStorage.storePin(pinEntity);
             } else {
                 Utils.makeToast(mContext, mResources.getString(R.string.sim_pin_operation_failed));
-                // Unconditionally propagate an empty instance since unencrypted PIN entities cannot
-                // be persisted on disk, thus the mediator will remain unchanged
-                mMediatorPinEntity.postValue(Optional.empty());
             }
 
             // In order to supply the SIM subscription PIN codes to the active SIM subscriptions
@@ -321,7 +320,7 @@ public final class SchedulerViewModel extends ViewModel {
             final List<PinEntity> pinEntities = mPinStorage.getPinEntities();
             pinEntities.forEach((pinEntity1) -> mPinStorage.decrypt(pinEntity1));
             mSubscriptionScheduler.updateNextWeeklyRepeatScheduleProcessingIter(
-                    LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(1), pinEntities);
+                    mSystemTimeProvider.now().plusMinutes(1), pinEntities);
 
             // Release lock
             mMutablePinTaskLock.postValue(false);
@@ -338,9 +337,8 @@ public final class SchedulerViewModel extends ViewModel {
 
         final CharSequence summary = mSubscriptions.getSubscriptionForSubId(mSubscriptionId)
             .map((sub) -> mSubscriptionSchedulerSummaryBuilder
-                    .buildNextUpcomingSubscriptionScheduleSummary(sub,
-                        LocalDateTime.now(ZoneId.systemDefault()))).orElseGet(() ->
-                    mResources.getString(R.string.sim_missing));
+                    .buildNextUpcomingSubscriptionScheduleSummary(sub, mSystemTimeProvider.now()))
+            .orElseGet(() -> mResources.getString(R.string.sim_missing));
 
         mMutableNextUpcomingScheduleSummary.postValue(summary);
     }
@@ -421,12 +419,13 @@ public final class SchedulerViewModel extends ViewModel {
         }
     }
 
-    private final class IntentReceiver extends BroadcastReceiver {
+    @VisibleForTesting
+    final class IntentReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
 
-            mLogger.d("onReceive() : action=" + action);
+            mLogger.d("onReceive() : intent=" + intent);
 
             switch (action) {
                 case Intent.ACTION_LOCALE_CHANGED:
@@ -441,6 +440,11 @@ public final class SchedulerViewModel extends ViewModel {
                 case Intent.ACTION_TIME_CHANGED:
                     // Refresh the next upcoming schedule summary time-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
+                    break;
+
+                default:
+                    mLogger.e("onReceive() : Unhandled action: %s.", action);
+                    return;
             }
         }
     }
@@ -465,13 +469,13 @@ public final class SchedulerViewModel extends ViewModel {
             @Override
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(final Class<T> modelClass) {
-                if (modelClass.isAssignableFrom(SchedulerViewModel.class)) {
+                if (modelClass == SchedulerViewModel.class) {
                     // The @AssistedFactory requires a 1-1 mapping for the returned type, so
                     // explicitly cast it to satisfy the compiler and ignore the unchecked cast for
                     // now. It's safe till it's done inside this If-block
                     return (T) assistedFactory.create(subscriptionId, looper);
                 }
-                throw new IllegalArgumentException("Unknown ViewModel class.");
+                throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass);
             }
         };
     }

@@ -16,7 +16,16 @@ mkdir -vp "$artifacts_dir"
 # Move artifacts into a dedicated directory
 mv -v build/outputs/apk/{debug,release}/*.apk "$artifacts_dir"
 mv -v build/reports/kover/htmlDebug/ "$artifacts_dir/koverDebug" || true
+mv -v build/reports/tests/testDebugUnitTest/ "$artifacts_dir" || true
+mv -v build/reports/androidTests/connected/debug/ "$artifacts_dir/androidTestsDebug" || true
 mv -v build/reports/lint-results-debug.html "$artifacts_dir" || true
+if ls build/{outputs,reports}/roborazzi >/dev/null; then
+    roborazzi_dir="$artifacts_dir/roborazzi"
+    mkdir -vp "$artifacts_dir/tests/test" && mv -v tests/test/roborazzi/ "$_"
+    mkdir -vp "$roborazzi_dir/"{outputs,reports}
+    mv -v build/outputs/roborazzi/ "$roborazzi_dir/outputs/roborazzi" || true
+    mv -v build/reports/roborazzi/ "$roborazzi_dir/reports/roborazzi" || true
+fi
 
 # NOTE: MD5/SHA256sum commands output as '<hash> <path/to/file>', so we should
 # cd into dir containing file to drop the 'path/to' part

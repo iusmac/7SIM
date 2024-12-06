@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.UserManager;
 import android.telecom.TelecomManager;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 
 import androidx.biometric.BiometricManager;
 import androidx.core.app.NotificationManagerCompat;
@@ -19,8 +21,12 @@ import androidx.room.RoomDatabase;
 
 import com.github.iusmac.sevensim.AppDatabaseCE;
 import com.github.iusmac.sevensim.AppDatabaseDE;
+import com.github.iusmac.sevensim.BuildConfig;
 import com.github.iusmac.sevensim.RoomTypeConverters;
 import com.github.iusmac.sevensim.SevenSimApplication;
+import com.github.iusmac.sevensim.SysProp;
+import com.github.iusmac.sevensim.SystemTimeProvider;
+import com.github.iusmac.sevensim.SystemTimeProviderImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -32,8 +38,6 @@ import java.security.KeyStore;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import com.github.iusmac.sevensim.SysProp;
 
 import static com.github.iusmac.sevensim.telephony.PinStorage.ANDROID_KEYSTORE_PROVIDER;
 
@@ -68,7 +72,8 @@ public final class SevenSimModule {
     @Singleton
     @Provides
     static boolean provideDebugState() {
-        return new SysProp("debug", /*isPersistent=*/ false).isTrue() ||
+        return BuildConfig.DEBUG || BuildConfig.DEBUG_OPT ||
+            new SysProp("debug", /*isPersistent=*/ false).isTrue() ||
             new SysProp("debug", /*isPersistent=*/ true).isTrue();
     }
 
@@ -160,11 +165,37 @@ public final class SevenSimModule {
         return ContextCompat.getSystemService(context, DevicePolicyManager.class);
     }
 
+    @Singleton
+    @Provides
+    static TelephonyManager provideTelephonyManager(final @ApplicationContext Context context) {
+        return ContextCompat.getSystemService(context, TelephonyManager.class);
+    }
+
+    @Singleton
+    @Provides
+    static SubscriptionManager provideSubscriptionManager(
+            final @ApplicationContext Context context) {
+
+        return ContextCompat.getSystemService(context, SubscriptionManager.class);
+    }
+
     @Named("LockedBootCompleted")
     @Singleton
     @Provides
     static SysProp provideLockedBootCompletedSysProp() {
         return new SysProp("locked_boot_completed", /*isPersistent=*/ false);
+    }
+
+    @Singleton
+    @Provides
+    static Runtime provideJavaRuntime() {
+        return Runtime.getRuntime();
+    }
+
+    @Singleton
+    @Provides
+    static SystemTimeProvider provideSystemTimeProvider() {
+        return new SystemTimeProviderImpl();
     }
 
     /** Do not initialize. */

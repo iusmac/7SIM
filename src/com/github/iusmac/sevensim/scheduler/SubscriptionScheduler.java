@@ -8,6 +8,7 @@ import android.os.UserManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 
 import com.github.iusmac.sevensim.AppDatabaseDE;
@@ -47,8 +48,6 @@ import static android.telephony.SubscriptionManager.INVALID_SIM_SLOT_INDEX;
 @Singleton
 @WorkerThread
 public final class SubscriptionScheduler {
-    private enum ScheduleDatabaseOperationType { ADD, UPDATE, DELETE }
-
     private final Logger mLogger;
     private final Context mContext;
     private final Lazy<AlarmManager> mAlarmManagerLazy;
@@ -63,6 +62,7 @@ public final class SubscriptionScheduler {
     private final Intent mAlarmIntent;
 
     @Inject
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public SubscriptionScheduler(final Logger.Factory loggerFactory,
             final @ApplicationContext Context context, final Lazy<AlarmManager> alarmManagerLazy,
             final AppDatabaseDE appDatabaseDE,
@@ -93,7 +93,10 @@ public final class SubscriptionScheduler {
      * @param schedule The schedule entity to add.
      */
     public void add(final @NonNull SubscriptionScheduleEntity schedule) {
-        doScheduleDatabaseRequest(schedule, ScheduleDatabaseOperationType.ADD);
+        final long id = mSubscriptionSchedulesDao.insert(schedule);
+        schedule.setId(id);
+
+        postProcessOnScheduleEntityChanged(schedule);
     }
 
     /**
@@ -102,7 +105,9 @@ public final class SubscriptionScheduler {
      * @param schedule The schedule entity to update.
      */
     public void update(final @NonNull SubscriptionScheduleEntity schedule) {
-        doScheduleDatabaseRequest(schedule, ScheduleDatabaseOperationType.UPDATE);
+        mSubscriptionSchedulesDao.update(schedule);
+
+        postProcessOnScheduleEntityChanged(schedule);
     }
 
     /**
@@ -111,7 +116,9 @@ public final class SubscriptionScheduler {
      * @param schedule The schedule entity to delete.
      */
     public void delete(final @NonNull SubscriptionScheduleEntity schedule) {
-        doScheduleDatabaseRequest(schedule, ScheduleDatabaseOperationType.DELETE);
+        mSubscriptionSchedulesDao.delete(schedule);
+
+        postProcessOnScheduleEntityChanged(schedule);
     }
 
     /**
@@ -178,7 +185,9 @@ public final class SubscriptionScheduler {
                 if (needSleep) {
                     try {
                         Thread.sleep(2_000);
-                    } catch (InterruptedException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
+                    } catch (InterruptedException ignored) {
+                        return;
+                    }
                 }
             }
 
@@ -189,7 +198,7 @@ public final class SubscriptionScheduler {
                     compareTime, overrideUserPreference);
 
             if (sub.getSlotIndex() != INVALID_SIM_SLOT_INDEX) {
-                needSleep = newEnabledState.map((v) -> v != sub.isSimEnabled()).orElse(false);
+                needSleep = newEnabledState.isPresent();
             }
         }
     }
@@ -378,32 +387,14 @@ public final class SubscriptionScheduler {
     }
 
     /**
-     * Perform a database operation on a schedule entity.
+     * This internal callback should be invoked to post-process a schedule entity after it has been
+     * added/updated/removed in the database.
      *
-     * @param schedule The schedule entity to persist.
-     * @param opType The operation name that is performed on the provided schedule entity.
+     * @param schedule The target schedule entity.
      */
-    private void doScheduleDatabaseRequest(final SubscriptionScheduleEntity schedule,
-            final ScheduleDatabaseOperationType opType) {
-
-        switch (opType) {
-            case ADD:
-                final long id = mSubscriptionSchedulesDao.insert(schedule);
-                schedule.setId(id);
-                break;
-
-            case UPDATE:
-                mSubscriptionSchedulesDao.update(schedule);
-                break;
-
-            case DELETE:
-                mSubscriptionSchedulesDao.delete(schedule);
-                break;
-
-            default: throw new RuntimeException("Unhandled operation type: " + opType);
-        }
-
-        mLogger.d("doScheduleDatabaseRequest(schedule=%s,opType=%s).", schedule, opType);
+    @VisibleForTesting
+    void postProcessOnScheduleEntityChanged(final SubscriptionScheduleEntity schedule) {
+        mLogger.d("postProcessOnScheduleEntityChanged(schedule=%s).", schedule);
 
         final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         // We expect the schedules to take precedence over the user's preference when schedules
@@ -470,7 +461,8 @@ public final class SubscriptionScheduler {
      * @return {@code true} if the SIM subscription is expected to be enabled, {@code false}
      * otherwise.
      */
-    private static boolean getSubscriptionExpectedEnabledState(final Subscription sub,
+    @VisibleForTesting
+    static boolean getSubscriptionExpectedEnabledState(final Subscription sub,
             final Optional<LocalDateTime> startDateTime, final Optional<LocalDateTime> endDateTime,
             final boolean overrideUserPreference) {
 
@@ -515,7 +507,8 @@ public final class SubscriptionScheduler {
      * @param compareTime The date-time object to compare against.
      * @return An Optional containing the date-time object if the provided schedule is not empty.
      */
-    private static Optional<LocalDateTime> getDateTimeBefore(
+    @VisibleForTesting
+    static Optional<LocalDateTime> getDateTimeBefore(
             final @NonNull SubscriptionScheduleEntity schedule,
             final @NonNull LocalDateTime compareTime) {
 

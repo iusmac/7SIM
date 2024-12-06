@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.VisibleForTesting;
+
 import com.github.iusmac.sevensim.launcher.LauncherIconVisibilityManager;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -37,7 +39,8 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
     @Inject
     Provider<KeyguardManager> mKeyguardManagerProvider;
 
-    private Logger mLogger;
+    @VisibleForTesting
+    Logger mLogger;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -108,7 +111,7 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 break;
 
             default:
-                mLogger.d("onReceive() : Unhandled action: %s." , action);
+                mLogger.e("onReceive() : Unhandled action: %s." , action);
                 return;
         }
     }

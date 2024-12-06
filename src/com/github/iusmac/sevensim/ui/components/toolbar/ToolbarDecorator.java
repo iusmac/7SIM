@@ -43,6 +43,7 @@ public final class ToolbarDecorator {
     private Optional<TextView> mToolbarSubtitleTextView = Optional.empty();
     private OptionalInt mTitleMarqueeRepeatLimit = OptionalInt.empty();
     private OptionalInt mSubtitleMarqueeRepeatLimit = OptionalInt.empty();
+    private OptionalInt mCollapsingSubtitleImportantForAccessibilityMode = OptionalInt.empty();
     private CollapsedSubtitle mCollapsedSubtitle;
     private ExpandedSubtitle mExpandedSubtitle;
     private Optional<View> mDummyView = Optional.empty();
@@ -163,7 +164,7 @@ public final class ToolbarDecorator {
     /**
      * Apply the marquee effect for the {@link Toolbar}'s subtitle if it was set.
      */
-    public void applySubtitleMarqueeRepeatLimitIfNeeded() {
+    private void applySubtitleMarqueeRepeatLimitIfNeeded() {
         mSubtitleMarqueeRepeatLimit.ifPresent((repeatLimit) ->
                 findToolbarSubtitleTextView().ifPresent((textView) ->
                     UiUtils.setTextViewMarqueeRepeatLimit(textView, repeatLimit)));
@@ -177,12 +178,29 @@ public final class ToolbarDecorator {
      * @see View#setImportantForAccessibility
      */
     public void setCollapsingSubtitleImportantForAccessibility(final int mode) {
-        if (mCollapsedSubtitle != null) {
-            mCollapsedSubtitle.setImportantForAccessibility(mode);
-        }
-        if (mExpandedSubtitle != null) {
-            mExpandedSubtitle.setImportantForAccessibility(mode);
-        }
+        mCollapsingSubtitleImportantForAccessibilityMode = OptionalInt.of(mode);
+        applyCollapsingSubtitleImportantForAccessibilityIfNeeded();
+    }
+
+    /**
+     * Apply the collapsing subtitle is important for accessibility mode if it was set.
+     */
+    private void applyCollapsingSubtitleImportantForAccessibilityIfNeeded() {
+        mCollapsingSubtitleImportantForAccessibilityMode.ifPresent((mode) -> {
+            if (mCollapsedSubtitle != null && mExpandedSubtitle != null) {
+                mCollapsedSubtitle.setImportantForAccessibility(mode);
+                mExpandedSubtitle.setImportantForAccessibility(mode);
+            }
+        });
+    }
+
+    /**
+     * Return the collapsing subtitle important for accessibility mode, if any.
+     *
+     * @see View#getImportantForAccessibility
+     */
+    public OptionalInt getCollapsingSubtitleImportantForAccessibility() {
+        return mCollapsingSubtitleImportantForAccessibilityMode;
     }
 
     private void cleanupOffsetChangedListenerAndCollapsingSubtitle() {
@@ -238,6 +256,8 @@ public final class ToolbarDecorator {
         if (mExpandedSubtitle == null) {
             mExpandedSubtitle = new ExpandedSubtitle(mCollapsingToolbarLayout.getContext());
         }
+
+        applyCollapsingSubtitleImportantForAccessibilityIfNeeded();
 
         // Animate the first view only if the CollapsingToolbarLayout is already rendered, otherwise
         // avoid useless animations on startup/configuration changes
@@ -431,13 +451,6 @@ public final class ToolbarDecorator {
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            final int extraMarginBottom = mExpandedTitleMarginBottom + getMeasuredHeight();
-            if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() != extraMarginBottom) {
-                // Push the expanded title back as its gravity is set to be at the bottom of the
-                // CollapsingToolbarLayout
-                mCollapsingToolbarLayout.setExpandedTitleMarginBottom(extraMarginBottom);
-            }
-
             final boolean isRtl = getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
             final int expandedTitleMarginStart =
                 mCollapsingToolbarLayout.getExpandedTitleMarginStart();
@@ -450,6 +463,13 @@ public final class ToolbarDecorator {
             setPadding(paddingLeft, /*top=*/ 0, paddingRight, paddingBottom);
 
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+            final int extraMarginBottom = mExpandedTitleMarginBottom + getMeasuredHeight();
+            if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() != extraMarginBottom) {
+                // Push the expanded title back as its gravity is set to be at the bottom of the
+                // CollapsingToolbarLayout
+                mCollapsingToolbarLayout.setExpandedTitleMarginBottom(extraMarginBottom);
+            }
         }
 
         @Override

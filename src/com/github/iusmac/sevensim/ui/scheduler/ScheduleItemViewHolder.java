@@ -98,9 +98,7 @@ public abstract class ScheduleItemViewHolder extends ItemAdapter.ItemViewHolder<
     }
 
     private void bindOnOffSwitch(final SubscriptionScheduleEntity schedule) {
-        if (mOnOff.isChecked() != schedule.getEnabled()) {
-            mOnOff.setChecked(schedule.getEnabled());
-        }
+        mOnOff.setChecked(schedule.getEnabled());
     }
 
     private void bindClock(final SubscriptionScheduleEntity schedule) {

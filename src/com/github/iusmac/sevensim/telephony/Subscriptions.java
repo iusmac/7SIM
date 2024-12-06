@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 import androidx.core.content.ContextCompat;
 
@@ -28,12 +29,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import javax.inject.Named;
+
+import static com.github.iusmac.sevensim.telephony.Subscription.DEFAULT_SIM_STATE;
 
 /**
  * <p>Basic implementation used to provide all business-related information about available
@@ -68,7 +72,8 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * The listener of the {@link SubscriptionManager} that will notify us of any changes to
      * {@link SubscriptionInfo} records.
      */
-    private final SubscriptionManager.OnSubscriptionsChangedListener mSubscriptionManagerListener;
+    @VisibleForTesting
+    final SubscriptionManager.OnSubscriptionsChangedListener mSubscriptionManagerListener;
 
     /** The receiver that will notify us of various carrier config changes. */
     private final BroadcastReceiver mCarrierConfigChangedReceiver = new BroadcastReceiver() {
@@ -76,13 +81,18 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         public void onReceive(final Context context, final Intent intent) {
             mLogger.v("onReceive() : intent=" + intent);
 
-            switch (intent.getAction()) {
+            switch (Objects.toString(intent.getAction(), "")) {
                 case TelephonyManager.ACTION_SIM_CARD_STATE_CHANGED:
                 case TelephonyManager.ACTION_SIM_APPLICATION_STATE_CHANGED:
                     final int slotIndex = intent.getIntExtra(PhoneConstants.SLOT_KEY, -1);
                     final int state = intent.getIntExtra(TelephonyManager.EXTRA_SIM_STATE,
                             TelephonyManager.SIM_STATE_UNKNOWN);
                     dispatchOnSimStatusChanged(slotIndex, state);
+                    break;
+
+            default:
+                mLogger.e("onReceive() : Unhandled action: %s.", intent.getAction());
+                return;
             }
         }
     };
@@ -106,13 +116,13 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     final AtomicBoolean mBlockSubscriptionsSyncFlag = new AtomicBoolean();
 
     private final Context mContext;
-    protected final Logger mLogger;
-    protected final SubscriptionManager mSubscriptionManager;
+    final Logger mLogger;
+    final SubscriptionManager mSubscriptionManager;
     private final SysProp mSubscriptionStateSysProp;
     private final SysProp mUsableSubIdsSysProp;
-    protected final SubscriptionsDao mSubscriptionsDao;
+    final SubscriptionsDao mSubscriptionsDao;
 
-    public Subscriptions(final @ApplicationContext Context context,
+    Subscriptions(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
             final SubscriptionManager subscriptionManager,
             final @Named("Telephony/SubState") SysProp subStateSysProp,
@@ -161,6 +171,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * @return An Optional containing the {@link Subscription}, if any.
      */
     @CallSuper
+    @WorkerThread
     public Optional<Subscription> getSubscription(
             final @NonNull Predicate<Subscription> predicate) {
 
@@ -179,6 +190,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * @return An Optional containing the {@link Subscription}, if any.
      */
     @CallSuper
+    @WorkerThread
     public Optional<Subscription> getSubscriptionForSubId(final int subId) {
         return getSubscription((sub) -> sub.getId() == subId);
     }
@@ -192,7 +204,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      */
     @CallSuper
     @WorkerThread
-    protected Subscription createSubscription(final @NonNull SubscriptionInfo subInfo) {
+    Subscription createSubscription(final @NonNull SubscriptionInfo subInfo) {
         final Subscription subscription = new Subscription();
         subscription.setId(subInfo.getSubscriptionId());
         subscription.setIconTint(subInfo.getIconTint());
@@ -215,7 +227,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      */
     @CallSuper
     @WorkerThread
-    protected void persistSubscription(final Subscription sub) {
+    void persistSubscription(final Subscription sub) {
         mLogger.v("persistSubscription(sub=%s).", sub);
 
         // Persist the SIM subscription enabled state in volatile memory to be able to detect
@@ -347,7 +359,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         // Process the list of SIM subscription IDs that doesn't exist anymore in the system
         for (final String subId : removedSubIds) {
             try {
-                final int subIdInt = Integer.parseInt(subId);
+                final int subIdInt = Integer.parseUnsignedInt(subId);
                 final Optional<Subscription> sub = mSubscriptionsDao.findBySubscriptionId(subIdInt);
 
                 sub.ifPresent((sub1) -> {
@@ -423,7 +435,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * by iterating over this class, which provides an {@link Iterable} interface, or by calling
      * appropriate public APIs.
      */
-    protected void notifyAllListeners() {
+    void notifyAllListeners() {
         mLogger.v("notifyAllListeners().");
 
         // Note, because of the use of CopyOnWriteArrayList, we *must* use an iterator to perform
@@ -431,9 +443,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         // that could mutate the list by calling the various add/remove methods. This prevents the
         // array from being modified while we iterate it
         for (OnSubscriptionsChangedListener listener : mOnSubscriptionsChangedListeners) {
-            if (listener != null) {
-                listener.onSubscriptionsChanged();
-            }
+            listener.onSubscriptionsChanged();
         }
     }
 
@@ -453,9 +463,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
         // listeners that could mutate the list by calling the various add/remove methods. This
         // prevents the array from being modified while we iterate it
         for (OnSimStatusChangedListener listener : mOnSimStatusChangedListeners) {
-            if (listener != null) {
-                listener.onSimStatusChanged(slotIndex, state);
-            }
+            listener.onSimStatusChanged(slotIndex, state);
         }
     }
 
@@ -505,6 +513,17 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     }
 
     /**
+     * Check if a listener exists in this subscriptions provider.
+     *
+     * @param cb The callback listener to check.
+     * @return {@code true} if the listener already added, otherwise {@code false}.
+     */
+    @VisibleForTesting
+    public boolean hasOnSubscriptionsChangedListener(final OnSubscriptionsChangedListener cb) {
+        return mOnSubscriptionsChangedListeners.contains(cb);
+    }
+
+    /**
      * Start the receiver that will notify us of various carrier config changes.
      */
     private void registerCarrierConfigChangedReceiver() {
@@ -532,7 +551,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * Get the SIM subscription state previously persisted in volatile memory.
      *
      * @param subId The corresponding SIM subscription ID.
-     * @return The SIM subscription state or {@link SimState.UNKNOWN}.
+     * @return The SIM subscription state or {@link #DEFAULT_SIM_STATE}.
      */
     private @SimState int getPersistedSubscriptionState(final int subId) {
         return mSubscriptionStateSysProp.get(Optional.empty(), subId).map((value) -> {
@@ -550,7 +569,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
                     subId, value);
 
             return null;
-        }).orElse(SimState.UNKNOWN);
+        }).orElse(DEFAULT_SIM_STATE);
     }
 
     /**

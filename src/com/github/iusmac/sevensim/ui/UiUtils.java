@@ -215,7 +215,7 @@ public final class UiUtils {
             final boolean amPmBolded, final boolean amPmDisplayed) {
 
         String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(),
-                includeSeconds ? "hmsa" : "hma");
+                includeSeconds ? "h:mm:ss a" : "h:mm a");
         if (amPmRatio <= 0 || amPmDisplayed == false) {
             pattern = pattern.replaceAll("a", "").trim();
         }
@@ -233,7 +233,7 @@ public final class UiUtils {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new StyleSpan(amPmBolded ? Typeface.BOLD : Typeface.NORMAL), amPmPos,
                 amPmPos + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new TypefaceSpan("sans-serif"), amPmPos, amPmPos + 1,
+        sp.setSpan(new TypefaceSpan(Typeface.SANS_SERIF), amPmPos, amPmPos + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return sp;
@@ -246,7 +246,7 @@ public final class UiUtils {
      */
     public static CharSequence get24ModeFormat(boolean includeSeconds) {
         return DateFormat.getBestDateTimePattern(Locale.getDefault(),
-                includeSeconds ? "Hms" : "Hm");
+                includeSeconds ? "HH:mm:ss" : "HH:mm");
     }
 
     /**
@@ -263,11 +263,17 @@ public final class UiUtils {
     public static Animator getBoundsAnimator(final View target, final View from, final View to) {
         // Fetch the content insets for the views. Content bounds are what matter, not total bounds.
         final Rect targetInsets = new Rect();
-        target.getBackground().getPadding(targetInsets);
+        if (target.getBackground() != null) {
+            target.getBackground().getPadding(targetInsets);
+        }
         final Rect fromInsets = new Rect();
-        from.getBackground().getPadding(fromInsets);
+        if (from.getBackground() != null) {
+            from.getBackground().getPadding(fromInsets);
+        }
         final Rect toInsets = new Rect();
-        to.getBackground().getPadding(toInsets);
+        if (to.getBackground() != null) {
+            to.getBackground().getPadding(toInsets);
+        }
 
         // Before animating, the content bounds of target must match the content bounds of from.
         final int startLeft = from.getLeft() - fromInsets.left + targetInsets.left;
@@ -335,4 +341,7 @@ public final class UiUtils {
         return context.getResources().getConfiguration().orientation ==
             Configuration.ORIENTATION_LANDSCAPE;
     }
+
+    /** Do not initialize. */
+    private UiUtils() {}
 }

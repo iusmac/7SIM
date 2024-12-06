@@ -375,6 +375,25 @@ This property can be persistent.
 >
 > The app **needs** to be restarted to pick up new changes.
 
+### Testing
+Code testing and coverage can be done through the Android Studio interface or command line tool:
+- **Unit tests**
+```sh
+./gradlew :testDebugUnitTest
+```
+- **Instrumentation tests**
+```sh
+./gradlew :connectedDebugAndroidTest
+```
+> [!NOTE]
+> Make sure to start an Emulator or connect a device first so the test has something to connect to.
+- **Code coverage (via [Kover](https://github.com/Kotlin/kotlinx-kover))**
+```sh
+./gradlew :koverHtmlReportDebug
+```
+> [!NOTE]
+> Code coverage for instrumentation tests is not supported yet.
+
 # Convert the Application Into a System App
 A privileged user app is considered by the Android OS as a system application, when it's located in
 a `priv-app` directory on the device's system partition.

@@ -1,9 +1,13 @@
 package com.github.iusmac.sevensim.telephony;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -72,7 +76,8 @@ public final class PinEntity {
         return mData;
     }
 
-    void setData(final byte[] data) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    public void setData(final byte[] data) {
         mData = data;
     }
 
@@ -80,7 +85,8 @@ public final class PinEntity {
         return mIV;
     }
 
-    void setIV(final byte[] iv) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    public void setIV(final byte[] iv) {
         mIV = iv;
     }
 
@@ -88,7 +94,8 @@ public final class PinEntity {
         return mCorrupted;
     }
 
-    void setCorrupted(final boolean corrupted) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    public void setCorrupted(final boolean corrupted) {
         mCorrupted = corrupted;
     }
 
@@ -102,6 +109,27 @@ public final class PinEntity {
 
     public boolean isEncrypted() {
         return mData != null && mIV != null;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mId, mSubscriptionId, Arrays.hashCode(mData), Arrays.hashCode(mIV),
+                mInvalid, mCorrupted, mClearPin);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final PinEntity other = (PinEntity) o;
+        return mId == other.mId
+            && mSubscriptionId == other.mSubscriptionId
+            && Arrays.equals(mData, other.mData)
+            && Arrays.equals(mIV, other.mIV)
+            && mInvalid == other.mInvalid
+            && mCorrupted == other.mCorrupted
+            && TextUtils.equals(mClearPin, other.mClearPin);
     }
 
     @Override

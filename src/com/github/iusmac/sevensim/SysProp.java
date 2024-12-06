@@ -39,7 +39,7 @@ public final class SysProp {
     private final String SYSTEM_PROP_APP_BASE_CONTEXT = "7sim.";
 
     /** The property name. */
-    private final String mFormattedPropNames;
+    private final String mFormattedPropName;
 
     /**
      * Note that, only {@code isPersistent} or {@code isReadOnly} can be set at a time.
@@ -64,7 +64,7 @@ public final class SysProp {
             .append(SYSTEM_PROP_APP_BASE_CONTEXT)
             .append(formattedPropName);
 
-        mFormattedPropNames = builder.toString();
+        mFormattedPropName = builder.toString();
     }
 
     /**
@@ -82,7 +82,7 @@ public final class SysProp {
      * @param formatArgs Values to fill format specifiers in the property name.
      */
     private String getFormattedProp(final Object... formatArgs) {
-        return String.format(Locale.US, mFormattedPropNames, formatArgs);
+        return String.format(Locale.US, mFormattedPropName, formatArgs);
     }
 
     /**
@@ -121,6 +121,21 @@ public final class SysProp {
      */
     public boolean isTrue(final Object... formatArgs) {
         final Optional<String> value = get(Optional.empty(), formatArgs);
-        return value.map((val) -> val.equals("1") || Boolean.parseBoolean(val)).orElse(false);
+        return value.map((val) -> val.equals("1") || val.equalsIgnoreCase("yes") ||
+                Boolean.parseBoolean(val)).orElse(false);
+    }
+
+    /**
+     * Check whether this property is persistent across boots.
+     */
+    public boolean isPersistent() {
+        return mFormattedPropName.startsWith("persist.");
+    }
+
+    /**
+     * Check whether this property permits strictly read-only access.
+     */
+    public boolean isReadOnly() {
+        return mFormattedPropName.startsWith("ro.");
     }
 }

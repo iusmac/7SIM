@@ -32,7 +32,7 @@ import javax.inject.Singleton;
 @Singleton
 public final class SubscriptionsImpl extends Subscriptions {
     @Inject
-    public SubscriptionsImpl(final @ApplicationContext Context context,
+    SubscriptionsImpl(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
             final SubscriptionManager subscriptionManager,
             final @Named("Telephony/SubState") SysProp subStateSysProp,
@@ -76,7 +76,7 @@ public final class SubscriptionsImpl extends Subscriptions {
      */
     @Override
     @WorkerThread
-    protected Subscription createSubscription(final SubscriptionInfo subInfo) {
+    Subscription createSubscription(final SubscriptionInfo subInfo) {
         final Subscription sub = super.createSubscription(subInfo);
 
         // Note that, we intentionally don't assign the slot index for the subscription here,

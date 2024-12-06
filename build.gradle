@@ -11,6 +11,11 @@ buildscript {
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
         // https://android.googlesource.com/platform/external/dagger2
         def hilt_version = '2.47'
+        // https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
+        roborazzi_version = '1.29.0'
+        // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
+        // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-contrib
+        def espresso_version = '3.6.1'
         libs = [
             // https://mvnrepository.com/artifact/androidx.annotation/annotation
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/annotation/annotation-jvm/
@@ -18,6 +23,10 @@ buildscript {
             // https://mvnrepository.com/artifact/androidx.appcompat/appcompat
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/appcompat/appcompat/
             appcompat            :  'androidx.appcompat:appcompat:1.7.0-beta01',
+            // https://mvnrepository.com/artifact/androidx.arch.core/core-testing
+            arch_core_testing    :  'androidx.arch.core:core-testing:2.2.0',
+            // https://mvnrepository.com/artifact/org.awaitility/awaitility
+            awaitility           :  'org.awaitility:awaitility:4.2.2',
             // https://mvnrepository.com/artifact/androidx.biometric/biometric
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/biometric/biometric/
             biometric            :  'androidx.biometric:biometric:1.2.0-alpha05',
@@ -32,26 +41,55 @@ buildscript {
             core                 :  'androidx.core:core:1.13.0-beta01',
             // https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
             errorprone           :  'com.google.errorprone:error_prone_core:2.30.0',
+            // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
+            espresso             :  "androidx.test.espresso:espresso-core:$espresso_version",
+            espresso_contrib     :  "androidx.test.espresso:espresso-contrib:$espresso_version",
+            // https://mvnrepository.com/artifact/org.hamcrest/hamcrest
+            hamcrest             :  'org.hamcrest:hamcrest:3.0',
             hilt_android         :  "com.google.dagger:hilt-android:$hilt_version",
+            hilt_android_testing :  "com.google.dagger:hilt-android-testing:$hilt_version",
             hilt_compiler        :  "com.google.dagger:hilt-compiler:$hilt_version",
+            // https://mvnrepository.com/artifact/junit/junit
+            junit                :  'junit:junit:4.13.2',
             // https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-livedata
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/lifecycle/lifecycle-livedata/
             livedata             :  'androidx.lifecycle:lifecycle-livedata:2.8.0-alpha02',
             // https://mvnrepository.com/artifact/com.google.android.material/material
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/extras/material-design-x/com/google/android/material/material/
             material             :  'com.google.android.material:material:1.7.0-alpha03',
+            // https://mvnrepository.com/artifact/org.mockito/mockito-core
+            mockito              :  'org.mockito:mockito-core:5.13.0',
             // https://mvnrepository.com/artifact/androidx.preference/preference
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/preference/preference/
             preference           :  'androidx.preference:preference:1.2.1',
             // https://mvnrepository.com/artifact/androidx.recyclerview/recyclerview
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/recyclerview/recyclerview/
             recyclerview         :  'androidx.recyclerview:recyclerview:1.4.0-alpha01',
+            // https://mvnrepository.com/artifact/org.robolectric/robolectric
+            robolectric          :  'org.robolectric:robolectric:4.13',
+            roborazzi            :  "io.github.takahirom.roborazzi:roborazzi:$roborazzi_version",
+            roborazzi_junit_rule :  "io.github.takahirom.roborazzi:roborazzi-junit-rule:$roborazzi_version",
+            // https://mvnrepository.com/artifact/org.robolectric/android-all
+            robolectric_android_all : 'org.robolectric:android-all:14-robolectric-10818077',
             room_compiler        :  "androidx.room:room-compiler:$room_version",
             room_runtime         :  "androidx.room:room-runtime:$room_version",
+            room_testing         :  "androidx.room:room-testing:$room_version",
+            // https://mvnrepository.com/artifact/androidx.test/core
+            test_core            :  'androidx.test:core:1.6.1',
+            // https://mvnrepository.com/artifact/androidx.test.ext/junit
+            test_ext_junit       :  'androidx.test.ext:junit:1.2.1',
+            // https://mvnrepository.com/artifact/androidx.test/rules
+            test_rules           :  'androidx.test:rules:1.6.1',
+            // https://mvnrepository.com/artifact/androidx.test/runner
+            test_runner          :  'androidx.test:runner:1.6.2',
             // https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/lifecycle/lifecycle-viewmodel/
             viewmodel            :  'androidx.lifecycle:lifecycle-viewmodel:2.8.0-alpha02'
         ]
+    }
+
+    dependencies {
+        classpath "io.github.takahirom.roborazzi:roborazzi-gradle-plugin:$roborazzi_version"
     }
 }
 
@@ -66,6 +104,7 @@ plugins {
     id 'net.ltgt.errorprone' version '4.0.1' apply false
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
     id 'org.jetbrains.kotlinx.kover' version '0.8.3' apply false
+    id 'io.github.takahirom.roborazzi' version "$roborazzi_version" apply false
 }
 
 allprojects {
@@ -104,6 +143,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'org.jetbrains.kotlinx.kover'
+apply plugin: 'io.github.takahirom.roborazzi'
 
 final def versionNameCommon = [file('version.txt').text.trim()]
 if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
@@ -127,6 +167,12 @@ android {
         applicationId 'com.github.iusmac.sevensim'
         targetSdk 34
         versionCode versionNameCommon[0].replaceAll(/\D/, '') as Integer // "x.y.z" => xyz
+        testInstrumentationRunner 'com.github.iusmac.sevensim.HiltTestRunner'
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     applicationVariants.all { variant ->
@@ -175,6 +221,17 @@ android {
             res.srcDirs = ['res']
             manifest.srcFile 'AndroidManifest.xml'
         }
+
+        test.java.srcDirs += 'tests/test/java'
+
+        debug.assets.srcDirs += files("$projectDir/schemas".toString())
+        release.assets.srcDirs += files("$projectDir/schemas".toString())
+
+        androidTest {
+            java.srcDirs += 'tests/androidTest/src/java'
+            res.srcDirs += 'tests/androidTest/res'
+            manifest.srcFile 'tests/androidTest/AndroidManifest.xml'
+        }
     }
 
     lint {
@@ -204,6 +261,16 @@ android {
             excludedPaths = '.*/build/generated/.*' // for other generated code
         }
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            all {
+                it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+                maxHeapSize = "4096m"
+            }
+        }
+    }
 }
 
 addCompileOnlyJar('android-34.jar')
@@ -220,6 +287,7 @@ dependencies {
     implementation libs.viewmodel
     implementation libs.hilt_android
     kapt libs.hilt_compiler
+    kaptTest libs.hilt_compiler
 
     implementation libs.room_runtime
     kapt libs.room_compiler
@@ -230,8 +298,47 @@ dependencies {
     implementation project(path: ':SettingsLib:SettingsTheme')
     implementation project(path: ':SettingsLib:TwoTargetPreference')
 
+    testImplementation libs.arch_core_testing
+    testImplementation libs.awaitility
+    testImplementation libs.hamcrest
+    testImplementation (libs.espresso) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testImplementation (libs.espresso_contrib) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    testImplementation libs.junit
+    testImplementation libs.hilt_android_testing
+    testImplementation libs.mockito
+    testImplementation libs.test_core
+    testImplementation libs.robolectric
+    testImplementation libs.robolectric_android_all
+    testImplementation libs.roborazzi
+    testImplementation libs.roborazzi_junit_rule
+    testImplementation libs.room_testing
+    testImplementation libs.test_ext_junit
+
+    androidTestImplementation libs.hamcrest
+    androidTestImplementation (libs.junit) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.hilt_android_testing) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.test_ext_junit) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.test_rules) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+    androidTestImplementation (libs.test_runner) {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+
     errorprone libs.errorprone
     annotationProcessor libs.errorprone
+    testAnnotationProcessor libs.errorprone
+    androidTestAnnotationProcessor libs.errorprone
 }
 
 kapt {
@@ -239,6 +346,7 @@ kapt {
 }
 
 kover {
+    useJacoco()
     reports {
         filters {
             excludes {
@@ -246,24 +354,23 @@ kover {
                 // '*' and '?' are available
                 classes(
                     '*BuildConfig',
-                    // '*\$Factory',
                     '*.Hilt_*',
                     '*_ComponentTreeDeps',
                     '*_HiltComponents*',
                     '*_Impl',
                     '*_Impl\$*',
-               )
+                )
                 // excludes all classes located in specified package and it
                 // subpackages, wildcards '*' and '?' are available
                 packages(
                     'com.github.iusmac.sevensim.inject',
+                    'com.github.iusmac.sevensim.ui.components',
                     'hilt_aggregated_deps',
                     'dagger.hilt.internal.*',
                 )
                 // excludes all classes and functions, annotated by specified
                 // annotations, wildcards '*' and '?' are available
                 annotatedBy('*Generated*')
-                annotatedBy('*AssistedFactory')
             }
         }
     }

@@ -11,7 +11,7 @@ import com.github.iusmac.sevensim.telephony.PinStorageDao;
  */
 @Database(
     entities = {PinEntity.class},
-    exportSchema = false,
+    exportSchema = true,
     version = 1
 )
 public abstract class AppDatabaseCE extends RoomDatabase {

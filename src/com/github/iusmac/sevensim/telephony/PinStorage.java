@@ -6,8 +6,10 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.text.TextUtils;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
@@ -66,6 +68,7 @@ public final class PinStorage {
     private final Lazy<NotificationManager> mNotificationManagerLazy;
 
     @Inject
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public PinStorage(final Logger.Factory loggerFactory, final AppDatabaseCE database,
             final Lazy<KeyguardManager> keyguardManagerLazy, final Lazy<KeyStore> keyStoreLazy,
             final Lazy<Subscriptions> subscriptionsLazy,
@@ -107,6 +110,7 @@ public final class PinStorage {
      * @return An observable Optional containing the SIM PIN entity, if any. The SIM PIN entity
      * instance will be <b>encrypted</b>. To decrypt use {@link #decrypt(PinEntity)}.
      */
+    @AnyThread
     public LiveData<Optional<PinEntity>> getObservablePin(final int subId) {
         return mPinStorageDao.findObservableBySubscriptionId(subId);
     }
@@ -219,7 +223,7 @@ public final class PinStorage {
             return false;
         }
         pinEntity.setCorrupted(true);
-        final SecretKey secretKey = getOrCreateSecretKey();
+        final SecretKey secretKey = getSecretKey();
         if (secretKey == null) {
             mLogger.e("decrypt(pinEntity=%s) : SecretKey is null!.", pinEntity);
             return false;
@@ -248,7 +252,16 @@ public final class PinStorage {
     public void handleBadPinEntity(final @NonNull PinEntity pinEntity) {
         mLogger.d("handleBadPinEntity(pinEntity=%s).", pinEntity);
 
-        if (!(pinEntity.isInvalid() || pinEntity.isCorrupted())) {
+        final int subId = pinEntity.getSubscriptionId();
+        // Notify the user about bad PIN codes but only for currently active SIM subscriptions found
+        // on the device
+        if (pinEntity.isCorrupted()) {
+            mSubscriptionsLazy.get().getSubscriptionForSubId(subId).ifPresent((sub) ->
+                    mNotificationManagerLazy.get().showSimPinOperationFailedNotification(sub));
+        } else if (pinEntity.isInvalid()) {
+            mSubscriptionsLazy.get().getSubscriptionForSubId(subId).ifPresent((sub) ->
+                    mNotificationManagerLazy.get().showSimUnlockFailedNotification(sub));
+        } else {
             mLogger.w("handleBadPinEntity() : Not a \"bad\" PIN entity: %s.", pinEntity);
             return;
         }
@@ -263,17 +276,6 @@ public final class PinStorage {
         } else {
             storePin(pinEntity);
         }
-
-        final int subId = pinEntity.getSubscriptionId();
-        // Notify the user about bad PIN codes but only for currently active SIM subscriptions
-        // found on the device
-        mSubscriptionsLazy.get().getSubscriptionForSubId(subId).ifPresent((sub) -> {
-            if (pinEntity.isCorrupted()) {
-                mNotificationManagerLazy.get().showSimPinOperationFailedNotification(sub);
-            } else if (pinEntity.isInvalid()) {
-                mNotificationManagerLazy.get().showSimUnlockFailedNotification(sub);
-            }
-        });
     }
 
     /**
@@ -287,7 +289,7 @@ public final class PinStorage {
             if (secretKey != null) {
                 return secretKey;
             }
-        } catch (UnrecoverableEntryException e) {
+        } catch (NoSuchAlgorithmException | UnrecoverableEntryException e) {
             mLogger.e("Could not read alias.", e);
 
             // Badly encrypted alias; delete the key to allow recreation
@@ -298,18 +300,31 @@ public final class PinStorage {
         return createSecretKey();
     }
 
+    /** Return the existing {@link SecretKey}, if any. */
+    private SecretKey getSecretKey() {
+        try {
+            final SecretKey secretKey = loadSecretKey();
+            if (secretKey != null) {
+                return secretKey;
+            }
+        } catch (UnrecoverableEntryException | NoSuchAlgorithmException e) {
+            mLogger.e("Could not read alias.", e);
+        }
+        return null;
+    }
+
     /**
      * @return An instance of {@link SecretKey}, otherwise {@code null} on alias reading errors or
      * if the key doesn't exist.
      */
-    private SecretKey loadSecretKey() throws UnrecoverableEntryException {
+    private SecretKey loadSecretKey() throws UnrecoverableEntryException, NoSuchAlgorithmException {
         try {
             final KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry)
                 mKeyStoreLazy.get().getEntry(KEYSTORE_ALIAS, /*protParam=*/ null);
             if (secretKeyEntry != null) {
                 return secretKeyEntry.getSecretKey();
             }
-        } catch (NoSuchAlgorithmException | KeyStoreException e) {
+        } catch (KeyStoreException e) {
             mLogger.e("Could not read alias.", e);
         }
         return null;
@@ -379,6 +394,7 @@ public final class PinStorage {
      * Check whether the user should be authenticated with their credentials in order to unlock the
      * hardware-backed KeyStore for further crypto operations.
      */
+    @AnyThread
     public boolean isAuthenticationRequired() {
         synchronized (PinStorage.class) {
             final long authTimeout = sLastKeystoreAuthTimestamp == 0 ? 0 :
@@ -394,6 +410,7 @@ public final class PinStorage {
      *
      * @param timestamp The {@link SystemClock#elapsedRealtime()}-based time.
      */
+    @AnyThread
     public static synchronized void setLastKeystoreAuthTimestamp(final long timestamp) {
         sLastKeystoreAuthTimestamp = timestamp;
     }

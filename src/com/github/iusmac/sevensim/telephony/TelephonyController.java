@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
 import androidx.core.os.BundleCompat;
 
@@ -55,6 +56,7 @@ public final class TelephonyController {
      */
     private static final int SET_SIM_POWER_STATE_SIM_ABSENT = -1;
     private static final int SET_SIM_POWER_STATE_MODEM_TIMEOUT = -2;
+    private static final int SET_SIM_POWER_STATE_INTERRUPTED_ABRUPTLY = -3;
 
     /** For request metadata fields. */
     private static final String KEY_SUBSCRIPTION = "subscription";
@@ -64,8 +66,9 @@ public final class TelephonyController {
     private static final String KEY_REQUEST_RESPONSE_CODE = "request_response_code";
 
     /** The globally accessible request metadata used when performing SIM power state mutations. */
+    @VisibleForTesting
     @GuardedBy("mRequestMetadata")
-    private final Bundle mRequestMetadata = new Bundle(5);
+    final Bundle mRequestMetadata = new Bundle(5);
 
     @GuardedBy("this")
     private SimStatusChangedListener mSimStatusChangedListener;
@@ -76,6 +79,7 @@ public final class TelephonyController {
     private final SubscriptionsImplLegacy mSubscriptions;
 
     @Inject
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public TelephonyController(final @ApplicationContext Context context,
             final Logger.Factory loggerFactory,
             final TelephonyManager telephonyManager,
@@ -138,6 +142,19 @@ public final class TelephonyController {
             // Ensure SIM subscription syncing cannot start in parallel during this operation
             mSubscriptions.mBlockSubscriptionsSyncFlag.set(true);
 
+            // Globally save metadata needed when handling SIM power change request termination
+            synchronized (mRequestMetadata) {
+                mRequestMetadata.putParcelable(KEY_SUBSCRIPTION, sub);
+                mRequestMetadata.putString(KEY_LAST_ACTIVATED_TIME,
+                        sub.getLastActivatedTime().toString());
+                mRequestMetadata.putString(KEY_LAST_DEACTIVATED_TIME,
+                        sub.getLastDeactivatedTime().toString());
+                if (sub.getKeepDisabledAcrossBoots() != null) {
+                    mRequestMetadata.putBoolean(KEY_KEEP_DISABLED_ACROSS_BOOTS,
+                            sub.getKeepDisabledAcrossBoots());
+                }
+            }
+
             // Keep track of SIM state whenever it's mutated. This will be persisted in a volatile
             // memory, so that we can further restore all relevant data. This because when powering
             // down the SIM is the same as removing it, which means the SIM will completely
@@ -151,19 +168,6 @@ public final class TelephonyController {
                     LocalDateTime.MIN);
 
             sub.keepDisabledAcrossBoots(keepDisabledAcrossBoots);
-
-            // Globally save metadata needed when handling SIM power change request termination
-            synchronized (mRequestMetadata) {
-                mRequestMetadata.putParcelable(KEY_SUBSCRIPTION, sub);
-                mRequestMetadata.putString(KEY_LAST_ACTIVATED_TIME,
-                        sub.getLastActivatedTime().toString());
-                mRequestMetadata.putString(KEY_LAST_DEACTIVATED_TIME,
-                        sub.getLastDeactivatedTime().toString());
-                if (sub.getKeepDisabledAcrossBoots() != null) {
-                    mRequestMetadata.putBoolean(KEY_KEEP_DISABLED_ACROSS_BOOTS,
-                            sub.getKeepDisabledAcrossBoots());
-                }
-            }
 
             // Before making any request, persist the subscription associated with the SIM whose
             // power state we're going to change, to immediately reflect the changes on the callers
@@ -187,15 +191,19 @@ public final class TelephonyController {
             final long deadlineMillis = nowMillis + SET_SIM_POWER_STATE_REQUEST_TIMEOUT_MILLIS;
             do {
                 synchronized (mRequestMetadata) {
+                    if (mRequestMetadata.containsKey(KEY_REQUEST_RESPONSE_CODE)) {
+                        // SIM power request finished, so we break here as this wasn't a spurious
+                        // wakeup nor a timeout
+                        break;
+                    }
                     try {
                         mRequestMetadata.wait(deadlineMillis - nowMillis);
                     } catch (InterruptedException e) {
                         mLogger.w(logPrefix + "Acquire wait interrupted.");
-                        break;
-                    }
-                    if (mRequestMetadata.containsKey(KEY_REQUEST_RESPONSE_CODE)) {
-                        // SIM power request finished, so we break here as this wasn't a spurious
-                        // wakeup nor a timeout
+                        // At this point we'll just propagate a custom internal "interrupted
+                        // abruptly" code that will assume the request succeeded
+                        mRequestMetadata.putInt(KEY_REQUEST_RESPONSE_CODE,
+                                SET_SIM_POWER_STATE_INTERRUPTED_ABRUPTLY);
                         break;
                     }
                 }
@@ -368,7 +376,7 @@ public final class TelephonyController {
      * Convert SIM enabled state to its equivalent state code used in
      * {@link TelephonyManager#setSimPowerStateForSlot(int,int)}.
      */
-    private int simStateInt(final boolean enabled) {
+    private static int simStateInt(final boolean enabled) {
         return enabled ? TelephonyManager.CARD_POWER_UP : TelephonyManager.CARD_POWER_DOWN;
     }
 

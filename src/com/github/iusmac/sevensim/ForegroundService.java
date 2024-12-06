@@ -16,6 +16,7 @@ import android.telephony.SubscriptionManager;
 import android.os.UserHandle;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 
 import com.github.iusmac.sevensim.scheduler.SubscriptionScheduler;
@@ -122,6 +123,8 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
     private final Object mServiceTimeoutToken = new Object();
 
+    private final Worker mWorker = new Worker();
+
     @Inject
     Logger.Factory mLoggerFactory;
 
@@ -143,8 +146,8 @@ public final class ForegroundService extends Hilt_ForegroundService {
     @Inject
     SimPinFeeder.Factory mSimPinFeederFactory;
 
-    private Logger mLogger;
-    private Worker mWorker;
+    @VisibleForTesting
+    Logger mLogger;
 
     /** {@link SubscriptionScheduler#syncAllSubscriptionsEnabledState(LocalDateTime,boolean)}. */
     public static void syncAllSubscriptionsEnabledState(final Context context,
@@ -219,7 +222,9 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
     public static void onSubscriptionsChanged(final Context context, final LocalDateTime dateTime) {
         final Intent i = new Intent(ACTION_SUBSCRIPTIONS_CHANGED);
-        i.putExtra(EXTRA_TIME_KEY, dateTime.toString());
+        if (dateTime != null) {
+            i.putExtra(EXTRA_TIME_KEY, dateTime.toString());
+        }
         startAction(context, i);
     }
 
@@ -237,8 +242,6 @@ public final class ForegroundService extends Hilt_ForegroundService {
         mLogger = mLoggerFactory.create(getClass().getSimpleName());
 
         mLogger.d("onCreate().");
-
-        mWorker = new Worker();
 
         startForeground(NotificationManager.FOREGROUND_NOTIFICATION_ID,
                 mNotificationManager.buildForegroundServiceNotification());
@@ -260,11 +263,6 @@ public final class ForegroundService extends Hilt_ForegroundService {
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         mLogger.d("onStartCommand(intent=%s,flags=%d,startId=%d).", intent, flags, startId);
 
-        if (intent == null) {
-            stopSelfResult(startId);
-            return START_NOT_STICKY;
-        }
-
         if (mActivityManager.isBackgroundRestricted()) {
             stopSelf();
             return START_NOT_STICKY;
@@ -284,7 +282,8 @@ public final class ForegroundService extends Hilt_ForegroundService {
             intent.getBooleanExtra(EXTRA_OVERRIDE_USER_PREFERENCE, false);
         final int subId = intent.getIntExtra(CarrierConfigManager.EXTRA_SUBSCRIPTION_INDEX,
                 SubscriptionManager.INVALID_SUBSCRIPTION_ID);
-        final Bundle clearPinCodes = intent.getBundleExtra(EXTRA_CLEAR_PIN_CODES);
+        final Bundle clearPinCodes = Optional.ofNullable(intent
+                .getBundleExtra(EXTRA_CLEAR_PIN_CODES)).orElse(Bundle.EMPTY);
         final boolean decryptPinStorage = intent.getBooleanExtra(EXTRA_DECRYPT_PIN_STORAGE, false);
 
         final String action = intent.getAction() != null ? intent.getAction() : "";
@@ -292,12 +291,12 @@ public final class ForegroundService extends Hilt_ForegroundService {
             case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER:
                 mWorker.execute(() -> dateTime.ifPresent((ldt) -> {
                     List<PinEntity> pinEntities = null;
-                    if (decryptPinStorage || clearPinCodes != null) {
+                    if (decryptPinStorage || !clearPinCodes.isEmpty()) {
                         pinEntities = mPinStorageLazy.get().getPinEntities();
                         for (final PinEntity pinEntity : pinEntities) {
                             if (decryptPinStorage) {
                                 mPinStorageLazy.get().decrypt(pinEntity);
-                            } else if (clearPinCodes != null) {
+                            } else {
                                 final String clearPin = clearPinCodes.getString(String.valueOf(
                                             pinEntity.getSubscriptionId()));
                                 if (clearPin != null) {
@@ -333,7 +332,7 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
             case ACTION_UNLOCK_SIM_CARDS:
                 mWorker.execute(() -> {
-                    if (clearPinCodes != null) {
+                    if (!clearPinCodes.isEmpty()) {
                         final List<PinEntity> usablePinEntities = new ArrayList<>();
                         for (final PinEntity pinEntity : mPinStorageLazy.get().getPinEntities()) {
                             final String clearPin = clearPinCodes.getString(String.valueOf(
@@ -362,12 +361,8 @@ public final class ForegroundService extends Hilt_ForegroundService {
                 break;
 
             default:
-                mLogger.e("onStartCommand() : Unhandled action=%s.", action);
-        }
-
-        if (mWorker.getQueueSize() == 0) {
-            stopSelfResult(startId);
-            return START_NOT_STICKY;
+                mWorker.execute(() -> mLogger.e("onStartCommand() : Unhandled action=%s.", action),
+                        startId);
         }
 
         return START_REDELIVER_INTENT;
@@ -379,9 +374,7 @@ public final class ForegroundService extends Hilt_ForegroundService {
             mLogger.d("onDestroy().");
 
             getMainThreadHandler().removeCallbacksAndMessages(mServiceTimeoutToken);
-            if (mWorker != null) {
-                mWorker.shutdown(mIsServiceTerminatedSafely);
-            }
+            mWorker.shutdown(mIsServiceTerminatedSafely);
             stopForeground(STOP_FOREGROUND_REMOVE);
         } finally {
             synchronized (sWakeLockSyncLock) {
@@ -404,6 +397,10 @@ public final class ForegroundService extends Hilt_ForegroundService {
             mIsServiceTerminatedSafely = false;
             stopSelf();
 
+            // Prepare the worker to shutdown immediately instead of waiting for onDestroy() to be
+            // called asynchronously to do so
+            mWorker.shutdown(mIsServiceTerminatedSafely);
+
             mLogger.w("Service reached timeout of %dms. Starting an unsafe service termination.",
                     SERVICE_TIMEOUT_MS_DEFAULT);
         }, mServiceTimeoutToken, uptimeMillis);
@@ -416,7 +413,8 @@ public final class ForegroundService extends Hilt_ForegroundService {
      * @param intent The intent containing action and payload data. Note that, this function will
      * take care of intent context and other fields.
      */
-    private static void startAction(final Context context, Intent intent) {
+    @VisibleForTesting
+    static void startAction(final Context context, Intent intent) {
         synchronized (sWakeLockSyncLock) {
             // Hold wake lock to ensure that the service will start and operate till termination
             acquire(context);
@@ -497,13 +495,6 @@ public final class ForegroundService extends Hilt_ForegroundService {
         }
 
         /**
-         * @return The number of tasks in the queue list.
-         */
-        int getQueueSize() {
-            return mQueueSize.get();
-        }
-
-        /**
          * Shutdown the worker. No new tasks will be accepted.
          *
          * @param safe Whether to initiate an orderly and safe shutdown of the worker.
@@ -517,5 +508,14 @@ public final class ForegroundService extends Hilt_ForegroundService {
             }
             mQueueSize.set(0);
         }
+    }
+
+    /**
+     * This method's purpose is to expose the flag indicating whether or not the service termination
+     * was initiated in an orderly and safe manner. Currently, it's being used in unit tests only.
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    boolean isServiceTerminatedSafely() {
+        return mIsServiceTerminatedSafely;
     }
 }

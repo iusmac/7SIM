@@ -13,7 +13,6 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,7 +30,11 @@ import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
 @Entity(
     tableName = "subscriptions"
 )
-public final class Subscription implements Parcelable {
+public class Subscription implements Parcelable {
+    static final @SimState int DEFAULT_SIM_STATE = SimState.UNKNOWN;
+    static final @ColorInt int DEFAULT_ICON_TINT = Color.BLACK;
+    static final String DEFAULT_SIM_NAME = "";
+
     @PrimaryKey
     @ColumnInfo(name = "id")
     private int mId = INVALID_SUBSCRIPTION_ID;
@@ -40,13 +43,13 @@ public final class Subscription implements Parcelable {
     private int mSlotIndex = INVALID_SIM_SLOT_INDEX;
 
     @Ignore
-    private @SimState int mSimState = SimState.UNKNOWN;
+    private @SimState int mSimState = DEFAULT_SIM_STATE;
 
     @Ignore
-    private @ColorInt int mIconTint = Color.BLACK;
+    private @ColorInt int mIconTint = DEFAULT_ICON_TINT;
 
     @Ignore
-    private String mName = "";
+    private String mName = DEFAULT_SIM_NAME;
 
     @ColumnInfo(name = "lastActivatedTime")
     private LocalDateTime mLastActivatedTime = LocalDateTime.MIN;
@@ -190,20 +193,8 @@ public final class Subscription implements Parcelable {
             sub.setSimState(in.readInt());
             sub.setIconTint(in.readInt());
             sub.setSimName(in.readString());
-            try {
-                final String lastActivatedTime = in.readString();
-                if (lastActivatedTime != null) {
-                    sub.setLastActivatedTime(LocalDateTime.parse(lastActivatedTime));
-                }
-            } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
-
-            try {
-                final String lastDeactivatedTime = in.readString();
-                if (lastDeactivatedTime != null) {
-                    sub.setLastDeactivatedTime(LocalDateTime.parse(lastDeactivatedTime));
-                }
-            } catch (DateTimeParseException ignored) { /* @SuppressWarnings("EmptyCatch") */ }
-
+            sub.setLastActivatedTime(LocalDateTime.parse(in.readString()));
+            sub.setLastDeactivatedTime(LocalDateTime.parse(in.readString()));
             Optional.ofNullable(in.readString()).ifPresent((v) ->
                     sub.keepDisabledAcrossBoots(Boolean.parseBoolean(v)));
 

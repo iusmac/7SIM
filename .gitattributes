@@ -3,3 +3,5 @@
 *.bat text eol=crlf
 *.jks binary
 *.jar binary
+*.png binary merge
+*.gif binary merge
