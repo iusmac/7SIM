@@ -900,8 +900,9 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         await()
             .dontCatchUncaughtExceptions()
             .pollInSameThread()
-            .atMost(TASK_WAIT_TIMEOUT_DURATION.plusMillis(250L))
-            .atLeast(Duration.ofSeconds(3))
+            .atMost(TASK_WAIT_TIMEOUT_DURATION)
+            .atLeast(TASK_WAIT_TIMEOUT_DURATION.minusMillis(250L))
+            .pollInterval(Duration.ofMillis(50))
             .until(() -> mTask.getState() == TERMINATED);
     }
 
