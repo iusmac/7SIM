@@ -13,8 +13,9 @@ checksums_tmpl="$(cat .github/markdown/checksums.md)"
 echo 'Processing artifacts...'
 mkdir -vp "$artifacts_dir"
 
+echo "ARTIFACTS_DIR=$artifacts_dir" >> "$GITHUB_ENV"
+
 # Move artifacts into a dedicated directory
-mv -v build/outputs/apk/{debug,release}/*.apk "$artifacts_dir"
 mv -v build/reports/kover/htmlDebug/ "$artifacts_dir/koverDebug" || true
 mv -v build/reports/tests/testDebugUnitTest/ "$artifacts_dir" || true
 mv -v build/reports/androidTests/connected/debug/ "$artifacts_dir/androidTestsDebug" || true
@@ -26,6 +27,7 @@ if ls build/{outputs,reports}/roborazzi >/dev/null; then
     mv -v build/outputs/roborazzi/ "$roborazzi_dir/outputs/roborazzi" || true
     mv -v build/reports/roborazzi/ "$roborazzi_dir/reports/roborazzi" || true
 fi
+mv -v build/outputs/apk/{debug,release}/*.apk "$artifacts_dir"
 
 # NOTE: MD5/SHA256sum commands output as '<hash> <path/to/file>', so we should
 # cd into dir containing file to drop the 'path/to' part
@@ -39,5 +41,3 @@ done
 
 MD5_CHECKSUMS=$(cat ./*.md5) SHA256_CHECKSUMS=$(cat ./*.sha256) envsubst <<< \
     "$checksums_tmpl" >> "$GITHUB_STEP_SUMMARY"
-
-echo "ARTIFACTS_DIR=$artifacts_dir" >> "$GITHUB_ENV"
