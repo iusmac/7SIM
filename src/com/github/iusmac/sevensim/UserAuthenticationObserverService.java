@@ -226,7 +226,9 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
          * @param task The {@link PendingTask} to offload onto a separate thread.
          */
         void schedule(final PendingTask task) {
-            mPendingTasks.offer(task);
+            if (!mReleased) {
+                mPendingTasks.offer(task);
+            }
         }
 
         @Override
