@@ -53,7 +53,7 @@ runs:
         coverage_results_path: build/reports/kover/reportDebug.xml
         github_token: ${{ github.token }}
         skip_check_run: true
-        minimum_coverage: 80
+        minimum_coverage: 100
         fail_below_threshold: false
     - name: Add coverage report to workflow run summary
       if: inputs.check-build == 'true'
