@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/iusmac/7SIM/compare/v2.0.1...v2.0.2) (2024-12-06)
+
+
+### :hammer_and_wrench: Miscellaneous Chores
+
+* stability improvements and minor fixes (v2.0.2) ([9c63427](https://github.com/iusmac/7SIM/commit/9c634279972fed1818c24cb5a02c5b1bf890b3f6))
+
 ## [2.0.1](https://github.com/iusmac/7SIM/compare/v2.0.0...v2.0.1) (2024-08-24)
 
 
