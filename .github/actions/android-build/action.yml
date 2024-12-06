@@ -48,7 +48,7 @@ runs:
     - name: Generate code coverage summary
       if: inputs.check-build == 'true'
       id: coverage
-      uses: PavanMudigonda/jacoco-reporter@v5.0
+      uses: PavanMudigonda/jacoco-reporter@v5.1
       with:
         coverage_results_path: build/reports/kover/reportDebug.xml
         github_token: ${{ github.token }}
