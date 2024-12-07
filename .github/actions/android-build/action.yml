@@ -31,8 +31,6 @@ runs:
       uses: ./.github/actions/settingslibs-cache-warm-up
     - name: Set up Gradle cache
       uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-home-cache-cleanup: true
     - name: Build with Gradle
       shell: bash
       env:
