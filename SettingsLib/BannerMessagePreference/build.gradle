@@ -7,8 +7,6 @@ def SettingsLibBannerMessagePreference = '../fwb/packages/SettingsLib/BannerMess
 android {
     namespace 'com.android.settingslib.widget.preference.banner'
 
-    buildToolsVersion = '34.0.0'
-
     defaultConfig {
         minSdk 28
         versionCode 1
