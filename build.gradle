@@ -165,7 +165,6 @@ android {
 
     defaultConfig {
         applicationId 'com.github.iusmac.sevensim'
-        targetSdk 34
         versionCode versionNameCommon[0].replaceAll(/\D/, '') as Integer // "x.y.z" => xyz
         testInstrumentationRunner 'com.github.iusmac.sevensim.HiltTestRunner'
         kapt {
