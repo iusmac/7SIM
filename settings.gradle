@@ -28,8 +28,8 @@ include ':SettingsLib:TwoTargetPreference'
 include ':SettingsLib:Utils'
 
 android {
-    compileSdk 34
+    compileSdk 35
     minSdk 29
-    targetSdk 33
-    buildToolsVersion '34.0.0'
+    targetSdk 35
+    buildToolsVersion '35.0.0'
 }
