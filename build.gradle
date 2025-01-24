@@ -95,11 +95,11 @@ buildscript {
 
 plugins {
     // https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
-    id 'com.android.application' version '8.1.4' apply false
+    id 'com.android.application' version '8.8.0' apply false
     // https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
-    id 'com.android.library' version '8.1.4' apply false
+    id 'com.android.library' version '8.8.0' apply false
     // https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
-    id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.25' apply false
     // https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
     id 'net.ltgt.errorprone' version '4.0.1' apply false
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
@@ -270,6 +270,10 @@ android {
                 maxHeapSize = "4096m"
             }
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
