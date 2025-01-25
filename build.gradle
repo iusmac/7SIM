@@ -12,7 +12,7 @@ buildscript {
         // https://android.googlesource.com/platform/external/dagger2
         def hilt_version = '2.47'
         // https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
-        roborazzi_version = '1.29.0'
+        roborazzi_version = '1.45.1'
         // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
         // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-contrib
         def espresso_version = '3.6.1'
@@ -69,11 +69,11 @@ buildscript {
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/recyclerview/recyclerview/
             recyclerview         :  'androidx.recyclerview:recyclerview:1.4.0-alpha01',
             // https://mvnrepository.com/artifact/org.robolectric/robolectric
-            robolectric          :  'org.robolectric:robolectric:4.13',
+            robolectric          :  'org.robolectric:robolectric:4.15.1',
             roborazzi            :  "io.github.takahirom.roborazzi:roborazzi:$roborazzi_version",
             roborazzi_junit_rule :  "io.github.takahirom.roborazzi:roborazzi-junit-rule:$roborazzi_version",
             // https://mvnrepository.com/artifact/org.robolectric/android-all
-            robolectric_android_all : 'org.robolectric:android-all:14-robolectric-10818077',
+            robolectric_android_all : 'org.robolectric:android-all:15-robolectric-12650502',
             room_compiler        :  "androidx.room:room-compiler:$room_version",
             room_runtime         :  "androidx.room:room-runtime:$room_version",
             room_testing         :  "androidx.room:room-testing:$room_version",
