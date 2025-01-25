@@ -17,6 +17,9 @@ buildscript {
         // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-contrib
         def espresso_version = '3.6.1'
         libs = [
+            // https://mvnrepository.com/artifact/androidx.activity/activity
+            // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/activity/activity/
+            activity             :  'androidx.activity:activity:1.10.0-alpha02',
             // https://mvnrepository.com/artifact/androidx.annotation/annotation
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/annotation/annotation-jvm/
             annotation           :  'androidx.annotation:annotation:1.8.0-alpha01',
