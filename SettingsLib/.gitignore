@@ -16,6 +16,3 @@
 !/TwoTargetPreference/
 /TwoTargetPreference/*
 !/TwoTargetPreference/build.gradle
-!/Utils/
-/Utils/*
-!/Utils/build.gradle

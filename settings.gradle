@@ -25,7 +25,6 @@ include ':SettingsLib:CollapsingToolbarBaseActivity'
 include ':SettingsLib:LayoutPreference'
 include ':SettingsLib:SettingsTheme'
 include ':SettingsLib:TwoTargetPreference'
-include ':SettingsLib:Utils'
 
 android {
     compileSdk 35

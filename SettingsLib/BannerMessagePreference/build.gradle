@@ -36,5 +36,4 @@ android {
 dependencies {
     implementation libs.preference
     implementation project(':SettingsLib:SettingsTheme')
-    implementation project(':SettingsLib:Utils')
 }

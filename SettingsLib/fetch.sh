@@ -15,7 +15,6 @@ declare -a LIBS=(
     'LayoutPreference'
     'SettingsTheme'
     'TwoTargetPreference'
-    'Utils'
 )
 
 function main() {
