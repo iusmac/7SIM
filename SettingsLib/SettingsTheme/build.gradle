@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibSettingsTheme = '../fwb/packages/SettingsLib/SettingsTheme'
@@ -28,10 +29,14 @@ android {
     sourceSets {
         main {
             res.srcDirs = ["${SettingsLibSettingsTheme}/res"]
+            java.srcDirs = ["${SettingsLibSettingsTheme}/src"]
         }
     }
 }
 
+addCompileOnlyJar('android-35.jar')
+
 dependencies {
+    implementation libs.material
     implementation libs.preference
 }
