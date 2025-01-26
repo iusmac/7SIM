@@ -289,7 +289,7 @@ public final class TelephonyControllerTest extends MockitoHiltAndroidTestBase {
         }));
 
         // Assume SIM subscription disappeared from the system after being disabled
-        setAvailableSubscriptionInfos((SubscriptionInfo) null);
+        setAvailableSubscriptionInfos((SubscriptionInfo[]) null);
 
         final var future = assertFutureDone(EXECUTOR.submit(() ->
                     mSubscriptions.getSubscriptionForSimSlotIndex(subInfo.getSimSlotIndex())));
@@ -810,7 +810,7 @@ public final class TelephonyControllerTest extends MockitoHiltAndroidTestBase {
         assertFutureDone(future2);
 
         // Assume all SIM subscriptions disappeared from the system after being disabled
-        setAvailableSubscriptionInfos((SubscriptionInfo) null);
+        setAvailableSubscriptionInfos((SubscriptionInfo[]) null);
 
         assertThat(slotIndexCaptor.getAllValues(), is(contains(subInfo1.getSimSlotIndex(),
                         subInfo2.getSimSlotIndex())));
