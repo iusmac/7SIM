@@ -23,7 +23,6 @@ import com.github.iusmac.sevensim.telephony.SubscriptionsImpl;
 import com.github.iusmac.sevensim.telephony.TelephonyController;
 import com.github.iusmac.sevensim.test.MockitoHiltAndroidTestBase;
 import com.github.iusmac.sevensim.test.ShadowSubscriptionManagerHiddenApi;
-import com.github.iusmac.sevensim.test.ShadowSubscriptionManagerOnSubscriptionsChangedListener;
 import com.github.iusmac.sevensim.test.ShadowTelephonyManagerHiddenApi;
 import com.github.iusmac.sevensim.test.TestUtils.ExpectedHolder;
 
@@ -1661,7 +1660,6 @@ public final class SubscriptionSchedulerTest {
     }
 
     @Config(shadows = {
-        ShadowSubscriptionManagerOnSubscriptionsChangedListener.class,
         ShadowSubscriptionManagerHiddenApi.class,
         ShadowTelephonyManagerHiddenApi.class,
     })
