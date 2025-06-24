@@ -267,7 +267,7 @@ android {
             includeAndroidResources = true
             all {
                 it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
-                maxHeapSize = "4096m"
+                maxHeapSize = "6144m"
             }
         }
     }
