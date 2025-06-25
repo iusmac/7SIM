@@ -61,7 +61,7 @@ buildscript {
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/extras/material-design-x/com/google/android/material/material/
             material             :  'com.google.android.material:material:1.7.0-alpha03',
             // https://mvnrepository.com/artifact/org.mockito/mockito-core
-            mockito              :  'org.mockito:mockito-core:5.13.0',
+            mockito              :  'org.mockito:mockito-core:5.18.0',
             // https://mvnrepository.com/artifact/androidx.preference/preference
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/preference/preference/
             preference           :  'androidx.preference:preference:1.2.1',
@@ -159,6 +159,14 @@ if (System.getenv('EXTRA_VERSION_BUILD_INFO') == null) {
     if (!extraVersionBuildInfo.isEmpty()) {
         versionNameCommon.add(extraVersionBuildInfo)
     }
+}
+
+configurations.create("mockitoAgent") {
+    transitive = false
+}
+
+tasks.withType(Test) {
+    jvmArgs("-javaagent:${configurations.mockitoAgent.asPath}")
 }
 
 android {
@@ -314,6 +322,7 @@ dependencies {
     testImplementation libs.junit
     testImplementation libs.hilt_android_testing
     testImplementation libs.mockito
+    mockitoAgent(libs.mockito)
     testImplementation libs.test_core
     testImplementation libs.robolectric
     testImplementation libs.robolectric_android_all
