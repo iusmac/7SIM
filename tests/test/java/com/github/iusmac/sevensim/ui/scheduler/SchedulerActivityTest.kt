@@ -3647,7 +3647,7 @@ class SchedulerActivityTest {
                         assertFalse(animator.isRunning())
                         expand(schedule.id)
                         // Run one frame to start the animation
-                        shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(1))
+                        shadowOf(Looper.getMainLooper()).idleFor(ShadowChoreographer.getFrameDelay())
                         assertTrue(animator.isRunning())
                     }
 
