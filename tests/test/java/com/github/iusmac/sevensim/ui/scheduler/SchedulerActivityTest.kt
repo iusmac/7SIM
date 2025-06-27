@@ -3660,11 +3660,12 @@ class SchedulerActivityTest {
                         assertThat(mItemAdapter.itemCount, `is`(1))
                         assertTrue(listView.itemAnimator!!.isRunning())
 
-                        // Resume the choreographer and wait for another 249ms to reach 250ms
-                        // (RecyclerView's default animation change duration), in order to finish
-                        // the expansion animation and run all deferred tasks simultaneously
+                        // Resume the choreographer and draw the remaining frames, in order to
+                        // finish the expansion animation and run all deferred tasks simultaneously
+                        val delta = Duration.ofMillis(listView.itemAnimator!!.moveDuration)
+                            .minus(ShadowChoreographer.getFrameDelay())
                         ShadowChoreographer.setPaused(false)
-                        shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(249))
+                        shadowOf(Looper.getMainLooper()).idleFor(delta)
                         assertFalse(listView.itemAnimator!!.isRunning())
                         assertThat(mItemAdapter.itemCount, `is`(2))
                     }
