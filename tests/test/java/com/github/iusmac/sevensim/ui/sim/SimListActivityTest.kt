@@ -723,6 +723,9 @@ class SimListActivityTest {
                 // Enable SIM card
                 onSimEntryAt(0).perform(switchClick())
 
+                // Wait for the ViewModel to process the async SIM state change request
+                waitActivityWorkerThreadUntilIdle()
+
                 sub = runBlocking {
                     val job = async(Dispatchers.Default) {
                         mSubscriptionsProvider.get().getSubscriptionForSubId(subInfo.subscriptionId)
