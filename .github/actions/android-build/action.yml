@@ -40,6 +40,7 @@ runs:
         RELEASE_DEBUG_OPT: ${{ inputs.release-debug-opt }}
       run: |
         ./gradlew --parallel \
+        -Proborazzi.test.record=${{ inputs.check-build }} \
         ${{ inputs.check-build == 'true' && 'build koverHtmlReportDebug koverXmlReportDebug' || 'assemble' }}
     - name: Generate code coverage summary
       if: inputs.check-build == 'true'

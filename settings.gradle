@@ -7,7 +7,7 @@ pluginManagement {
 }
 
 plugins {
-    id 'com.android.settings' version '8.1.4'
+    id 'com.android.settings' version '8.8.0'
 }
 
 dependencyResolutionManagement {
@@ -25,11 +25,10 @@ include ':SettingsLib:CollapsingToolbarBaseActivity'
 include ':SettingsLib:LayoutPreference'
 include ':SettingsLib:SettingsTheme'
 include ':SettingsLib:TwoTargetPreference'
-include ':SettingsLib:Utils'
 
 android {
-    compileSdk 34
+    compileSdk 35
     minSdk 29
-    // TODO: b/317358817 com.android.settings plugin doesn't recognize targetSdk
-    // targetSdk 33
+    targetSdk 35
+    buildToolsVersion '35.0.0'
 }

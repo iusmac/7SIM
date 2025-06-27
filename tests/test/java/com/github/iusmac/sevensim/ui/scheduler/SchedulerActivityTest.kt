@@ -12,6 +12,7 @@ import android.os.Build.VERSION_CODES.S
 import android.os.Bundle
 import android.os.Looper
 import android.os.SystemClock
+import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.text.InputType
 import android.util.Log
@@ -227,11 +228,12 @@ class SchedulerActivityTest {
             // For the very first subscription change event debouncing is not applied
             assertThat(shadowOf(activityWorkerLooper).nextScheduledTaskTime, `is`(Duration.ZERO))
 
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            val emptySubInfoList = kotlin.emptyArray<SubscriptionInfo>()
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(*emptySubInfoList)
             ShadowSystemClock.advanceBy(Duration.ofMillis(1))
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(*emptySubInfoList)
             ShadowSystemClock.advanceBy(Duration.ofMillis(1))
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(*emptySubInfoList)
 
             val debounceDelayDuration = shadowOf(activityWorkerLooper).nextScheduledTaskTime
                 .minus(Duration.ofMillis(SystemClock.uptimeMillis()))
@@ -3645,7 +3647,7 @@ class SchedulerActivityTest {
                         assertFalse(animator.isRunning())
                         expand(schedule.id)
                         // Run one frame to start the animation
-                        shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(1))
+                        shadowOf(Looper.getMainLooper()).idleFor(ShadowChoreographer.getFrameDelay())
                         assertTrue(animator.isRunning())
                     }
 

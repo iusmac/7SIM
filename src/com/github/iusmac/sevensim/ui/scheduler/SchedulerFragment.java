@@ -849,11 +849,13 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
 
             // Adjust the AppBarLayout expansion depending on the current screen orientation for a
             // better view of the expanded schedule if there's one otherwise try to accomodate as
-            // much items as possible
-            if (mAppBarLayout != null) {
+            // much items as possible.
+            // NOTE: need to ensure the adapter contains the empty view or at least one schedule to
+            // avoid animating the expansion when activity is first displayed
+            int itemCount;
+            if (mAppBarLayout != null && (itemCount = mConcatAdapter.getItemCount()) > 0) {
                 final boolean expanded;
                 if (UiUtils.isLandscape(getContext())) {
-                    int itemCount = mConcatAdapter.getItemCount();
                     if (mEmptyViewPref.isVisible()) {
                         // Exclude the empty view from the total item count if visible, since it's
                         // part of the RecyclerView and will be effectively visible if and only if

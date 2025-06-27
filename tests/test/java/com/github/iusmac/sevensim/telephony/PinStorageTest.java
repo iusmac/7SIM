@@ -15,7 +15,6 @@ import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.test.FakeAndroidKeyStoreProvider.AesKeyGenerator;
 import com.github.iusmac.sevensim.test.FakeAndroidKeyStoreProvider;
 import com.github.iusmac.sevensim.test.MockitoHiltAndroidTestBase;
-import com.github.iusmac.sevensim.test.ShadowSubscriptionManagerOnSubscriptionsChangedListener;
 
 import dagger.hilt.android.testing.HiltAndroidTest;
 
@@ -769,7 +768,6 @@ public final class PinStorageTest extends MockitoHiltAndroidTestBase {
     }
 
     @Test
-    @Config(shadows = ShadowSubscriptionManagerOnSubscriptionsChangedListener.class)
     public void test_handleBadPinEntity_ShouldMemoizeBadEntities_Decrypted() {
         final var pinEntityEncrypted = assertFutureDone(EXECUTOR.submit(() -> {
             final var pinEntity = new PinEntity();
@@ -798,7 +796,6 @@ public final class PinStorageTest extends MockitoHiltAndroidTestBase {
     }
 
     @Test
-    @Config(shadows = ShadowSubscriptionManagerOnSubscriptionsChangedListener.class)
     public void test_handleBadPinEntity_ShouldMemoizeBadEntities_Encrypted() {
         final var pinEntityEncrypted = assertFutureDone(EXECUTOR.submit(() -> {
             final var pinEntity = new PinEntity();
@@ -836,7 +833,6 @@ public final class PinStorageTest extends MockitoHiltAndroidTestBase {
     }
 
     @Test
-    @Config(shadows = ShadowSubscriptionManagerOnSubscriptionsChangedListener.class)
     public void test_handleBadPinEntity_ShouldNotifyUserAboutInvalidEntity() {
         final var subInfo = SubscriptionInfoBuilder.newBuilder()
             .setId(1)
@@ -854,7 +850,6 @@ public final class PinStorageTest extends MockitoHiltAndroidTestBase {
     }
 
     @Test
-    @Config(shadows = ShadowSubscriptionManagerOnSubscriptionsChangedListener.class)
     public void test_handleBadPinEntity_ShouldNotifyUserAboutCorruptedEntity() {
         final var subInfo = SubscriptionInfoBuilder.newBuilder()
             .setId(1)
@@ -872,7 +867,6 @@ public final class PinStorageTest extends MockitoHiltAndroidTestBase {
     }
 
     @Test
-    @Config(shadows = ShadowSubscriptionManagerOnSubscriptionsChangedListener.class)
     public void test_handleBadPinEntity_ShouldNotNotifyAboutInvalidEntitiesWithoutSubscription() {
         final var pinEntity = new PinEntity();
         pinEntity.setSubscriptionId(1);
@@ -883,7 +877,6 @@ public final class PinStorageTest extends MockitoHiltAndroidTestBase {
     }
 
     @Test
-    @Config(shadows = ShadowSubscriptionManagerOnSubscriptionsChangedListener.class)
     public void test_handleBadPinEntity_ShouldNotNotifyAboutCorruptedEntitiesWithoutSubscription() {
         final var pinEntity = new PinEntity();
         pinEntity.setSubscriptionId(1);

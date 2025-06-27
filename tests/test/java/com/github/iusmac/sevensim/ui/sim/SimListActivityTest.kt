@@ -11,6 +11,7 @@ import android.os.Build.VERSION_CODES.S
 import android.os.Looper
 import android.os.SystemClock
 import android.provider.Settings
+import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.util.Log
@@ -165,11 +166,12 @@ class SimListActivityTest {
             // For the very first subscription change event debouncing is not applied
             assertThat(shadowOf(activityWorkerLooper).nextScheduledTaskTime, `is`(Duration.ZERO))
 
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            val emptySubInfoList = kotlin.emptyArray<SubscriptionInfo>()
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(*emptySubInfoList)
             ShadowSystemClock.advanceBy(Duration.ofMillis(1))
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(*emptySubInfoList)
             ShadowSystemClock.advanceBy(Duration.ofMillis(1))
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(*emptySubInfoList)
 
             val debounceDelayDuration = shadowOf(activityWorkerLooper).nextScheduledTaskTime
                 .minus(Duration.ofMillis(SystemClock.uptimeMillis()))
@@ -438,7 +440,8 @@ class SimListActivityTest {
             onSimEntryAt(0).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
 
             // Simulate SIM card ejection
-            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+            shadowOf(mSubscriptionManager)
+                .setAvailableSubscriptionInfos(*kotlin.emptyArray<SubscriptionInfo>())
             shadowOf(Looper.getMainLooper()).idleFor(SUBSCRIPTIONS_CHANGED_DEBOUNCE_DURATION)
 
             // Ensure ViewModel finished updating UI
@@ -630,7 +633,8 @@ class SimListActivityTest {
                 waitActivityWorkerThreadUntilIdle()
 
                 // Assume SIM subscription disappeared from the system after being disabled
-                shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(null)
+                shadowOf(mSubscriptionManager)
+                    .setAvailableSubscriptionInfos(*kotlin.emptyArray<SubscriptionInfo>())
 
                 var sub = runBlocking {
                     val job = async(Dispatchers.Default) {

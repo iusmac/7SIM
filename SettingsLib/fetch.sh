@@ -8,14 +8,13 @@ declare -r SHORT_OPTS=u:,t:
 declare -r LONG_OPTS=set-repo-url:,set-repo-tag:,get-repo-url,get-repo-tag
 declare -r FWB_DIR='fwb'
 declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
-declare REPO_TAG='android-14.0.0_r31'
+declare REPO_TAG='android-15.0.0_r10'
 declare -a LIBS=(
     'BannerMessagePreference'
     'CollapsingToolbarBaseActivity'
     'LayoutPreference'
     'SettingsTheme'
     'TwoTargetPreference'
-    'Utils'
 )
 
 function main() {

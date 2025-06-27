@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim.launcher;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.UserHandle;
@@ -55,6 +56,7 @@ public final class QsAppLauncherTileService extends TileService {
     /** Nested class to suppress warning only for API methods annotated as Deprecated. */
     @SuppressWarnings("deprecation")
     private static class ApiDeprecated {
+        @SuppressLint("StartActivityAndCollapseDeprecated")
         static void startActivityAndCollapse(final TileService service, final Intent intent) {
             service.startActivityAndCollapse(intent);
         }
