@@ -17,7 +17,7 @@ echo "ARTIFACTS_DIR=$artifacts_dir" >> "$GITHUB_ENV"
 
 # Move artifacts into a dedicated directory
 mv -v build/reports/kover/htmlDebug/ "$artifacts_dir/koverDebug" || true
-mv -v build/reports/tests/testDebugUnitTest/ "$artifacts_dir" || true
+mv -v build/reports/tests/test{Debug,Release}UnitTest/ "$artifacts_dir" || true
 mv -v build/reports/androidTests/connected/debug/ "$artifacts_dir/androidTestsDebug" || true
 mv -v build/reports/lint-results-debug.html "$artifacts_dir" || true
 if ls build/{outputs,reports}/roborazzi >/dev/null; then
