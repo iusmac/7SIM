@@ -882,8 +882,11 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         await()
             .dontCatchUncaughtExceptions()
             .pollInSameThread()
-            .atMost(TASK_WAIT_TIMEOUT_DURATION)
-            .atLeast(TASK_WAIT_TIMEOUT_DURATION.minusMillis(250L))
+            // Note that, we need to allow a +/-250ms time discrepancy to account for JVM
+            // optimizations that can make the Thread termination faster, or slower due to OS-level
+            // factors like thread scheduling, system load, kernel timer precision, etc.
+            .between(TASK_WAIT_TIMEOUT_DURATION.minusMillis(250L),
+                    TASK_WAIT_TIMEOUT_DURATION.plusMillis(250L))
             .pollInterval(Duration.ofMillis(50))
             .until(() -> mTask.getState() == TERMINATED);
     }
