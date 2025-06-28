@@ -273,7 +273,7 @@ If you're a ROM maintainer and wish to integrate this app into your ROM, follow 
 > [!TIP]
 > If you don't have one already, you can use our own `android.jar` that you can find at
 > [`prebuilts/jars/`](./prebuilts/jars/). Replace it with the stock one in the Android SDK directory.
-- Java 17+
+- Java 21+
 
 **Build process:**
 
