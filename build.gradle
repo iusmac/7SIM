@@ -98,9 +98,9 @@ buildscript {
 
 plugins {
     // https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
-    id 'com.android.application' version '8.8.0' apply false
+    id 'com.android.application' version '8.8.2' apply false
     // https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
-    id 'com.android.library' version '8.8.0' apply false
+    id 'com.android.library' version '8.8.2' apply false
     // https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
     id 'org.jetbrains.kotlin.android' version '1.9.25' apply false
     // https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
