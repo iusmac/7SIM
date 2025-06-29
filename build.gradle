@@ -10,7 +10,7 @@ buildscript {
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-android
         // https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
         // https://android.googlesource.com/platform/external/dagger2
-        def hilt_version = '2.47'
+        def hilt_version = '2.51'
         // https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
         roborazzi_version = '1.45.1'
         // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
