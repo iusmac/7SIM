@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModel;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarDelegate;
+import com.android.settingslib.collapsingtoolbar.EdgeToEdgeUtils;
 
 import com.github.iusmac.sevensim.ui.components.toolbar.ToolbarDecorator;
 
@@ -38,6 +39,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     protected void onCreate(final @Nullable Bundle savedInstanceState) {
         mViewModel = onCreateViewModel();
 
+        EdgeToEdgeUtils.enable(this);
         super.onCreate(savedInstanceState);
 
         final View view = getToolbarDelegate().onCreateView(getLayoutInflater(), null);
