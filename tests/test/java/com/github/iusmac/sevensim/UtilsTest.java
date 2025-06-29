@@ -55,6 +55,7 @@ public class UtilsTest {
             assertFalse(Utils.IS_AT_LEAST_S);
             assertFalse(Utils.IS_AT_LEAST_T);
             assertFalse(Utils.IS_AT_LEAST_U);
+            assertFalse(Utils.IS_AT_LEAST_V);
         }
 
         @Test
@@ -65,6 +66,7 @@ public class UtilsTest {
             assertFalse(Utils.IS_AT_LEAST_S);
             assertFalse(Utils.IS_AT_LEAST_T);
             assertFalse(Utils.IS_AT_LEAST_U);
+            assertFalse(Utils.IS_AT_LEAST_V);
         }
 
         @Test
@@ -75,6 +77,7 @@ public class UtilsTest {
             assertTrue(Utils.IS_AT_LEAST_S);
             assertFalse(Utils.IS_AT_LEAST_T);
             assertFalse(Utils.IS_AT_LEAST_U);
+            assertFalse(Utils.IS_AT_LEAST_V);
         }
 
         @Test
@@ -85,6 +88,7 @@ public class UtilsTest {
             assertTrue(Utils.IS_AT_LEAST_S);
             assertFalse(Utils.IS_AT_LEAST_T);
             assertFalse(Utils.IS_AT_LEAST_U);
+            assertFalse(Utils.IS_AT_LEAST_V);
         }
 
         @Test
@@ -95,6 +99,7 @@ public class UtilsTest {
             assertTrue(Utils.IS_AT_LEAST_S);
             assertTrue(Utils.IS_AT_LEAST_T);
             assertFalse(Utils.IS_AT_LEAST_U);
+            assertFalse(Utils.IS_AT_LEAST_V);
         }
 
         @Test
@@ -105,6 +110,18 @@ public class UtilsTest {
             assertTrue(Utils.IS_AT_LEAST_S);
             assertTrue(Utils.IS_AT_LEAST_T);
             assertTrue(Utils.IS_AT_LEAST_U);
+            assertFalse(Utils.IS_AT_LEAST_V);
+        }
+
+        @Test
+        @Config(sdk = Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        public void test_VanillaIceCream() {
+            assertFalse(Utils.IS_OLDER_THAN_S);
+            assertTrue(Utils.IS_AT_LEAST_R);
+            assertTrue(Utils.IS_AT_LEAST_S);
+            assertTrue(Utils.IS_AT_LEAST_T);
+            assertTrue(Utils.IS_AT_LEAST_U);
+            assertTrue(Utils.IS_AT_LEAST_V);
         }
     }
 
