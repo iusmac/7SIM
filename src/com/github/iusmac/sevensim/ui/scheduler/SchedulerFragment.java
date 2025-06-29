@@ -23,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.VisibleForTesting;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.MenuCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.preference.PreferenceFragmentCompat;
@@ -920,7 +921,14 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
 
             // Add the spacing below to avoid the last schedule item being covered by FAB buttons
             if (!UiUtils.isLandscape(getContext())) {
-                mRecyclerView.setPadding(0, 0, 0, res.getDimensionPixelSize(R.dimen.fab_height));
+                int navBarHeight = 0;
+                if (Utils.IS_AT_LEAST_V) {
+                    // Include navbar height as after Android 15, the app is displayed edge-to-edge
+                    navBarHeight = getActivity().getWindow().getDecorView().getRootWindowInsets()
+                        .getInsets(WindowInsetsCompat.Type.navigationBars()).top;
+                }
+                mRecyclerView.setPadding(0, 0, 0, res.getDimensionPixelSize(R.dimen.fab_height) +
+                        navBarHeight);
                 mRecyclerView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
             } else {
                 // In landscape we want all the vertical space and FABs on one side

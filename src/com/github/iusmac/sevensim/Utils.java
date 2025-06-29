@@ -16,6 +16,8 @@ public final class Utils {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
     public static final boolean IS_AT_LEAST_U = Build.VERSION.SDK_INT >=
         Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
+    public static final boolean IS_AT_LEAST_V = Build.VERSION.SDK_INT >=
+        Build.VERSION_CODES.VANILLA_ICE_CREAM;
 
     /**
      * Make a standard toast with long duration.
