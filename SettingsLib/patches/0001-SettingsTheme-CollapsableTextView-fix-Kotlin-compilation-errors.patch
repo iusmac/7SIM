@@ -1,0 +1,36 @@
+From b1af3f9a434a5b3b7ffebbb02ea711dca3c2c3f5 Mon Sep 17 00:00:00 2001
+From: iusmac <iusico.maxim@libero.it>
+Date: Mon, 30 Jun 2025 13:24:00 +0200
+Subject: [PATCH] SettingsTheme/CollapsableTextView: fix Kotlin compilation
+ errors
+
+> Task :SettingsLib:SettingsTheme:compileDebugKotlin FAILED
+e: file:///mnt/storage/projects/7sim/SettingsLib/fwb/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt:60:25 Type mismatch: inferred type is TextView? but TextView was expected
+e: file:///mnt/storage/projects/7sim/SettingsLib/fwb/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt:61:26 Type mismatch: inferred type is MaterialButton? but MaterialButton was expected
+e: file:///mnt/storage/projects/7sim/SettingsLib/fwb/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt:62:29 Type mismatch: inferred type is LinkableTextView? but LinkableTextView was expected
+
+Signed-off-by: iusmac <iusico.maxim@libero.it>
+---
+ .../com/android/settingslib/widget/CollapsableTextView.kt   | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt b/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt
+index 7eb9840e..3a01a189 100644
+--- a/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt
++++ b/packages/SettingsLib/SettingsTheme/src/com/android/settingslib/widget/CollapsableTextView.kt
+@@ -57,9 +57,9 @@ class CollapsableTextView @JvmOverloads constructor(
+     init {
+         LayoutInflater.from(context)
+             .inflate(R.layout.settingslib_expressive_collapsable_textview, this)
+-        titleTextView = findViewById(android.R.id.title)
+-        collapseButton = findViewById(R.id.collapse_button)
+-        learnMoreTextView = findViewById(R.id.settingslib_expressive_learn_more)
++        titleTextView = findViewById(android.R.id.title)!!
++        collapseButton = findViewById(R.id.collapse_button)!!
++        learnMoreTextView = findViewById(R.id.settingslib_expressive_learn_more)!!
+ 
+         collapseButtonResources = CollapseButtonResources(
+             context.getDrawable(R.drawable.settingslib_expressive_icon_collapse)!!,
+-- 
+2.48.1
+
