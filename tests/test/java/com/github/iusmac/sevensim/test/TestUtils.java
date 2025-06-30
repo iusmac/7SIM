@@ -91,22 +91,22 @@ public final class TestUtils {
             if (value == null) {
                 return "null";
             } else if (value.getClass().isArray()) {
-                if (value instanceof int[]) {
-                    return Arrays.toString((int[]) value);
-                } else if (value instanceof long[]) {
-                    return Arrays.toString((long[]) value);
-                } else if (value instanceof double[]) {
-                    return Arrays.toString((double[]) value);
-                } else if (value instanceof boolean[]) {
-                    return Arrays.toString((boolean[]) value);
-                } else if (value instanceof char[]) {
-                    return Arrays.toString((char[]) value);
-                } else if (value instanceof byte[]) {
-                    return Arrays.toString((byte[]) value);
-                } else if (value instanceof float[]) {
-                    return Arrays.toString((float[]) value);
-                } else if (value instanceof short[]) {
-                    return Arrays.toString((short[]) value);
+                if (value instanceof final int[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final long[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final double[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final boolean[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final char[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final byte[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final float[] v) {
+                    return Arrays.toString(v);
+                } else if (value instanceof final short[] v) {
+                    return Arrays.toString(v);
                 }
                 return Arrays.deepToString((Object[]) value);
             }

@@ -347,12 +347,12 @@ public final class FakeAndroidKeyStoreProvider extends Provider {
         protected void engineInit(AlgorithmParameterSpec params, SecureRandom random)
                 throws InvalidAlgorithmParameterException {
 
-            if (params == null || !(params instanceof KeyGenParameterSpec)) {
+            if (params == null || !(params instanceof final KeyGenParameterSpec spec)) {
                 throw new InvalidAlgorithmParameterException("Cannot initialize without a "
                         + KeyGenParameterSpec.class.getName() + " parameter");
             }
 
-            latestSpec = (KeyGenParameterSpec) params;
+            latestSpec = spec;
 
             if (latestSpec.getKeystoreAlias() == null) {
                 throw new InvalidAlgorithmParameterException("KeyStore entry alias not provided");
