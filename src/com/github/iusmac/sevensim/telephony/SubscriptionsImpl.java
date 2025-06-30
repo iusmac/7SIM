@@ -58,8 +58,8 @@ public final class SubscriptionsImpl extends Subscriptions {
             public boolean hasNext() {
                 if (mVisibleSubInfoList != null) {
                     for (int i = mLastIndex; i < mVisibleSubInfoList.size(); i++) {
-                        final SubscriptionInfo subInfo;
-                        if (!(subInfo = mVisibleSubInfoList.get(i)).isEmbedded()) {
+                        final SubscriptionInfo subInfo = mVisibleSubInfoList.get(i);
+                        if (!subInfo.isEmbedded()) {
                             mNextElementCandidate = createSubscription(subInfo);
                             mCurrentIndex = i;
                             return true;

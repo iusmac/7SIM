@@ -733,6 +733,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     }
 
     @Override
+    @SuppressWarnings("AssignmentExpression")
     protected RecyclerView.Adapter<?> onCreateAdapter(final PreferenceScreen preferenceScreen) {
         final ConcatAdapter.Config adapterConfig = new ConcatAdapter.Config.Builder()
             .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
@@ -778,6 +779,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     }
 
     @Override
+    @SuppressWarnings("AssignmentExpression")
     public void onViewStateRestored(final Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
