@@ -22,8 +22,6 @@ import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.SysProp;
 import com.github.iusmac.sevensim.Utils;
 
-import dagger.hilt.android.qualifiers.ApplicationContext;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,8 +32,6 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
-
-import javax.inject.Named;
 
 import static com.github.iusmac.sevensim.telephony.Subscription.DEFAULT_SIM_STATE;
 
@@ -123,11 +119,11 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     private final SysProp mUsableSubIdsSysProp;
     final SubscriptionsDao mSubscriptionsDao;
 
-    Subscriptions(final @ApplicationContext Context context,
+    Subscriptions(final Context context,
             final Logger.Factory loggerFactory, final AppDatabaseDE appDatabase,
             final SubscriptionManager subscriptionManager,
-            final @Named("Telephony/SubState") SysProp subStateSysProp,
-            final @Named("Telephony/UsableSubIds") SysProp usableSimSubIdsSysProp) {
+            final SysProp subStateSysProp,
+            final SysProp usableSimSubIdsSysProp) {
 
         mContext = context;
         mLogger = loggerFactory.create(getClass().getSimpleName());
