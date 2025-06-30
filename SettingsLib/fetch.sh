@@ -53,6 +53,16 @@ function main() {
         fi
         echo 'OK!'
     done
+
+    if [ -d patches ]; then
+        local -a patches=(patches/*.patch)
+        if [ ${#patches[@]} -gt 0 ]; then
+            echo "Applying ${#patches[@]} patches..."
+            git-fwb am "${patches[@]/#/../}" || exit $?
+            echo 'OK!'
+        fi
+    fi
+
     echo 'Done.'
 }
 
