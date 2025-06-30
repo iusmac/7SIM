@@ -33,8 +33,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
-import static com.github.iusmac.sevensim.telephony.Subscription.DEFAULT_SIM_STATE;
-
 /**
  * <p>Basic implementation used to provide all business-related information about available
  * subscriptions found on the device using {@link SubscriptionManager}.
@@ -548,7 +546,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
      * Get the SIM subscription state previously persisted in volatile memory.
      *
      * @param subId The corresponding SIM subscription ID.
-     * @return The SIM subscription state or {@link #DEFAULT_SIM_STATE}.
+     * @return The SIM subscription state or {@link Subscription#DEFAULT_SIM_STATE}.
      */
     private @SimState int getPersistedSubscriptionState(final int subId) {
         return mSubscriptionStateSysProp.get(Optional.empty(), subId).map((value) -> {
@@ -565,7 +563,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
                     subId, value);
 
             return null;
-        }).orElse(DEFAULT_SIM_STATE);
+        }).orElse(Subscription.DEFAULT_SIM_STATE);
     }
 
     /**
