@@ -436,7 +436,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
         }
 
         switch (iterator().next()) {
-            case DayOfWeek.MONDAY:
+            case DayOfWeek.MONDAY -> {
                 // For the correct ordering, when the first day of the week is Monday according to
                 // the current locale, we need to move the Sunday from the rightmost bit to the
                 // leftmost bit after the Saturday
@@ -449,9 +449,9 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
                 if (daysOfWeek.isBitOn(DayOfWeek.SUNDAY)) {
                     theirBits |= 1<<6;
                 }
-                break;
+            }
 
-            case DayOfWeek.SATURDAY:
+            case DayOfWeek.SATURDAY -> {
                 // For the correct ordering, when the first day of the week is Saturday according to
                 // the current locale, we need to move it from the leftmost bit to the rightmost bit
                 // pushing the Sunday to the 1st bit position
@@ -464,7 +464,7 @@ public final class DaysOfWeek implements Iterable<Integer>, Comparable<DaysOfWee
                 if (daysOfWeek.isBitOn(DayOfWeek.SATURDAY)) {
                     theirBits ^= 1<<7 | 1<<0;
                 }
-                break;
+            }
         }
 
         int result = -Integer.compare(Integer.bitCount(ourBits), Integer.bitCount(theirBits));

@@ -267,6 +267,11 @@ android {
             enabled = true
             disableWarningsInGeneratedCode = true   // for @Generated (e.g., Dagger/Hilt, Room)
             excludedPaths = '.*/build/generated/.*' // for other generated code
+
+            // Uncomment to patch the files for which Error Prone have suggested replacements
+            // errorproneArgs.add("-XepPatchChecks:" + [
+            // ].join(","))
+            // errorproneArgs.add("-XepPatchLocation:IN_PLACE")
         }
     }
 

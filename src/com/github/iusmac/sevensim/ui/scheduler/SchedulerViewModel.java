@@ -428,23 +428,22 @@ public final class SchedulerViewModel extends ViewModel {
             mLogger.d("onReceive() : intent=" + intent);
 
             switch (action) {
-                case Intent.ACTION_LOCALE_CHANGED:
+                case Intent.ACTION_LOCALE_CHANGED -> {
                     // Re-post existing values to trigger the chain of listeners, which will
                     // regenerate locale-sensitive data
                     mMediatorPinEntity.postValue(mMediatorPinEntity.getValue());
                     // Refresh the next upcoming schedule summary locale-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
-                    break;
+                }
 
-                case Intent.ACTION_TIMEZONE_CHANGED:
-                case Intent.ACTION_TIME_CHANGED:
+                case Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_TIME_CHANGED ->
                     // Refresh the next upcoming schedule summary time-sensitive part
                     refreshNextUpcomingScheduleSummaryAsync();
-                    break;
 
-                default:
+                default -> {
                     mLogger.e("onReceive() : Unhandled action: %s.", action);
                     return;
+                }
             }
         }
     }

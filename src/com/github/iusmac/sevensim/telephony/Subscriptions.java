@@ -82,17 +82,18 @@ public abstract class Subscriptions implements Iterable<Subscription> {
             mLogger.v("onReceive() : intent=" + intent);
 
             switch (Objects.toString(intent.getAction(), "")) {
-                case TelephonyManager.ACTION_SIM_CARD_STATE_CHANGED:
-                case TelephonyManager.ACTION_SIM_APPLICATION_STATE_CHANGED:
+                case TelephonyManager.ACTION_SIM_CARD_STATE_CHANGED,
+                     TelephonyManager.ACTION_SIM_APPLICATION_STATE_CHANGED -> {
                     final int slotIndex = intent.getIntExtra(PhoneConstants.SLOT_KEY, -1);
                     final int state = intent.getIntExtra(TelephonyManager.EXTRA_SIM_STATE,
                             TelephonyManager.SIM_STATE_UNKNOWN);
                     dispatchOnSimStatusChanged(slotIndex, state);
-                    break;
+                }
 
-            default:
-                mLogger.e("onReceive() : Unhandled action: %s.", intent.getAction());
-                return;
+                default -> {
+                    mLogger.e("onReceive() : Unhandled action: %s.", intent.getAction());
+                    return;
+                }
             }
         }
     };
@@ -558,10 +559,9 @@ public abstract class Subscriptions implements Iterable<Subscription> {
             try {
                 final int state = Integer.parseInt(value);
                 switch (state) {
-                    case SimState.ENABLED:
-                    case SimState.DISABLED:
-                    case SimState.UNKNOWN:
+                    case SimState.ENABLED, SimState.DISABLED, SimState.UNKNOWN -> {
                         return state;
+                    }
                 }
             } catch (NumberFormatException e) { /* @SuppressWarnings("EmptyCatch") */ }
 

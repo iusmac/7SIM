@@ -237,9 +237,9 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
             try {
                 final int state = Integer.parseInt(value);
                 switch (state) {
-                    case SimState.ENABLED:
-                    case SimState.DISABLED:
+                    case SimState.ENABLED, SimState.DISABLED -> {
                         return state;
+                    }
                 }
             } catch (NumberFormatException e) { /* @SuppressWarnings("EmptyCatch") */ }
 

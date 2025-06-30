@@ -161,13 +161,11 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
 
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
-            case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER:
-                    ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(this,
+            case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER ->
+                ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(this,
                         dateTime.orElse(null), decryptPinStorage);
-                break;
 
-            default:
-                mLogger.e("handleIntent() : Unhandled action=%s.", action);
+            default -> mLogger.e("handleIntent() : Unhandled action=%s.", action);
         }
     }
 
