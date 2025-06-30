@@ -29,7 +29,7 @@ buildscript {
             // https://mvnrepository.com/artifact/androidx.arch.core/core-testing
             arch_core_testing    :  'androidx.arch.core:core-testing:2.2.0',
             // https://mvnrepository.com/artifact/org.awaitility/awaitility
-            awaitility           :  'org.awaitility:awaitility:4.2.2',
+            awaitility           :  'org.awaitility:awaitility:4.3.0',
             // https://mvnrepository.com/artifact/androidx.biometric/biometric
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/biometric/biometric/
             biometric            :  'androidx.biometric:biometric:1.4.0-alpha02',
