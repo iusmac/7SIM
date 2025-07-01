@@ -124,7 +124,7 @@ public final class SimPinFeeder extends Thread {
                         mLogger.d("Attempted to unlock %s with %s.", simCard, result);
 
                         switch (result.getResult()) {
-                            case PinResultWrapper.PIN_RESULT_TYPE_SUCCESS -> {
+                            case PinResultWrapper.PIN_RESULT_TYPE_SUCCESS:
                                 // Persist on disk the PIN that was marked as invalid the last time
                                 // it was used, which is now valid
                                 if (pinEntity.isInvalid()) {
@@ -134,21 +134,22 @@ public final class SimPinFeeder extends Thread {
                                             mPinStorageLazy.get().storePin(encryptedPin);
                                         });
                                 }
-                            }
+                                break;
 
-                            case PinResultWrapper.PIN_RESULT_TYPE_INCORRECT -> {
+                            case PinResultWrapper.PIN_RESULT_TYPE_INCORRECT:
                                 // Detected an incorrect SIM PIN code. Mark it as such and delegate
                                 // to the PIN storage to do its job
                                 pinEntity.setInvalid(true);
                                 mPinStorageLazy.get().handleBadPinEntity(pinEntity);
-                            }
+                                break;
 
-                            default -> {
+                            case PinResultWrapper.PIN_RESULT_TYPE_ABORTED:
+                            case PinResultWrapper.PIN_RESULT_TYPE_FAILURE:
+                            default:
                                 mLogger.w("Retry attempt %d of 3 failed to unlock SIM card: %s.",
                                         retries, simCard);
                                 // No idea what this was and no way to find out. Retrying... :/
                                 continue retrySupplyPinLoop;
-                            }
                         }
 
                         // PIN entity has been successfully supplied -- dropping it
