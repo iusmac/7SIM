@@ -275,6 +275,7 @@ public class PhoneCallEndObserverServiceTest {
         TelephonyUtils mTelephonyUtilsMock;
 
         @Override
+        @SuppressWarnings("UnnecessaryAssignment") // use mocked TelephonyUtils for service
         public void setUp() {
             super.setUp();
 
@@ -284,6 +285,7 @@ public class PhoneCallEndObserverServiceTest {
         }
 
         @Test
+        @SuppressWarnings("UnnecessaryAssignment") // use spied logger
         public void test_onStartCommand_HandleInvalidTaskAction() {
             final PhoneCallEndObserverService service = mController.get();
             service.inject();

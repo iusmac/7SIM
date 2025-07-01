@@ -74,6 +74,7 @@ public class SystemBroadcastReceiverTest {
         private ArgumentCaptor<String> mActionCaptor;
 
         @Test
+        @SuppressWarnings("UnnecessaryAssignment") // use spied logger
         public void test_onReceive() {
             // Hijack logger creation to use a spied one instead to test on
             final var loggerFactory = mReceiver.mLoggerFactory;
@@ -222,7 +223,10 @@ public class SystemBroadcastReceiverTest {
         private MockedStatic<LocalDateTime> mLocalDateTimeNowMock;
 
         @Override
-        @SuppressWarnings("ReturnValueIgnored") // in mock callbacks
+        @SuppressWarnings({
+            "ReturnValueIgnored", // in mock callbacks
+            "UnnecessaryAssignment" // use mocked LauncherIconVisibilityManager
+        })
         public void setUp() {
             super.setUp();
 
