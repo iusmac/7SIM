@@ -24,10 +24,6 @@ import javax.inject.Singleton;
 
 import static android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID;
 
-import static com.github.iusmac.sevensim.telephony.Subscription.DEFAULT_ICON_TINT;
-import static com.github.iusmac.sevensim.telephony.Subscription.DEFAULT_SIM_NAME;
-import static com.github.iusmac.sevensim.telephony.Subscription.DEFAULT_SIM_STATE;
-
 /**
  * {@inheritDoc}
  *
@@ -229,7 +225,7 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
      * Get the SIM card state previously persisted in volatile memory.
      *
      * @param slotIndex The corresponding SIM slot index.
-     * @return The SIM state or {@link #DEFAULT_SIM_STATE}.
+     * @return The SIM state or {@link Subscription#DEFAULT_SIM_STATE}.
      */
     @SimState
     private int getPersistedSimState(final int slotIndex) {
@@ -237,9 +233,9 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
             try {
                 final int state = Integer.parseInt(value);
                 switch (state) {
-                    case SimState.ENABLED:
-                    case SimState.DISABLED:
+                    case SimState.ENABLED, SimState.DISABLED -> {
                         return state;
+                    }
                 }
             } catch (NumberFormatException e) { /* @SuppressWarnings("EmptyCatch") */ }
 
@@ -247,14 +243,14 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
                     slotIndex, value);
 
             return null;
-        }).orElse(DEFAULT_SIM_STATE);
+        }).orElse(Subscription.DEFAULT_SIM_STATE);
     }
 
     /**
      * Get SIM tint color previously persisted in volatile memory.
      *
      * @param slotIndex The corresponding SIM slot index.
-     * @return The packed tint color if any, otherwise {@link #DEFAULT_ICON_TINT}.
+     * @return The packed tint color if any, otherwise {@link Subscription#DEFAULT_ICON_TINT}.
      */
     private @ColorInt int getPersistedSimTintColor(final int slotIndex) {
         return mSimIconTintSysProp.get(Optional.empty(), slotIndex).map((value) -> {
@@ -265,17 +261,18 @@ public final class SubscriptionsImplLegacy extends Subscriptions {
                         slotIndex, value);
             }
             return null;
-        }).orElse(DEFAULT_ICON_TINT);
+        }).orElse(Subscription.DEFAULT_ICON_TINT);
     }
 
     /**
      * Get SIM subscription name previously persisted in volatile memory.
      *
      * @param slotIndex The corresponding SIM slot index.
-     * @return The SIM subscription name if any, otherwise {@link #DEFAULT_SIM_NAME}.
+     * @return The SIM subscription name if any, otherwise {@link Subscription#DEFAULT_SIM_NAME}.
      */
     private String getPersistedSimName(final int slotIndex) {
-        return mSimNameSysProp.get(Optional.empty(), slotIndex).orElse(DEFAULT_SIM_NAME);
+        return mSimNameSysProp.get(Optional.empty(), slotIndex)
+            .orElse(Subscription.DEFAULT_SIM_NAME);
     }
 
     /**

@@ -366,6 +366,7 @@ public class UserAuthenticationObserverServiceTest {
         }
 
         @Test
+        @SuppressWarnings("UnnecessaryAssignment") // use spied logger
         public void test_onStartCommand_HandleInvalidTaskAction() {
             final UserAuthenticationObserverService service = mController.get();
             service.inject();

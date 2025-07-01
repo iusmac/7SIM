@@ -66,18 +66,13 @@ final class PinResultWrapper {
 
     /** Convert PIN result code to a string. */
     public static String pinResultToString(final @PinResultType int pinResult) {
-        switch (pinResult) {
-            case PIN_RESULT_TYPE_SUCCESS:
-                return "SUCCESS";
-            case PIN_RESULT_TYPE_INCORRECT:
-                return "INCORRECT";
-            case PIN_RESULT_TYPE_FAILURE:
-                return "FAILURE";
-            case PIN_RESULT_TYPE_ABORTED:
-                return "ABORTED";
-            default:
-                return "UNKNOWN(" + pinResult + ")";
-        }
+        return switch (pinResult) {
+            case PIN_RESULT_TYPE_SUCCESS -> "SUCCESS";
+            case PIN_RESULT_TYPE_INCORRECT -> "INCORRECT";
+            case PIN_RESULT_TYPE_FAILURE -> "FAILURE";
+            case PIN_RESULT_TYPE_ABORTED -> "ABORTED";
+            default -> "UNKNOWN(" + pinResult + ")";
+        };
     }
 
     @Override

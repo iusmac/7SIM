@@ -53,7 +53,7 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
         final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
-            case Intent.ACTION_BOOT_COMPLETED:
+            case Intent.ACTION_BOOT_COMPLETED -> {
                 // Need to update launcher icon's visibility on device boot completed. This handles
                 // the case when the application was converted from system app to user app (icon
                 // visibility will be restored as of Android Q), then if converted back to system
@@ -86,18 +86,16 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                         ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
                                 now.plusMinutes(1), /*decryptPinStorage=*/ true);
                 }
-                break;
+            }
 
-            case Intent.ACTION_MY_PACKAGE_REPLACED:
+            case Intent.ACTION_MY_PACKAGE_REPLACED ->
                 // Need to update launcher icon's visibility when this app package has been
                 // replaced. This handles the case when the user hides the launcher icon, then wipes
                 // app data and re-installs the app. The launcher icon's visibility should be
                 // restored as the user's preference has been cleared
                 mLauncherIconVisibilityManagerProvider.get().updateVisibility();
-                break;
 
-            case Intent.ACTION_TIMEZONE_CHANGED:
-            case Intent.ACTION_TIME_CHANGED:
+            case Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_TIME_CHANGED -> {
                 // Need to sync the enabled state of all SIM subscriptions available on the device
                 // with their existing weekly repeat schedules on any alteration to the system time
                 ForegroundService.syncAllSubscriptionsEnabledState(context, now,
@@ -108,11 +106,12 @@ public class SystemBroadcastReceiver extends Hilt_SystemBroadcastReceiver {
                 // the system time. Note that, this call should only happen after syncing
                 ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
                         now.plusMinutes(1));
-                break;
+            }
 
-            default:
+            default -> {
                 mLogger.e("onReceive() : Unhandled action: %s." , action);
                 return;
+            }
         }
     }
 }

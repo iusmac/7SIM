@@ -31,6 +31,7 @@ public final class LauncherIconVisibilityChangerServiceTest extends MockitoHiltA
         buildService(LauncherIconVisibilityChangerService.class);
 
     @Override
+    @SuppressWarnings("UnnecessaryAssignment") // use spied LauncherIconVisibilityManager
     public void setUp() {
         super.setUp();
 

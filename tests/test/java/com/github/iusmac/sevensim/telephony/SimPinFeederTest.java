@@ -813,6 +813,7 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         verify(mTelephonyManager, times(1)).supplyIccLockPin(pinEntity2.getClearPin());
     }
 
+    @SuppressWarnings("AssignmentExpression")
     private SimPinFeeder createTaskWith(final List<PinEntity> decryptedPinEntities) {
         return mTask = mSimPinFeederFactory.create(TASK_WAIT_TIMEOUT_DURATION,
                 decryptedPinEntities);

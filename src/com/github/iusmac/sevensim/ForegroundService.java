@@ -288,7 +288,7 @@ public final class ForegroundService extends Hilt_ForegroundService {
 
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
-            case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER:
+            case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER ->
                 mWorker.execute(() -> dateTime.ifPresent((ldt) -> {
                     List<PinEntity> pinEntities = null;
                     if (decryptPinStorage || !clearPinCodes.isEmpty()) {
@@ -308,29 +308,25 @@ public final class ForegroundService extends Hilt_ForegroundService {
                     mSubscriptionSchedulerLazy.get()
                         .updateNextWeeklyRepeatScheduleProcessingIter(ldt, pinEntities);
                 }), startId);
-                break;
 
-            case ACTION_SYNC_ALL_SUBSCRIPTIONS_ENABLED_STATE:
+            case ACTION_SYNC_ALL_SUBSCRIPTIONS_ENABLED_STATE ->
                 mWorker.execute(() -> dateTime.ifPresent((ldt) -> mSubscriptionSchedulerLazy.get()
                             .syncAllSubscriptionsEnabledState(ldt, overrideUserPreference)),
                         startId);
-                break;
 
-            case ACTION_SYNC_SUBSCRIPTION_ENABLED_STATE:
+            case ACTION_SYNC_SUBSCRIPTION_ENABLED_STATE ->
                 mWorker.execute(() -> dateTime.ifPresent((ldt) -> {
                     if (subId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
                         mSubscriptionSchedulerLazy.get().syncSubscriptionEnabledState(subId, ldt,
                                 overrideUserPreference);
                     }
                 }), startId);
-                break;
 
-            case ACTION_SUBSCRIPTIONS_CHANGED:
+            case ACTION_SUBSCRIPTIONS_CHANGED ->
                 mWorker.execute(() -> dateTime.ifPresent((ldt) ->
                             mSubscriptionsLazy.get().syncSubscriptions(ldt)), startId);
-                break;
 
-            case ACTION_UNLOCK_SIM_CARDS:
+            case ACTION_UNLOCK_SIM_CARDS ->
                 mWorker.execute(() -> {
                     if (!clearPinCodes.isEmpty()) {
                         final List<PinEntity> usablePinEntities = new ArrayList<>();
@@ -358,9 +354,8 @@ public final class ForegroundService extends Hilt_ForegroundService {
                         }
                     }
                 }, startId);
-                break;
 
-            default:
+            default ->
                 mWorker.execute(() -> mLogger.e("onStartCommand() : Unhandled action=%s.", action),
                         startId);
         }

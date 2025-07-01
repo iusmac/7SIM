@@ -239,8 +239,7 @@ public final class ToolbarDecorator {
         final List<TextView> textViews = new ArrayList<>();
         for (int i = 0, z = mToolbar.getChildCount(); i < z; i++) {
             final View child = mToolbar.getChildAt(i);
-            if (child instanceof TextView) {
-                final TextView textView = (TextView) child;
+            if (child instanceof final TextView textView) {
                 if (TextUtils.equals(text, textView.getText())) {
                     textViews.add(textView);
                 }

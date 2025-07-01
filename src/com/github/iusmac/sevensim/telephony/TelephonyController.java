@@ -278,39 +278,34 @@ public final class TelephonyController {
         boolean requestFailed = false;
         if (Utils.IS_AT_LEAST_S) {
             switch (resCode) {
-                case TelephonyManager.SET_SIM_POWER_STATE_SUCCESS: // 0
-                    break;
+                case TelephonyManager.SET_SIM_POWER_STATE_SUCCESS -> { // 0
+                }
 
-                case TelephonyManager.SET_SIM_POWER_STATE_ALREADY_IN_STATE: // 1
+                case TelephonyManager.SET_SIM_POWER_STATE_ALREADY_IN_STATE -> // 1
                     // Although sources classify this response state as an error, but from our
                     // point of view we got what we needed. At this point treat the request as
                     // successful. However, to ensure reliability and adhere to the application
                     // design, we must notify listeners. This is necessary because there's no
                     // guarantee that the Android telephony will do that for this particular state
                     shouldNotifyAllListeners = true;
-                    break;
 
-                case TelephonyManager.SET_SIM_POWER_STATE_MODEM_ERROR: // 2
-                case TelephonyManager.SET_SIM_POWER_STATE_SIM_ERROR: // 3
-                case TelephonyManager.SET_SIM_POWER_STATE_NOT_SUPPORTED: // 4
+                case TelephonyManager.SET_SIM_POWER_STATE_MODEM_ERROR, // 2
+                     TelephonyManager.SET_SIM_POWER_STATE_SIM_ERROR, // 3
+                     TelephonyManager.SET_SIM_POWER_STATE_NOT_SUPPORTED -> // 4
                     requestFailed = true;
-                    break;
 
-                default:
-                    mLogger.e(logPrefix + ". Unexpected resCode.");
+                default -> mLogger.e(logPrefix + ". Unexpected resCode.");
             }
         } else {
             switch (resCode) {
-                case TelephonyManager.SIM_STATE_PRESENT: // 11
-                case TelephonyManager.SIM_STATE_ABSENT: // 1
-                case SET_SIM_POWER_STATE_SIM_ABSENT:
-                    break;
+                case TelephonyManager.SIM_STATE_PRESENT, // 11
+                     TelephonyManager.SIM_STATE_ABSENT, // 1
+                     SET_SIM_POWER_STATE_SIM_ABSENT -> {
+                }
 
-                case TelephonyManager.SIM_STATE_CARD_IO_ERROR: // 8
-                case TelephonyManager.SIM_STATE_CARD_RESTRICTED: // 9
-                case SET_SIM_POWER_STATE_MODEM_TIMEOUT:
-                    requestFailed = true;
-                    break;
+                case TelephonyManager.SIM_STATE_CARD_IO_ERROR, // 8
+                     TelephonyManager.SIM_STATE_CARD_RESTRICTED, // 9
+                     SET_SIM_POWER_STATE_MODEM_TIMEOUT -> requestFailed = true;
             }
         }
 
@@ -400,12 +395,15 @@ public final class TelephonyController {
             // Filter out all irrelevant carrier config changes and keep only those emitted after
             // the disable / re-enable action
             switch (state) {
-                case TelephonyManager.SIM_STATE_PRESENT: // 11
-                case TelephonyManager.SIM_STATE_ABSENT: // 1
-                case TelephonyManager.SIM_STATE_CARD_IO_ERROR: // 8
-                case TelephonyManager.SIM_STATE_CARD_RESTRICTED: // 9
-                    break;
-                default: return;
+                case TelephonyManager.SIM_STATE_PRESENT, // 11
+                     TelephonyManager.SIM_STATE_ABSENT, // 1
+                     TelephonyManager.SIM_STATE_CARD_IO_ERROR, // 8
+                     TelephonyManager.SIM_STATE_CARD_RESTRICTED -> { // 9
+                     }
+
+                default -> {
+                    return;
+                }
             }
 
             synchronized (mRequestMetadata) {

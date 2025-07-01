@@ -171,33 +171,28 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
         final Intent data = result.getData();
         final String action = data.getAction();
         switch (action) {
-            case ACTION_AUTH_HANDLE_ON_ENABLED_STATE_CHANGED:
+            case ACTION_AUTH_HANDLE_ON_ENABLED_STATE_CHANGED ->
                 handleOnEnabledStateChanged(data.getBooleanExtra(EXTRA_ENABLED, false));
-                break;
 
-                case ACTION_AUTH_HANDLE_ON_SUBSCRIPTION_ENABLED_STATE_CHANGED:
+            case ACTION_AUTH_HANDLE_ON_SUBSCRIPTION_ENABLED_STATE_CHANGED ->
                 handleOnSubscriptionEnabledStateChanged(data
                         .getBooleanExtra(EXTRA_SIM_ENABLED, false));
-                break;
 
-            case ACTION_AUTH_HANDLE_ON_DAYS_OF_WEEK_CHANGED:
+            case ACTION_AUTH_HANDLE_ON_DAYS_OF_WEEK_CHANGED ->
                 handleOnDayOfWeekChanged(data.getIntExtra(EXTRA_DAY_OF_WEEK, 0),
                         data.getBooleanExtra(EXTRA_DAY_OF_WEEK_ENABLED, false));
-                break;
 
-            case ACTION_AUTH_HANDLE_ON_TIME_PICKED:
+            case ACTION_AUTH_HANDLE_ON_TIME_PICKED ->
                 handleOnTimePicked(data.getStringExtra(EXTRA_TIME));
-                break;
 
-            case ACTION_AUTH_HANDLE_ON_SCHEDULE_DELETED:
+            case ACTION_AUTH_HANDLE_ON_SCHEDULE_DELETED ->
                 handleOnScheduleDeleted();
-                break;
 
-            case ACTION_AUTH_HANDLE_ON_PIN_CHANGED:
+            case ACTION_AUTH_HANDLE_ON_PIN_CHANGED ->
                 mViewModel.handleOnPinChanged(data.getStringExtra(EXTRA_PIN));
-                break;
 
-            default: mLogger.wtf("onAuthResult(result=%s) : unhandled action: %s.", result, action);
+            default ->
+                mLogger.wtf("onAuthResult(result=%s) : unhandled action: %s.", result, action);
         }
     }
 
@@ -738,6 +733,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     }
 
     @Override
+    @SuppressWarnings("AssignmentExpression")
     protected RecyclerView.Adapter<?> onCreateAdapter(final PreferenceScreen preferenceScreen) {
         final ConcatAdapter.Config adapterConfig = new ConcatAdapter.Config.Builder()
             .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
@@ -750,19 +746,16 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     @Override
     public void onFragmentResult(final String requestKey, final Bundle bundle) {
         switch (requestKey) {
-            case PIN_PROMPT_RESULT_REQUEST_KEY:
+            case PIN_PROMPT_RESULT_REQUEST_KEY ->
                 handleOnPinChanged(bundle.getString(EditTextDialogFragment.EXTRA_TEXT));
-                break;
 
-            case EDIT_LABEL_RESULT_REQUEST_KEY:
+            case EDIT_LABEL_RESULT_REQUEST_KEY ->
                 handleOnLabelChanged(bundle.getString(EditTextDialogFragment.EXTRA_TEXT));
-                break;
 
-            case TIME_PICKER_RESULT_REQUEST_KEY:
+            case TIME_PICKER_RESULT_REQUEST_KEY ->
                 handleOnTimePicked(bundle.getString(TimePickerDialogFragment.EXTRA_TIME));
-                break;
 
-            default:
+            default ->
                 mLogger.wtf(new RuntimeException("Unhandled fragment result: " + requestKey +
                             ",bundle = " + bundle));
         }
@@ -786,6 +779,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
     }
 
     @Override
+    @SuppressWarnings("AssignmentExpression")
     public void onViewStateRestored(final Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 

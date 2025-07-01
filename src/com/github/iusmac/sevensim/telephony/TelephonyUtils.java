@@ -141,12 +141,12 @@ public final class TelephonyUtils {
      * Get string representing a {@link SimState} code.
      */
     static @NonNull String simStateToString(final @SimState int simState) {
-        switch (simState) {
-            case SimState.UNKNOWN: return "UNKNOWN";
-            case SimState.ENABLED: return "ENABLED";
-            case SimState.DISABLED: return "DISABLED";
-            default: return "UNKNOWN(" + simState + ")";
-        }
+        return switch (simState) {
+            case SimState.UNKNOWN -> "UNKNOWN";
+            case SimState.ENABLED -> "ENABLED";
+            case SimState.DISABLED -> "DISABLED";
+            default -> "UNKNOWN(" + simState + ")";
+        };
     }
 
     /**

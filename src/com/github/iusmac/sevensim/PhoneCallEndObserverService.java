@@ -155,21 +155,19 @@ public final class PhoneCallEndObserverService extends Hilt_PhoneCallEndObserver
 
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
-            case ACTION_SYNC_SUBSCRIPTION_ENABLED_STATE:
+            case ACTION_SYNC_SUBSCRIPTION_ENABLED_STATE ->
                 onCallEnded(() -> ForegroundService.syncSubscriptionEnabledState(this, subId,
                             dateTime.orElse(null), overrideUserPreference), startId);
-                break;
 
-            case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER:
+            case ACTION_UPDATE_NEXT_WEEKLY_REPEAT_SCHEDULE_PROCESSING_ITER ->
                 onCallEnded(() ->
                         ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(this,
                             dateTime.orElse(null)), startId);
-                break;
-
-            default:
+            default -> {
                 mLogger.e("onStartCommand() : Unhandled action=%s.", action);
                 stopSelfResult(startId);
                 return START_NOT_STICKY;
+            }
         }
 
         return START_REDELIVER_INTENT;

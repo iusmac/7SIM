@@ -74,8 +74,7 @@ public class EllipsizeLayout extends LinearLayout {
                 final View child = getChildAt(ii);
                 if (child != null && child.getVisibility() != GONE) {
                     // Identify the ellipsize view
-                    if (child instanceof TextView) {
-                        final TextView tv = (TextView) child;
+                    if (child instanceof final TextView tv) {
                         if (tv.getEllipsize() != null) {
                             if (ellipsizeView == null) {
                                 ellipsizeView = tv;

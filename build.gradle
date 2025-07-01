@@ -43,7 +43,7 @@ buildscript {
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/core/core/
             core                 :  'androidx.core:core:1.13.0-beta01',
             // https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
-            errorprone           :  'com.google.errorprone:error_prone_core:2.30.0',
+            errorprone           :  'com.google.errorprone:error_prone_core:2.39.0',
             // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
             espresso             :  "androidx.test.espresso:espresso-core:$espresso_version",
             espresso_contrib     :  "androidx.test.espresso:espresso-contrib:$espresso_version",
@@ -104,7 +104,7 @@ plugins {
     // https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
     id 'org.jetbrains.kotlin.android' version '1.9.25' apply false
     // https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
-    id 'net.ltgt.errorprone' version '4.0.1' apply false
+    id 'net.ltgt.errorprone' version '4.2.0' apply false
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
     id 'org.jetbrains.kotlinx.kover' version '0.8.3' apply false
     id 'io.github.takahirom.roborazzi' version "$roborazzi_version" apply false
@@ -267,6 +267,11 @@ android {
             enabled = true
             disableWarningsInGeneratedCode = true   // for @Generated (e.g., Dagger/Hilt, Room)
             excludedPaths = '.*/build/generated/.*' // for other generated code
+
+            // Uncomment to patch the files for which Error Prone have suggested replacements
+            // errorproneArgs.add("-XepPatchChecks:" + [
+            // ].join(","))
+            // errorproneArgs.add("-XepPatchLocation:IN_PLACE")
         }
     }
 

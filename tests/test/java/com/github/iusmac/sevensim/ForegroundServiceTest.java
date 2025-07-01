@@ -399,6 +399,7 @@ public class ForegroundServiceTest {
         }
 
         @Test
+        @SuppressWarnings("UnnecessaryAssignment") // use spied logger
         public void test_onStartCommand_HandleInvalidTaskAction() {
             final ForegroundService service = mController.get();
             service.inject();
@@ -924,12 +925,12 @@ public class ForegroundServiceTest {
         }
 
         @Test
+        @SuppressWarnings("UnnecessaryAssignment") // use spied SimPinFeeder.Factory for service
         public void test_ShouldBeCanceledOnServiceTimeout() throws InterruptedException {
             final Intent i = startUnlockSimCardsAction(CLEAR_PIN_CODES);
             final var controller = buildService(ForegroundService.class, i);
             final ForegroundService service = controller.get();
             service.inject();
-            service.mPinStorageLazy = () -> mPinStorage;
             service.mSimPinFeederFactory = mSimPinFeederFactory;
 
             doAnswer((invocation) -> {
@@ -1033,6 +1034,7 @@ public class ForegroundServiceTest {
 
         @CallSuper
         @Override
+        @SuppressWarnings("UnnecessaryAssignment") // spy on the mSimPinFeederFactory
         public void setUp() {
             super.setUp();
 
@@ -1051,6 +1053,7 @@ public class ForegroundServiceTest {
         }
 
         /** Synchronously await for the intent started via {@link Context#startService(Intent)}. */
+        @SuppressWarnings("UnnecessaryAssignment") // use spied SimPinFeeder.Factory for service
         void awaitStarted(final Intent i) {
             final var controller = buildService(ForegroundService.class, i);
             final ForegroundService service = controller.get();

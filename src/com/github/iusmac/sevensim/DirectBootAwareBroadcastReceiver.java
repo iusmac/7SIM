@@ -48,7 +48,7 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
         final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         final String action = intent.getAction() != null ? intent.getAction() : "";
         switch (action) {
-            case Intent.ACTION_LOCKED_BOOT_COMPLETED:
+            case Intent.ACTION_LOCKED_BOOT_COMPLETED -> {
                 mLockedBootCompletedSysProp.set(Optional.of("1"));
 
                 // Need to sync the enabled state of all SIM subscriptions available on the device
@@ -61,9 +61,9 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
                 // syncing
                 ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
                         now.plusMinutes(1));
-                break;
+            }
 
-            case CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED:
+            case CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED -> {
                 // Ignore carrier config changes during early boot to allow all SIM subscriptions to
                 // fully settle up
                 if (!mLockedBootCompletedSysProp.isTrue()) {
@@ -99,11 +99,12 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
                 // system with their schedules, otherwise it will cancel existing alarm
                 ForegroundService.updateNextWeeklyRepeatScheduleProcessingIter(context,
                         now.plusMinutes(1));
-                break;
+            }
 
-            default:
+            default -> {
                 mLogger.e("onReceive() : Unhandled action: %s.", action);
                 return;
+            }
         }
     }
 }

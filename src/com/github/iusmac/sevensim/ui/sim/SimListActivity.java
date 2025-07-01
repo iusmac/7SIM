@@ -152,15 +152,14 @@ public class SimListActivity extends Hilt_SimListActivity
             mLogger.d("onReceive() : intent=" + intent);
 
             switch (action) {
-                case Intent.ACTION_TIMEZONE_CHANGED:
-                case Intent.ACTION_TIME_CHANGED:
+                case Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_TIME_CHANGED ->
                     // Refresh SIM entries to regenerate time-sensitive data
                     sHandler.post(getViewModel()::refreshSimEntries);
-                    break;
 
-            default:
-                mLogger.e("onReceive() : Unhandled action: %s.", action);
-                return;
+                default -> {
+                    mLogger.e("onReceive() : Unhandled action: %s.", action);
+                    return;
+                }
             }
         }
     }

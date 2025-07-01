@@ -81,6 +81,7 @@ public class DirectBootAwareBroadcastReceiverTest {
         private ArgumentCaptor<String> mActionCaptor;
 
         @Test
+        @SuppressWarnings("UnnecessaryAssignment") // use spied logger
         public void test_onReceive() {
             // Hijack logger creation to use a spied one instead to test on
             final var loggerFactory = mReceiver.mLoggerFactory;
