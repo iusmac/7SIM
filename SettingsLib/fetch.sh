@@ -8,7 +8,7 @@ declare -r SHORT_OPTS=u:,t:
 declare -r LONG_OPTS=set-repo-url:,set-repo-tag:,get-repo-url,get-repo-tag
 declare -r FWB_DIR='fwb'
 declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
-declare REPO_TAG='android-15.0.0_r10'
+declare REPO_TAG='android-15.0.0_r32'
 declare -a LIBS=(
     'BannerMessagePreference'
     'CollapsingToolbarBaseActivity'
@@ -58,7 +58,7 @@ function main() {
         local -a patches=(patches/*.patch)
         if [ ${#patches[@]} -gt 0 ]; then
             echo "Applying ${#patches[@]} patches..."
-            git-fwb am "${patches[@]/#/../}" || exit $?
+            git -C $FWB_DIR apply --verbose "${patches[@]/#/../}" || exit $?
             echo 'OK!'
         fi
     fi
