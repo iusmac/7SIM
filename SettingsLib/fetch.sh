@@ -58,7 +58,7 @@ function main() {
         local -a patches=(patches/*.patch)
         if [ ${#patches[@]} -gt 0 ]; then
             echo "Applying ${#patches[@]} patches..."
-            git-fwb am "${patches[@]/#/../}" || exit $?
+            git -C $FWB_DIR apply --verbose "${patches[@]/#/../}" || exit $?
             echo 'OK!'
         fi
     fi
