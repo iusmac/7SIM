@@ -18,6 +18,27 @@ declare -a LIBS=(
 )
 
 function main() {
+    while true; do
+        case "$1" in
+            --get-repo-url) echo "$REPO_URL"; exit 0;;
+            --get-repo-tag) echo "$REPO_TAG"; exit 0;;
+            -u|--set-repo-url)
+                REPO_URL="${2-}"
+                shift 2
+                ;;
+            -t|--set-repo-tag)
+                REPO_TAG="${2-}"
+                shift 2
+                ;;
+            --) shift; break;;
+            *) echo "Unexpected option: $1"; exit 1
+        esac
+    done
+
+    if [ $# -gt 0 ]; then
+        declare -a LIBS=("$@")
+    fi
+
     echo "Preparing the repo..."
     echo "  URL: $REPO_URL"
     echo "  Branch/Tag: $REPO_TAG"
@@ -78,29 +99,8 @@ if ! OPTS=$(getopt --alternative --name "$SCRIPTNAME" \
 fi
 eval set -- "$OPTS"
 
-while true; do
-    case "$1" in
-        --get-repo-url) echo "$REPO_URL"; exit 0;;
-        --get-repo-tag) echo "$REPO_TAG"; exit 0;;
-        -u|--set-repo-url)
-            REPO_URL="${2-}"
-            shift 2
-            ;;
-        -t|--set-repo-tag)
-            REPO_TAG="${2-}"
-            shift 2
-            ;;
-        --) shift; break;;
-        *) echo "Unexpected option: $1"; exit 1
-    esac
-done
-
-if [ $# -gt 0 ]; then
-    declare -a LIBS=("$@")
-fi
-
 (
     # Before starting, CWD to where this script is
     cd -P -- "$(dirname -- "$SCRIPTNAME")"
-    main
+    main "$@"
 )
