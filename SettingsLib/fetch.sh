@@ -5,7 +5,7 @@ set -e
 
 declare -r SCRIPTNAME=${BASH_SOURCE[0]}
 declare -r SHORT_OPTS=u:,t:
-declare -r LONG_OPTS=set-repo-url:,set-repo-tag:,get-repo-url,get-repo-tag
+declare -r LONG_OPTS=set-repo-url:,set-repo-tag:,get-repo-url,get-repo-tag,apply-patches-only
 declare -r FWB_DIR='fwb'
 declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
 declare REPO_TAG='android-15.0.0_r32'
@@ -18,6 +18,28 @@ declare -a LIBS=(
 )
 
 function main() {
+    while true; do
+        case "$1" in
+            --get-repo-url) echo "$REPO_URL"; exit 0;;
+            --get-repo-tag) echo "$REPO_TAG"; exit 0;;
+            --apply-patches-only) git-fwb stash && apply_patches; exit $?;;
+            -u|--set-repo-url)
+                REPO_URL="${2-}"
+                shift 2
+                ;;
+            -t|--set-repo-tag)
+                REPO_TAG="${2-}"
+                shift 2
+                ;;
+            --) shift; break;;
+            *) echo "Unexpected option: $1"; exit 1
+        esac
+    done
+
+    if [ $# -gt 0 ]; then
+        declare -a LIBS=("$@")
+    fi
+
     echo "Preparing the repo..."
     echo "  URL: $REPO_URL"
     echo "  Branch/Tag: $REPO_TAG"
@@ -29,6 +51,9 @@ function main() {
             "$REPO_URL" $FWB_DIR
     else
         echo '  The repo has not diverged!'
+        if ! git-fwb diff --exit-code >/dev/null; then
+            git-fwb stash
+        fi
     fi
 
     echo 'Initializing sparse fetch...'
@@ -54,16 +79,20 @@ function main() {
         echo 'OK!'
     done
 
+    apply_patches || exit $?
+
+    echo 'Done.'
+}
+
+function apply_patches() {
     if [ -d patches ]; then
         local -a patches=(patches/*.patch)
         if [ ${#patches[@]} -gt 0 ]; then
             echo "Applying ${#patches[@]} patches..."
-            git -C $FWB_DIR apply --verbose "${patches[@]/#/../}" || exit $?
+            git -C $FWB_DIR apply --verbose "${patches[@]/#/../}" || return $?
             echo 'OK!'
         fi
     fi
-
-    echo 'Done.'
 }
 
 function git-fwb() {
@@ -73,34 +102,13 @@ function git-fwb() {
 if ! OPTS=$(getopt --alternative --name "$SCRIPTNAME" \
     --options $SHORT_OPTS --longoptions $LONG_OPTS -- "$@"); then
     echo "Usage: $SCRIPTNAME [-u <url>|--set-repo-url=<url>] [-t <tag>|--set-repo-tag=<tag>] " \
-        "[--get-repo-url] [--get-repo-tag] [lib ...]"
+        "[--get-repo-url] [--get-repo-tag] [--apply-patches-only] [lib ...]"
     exit 1
 fi
 eval set -- "$OPTS"
 
-while true; do
-    case "$1" in
-        --get-repo-url) echo "$REPO_URL"; exit 0;;
-        --get-repo-tag) echo "$REPO_TAG"; exit 0;;
-        -u|--set-repo-url)
-            REPO_URL="${2-}"
-            shift 2
-            ;;
-        -t|--set-repo-tag)
-            REPO_TAG="${2-}"
-            shift 2
-            ;;
-        --) shift; break;;
-        *) echo "Unexpected option: $1"; exit 1
-    esac
-done
-
-if [ $# -gt 0 ]; then
-    declare -a LIBS=("$@")
-fi
-
 (
     # Before starting, CWD to where this script is
     cd -P -- "$(dirname -- "$SCRIPTNAME")"
-    main
+    main "$@"
 )

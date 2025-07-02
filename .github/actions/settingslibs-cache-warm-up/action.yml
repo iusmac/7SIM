@@ -26,3 +26,8 @@ runs:
       with:
         path: SettingsLib/fwb
         key: ${{ steps.setup.outputs.key }}
+    # NOTE: need to (re)apply patches, as if there's a cache hit, the fetch.sh script won't run
+    - name: Apply patches
+      shell: bash
+      if: steps.restore.outputs.cache-hit == 'true'
+      run: ./SettingsLib/fetch.sh --apply-patches-only
