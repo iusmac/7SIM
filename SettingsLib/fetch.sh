@@ -50,6 +50,9 @@ function main() {
             "$REPO_URL" $FWB_DIR
     else
         echo '  The repo has not diverged!'
+        if ! git-fwb diff --exit-code >/dev/null; then
+            git-fwb stash
+        fi
     fi
 
     echo 'Initializing sparse fetch...'
