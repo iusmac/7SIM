@@ -1,7 +1,6 @@
 package com.github.iusmac.sevensim.ui.preferences;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import androidx.lifecycle.ViewModel;
 
@@ -32,15 +31,6 @@ public final class PreferenceListActivity extends Hilt_PreferenceListActivity {
                     com.android.settingslib.collapsingtoolbar.R.id.content_frame,
                     new PreferenceListFragment()).commit();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
