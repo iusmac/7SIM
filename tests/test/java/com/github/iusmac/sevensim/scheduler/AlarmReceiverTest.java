@@ -285,7 +285,12 @@ public class AlarmReceiverTest extends MockitoHiltAndroidTestBase {
 
     /** Assert that {@link PendingResult#finish} has been called. */
     private void assertPendingResultFinished() {
-        assertTrue(shadowOf(shadowOf(mReceiver).getOriginalPendingResult()).getFuture().isDone());
+        await()
+            .dontCatchUncaughtExceptions()
+            .pollInSameThread()
+            .atMost(Duration.ofSeconds(2))
+            .pollInterval(Duration.ofMillis(50))
+            .until(shadowOf(shadowOf(mReceiver).getOriginalPendingResult()).getFuture()::isDone);
     }
 
     private static List<PinEntity> toPinEntityList(final Bundle clearPinCodes,
