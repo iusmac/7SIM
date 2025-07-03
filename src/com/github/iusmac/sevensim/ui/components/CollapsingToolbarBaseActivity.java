@@ -2,6 +2,7 @@ package com.github.iusmac.sevensim.ui.components;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toolbar;
 
@@ -114,6 +115,15 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
             finishAfterTransition();
         }
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getOnBackPressedDispatcher().onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
