@@ -120,7 +120,7 @@ allprojects {
     }
 
     ext {
-        addCompileOnlyJar = { String name ->
+        addCompileOnlyJar = { String name, boolean requiredByAndroidTest = false ->
             final def jars_dir = "$rootDir/prebuilts/jars"
             final def jar = new File(jars_dir, name)
             if (!jar.exists()) {
@@ -136,6 +136,9 @@ allprojects {
             }
             dependencies {
                 compileOnly files(jar)
+                if (requiredByAndroidTest) {
+                    androidTestCompileOnly files(jar)
+                }
             }
         }
     }
@@ -290,7 +293,7 @@ android {
     }
 }
 
-addCompileOnlyJar('android-35.jar')
+addCompileOnlyJar('android-35.jar', /*requiredByAndroidTest*/ true)
 
 dependencies {
     implementation libs.annotation
