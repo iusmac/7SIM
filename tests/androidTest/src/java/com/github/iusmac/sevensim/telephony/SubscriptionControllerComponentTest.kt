@@ -57,7 +57,7 @@ class SubscriptionControllerComponentTest {
     val mHiltRule: HiltAndroidRule = HiltAndroidRule(this)
 
     private val mSubId: Int by lazy() {
-        val subInfo = mSubscriptionManager.selectableSubscriptionInfoList.firstOrNull()
+        val subInfo = mSubscriptionManager.selectableSubscriptionInfoList!!.firstOrNull()
         subInfo?.subscriptionId ?: INVALID_SUBSCRIPTION_ID
     }
 
@@ -115,7 +115,7 @@ class SubscriptionControllerComponentTest {
     }
 
     private fun areUiccApplicationsEnabled() = with(mSubscriptionManager) {
-        getSelectableSubscriptionInfoList()
+        selectableSubscriptionInfoList!!
             .first { sub -> sub.subscriptionId == mSubId }
             .areUiccApplicationsEnabled()
     }
