@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.1.0](https://github.com/iusmac/7SIM/compare/v2.0.2...v2.1.0) (2025-07-05)
+
+
+### :sparkles: Features
+
+* adapt to Android 15 ([#43](https://github.com/iusmac/7SIM/issues/43)) ([f84198c](https://github.com/iusmac/7SIM/commit/f84198c13ecb7a6201d9ff747310bf4b2fdbda05))
+* enable predictive back gesture ([#65](https://github.com/iusmac/7SIM/issues/65)) ([d23b644](https://github.com/iusmac/7SIM/commit/d23b644beb113c4ccb420efb26a16237a7a80875))
+
+
+### :bug: Bug Fixes
+
+* **CollapsingToolbarBaseActivity:** handle `Expressive Design` theme ([#60](https://github.com/iusmac/7SIM/issues/60)) ([28da048](https://github.com/iusmac/7SIM/commit/28da048d60fde4e58e7b3ba05372e6da8357adb3))
+* **ui/AuthenticationPromptActivity:** bring back translucency ([#61](https://github.com/iusmac/7SIM/issues/61)) ([6bb3384](https://github.com/iusmac/7SIM/commit/6bb33841e657f63a574f8fea5dce596962e7e8d7))
+* **ui/CollapsingToolbarBaseActivity:** handle `Edge-to-Edge` after SDK 35 ([#49](https://github.com/iusmac/7SIM/issues/49)) ([096884c](https://github.com/iusmac/7SIM/commit/096884cb9c613cd0a15c40b77b090731dd7f7664))
+* **ui/SchedulerFragment:** handle `Edge-to-Edge` after SDK 35 ([#51](https://github.com/iusmac/7SIM/issues/51)) ([ce1c6ba](https://github.com/iusmac/7SIM/commit/ce1c6bae941aa0ba77743096f84ebec68dbb38ec))
+
 ## [2.0.2](https://github.com/iusmac/7SIM/compare/v2.0.1...v2.0.2) (2024-12-06)
 
 
