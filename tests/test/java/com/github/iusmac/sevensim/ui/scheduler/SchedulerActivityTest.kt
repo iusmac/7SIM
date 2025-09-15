@@ -556,6 +556,8 @@ class SchedulerActivityTest {
             scenario.onActivity {
                 it.fragment.handleOnPinChanged(pinEntity.clearPin)
             }
+            // Wait 'till asynchronous PIN change request completes
+            waitActivityWorkerThreadUntilIdle()
             // Wait for Room to populate observable PIN LiveData
             waitDatabasesUntilIdle()
             // Ensure ViewModel finished updating UI
