@@ -20,6 +20,7 @@ mv -v build/reports/kover/htmlDebug/ "$artifacts_dir/koverDebug" || true
 mv -v build/reports/tests/test{Debug,Release}UnitTest/ "$artifacts_dir" || true
 mv -v build/reports/androidTests/connected/debug/ "$artifacts_dir/androidTestsDebug" || true
 mv -v build/reports/lint-results-debug.* "$artifacts_dir" || true
+mv -v build/reports/problems/ "$artifacts_dir" || true
 if ls build/{outputs,reports}/roborazzi >/dev/null; then
     roborazzi_dir="$artifacts_dir/roborazzi"
     mkdir -vp "$artifacts_dir/tests/test" && mv -v tests/test/roborazzi/ "$_"
