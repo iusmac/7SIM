@@ -85,6 +85,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert.*
 import org.hamcrest.Matchers.*
 
+import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -532,11 +533,6 @@ class SimListActivityTest {
 
                 onSimEntryAt(0).perform(switchClick())
                     .captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
-
-                // Wait for the ViewModel to complete before exiting the test, otherwise the
-                // database will be closed too early while there's an async SIM state change
-                // request, that still interacts with it
-                waitActivityWorkerThreadUntilIdle()
             }
         }
 
@@ -735,6 +731,14 @@ class SimListActivityTest {
                 assertThat(sub, `is`(not(Optional.empty())))
                 assertThat(sub.get().getSimState(), `is`(SimState.ENABLED))
             }
+        }
+
+        @After
+        fun tearDown() {
+            // Wait for the ViewModel to complete before exiting the test, otherwise the database
+            // will be closed too early while there's an async SIM state change request, that still
+            // interacts with it
+            waitActivityWorkerThreadUntilIdle()
         }
 
         private companion object {
