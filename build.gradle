@@ -89,6 +89,9 @@ buildscript {
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/lifecycle/lifecycle-viewmodel-android/
             viewmodel            :  'androidx.lifecycle:lifecycle-viewmodel:2.9.0-alpha08'
         ]
+        jars = [
+            android_hidden       :  'android-35.jar'
+        ]
     }
 
     dependencies {
@@ -293,7 +296,7 @@ android {
     }
 }
 
-addCompileOnlyJar('android-35.jar', /*requiredByAndroidTest*/ true)
+addCompileOnlyJar(jars.android_hidden, /*requiredByAndroidTest*/ true)
 
 dependencies {
     implementation libs.annotation
