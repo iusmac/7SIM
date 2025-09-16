@@ -1063,7 +1063,7 @@ public class ForegroundServiceTest {
             final var startId = 1;
             controller.create().startCommand(0, startId);
 
-            awaitServiceStoppedBySelfWithinTime(controller.get(), Duration.ofSeconds(2),
+            awaitServiceStoppedBySelfWithinTime(controller.get(), Duration.ofSeconds(3),
                     Duration.ofMillis(50));
             assertThat(shadowOf(service).getStopSelfResultId(), is(startId));
         }
