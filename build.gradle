@@ -90,7 +90,7 @@ buildscript {
             viewmodel            :  'androidx.lifecycle:lifecycle-viewmodel:2.9.0-alpha08'
         ]
         jars = [
-            android_hidden       :  'android-35.jar'
+            android_hidden       :  'android-36.jar'
         ]
     }
 
