@@ -27,8 +27,8 @@ include ':SettingsLib:SettingsTheme'
 include ':SettingsLib:TwoTargetPreference'
 
 android {
-    compileSdk 35
+    compileSdk 36
     minSdk 29
-    targetSdk 35
-    buildToolsVersion '35.0.0'
+    targetSdk 36
+    buildToolsVersion '36.0.0'
 }
