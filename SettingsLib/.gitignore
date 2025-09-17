@@ -16,3 +16,6 @@
 !/TwoTargetPreference/
 /TwoTargetPreference/*
 !/TwoTargetPreference/build.gradle
+/SettingsThemeFlags/*
+!/SettingsThemeFlags/build.gradle
+!/SettingsThemeFlags/src/

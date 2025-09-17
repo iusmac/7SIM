@@ -1,0 +1,13 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.android.settingslib.widget.theme.flags'
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src']
+        }
+    }
+}

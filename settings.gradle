@@ -24,6 +24,7 @@ include ':SettingsLib:BannerMessagePreference'
 include ':SettingsLib:CollapsingToolbarBaseActivity'
 include ':SettingsLib:LayoutPreference'
 include ':SettingsLib:SettingsTheme'
+include ':SettingsLib:SettingsThemeFlags'
 include ':SettingsLib:TwoTargetPreference'
 
 android {
