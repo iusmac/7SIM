@@ -11,6 +11,7 @@ declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
 declare REPO_TAG='android-16.0.0_r1'
 declare -a LIBS=(
     'BannerMessagePreference'
+    'ButtonPreference'
     'CollapsingToolbarBaseActivity'
     'LayoutPreference'
     'SettingsTheme'

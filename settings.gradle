@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 rootProject.name = '7SIM'
 
 include ':SettingsLib:BannerMessagePreference'
+include ':SettingsLib:ButtonPreference'
 include ':SettingsLib:CollapsingToolbarBaseActivity'
 include ':SettingsLib:LayoutPreference'
 include ':SettingsLib:SettingsTheme'

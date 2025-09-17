@@ -3,13 +3,13 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def SettingsLibBannerMessagePreference = '../fwb/packages/SettingsLib/BannerMessagePreference'
+def SettingsLibButtonPreference = '../fwb/packages/SettingsLib/ButtonPreference'
 
 android {
-    namespace 'com.android.settingslib.widget.preference.banner'
+    namespace 'com.android.settingslib.widget.preference.button'
 
     defaultConfig {
-        minSdk 28
+        minSdk 21
         versionCode 1
         versionName "1.0"
     }
@@ -28,14 +28,14 @@ android {
 
     sourceSets {
         main {
-            res.srcDirs = ["${SettingsLibBannerMessagePreference}/res"]
-            java.srcDirs = ["${SettingsLibBannerMessagePreference}/src"]
+            res.srcDirs = ["${SettingsLibButtonPreference}/res"]
+            java.srcDirs = ["${SettingsLibButtonPreference}/src"]
         }
     }
 }
 
 dependencies {
+    implementation libs.material
     implementation libs.preference
-    implementation project(':SettingsLib:ButtonPreference')
     implementation project(':SettingsLib:SettingsTheme')
 }
