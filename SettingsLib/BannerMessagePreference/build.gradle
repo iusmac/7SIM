@@ -34,6 +34,8 @@ android {
     }
 }
 
+addCompileOnlyJar(jars.android_hidden)
+
 dependencies {
     implementation libs.preference
     implementation project(':SettingsLib:ButtonPreference')
