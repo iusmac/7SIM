@@ -17,6 +17,7 @@ import com.android.settingslib.collapsingtoolbar.EdgeToEdgeUtils;
 import com.android.settingslib.widget.SettingsThemeHelper;
 
 import com.github.iusmac.sevensim.ui.components.toolbar.ToolbarDecorator;
+import com.github.iusmac.sevensim.R;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -45,7 +46,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         if (SettingsThemeHelper.isExpressiveTheme(this)) {
-            setTheme(com.android.settingslib.widget.theme.R.style.Theme_SubSettingsBase_Expressive);
+            setTheme(R.style.Theme_SubSettingsBase_Expressive_Custom);
         }
 
         final View view = getToolbarDelegate().onCreateView(getLayoutInflater(), null);
