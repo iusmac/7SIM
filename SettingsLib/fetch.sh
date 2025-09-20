@@ -88,7 +88,7 @@ function main() {
 function apply_patches() {
     if [ -d patches ]; then
         local -a patches=(patches/*.patch)
-        if [ ${#patches[@]} -gt 0 ]; then
+        if [ -f "${patches[0]-}" ]; then
             echo "Applying ${#patches[@]} patches..."
             git -C $FWB_DIR apply --verbose "${patches[@]/#/../}" || return $?
             echo 'OK!'
