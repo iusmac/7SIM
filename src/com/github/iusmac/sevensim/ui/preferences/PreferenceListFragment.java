@@ -7,7 +7,8 @@ import android.view.View;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
-import androidx.preference.PreferenceFragmentCompat;
+
+import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 
-@AndroidEntryPoint(PreferenceFragmentCompat.class)
+@AndroidEntryPoint(SettingsBasePreferenceFragment.class)
 public final class PreferenceListFragment extends Hilt_PreferenceListFragment {
     @Inject
     Logger.Factory mLoggerFactory;

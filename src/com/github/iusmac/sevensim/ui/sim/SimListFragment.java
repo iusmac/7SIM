@@ -10,9 +10,9 @@ import android.view.View;
 import androidx.collection.SparseArrayCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.settingslib.widget.BannerMessagePreference;
+import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 
 import com.github.iusmac.sevensim.ApplicationInfo;
 import com.github.iusmac.sevensim.R;
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 
-@AndroidEntryPoint(PreferenceFragmentCompat.class)
+@AndroidEntryPoint(SettingsBasePreferenceFragment.class)
 public final class SimListFragment extends Hilt_SimListFragment {
     @Inject
     SevenSimApplication mApp;
