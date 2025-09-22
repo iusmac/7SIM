@@ -66,8 +66,10 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
             // Enforce the header content scrim background color so it's always different from the
             // content view background as we display a subtitle text that may fuse visually with
             // other text
-            getCollapsingToolbarLayout()
-                .setContentScrimResource(com.android.settingslib.widget.theme.R.color.settingslib_colorSurfaceHeader);
+            if (!isExpressiveTheme) {
+                getCollapsingToolbarLayout()
+                    .setContentScrimResource(com.android.settingslib.widget.theme.R.color.settingslib_colorSurfaceHeader);
+            }
             // Override the default AOSP's collapsed state of the AppBarLayout to be expanded upon
             // first launch when expressive theme is enabled
             if (isExpressiveTheme && savedInstanceState == null) {
