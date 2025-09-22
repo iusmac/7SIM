@@ -4,5 +4,8 @@
     <style name="Theme.SubSettingsBase.Expressive.Custom" parent="Theme.SubSettingsBase.Expressive">
         <!-- Use the framework list item height (used in dropdown menu) -->
         <item name="android:listPreferredItemHeightSmall">48dip</item>
+
+        <item name="scheduleCardCollapsedBackgroundColor">@color/settingslib_materialColorSurfaceBright</item>
+        <item name="scheduleCardExpandedBackgroundColor">@color/settingslib_materialColorSurfaceDim</item>
     </style>
 </resources>
