@@ -32,4 +32,5 @@
     <dimen name="gutter_horizontal_padding_thin">16.0dip</dimen>
     <dimen name="gutter_horizontal_padding_very_thin">8.0dip</dimen>
     <dimen name="scheduler_empty_view_blank_header_height">128dp</dimen>
+    <dimen name="license_padding_top">0dp</dimen>
 </resources>

@@ -438,16 +438,18 @@ public final class ToolbarDecorator {
         final int mExpandedTitleMarginBottom =
             mCollapsingToolbarLayout.getExpandedTitleMarginBottom();
 
+        final int mCollapsingToolbarLayoutHeight = (int) getResources().getDimension(
+                    com.android.settingslib.collapsingtoolbar.R.dimen.settingslib_toolbar_layout_height);
+
+        final int mScrimVisibleHeightTrigger = (int) getResources().getDimension(
+                com.android.settingslib.collapsingtoolbar.R.dimen.settingslib_scrim_visible_height_trigger);
+
         public ExpandedSubtitle(final Context context) {
             super(context);
 
             setFactory(() -> new SubtitleTextView(context) {
                 {
                     setTextAppearance(R.style.TextAppearance_CollapsingToolbarExpandedSubtitle);
-                    // NOTE: since the subtitle's height is used to calculate the extra space
-                    // (margin bottom) under the title, it should be limited to max. 3 lines,
-                    // otherwise the title will go under the scrim/Toolbar
-                    setMaxLines(3);
                 }
             });
         }
@@ -460,18 +462,24 @@ public final class ToolbarDecorator {
             final int expandedTitleMarginEnd = mCollapsingToolbarLayout.getExpandedTitleMarginEnd();
             final int paddingLeft = isRtl ? expandedTitleMarginEnd : expandedTitleMarginStart;
             final int paddingRight = isRtl ? expandedTitleMarginStart : expandedTitleMarginEnd;
-            final int paddingBottom = (int) getResources().getDimension(
-                    R.dimen.collapsing_toolbar_subtitle_padding_bottom);
             // Align horizontally with the expanded title
-            setPadding(paddingLeft, /*top=*/ 0, paddingRight, paddingBottom);
+            setPadding(paddingLeft, /*top=*/ 0, paddingRight, /*bottom=*/ 0);
 
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            final int extraMarginBottom = mExpandedTitleMarginBottom + getMeasuredHeight();
-            if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() != extraMarginBottom) {
+            final int newHeight = mCollapsingToolbarLayoutHeight + getMeasuredHeight();
+            if (mCollapsingToolbarLayout.getMeasuredHeight() != newHeight) {
+                // Reserve room in the CollapsingToolbarLayout to fit the subtitle text under title
+                mCollapsingToolbarLayout.getLayoutParams().height = newHeight;
                 // Push the expanded title back as its gravity is set to be at the bottom of the
                 // CollapsingToolbarLayout
+                final int extraMarginBottom = getMeasuredHeight() +
+                    // Add some padding between the title and subtitle
+                    (int) getResources().getDimension(
+                            R.dimen.collapsing_toolbar_subtitle_padding_top);
                 mCollapsingToolbarLayout.setExpandedTitleMarginBottom(extraMarginBottom);
+                mCollapsingToolbarLayout.setScrimVisibleHeightTrigger(mScrimVisibleHeightTrigger +
+                        extraMarginBottom);
             }
         }
 
@@ -479,10 +487,11 @@ public final class ToolbarDecorator {
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
 
-            // Remove the extra space reserved before
-            if (mCollapsingToolbarLayout.getExpandedTitleMarginBottom() !=
-                    mExpandedTitleMarginBottom) {
+            // Restore the CollapsingToolbarLayout height and remove the extra space reserved before
+            if (mCollapsingToolbarLayout.getMeasuredHeight() != mCollapsingToolbarLayoutHeight) {
+                mCollapsingToolbarLayout.getLayoutParams().height = mCollapsingToolbarLayoutHeight;
                 mCollapsingToolbarLayout.setExpandedTitleMarginBottom(mExpandedTitleMarginBottom);
+                mCollapsingToolbarLayout.setScrimVisibleHeightTrigger(mScrimVisibleHeightTrigger);
             }
         }
     }
