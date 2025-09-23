@@ -356,16 +356,20 @@ public final class ToolbarDecorator {
     private final class CollapsedSubtitle extends Subtitle {
         final int mFrameworkToolbarMarginTop = mToolbar.getTitleMarginTop();
         final int mFrameworkToolbarMarginBottom = mToolbar.getTitleMarginBottom();
+        final ViewGroup.MarginLayoutParams lp =
+            (ViewGroup.MarginLayoutParams) mToolbar.getLayoutParams();
         final Runnable mUpdateBoundsRunnable = () -> {
             updateToolbarDummyView();
             // When the "dummy view" is settled up, use its boundaries for the collapsed subtitle
             mDummyView.filter((v) -> v.getBottom() > 0).ifPresent((dummyView) -> {
                 final boolean isRtl = getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
                 final int paddingLeft = dummyView.getLeft() + (isRtl ?
-                        mToolbar.getTitleMarginEnd() : mToolbar.getTitleMarginStart());
+                        mToolbar.getTitleMarginEnd() : mToolbar.getTitleMarginStart()) +
+                        lp.getMarginStart();
                 final int paddingRight = Math.abs(dummyView.getRight() -
                         mCollapsingToolbarLayout.getRight()) + (isRtl ?
-                        mToolbar.getTitleMarginStart() : mToolbar.getTitleMarginEnd());
+                        mToolbar.getTitleMarginStart() : mToolbar.getTitleMarginEnd()) +
+                        lp.getMarginEnd();
 
                 setPadding(paddingLeft, /*top=*/ 0, paddingRight, mFrameworkToolbarMarginTop +
                         mFrameworkToolbarMarginBottom);
