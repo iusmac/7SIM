@@ -22,6 +22,8 @@ import com.github.iusmac.sevensim.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Optional;
+
 /**
  * <p>A base Activity that has a collapsing toolbar layout is used for the activities intending to
  * enable the collapsing toolbar function.
@@ -37,6 +39,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     private CollapsingToolbarDelegate mToolbardelegate;
     private ToolbarDecorator mToolbarDecorator;
     private ViewModel mViewModel;
+    private Optional<View> mActionButton = Optional.empty();
 
     @Override
     protected void onCreate(final @Nullable Bundle savedInstanceState) {
@@ -74,6 +77,12 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
             // first launch when expressive theme is enabled
             if (isExpressiveTheme && savedInstanceState == null) {
                 getAppBarLayout().setExpanded(true);
+            }
+            if (isExpressiveTheme) {
+                mActionButton = Optional.ofNullable(getToolbarDelegate().getToolbar().findViewById(
+                            com.android.settingslib.collapsingtoolbar.R.id.action_button));
+                // Hide the action button by default when expressive theme is enabled.
+                setActionButtonEnabled(false);
             }
         } else {
             // For better UX (e.g. l10n), apply the marquee effect on the title for non-collapsing
@@ -116,6 +125,21 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
 
     public void setSubtitle(final @StringRes int subtitleId) {
         setSubtitle(getText(subtitleId));
+    }
+
+    /**
+     * Show/Hide the action button on the Toolbar.
+     *
+     * NOTE: the action button is available only in expressive theme since Android 16 (Baklava).
+     *
+     * @param enabled {@code true} to show the button, otherwise it's hidden.
+     */
+    public void setActionButtonEnabled(final boolean enabled) {
+        mActionButton.ifPresent((v) ->
+                // Note that, the action button is wrapped by a parent view that has padding and we
+                // can't edit the layout in XML, so we want to hide it too to avoid empty spaces
+                ((View) v.getParent()).setVisibility(enabled ? View.VISIBLE : View.GONE));
+        getToolbarDelegate().setActionButtonEnabled(enabled);
     }
 
     @Override
