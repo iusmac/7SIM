@@ -61,7 +61,7 @@ buildscript {
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/extras/material-design-x/com/google/android/material/material/
             material             :  'com.google.android.material:material:1.13.0-alpha08',
             // https://mvnrepository.com/artifact/org.mockito/mockito-core
-            mockito              :  'org.mockito:mockito-core:5.18.0',
+            mockito              :  'org.mockito:mockito-core:5.20.0',
             // https://mvnrepository.com/artifact/androidx.preference/preference
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/preference/preference/
             preference           :  'androidx.preference:preference:1.2.1',
