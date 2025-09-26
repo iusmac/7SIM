@@ -387,7 +387,7 @@ public final class ToolbarDecorator {
             });
         };
 
-        public CollapsedSubtitle(final Context context) {
+        CollapsedSubtitle(final Context context) {
             super(context);
 
 
@@ -444,7 +444,7 @@ public final class ToolbarDecorator {
         final int mScrimVisibleHeightTrigger = (int) getResources().getDimension(
                 com.android.settingslib.collapsingtoolbar.R.dimen.settingslib_scrim_visible_height_trigger);
 
-        public ExpandedSubtitle(final Context context) {
+        ExpandedSubtitle(final Context context) {
             super(context);
 
             setFactory(() -> new SubtitleTextView(context) {

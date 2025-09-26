@@ -817,7 +817,7 @@ public final class SchedulerFragment extends Hilt_SchedulerFragment
 
         final AppBarLayout mAppBarLayout;
 
-        public LayoutManager(final Context context) {
+        LayoutManager(final Context context) {
             super(context);
 
             mAppBarLayout = ((SchedulerActivity) getActivity()).getAppBarLayout();

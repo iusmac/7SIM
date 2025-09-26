@@ -216,7 +216,7 @@ public final class UserAuthenticationObserverService extends Hilt_UserAuthentica
         final LinkedBlockingQueue<PendingTask> mPendingTasks = new LinkedBlockingQueue<>();
         volatile boolean mReleased;
 
-        public Worker() {
+        Worker() {
             setName(UserAuthenticationObserverService.class.getSimpleName() + "WorkerThread");
         }
 
