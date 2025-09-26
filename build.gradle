@@ -43,7 +43,7 @@ buildscript {
             // https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/core/core/
             core                 :  'androidx.core:core:1.16.0-alpha01',
             // https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
-            errorprone           :  'com.google.errorprone:error_prone_core:2.39.0',
+            errorprone           :  'com.google.errorprone:error_prone_core:2.42.0',
             // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
             espresso             :  "androidx.test.espresso:espresso-core:$espresso_version",
             espresso_contrib     :  "androidx.test.espresso:espresso-contrib:$espresso_version",
