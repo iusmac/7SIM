@@ -34,9 +34,11 @@ android {
     }
 }
 
-addCompileOnlyJar('android-35.jar')
+addCompileOnlyJar(jars.android_hidden)
 
 dependencies {
     implementation libs.material
     implementation libs.preference
+
+    implementation project(':SettingsLib:SettingsThemeFlags')
 }

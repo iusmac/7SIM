@@ -12,7 +12,7 @@ android_app {
     system_ext_specific: true,
 
     min_sdk_version: "29",
-    target_sdk_version: "35",
+    target_sdk_version: "36",
 
     static_libs: [
         "SettingsLibBannerMessagePreference",

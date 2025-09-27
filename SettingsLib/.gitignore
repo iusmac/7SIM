@@ -4,6 +4,9 @@
 !/BannerMessagePreference/
 /BannerMessagePreference/*
 !/BannerMessagePreference/build.gradle
+!/ButtonPreference/
+/ButtonPreference/*
+!/ButtonPreference/build.gradle
 !/CollapsingToolbarBaseActivity/
 /CollapsingToolbarBaseActivity/*
 !/CollapsingToolbarBaseActivity/build.gradle
@@ -16,3 +19,6 @@
 !/TwoTargetPreference/
 /TwoTargetPreference/*
 !/TwoTargetPreference/build.gradle
+/SettingsThemeFlags/*
+!/SettingsThemeFlags/build.gradle
+!/SettingsThemeFlags/src/

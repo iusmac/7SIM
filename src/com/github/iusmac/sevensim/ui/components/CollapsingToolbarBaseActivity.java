@@ -17,9 +17,12 @@ import com.android.settingslib.collapsingtoolbar.EdgeToEdgeUtils;
 import com.android.settingslib.widget.SettingsThemeHelper;
 
 import com.github.iusmac.sevensim.ui.components.toolbar.ToolbarDecorator;
+import com.github.iusmac.sevensim.R;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import java.util.Optional;
 
 /**
  * <p>A base Activity that has a collapsing toolbar layout is used for the activities intending to
@@ -36,6 +39,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     private CollapsingToolbarDelegate mToolbardelegate;
     private ToolbarDecorator mToolbarDecorator;
     private ViewModel mViewModel;
+    private Optional<View> mActionButton = Optional.empty();
 
     @Override
     protected void onCreate(final @Nullable Bundle savedInstanceState) {
@@ -44,8 +48,9 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
         EdgeToEdgeUtils.enable(this);
         super.onCreate(savedInstanceState);
 
-        if (SettingsThemeHelper.isExpressiveTheme(this)) {
-            setTheme(com.android.settingslib.widget.theme.R.style.Theme_SubSettingsBase_Expressive);
+        final boolean isExpressiveTheme = SettingsThemeHelper.isExpressiveTheme(this);
+        if (isExpressiveTheme) {
+            setTheme(R.style.Theme_SubSettingsBase_Expressive_Custom);
         }
 
         final View view = getToolbarDelegate().onCreateView(getLayoutInflater(), null);
@@ -64,8 +69,21 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
             // Enforce the header content scrim background color so it's always different from the
             // content view background as we display a subtitle text that may fuse visually with
             // other text
-            getCollapsingToolbarLayout()
-                .setContentScrimResource(com.android.settingslib.widget.theme.R.color.settingslib_colorSurfaceHeader);
+            if (!isExpressiveTheme) {
+                getCollapsingToolbarLayout()
+                    .setContentScrimResource(com.android.settingslib.widget.theme.R.color.settingslib_colorSurfaceHeader);
+            }
+            // Override the default AOSP's collapsed state of the AppBarLayout to be expanded upon
+            // first launch when expressive theme is enabled
+            if (isExpressiveTheme && savedInstanceState == null) {
+                getAppBarLayout().setExpanded(true);
+            }
+            if (isExpressiveTheme) {
+                mActionButton = Optional.ofNullable(getToolbarDelegate().getToolbar().findViewById(
+                            com.android.settingslib.collapsingtoolbar.R.id.action_button));
+                // Hide the action button by default when expressive theme is enabled.
+                setActionButtonEnabled(false);
+            }
         } else {
             // For better UX (e.g. l10n), apply the marquee effect on the title for non-collapsing
             // Toolbar
@@ -107,6 +125,21 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
 
     public void setSubtitle(final @StringRes int subtitleId) {
         setSubtitle(getText(subtitleId));
+    }
+
+    /**
+     * Show/Hide the action button on the Toolbar.
+     *
+     * NOTE: the action button is available only in expressive theme since Android 16 (Baklava).
+     *
+     * @param enabled {@code true} to show the button, otherwise it's hidden.
+     */
+    public void setActionButtonEnabled(final boolean enabled) {
+        mActionButton.ifPresent((v) ->
+                // Note that, the action button is wrapped by a parent view that has padding and we
+                // can't edit the layout in XML, so we want to hide it too to avoid empty spaces
+                ((View) v.getParent()).setVisibility(enabled ? View.VISIBLE : View.GONE));
+        getToolbarDelegate().setActionButtonEnabled(enabled);
     }
 
     @Override

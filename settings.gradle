@@ -21,14 +21,16 @@ dependencyResolutionManagement {
 rootProject.name = '7SIM'
 
 include ':SettingsLib:BannerMessagePreference'
+include ':SettingsLib:ButtonPreference'
 include ':SettingsLib:CollapsingToolbarBaseActivity'
 include ':SettingsLib:LayoutPreference'
 include ':SettingsLib:SettingsTheme'
+include ':SettingsLib:SettingsThemeFlags'
 include ':SettingsLib:TwoTargetPreference'
 
 android {
-    compileSdk 35
+    compileSdk 36
     minSdk 29
-    targetSdk 35
-    buildToolsVersion '35.0.0'
+    targetSdk 36
+    buildToolsVersion '36.0.0'
 }

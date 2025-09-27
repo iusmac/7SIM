@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SubSettingsBase.Custom" parent="Theme.SubSettingsBase">
+        <item name="scheduleCardCollapsedBackgroundColor">@color/schedule_card_collapsed_background_color</item>
+        <item name="scheduleCardExpandedBackgroundColor">@color/schedule_card_expanded_background_color</item>
+    </style>
+</resources>

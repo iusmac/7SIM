@@ -8,9 +8,10 @@ declare -r SHORT_OPTS=u:,t:
 declare -r LONG_OPTS=set-repo-url:,set-repo-tag:,get-repo-url,get-repo-tag,apply-patches-only
 declare -r FWB_DIR='fwb'
 declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
-declare REPO_TAG='android-15.0.0_r32'
+declare REPO_TAG='android-16.0.0_r1'
 declare -a LIBS=(
     'BannerMessagePreference'
+    'ButtonPreference'
     'CollapsingToolbarBaseActivity'
     'LayoutPreference'
     'SettingsTheme'
@@ -87,7 +88,7 @@ function main() {
 function apply_patches() {
     if [ -d patches ]; then
         local -a patches=(patches/*.patch)
-        if [ ${#patches[@]} -gt 0 ]; then
+        if [ -f "${patches[0]-}" ]; then
             echo "Applying ${#patches[@]} patches..."
             git -C $FWB_DIR apply --verbose "${patches[@]/#/../}" || return $?
             echo 'OK!'

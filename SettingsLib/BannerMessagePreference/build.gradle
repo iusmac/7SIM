@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibBannerMessagePreference = '../fwb/packages/SettingsLib/BannerMessagePreference'
@@ -33,7 +34,11 @@ android {
     }
 }
 
+addCompileOnlyJar(jars.android_hidden)
+
 dependencies {
+    implementation libs.material
     implementation libs.preference
+    implementation project(':SettingsLib:ButtonPreference')
     implementation project(':SettingsLib:SettingsTheme')
 }

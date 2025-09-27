@@ -274,7 +274,7 @@ class SchedulerActivityTest {
         lateinit var mSubscriptionManager: SubscriptionManager
 
         @Test
-        @Config(minSdk = S, qualifiers = "+land +h270dp")
+        @Config(minSdk = S, qualifiers = "+land +h285dp")
         fun `test expanded toolbar is not overlapped by FABs in landscape on extra-small screen`() {
             onActivity(Subscription().apply {
                 setSimName("SIM with very long name")
