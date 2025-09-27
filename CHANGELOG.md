@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/iusmac/7SIM/compare/v2.1.0...v2.2.0) (2025-09-27)
+
+
+### :sparkles: Features
+
+* adapt to Android 16 ([#75](https://github.com/iusmac/7SIM/issues/75)) ([7fe3181](https://github.com/iusmac/7SIM/commit/7fe31819b0c0c4ec93ea28e5a4bd8ff41b498977))
+
 ## [2.1.0](https://github.com/iusmac/7SIM/compare/v2.0.2...v2.1.0) (2025-07-05)
 
 
