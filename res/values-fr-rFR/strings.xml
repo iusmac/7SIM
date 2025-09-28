@@ -25,8 +25,8 @@
     <string name="scheduler_delete_message">"Cette opération ne peut pas être annulée. Souhaitez-vous continuer ?"</string>
     <string name="scheduler_days_of_week_none">"Jamais"</string>
     <string name="scheduler_days_of_week_all">"Tous les jours"</string>
-    <string name="scheduler_start_time_custom_summary">"S'active automatiquement <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
-    <string name="scheduler_end_time_custom_summary">"Désactiver automatiquement <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_custom_summary">"S'active automatiquement<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Désactiver automatiquement<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Ne s'active <b>jamais</b> automatiquement"</string>
     <string name="scheduler_end_time_none_summary">"Ne <b>jamais</b> désactiver automatiquement"</string>
     <string name="scheduler_no_schedule_summary">"Aucune programmation"</string>

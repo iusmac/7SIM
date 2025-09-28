@@ -51,8 +51,8 @@
     <string name="scheduler_delete_message">"This operation cannot be undone. Would you like to continue?"</string>
     <string name="scheduler_days_of_week_none">"Never"</string>
     <string name="scheduler_days_of_week_all">"Every day"</string>
-    <string name="scheduler_start_time_custom_summary">"Will turn on automatically <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
-    <string name="scheduler_end_time_custom_summary">"Will turn off automatically <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_custom_summary">"Will turn on automatically<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Will turn off automatically<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Will <b>never</b> turn on automatically"</string>
     <string name="scheduler_end_time_none_summary">"Will <b>never</b> turn off automatically"</string>
     <string name="scheduler_no_schedule_summary">"No schedule"</string>

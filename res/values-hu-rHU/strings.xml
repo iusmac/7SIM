@@ -25,8 +25,8 @@
     <string name="scheduler_delete_message">"Ezt a műveletet nem lehet visszavonni. Szeretné folytatni?"</string>
     <string name="scheduler_days_of_week_none">"Soha"</string>
     <string name="scheduler_days_of_week_all">"Minden nap"</string>
-    <string name="scheduler_start_time_custom_summary">"Automatikusan bekapcsol a következő időpontban: <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
-    <string name="scheduler_end_time_custom_summary">"Automatikusan kikapcsol a következő időpontban: <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_custom_summary">"Automatikusan bekapcsol a következő időpontban:<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Automatikusan kikapcsol a következő időpontban:<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Soha</b> nem kapcsol be automatikusan"</string>
     <string name="scheduler_end_time_none_summary">"<b>Soha</b> nem kapcsol ki automatikusan"</string>
     <string name="scheduler_no_schedule_summary">"Nincs ütemezés"</string>

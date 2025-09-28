@@ -25,8 +25,8 @@
     <string name="scheduler_delete_message">"Ця операція не може бути скасована. Чи хотіли б Ви продовжити?"</string>
     <string name="scheduler_days_of_week_none">"Ніколи"</string>
     <string name="scheduler_days_of_week_all">"Щодня"</string>
-    <string name="scheduler_start_time_custom_summary">"Вмикатиметься автоматично <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
-    <string name="scheduler_end_time_custom_summary">"Вимикатиметься автоматично <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_custom_summary">"Вмикатиметься автоматично<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Вимикатиметься автоматично<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"<b>Ніколи</b> не ввімкнеться автоматично"</string>
     <string name="scheduler_end_time_none_summary">"<b>Ніколи</b> не вимикатиметься автоматично"</string>
     <string name="scheduler_no_schedule_summary">"Немає розкладу"</string>
