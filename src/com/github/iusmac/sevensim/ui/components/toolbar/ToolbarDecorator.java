@@ -2,6 +2,7 @@ package com.github.iusmac.sevensim.ui.components.toolbar;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -390,11 +391,13 @@ public final class ToolbarDecorator {
         CollapsedSubtitle(final Context context) {
             super(context);
 
-
             setFactory(() -> new SubtitleTextView(context) {
                 {
                     setTextAppearance(R.style.TextAppearance_CollapsingToolbarCollapsedSubtitle);
                     setSingleLine();
+                    setHorizontalFadingEdgeEnabled(true);
+                    setHorizontallyScrolling(true);
+                    setMovementMethod(new ScrollingMovementMethod());
                 }
             });
         }
