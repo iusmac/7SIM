@@ -418,6 +418,72 @@ class SimListActivityTest {
         }
 
         @Test
+        @Config(minSdk = Q, qualifiers = "+ru") // use the verbose Russian locale to get text wrapping
+        fun `test should separate date-time in SIM entries by new line when in portrait`() {
+            val subInfo = SubscriptionInfoBuilder.newBuilder().apply {
+                setId(1)
+                setDisplayName("SIM 1")
+                setIconTint(Color.BLUE)
+            }.buildSubscriptionInfo()
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(subInfo)
+
+            // Insert a schedule for the SIM card in database to be displayed in the summary
+            runBlocking {
+                val insertJob = async(Dispatchers.Default) {
+                    val schedule = SubscriptionScheduleEntity().apply {
+                        setSubscriptionId(subInfo.subscriptionId)
+                        setSubscriptionEnabled(false)
+                        setEnabled(true)
+                        setDaysOfWeek(mDaysOfWeekFactory.create(*arrayOf(TUESDAY)))
+                        setTime(LocalTime.of(18, 30))
+                    }
+                    mAppDatabaseDE.subscriptionSchedulerDao().insert(schedule)
+                }
+                withTimeout(5.seconds) { insertJob.await() }
+            }
+
+            onActivity {
+                // Ensure ViewModel finished updating UI before capturing the initial state
+                waitActivityWorkerThreadUntilIdle()
+                shadowOf(Looper.getMainLooper()).idle()
+                onSimEntryAt(0).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+            }
+        }
+
+        @Test
+        @Config(minSdk = Q, qualifiers = "+land +ru") // use the verbose Russian locale to get text wrapping
+        fun `test should separate date-time in SIM entries by space when in landscape`() {
+            val subInfo = SubscriptionInfoBuilder.newBuilder().apply {
+                setId(1)
+                setDisplayName("SIM 1")
+                setIconTint(Color.BLUE)
+            }.buildSubscriptionInfo()
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(subInfo)
+
+            // Insert a schedule for the SIM card in database to be displayed in the summary
+            runBlocking {
+                val insertJob = async(Dispatchers.Default) {
+                    val schedule = SubscriptionScheduleEntity().apply {
+                        setSubscriptionId(subInfo.subscriptionId)
+                        setSubscriptionEnabled(false)
+                        setEnabled(true)
+                        setDaysOfWeek(mDaysOfWeekFactory.create(*arrayOf(TUESDAY)))
+                        setTime(LocalTime.of(18, 30))
+                    }
+                    mAppDatabaseDE.subscriptionSchedulerDao().insert(schedule)
+                }
+                withTimeout(5.seconds) { insertJob.await() }
+            }
+
+            onActivity {
+                // Ensure ViewModel finished updating UI before capturing the initial state
+                waitActivityWorkerThreadUntilIdle()
+                shadowOf(Looper.getMainLooper()).idle()
+                onSimEntryAt(0).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+            }
+        }
+
+        @Test
         @Config(minSdk = Q)
         fun `test should show No SIM cards inserted entry ONLY when appropriate`() = onActivity {
             // Ensure ViewModel finished updating UI before capturing the initial state
