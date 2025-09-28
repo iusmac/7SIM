@@ -8,6 +8,7 @@ import android.icu.util.ULocale;
 
 import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.WorkerThread;
 import androidx.core.text.HtmlCompat;
@@ -63,16 +64,31 @@ public final class SubscriptionSchedulerSummaryBuilder {
     }
 
     /**
+     * Like {@link #buildNextUpcomingSubscriptionScheduleSummary(Subscription,LocalDateTime,String)}
+     * but use a space character to separate the date-time string from other text.
+     */
+    @WorkerThread
+    public @NonNull CharSequence buildNextUpcomingSubscriptionScheduleSummary(
+            final @NonNull Subscription sub, @NonNull LocalDateTime dateTime) {
+
+        return buildNextUpcomingSubscriptionScheduleSummary(sub, dateTime, null);
+    }
+
+    /**
      * Build a human-readable string summarizing the next upcoming weekly repeat schedule for a
      * particular SIM subscription.
      *
      * @param sub The subscription for which to create the summary.
      * @param dateTime The date-time object used for finding the nearest schedule.
+     * @param dateTimeSeparator The text to use to separate the date-time string from other text. A
+     * space character will be used when the value is an empty string or {@code null}. HTML text is
+     * supported.
      * @return The string containing the summary for the target subscription and date-time.
      */
     @WorkerThread
     public @NonNull CharSequence buildNextUpcomingSubscriptionScheduleSummary(
-            final @NonNull Subscription sub, @NonNull LocalDateTime dateTime) {
+            final @NonNull Subscription sub, @NonNull LocalDateTime dateTime,
+            final @Nullable String dateTimeSeparator) {
 
         // Find the nearest weekly repeat schedule for the subscription that will invert its current
         // enabled state on or after the given date-time
@@ -116,7 +132,8 @@ public final class SubscriptionSchedulerSummaryBuilder {
             final CharSequence str = DateTimeUtils.getRelativeDateTimeSpanString(mContext,
                     getFormatter(Locale.getDefault()), getRelativeFormatter(Locale.getDefault()),
                     nearestScheduleDateTime, dateTime);
-            return HtmlCompat.fromHtml(mResources.getString(customTimeStringResId, str),
+            final String sep = dateTimeSeparator != null ? dateTimeSeparator : "";
+            return HtmlCompat.fromHtml(mResources.getString(customTimeStringResId, str, sep),
                     HtmlCompat.FROM_HTML_MODE_COMPACT);
         }
     }

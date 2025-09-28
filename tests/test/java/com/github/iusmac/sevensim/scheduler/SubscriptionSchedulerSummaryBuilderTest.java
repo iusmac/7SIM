@@ -2,6 +2,7 @@ package com.github.iusmac.sevensim.scheduler;
 
 import android.content.res.Resources;
 
+import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
 
 import com.github.iusmac.sevensim.R;
@@ -113,9 +114,10 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
             !mSubscription.isSimEnabled(), NOW);
 
         final var summary = HtmlCompat.fromHtml(mResources.getString(
-                    R.string.scheduler_end_time_custom_summary, ""), 0).toString();
+                    R.string.scheduler_end_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
         assertThat(buildNextUpcomingSubscriptionScheduleSummary().toString(),
-                is(both(startsWith(summary)).and(containsString("today, 2")).and(endsWith("PM"))));
+                is(both(startsWith(summary)).and(containsString(" today, 2")).and(endsWith("PM"))));
     }
 
     @Test
@@ -130,9 +132,10 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
             !mSubscription.isSimEnabled(), NOW);
 
         final var summary = HtmlCompat.fromHtml(mResources.getString(
-                    R.string.scheduler_start_time_custom_summary, ""), 0).toString();
+                    R.string.scheduler_start_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
         assertThat(buildNextUpcomingSubscriptionScheduleSummary().toString(),
-                is(both(startsWith(summary)).and(containsString("today, 2")).and(endsWith("PM"))));
+                is(both(startsWith(summary)).and(containsString(" today, 2")).and(endsWith("PM"))));
     }
 
     @Test
@@ -149,9 +152,10 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
             !mSubscription.isSimEnabled(), NOW);
 
         final var summary = HtmlCompat.fromHtml(mResources.getString(
-                    R.string.scheduler_start_time_custom_summary, ""), 0).toString();
+                    R.string.scheduler_start_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
         assertThat(buildNextUpcomingSubscriptionScheduleSummary().toString(),
-                is(both(startsWith(summary)).and(containsString("Mon, Jan 8, 1")).and(endsWith("PM"))));
+                is(both(startsWith(summary)).and(containsString(" Mon, Jan 8, 1")).and(endsWith("PM"))));
     }
 
     @Test
@@ -167,9 +171,10 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
             !mSubscription.isSimEnabled(), NOW);
 
         final var summary = HtmlCompat.fromHtml(mResources.getString(
-                    R.string.scheduler_end_time_custom_summary, ""), 0).toString();
+                    R.string.scheduler_end_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
         assertThat(buildNextUpcomingSubscriptionScheduleSummary().toString(),
-                is(both(startsWith(summary)).and(containsString("Mon, Jan 8, 1")).and(endsWith("PM"))));
+                is(both(startsWith(summary)).and(containsString(" Mon, Jan 8, 1")).and(endsWith("PM"))));
     }
 
     @Test
@@ -185,9 +190,10 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
         buildNextUpcomingSubscriptionScheduleSummary();
 
         final var summary = HtmlCompat.fromHtml(mResources.getString(
-                    R.string.scheduler_end_time_custom_summary, ""), 0).toString();
+                    R.string.scheduler_end_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
         assertThat(buildNextUpcomingSubscriptionScheduleSummary().toString(),
-                is(both(startsWith(summary)).and(containsString("today, 2")).and(endsWith("PM"))));
+                is(both(startsWith(summary)).and(containsString(" today, 2")).and(endsWith("PM"))));
     }
 
     @Test
@@ -205,14 +211,95 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
         Locale.setDefault(Locale.ITALY);
 
         final var summary = HtmlCompat.fromHtml(mResources.getString(
-                    R.string.scheduler_end_time_custom_summary, ""), 0).toString();
+                    R.string.scheduler_end_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
         assertThat(buildNextUpcomingSubscriptionScheduleSummary().toString(),
-                is(both(startsWith(summary)).and(containsString("oggi, 2")).and(endsWith("PM"))));
+                is(both(startsWith(summary)).and(containsString(" oggi, 2")).and(endsWith("PM"))));
+    }
+
+    @Test
+    public void buildNextUpcomingSubscriptionScheduleSummary_NullDateTimeSeparator() {
+        mSubscription.setSimState(SimState.ENABLED);
+
+        // Set up a nearest schedule so that we see the summary containing date-time string
+        willAnswer((invocation) -> {
+            invocation.callRealMethod();
+            return Optional.of(mNearestSchedule);
+        }).given(mSubscriptionScheduler).findNearestAfterDateTime(mSubscription.getId(),
+            !mSubscription.isSimEnabled(), NOW);
+
+        final var summary = HtmlCompat.fromHtml(mResources.getString(
+                    R.string.scheduler_end_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
+        assertThat(buildNextUpcomingSubscriptionScheduleSummary(null).toString(),
+                is(both(startsWith(summary)).and(containsString(" today, 2")).and(endsWith("PM"))));
+    }
+
+    @Test
+    public void buildNextUpcomingSubscriptionScheduleSummary_EmptyDateTimeSeparator() {
+        mSubscription.setSimState(SimState.ENABLED);
+
+        // Set up a nearest schedule so that we see the summary containing date-time string
+        willAnswer((invocation) -> {
+            invocation.callRealMethod();
+            return Optional.of(mNearestSchedule);
+        }).given(mSubscriptionScheduler).findNearestAfterDateTime(mSubscription.getId(),
+            !mSubscription.isSimEnabled(), NOW);
+
+        final var summary = HtmlCompat.fromHtml(mResources.getString(
+                    R.string.scheduler_end_time_custom_summary, "",
+                    /*date_time_separator*/ " "), 0).toString();
+        assertThat(buildNextUpcomingSubscriptionScheduleSummary("").toString(),
+                is(both(startsWith(summary)).and(containsString(" today, 2")).and(endsWith("PM"))));
+    }
+
+    @Test
+    public void buildNextUpcomingSubscriptionScheduleSummary_CustomPlainTextDateTimeSeparator() {
+        mSubscription.setSimState(SimState.ENABLED);
+
+        // Set up a nearest schedule so that we see the summary containing date-time string
+        willAnswer((invocation) -> {
+            invocation.callRealMethod();
+            return Optional.of(mNearestSchedule);
+        }).given(mSubscriptionScheduler).findNearestAfterDateTime(mSubscription.getId(),
+            !mSubscription.isSimEnabled(), NOW);
+
+        final var dateTimeSep = ": ";
+        final var summary = HtmlCompat.fromHtml(mResources.getString(
+                    R.string.scheduler_end_time_custom_summary, "", dateTimeSep), 0).toString();
+        assertThat(buildNextUpcomingSubscriptionScheduleSummary(dateTimeSep).toString(),
+                is(both(startsWith(summary)).and(containsString(dateTimeSep + "today, 2"))
+                    .and(endsWith("PM"))));
+    }
+
+    @Test
+    public void buildNextUpcomingSubscriptionScheduleSummary_CustomHtmlDateTimeSeparator() {
+        mSubscription.setSimState(SimState.ENABLED);
+
+        // Set up a nearest schedule so that we see the summary containing date-time string
+        willAnswer((invocation) -> {
+            invocation.callRealMethod();
+            return Optional.of(mNearestSchedule);
+        }).given(mSubscriptionScheduler).findNearestAfterDateTime(mSubscription.getId(),
+            !mSubscription.isSimEnabled(), NOW);
+
+        final var dateTimeSep = "<br/>";
+        final var summary = HtmlCompat.fromHtml(mResources.getString(
+                    R.string.scheduler_end_time_custom_summary, "", dateTimeSep), 0).toString();
+        assertThat(buildNextUpcomingSubscriptionScheduleSummary(dateTimeSep).toString(),
+                is(both(startsWith(summary)).and(containsString("\ntoday, 2")) // <br/> becomes \n
+                    .and(endsWith("PM"))));
     }
 
     private CharSequence buildNextUpcomingSubscriptionScheduleSummary() {
+        return buildNextUpcomingSubscriptionScheduleSummary(null);
+    }
+
+    private CharSequence buildNextUpcomingSubscriptionScheduleSummary(
+            final @Nullable String dateTimeSep) {
+
         final var future = EXECUTOR.submit(() -> mSubscriptionSchedulerSummaryBuilder
-                .buildNextUpcomingSubscriptionScheduleSummary(mSubscription, NOW));
+                .buildNextUpcomingSubscriptionScheduleSummary(mSubscription, NOW, dateTimeSep));
 
         await()
             .dontCatchUncaughtExceptions()

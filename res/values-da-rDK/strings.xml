@@ -25,8 +25,8 @@
     <string name="scheduler_delete_message">"Denne opgave kan ikke fortrydes. Fortsæt?"</string>
     <string name="scheduler_days_of_week_none">"Aldrig"</string>
     <string name="scheduler_days_of_week_all">"Hver dag"</string>
-    <string name="scheduler_start_time_custom_summary">"Aktiveres automatisk <![CDATA[<b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
-    <string name="scheduler_end_time_custom_summary">"Deaktiveres automatisk <![CDATA[<b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_start_time_custom_summary">"Aktiveres automatisk<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 6 AM">%1$s</xliff:g></b>]]>"</string>
+    <string name="scheduler_end_time_custom_summary">"Deaktiveres automatisk<![CDATA[<xliff:g name="date_time_separator">%2$1s</xliff:g><b><xliff:g name="date_time" example="today, 10 PM">%1$s</xliff:g></b>]]>"</string>
     <string name="scheduler_start_time_none_summary">"Aktiveres <b>aldrig</b> automatisk"</string>
     <string name="scheduler_end_time_none_summary">"Deaktiveres <b>aldrig</b> automatisk"</string>
     <string name="scheduler_no_schedule_summary">"Ingen tidsplan"</string>
