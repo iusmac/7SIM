@@ -65,9 +65,12 @@ public final class SimListViewModel extends ViewModel {
 
     /**
      * Refresh the live SIM entry list.
+     *
+     * @param isLandscape Whether the app is currently displayed in landscape orientation or not.
+     * Needed to improve readability of the next upcoming subscription schedule summary text.
      */
     @WorkerThread
-    void refreshSimEntries() {
+    void refreshSimEntries(final boolean isLandscape) {
         final SparseArrayCompat<SimEntry> simEntries = new SparseArrayCompat<>();
         final LocalDateTime now = mSystemTimeProvider.now();
         for (Subscription sub : mSubscriptions) {
@@ -78,8 +81,9 @@ public final class SimListViewModel extends ViewModel {
             final int id = sub.getSlotIndex() == INVALID_SIM_SLOT_INDEX ? sub.getId() :
                 sub.getSlotIndex();
 
+            final String dateTimeSeparator = isLandscape ? null : "<br/>";
             final CharSequence nextUpcomingScheduleSummary = mSubscriptionSchedulerSummaryBuilder
-                .buildNextUpcomingSubscriptionScheduleSummary(sub, now);
+                .buildNextUpcomingSubscriptionScheduleSummary(sub, now, dateTimeSeparator);
 
             simEntries.put(id, new SimEntry(sub, nextUpcomingScheduleSummary));
         }

@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.github.iusmac.sevensim.Logger;
 import com.github.iusmac.sevensim.R;
 import com.github.iusmac.sevensim.telephony.Subscriptions;
+import com.github.iusmac.sevensim.ui.UiUtils;
 import com.github.iusmac.sevensim.ui.components.CollapsingToolbarBaseActivity;
 import com.github.iusmac.sevensim.ui.preferences.PreferenceListActivity;
 
@@ -118,8 +119,9 @@ public class SimListActivity extends Hilt_SimListActivity
             mSubscriptionsChangedListenerInitialized = true;
         }
 
-        sHandler.postDelayed(getViewModel()::refreshSimEntries, mSubscriptionsChangedToken,
-                delayMillis);
+        final boolean isLandscape = UiUtils.isLandscape(this);
+        sHandler.postDelayed(() -> getViewModel().refreshSimEntries(isLandscape),
+                mSubscriptionsChangedToken, delayMillis);
     }
 
     @Override
@@ -152,9 +154,11 @@ public class SimListActivity extends Hilt_SimListActivity
             mLogger.d("onReceive() : intent=" + intent);
 
             switch (action) {
-                case Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_TIME_CHANGED ->
+                case Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_TIME_CHANGED -> {
                     // Refresh SIM entries to regenerate time-sensitive data
-                    sHandler.post(getViewModel()::refreshSimEntries);
+                    final boolean isLandscape = UiUtils.isLandscape(context);
+                    sHandler.post(() -> getViewModel().refreshSimEntries(isLandscape));
+                }
 
                 default -> {
                     mLogger.e("onReceive() : Unhandled action: %s.", action);
