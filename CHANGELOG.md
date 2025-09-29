@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.3.0](https://github.com/iusmac/7SIM/compare/v2.2.0...v2.3.0) (2025-09-28)
+
+
+### :sparkles: Features
+
+* **ToolbarDecorator:** enable fading and scrolling of long subtitles ([#77](https://github.com/iusmac/7SIM/issues/77)) ([22797d7](https://github.com/iusmac/7SIM/commit/22797d7606ded603e97d303e0e7f7fe35ca9c3f7))
+
+
+### :bug: Bug Fixes
+
+* **ui/PrimarySwitchPreference:** address extra divider empty space [Expressive Design] ([#79](https://github.com/iusmac/7SIM/issues/79)) ([60c5164](https://github.com/iusmac/7SIM/commit/60c51647e439e22d10c2e50144e798e02580abe7))
+
+
+### :wrench: Feature Tweaks
+
+* **SimListActivity:** improve next upcoming subscription schedule summary readability ([#81](https://github.com/iusmac/7SIM/issues/81)) ([9474266](https://github.com/iusmac/7SIM/commit/9474266206a266a413b80d51d0a6c1b01ed1872e))
+
 ## [2.2.0](https://github.com/iusmac/7SIM/compare/v2.1.0...v2.2.0) (2025-09-27)
 
 
