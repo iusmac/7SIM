@@ -27,8 +27,8 @@ If you're a normal user willing to give it a try, see [Installation](#installati
 
 ##### Screenshots
 <p>
-  <img src="images/home-a13-dark.jpg" width="200" alt="Home A13 Dark Screenshot" />
-  <img src="images/scheduler-a14-light.gif" width="200" alt="Scheduler A14 Light Screencast" />
+  <img src="images/home-a16-light.png" width="200" alt="Home A16 Light Screenshot" />
+  <img src="images/scheduler-a16-dark.gif" width="200" alt="Scheduler A16 Dark Screencast" />
   <img src="images/home-a10-light.jpg" width="200" alt="Home A10 Light Screenshot" />
   <img src="images/scheduler-a10-dark.gif" width="200" alt="Scheduler A10 Dark Screencast" />
 </p>
