@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Override the default AOSP's value of 50ms, which is too short and makes the scrim flicker
+        on <60Hz displays.
+        Note that for a better UI, we completely disable the scrim background animation in the
+        Expressive Design, otherwise we'll see for a moment the scrollable content through the
+        AppBarLayout. -->
+    <integer name="collapsingtoolbar_scrim_anim_duration">250</integer>
+    <integer name="collapsingtoolbar_scrim_anim_duration_expressive">0</integer>
+</resources>
