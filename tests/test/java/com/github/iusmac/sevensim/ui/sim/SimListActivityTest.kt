@@ -442,6 +442,8 @@ class SimListActivityTest {
                 withTimeout(5.seconds) { insertJob.await() }
             }
 
+            mSystemTimeProvider.mutate().setNow(MONDAY_11_50_55PM)
+
             onActivity {
                 // Ensure ViewModel finished updating UI before capturing the initial state
                 waitActivityWorkerThreadUntilIdle()
@@ -474,6 +476,8 @@ class SimListActivityTest {
                 }
                 withTimeout(5.seconds) { insertJob.await() }
             }
+
+            mSystemTimeProvider.mutate().setNow(MONDAY_11_50_55PM)
 
             onActivity {
                 // Ensure ViewModel finished updating UI before capturing the initial state

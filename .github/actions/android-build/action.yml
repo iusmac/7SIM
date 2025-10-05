@@ -30,7 +30,7 @@ runs:
     - name: SettingsLibs cache warm up
       uses: ./.github/actions/settingslibs-cache-warm-up
     - name: Set up Gradle cache
-      uses: gradle/actions/setup-gradle@v4
+      uses: gradle/actions/setup-gradle@v5
     - name: Build with Gradle
       shell: bash
       env:
