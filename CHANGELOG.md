@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/iusmac/7SIM/compare/v2.3.0...v2.3.1) (2025-10-05)
+
+
+### :bug: Bug Fixes
+
+* **#82:** ensure content is scrolled beneath toolbar ([#83](https://github.com/iusmac/7SIM/issues/83)) ([6254db4](https://github.com/iusmac/7SIM/commit/6254db44a65c677b1a388121ab54c81bdcd16409))
+
 ## [2.3.0](https://github.com/iusmac/7SIM/compare/v2.2.0...v2.3.0) (2025-09-28)
 
 
