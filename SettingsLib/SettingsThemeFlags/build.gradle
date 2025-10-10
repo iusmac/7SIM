@@ -5,6 +5,10 @@ plugins {
 android {
     namespace 'com.android.settingslib.widget.theme.flags'
 
+    defaultConfig {
+        minSdk 21
+    }
+
     sourceSets {
         main {
             java.srcDirs = ['src']
