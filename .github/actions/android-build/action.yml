@@ -69,7 +69,7 @@ runs:
       run: ./.github/scripts/post-build-with-gradle.sh
     - name: Upload artifacts
       if: inputs.upload-artifacts == 'true' && !cancelled()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: 7SIM-CI-${{ github.run_id }}
         path: ${{ env.ARTIFACTS_DIR }}
