@@ -12,7 +12,7 @@ runs:
         echo "key=${key}" >> $GITHUB_OUTPUT
     - name: Restore cache
       id: restore
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       with:
         path: SettingsLib/fwb
         key: ${{ steps.setup.outputs.key }}
@@ -22,7 +22,7 @@ runs:
       run: ./SettingsLib/fetch.sh
     - name: Save cache
       if: steps.restore.outputs.cache-hit != 'true'
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       with:
         path: SettingsLib/fwb
         key: ${{ steps.setup.outputs.key }}
