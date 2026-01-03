@@ -1,5 +1,6 @@
 package com.github.iusmac.sevensim.ui.components;
 
+import android.annotation.DrawableRes;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -142,6 +143,21 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
                 // can't edit the layout in XML, so we want to hide it too to avoid empty spaces
                 ((View) v.getParent()).setVisibility(enabled ? View.VISIBLE : View.GONE));
         getToolbarDelegate().setActionButtonEnabled(enabled);
+    }
+
+    /** Set the icon to the action button */
+    public void setActionButtonIcon(final @DrawableRes int drawableRes) {
+        getToolbarDelegate().setActionButtonIcon(this, drawableRes);
+    }
+
+    /** Set the text to the action button */
+    public void setActionButtonText(final @Nullable CharSequence text) {
+        getToolbarDelegate().setActionButtonText(text);
+    }
+
+    /** Set the OnClick listener to the action button */
+    public void setActionButtonListener(final @Nullable View.OnClickListener listener) {
+        getToolbarDelegate().setActionButtonOnClickListener(listener);
     }
 
     @Override
