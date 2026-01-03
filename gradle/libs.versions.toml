@@ -73,7 +73,7 @@ junit = { module = "junit:junit", version = "4.13.2" }
 livedata = { module = "androidx.lifecycle:lifecycle-livedata", version = "2.9.0-alpha12" }
 # https://mvnrepository.com/artifact/com.google.android.material/material
 # https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/extras/material-design-x/com/google/android/material/material/
-material = { module = "com.google.android.material:material", version = "1.13.0-alpha08" }
+material = { module = "com.google.android.material:material", version = "1.14.0-alpha02" }
 # https://mvnrepository.com/artifact/org.mockito/mockito-core
 mockito = { module = "org.mockito:mockito-core", version = "5.20.0" }
 # https://mvnrepository.com/artifact/androidx.preference/preference
