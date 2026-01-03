@@ -131,6 +131,52 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     }
 
     /**
+     * Show/Hide the primary button on the Toolbar.
+     * @param enabled true to show the button, otherwise it's hidden.
+     */
+    public void setPrimaryButtonEnabled(final boolean enabled) {
+        getToolbarDelegate().setPrimaryButtonEnabled(enabled);
+    }
+
+    /** Set the icon to the primary button */
+    public void setPrimaryButtonIcon(final @DrawableRes int drawableRes) {
+        getToolbarDelegate().setPrimaryButtonIcon(this, drawableRes);
+    }
+
+    /** Set the OnClick listener to the primary button. */
+    public void setPrimaryButtonOnClickListener(final @Nullable View.OnClickListener listener) {
+        getToolbarDelegate().setPrimaryButtonOnClickListener(listener);
+    }
+
+    /** Set the content description to the primary button */
+    public void setPrimaryButtonContentDescription(final @Nullable CharSequence contentDescription) {
+        getToolbarDelegate().setPrimaryButtonContentDescription(contentDescription);
+    }
+
+    /**
+     * Show/Hide the secondary button on the Toolbar.
+     * @param enabled true to show the button, otherwise it's hidden.
+     */
+    public void setSecondaryButtonEnabled(final boolean enabled) {
+        getToolbarDelegate().setSecondaryButtonEnabled(enabled);
+    }
+
+    /** Set the icon to the secondary button */
+    public void setSecondaryButtonIcon(final @DrawableRes int drawableRes) {
+        getToolbarDelegate().setSecondaryButtonIcon(this, drawableRes);
+    }
+
+    /** Set the OnClick listener to the secondary button */
+    public void setSecondaryButtonOnClickListener(final @Nullable View.OnClickListener listener) {
+        getToolbarDelegate().setSecondaryButtonOnClickListener(listener);
+    }
+
+    /** Set the content description to the secondary button */
+    public void setSecondaryButtonContentDescription(final @Nullable CharSequence contentDescription) {
+        getToolbarDelegate().setSecondaryButtonContentDescription(contentDescription);
+    }
+
+    /**
      * Show/Hide the action button on the Toolbar.
      *
      * NOTE: the action button is available only in expressive theme since Android 16 (Baklava).
@@ -143,6 +189,14 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
                 // can't edit the layout in XML, so we want to hide it too to avoid empty spaces
                 ((View) v.getParent()).setVisibility(enabled ? View.VISIBLE : View.GONE));
         getToolbarDelegate().setActionButtonEnabled(enabled);
+    }
+
+    /**
+     * Enable/Disable the action button on the Toolbar (being clickable or not).
+     * @param clickable true to enable the button, otherwise it's disabled.
+     */
+    public void setActionButtonClickable(final boolean clickable) {
+        getToolbarDelegate().setActionButtonClickable(clickable);
     }
 
     /** Set the icon to the action button */
@@ -158,6 +212,11 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     /** Set the OnClick listener to the action button */
     public void setActionButtonListener(final @Nullable View.OnClickListener listener) {
         getToolbarDelegate().setActionButtonOnClickListener(listener);
+    }
+
+    /** Set the content description to the action button */
+    public void setActionButtonContentDescription(final @Nullable CharSequence contentDescription) {
+        getToolbarDelegate().setActionButtonContentDescription(contentDescription);
     }
 
     @Override
