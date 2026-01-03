@@ -47,6 +47,8 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
         EdgeToEdgeUtils.enable(this);
         super.onCreate(savedInstanceState);
 
+        getToolbarDelegate().registerToolbarCollapseBehavior(this);
+
         final boolean isExpressiveTheme = SettingsThemeHelper.isExpressiveTheme(this);
         if (isExpressiveTheme) {
             setTheme(R.style.Theme_SubSettingsBase_Expressive_Custom);
