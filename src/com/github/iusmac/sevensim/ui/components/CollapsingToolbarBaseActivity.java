@@ -38,7 +38,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     private CollapsingToolbarDelegate mToolbardelegate;
     private ToolbarDecorator mToolbarDecorator;
     private ViewModel mViewModel;
-    private Optional<View> mActionButton = Optional.empty();
+    private Optional<View> mTrailingButtons = Optional.empty();
 
     @Override
     protected void onCreate(final @Nullable Bundle savedInstanceState) {
@@ -79,10 +79,14 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
                 getAppBarLayout().setExpanded(true);
             }
             if (isExpressiveTheme) {
-                mActionButton = Optional.ofNullable(getToolbarDelegate().getToolbar().findViewById(
-                            com.android.settingslib.collapsingtoolbar.R.id.action_button));
-                // Hide the action button by default when expressive theme is enabled.
-                setActionButtonEnabled(false);
+                mTrailingButtons = Optional.ofNullable(getToolbarDelegate().getToolbar()
+                        // Use action button view to find the trailing buttons parent
+                        .findViewById(com.android.settingslib.collapsingtoolbar.R.id.action_button))
+                    .map((v) -> (View) v.getParent());
+                // Hide the trailing buttons view by default when expressive theme is enabled to
+                // avoid the blank space at the end of the Toolbar added in XML, which we can't
+                // edit. This will allow for the Toolbar's title & subtitle to fully expand
+                setTrailingButtonsEnabled(false);
             }
             // Our use case requires the CollapsingToolbar to be permanently lifted above the
             // scrollable content (safe to disable; less animations, better performance)
@@ -184,10 +188,6 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
      * @param enabled {@code true} to show the button, otherwise it's hidden.
      */
     public void setActionButtonEnabled(final boolean enabled) {
-        mActionButton.ifPresent((v) ->
-                // Note that, the action button is wrapped by a parent view that has padding and we
-                // can't edit the layout in XML, so we want to hide it too to avoid empty spaces
-                ((View) v.getParent()).setVisibility(enabled ? View.VISIBLE : View.GONE));
         getToolbarDelegate().setActionButtonEnabled(enabled);
     }
 
@@ -217,6 +217,15 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
     /** Set the content description to the action button */
     public void setActionButtonContentDescription(final @Nullable CharSequence contentDescription) {
         getToolbarDelegate().setActionButtonContentDescription(contentDescription);
+    }
+
+    /**
+     * Show/Hide the Toolbar's trailing buttons (action/primary/secondary) view.
+     *
+     * @param enabled {@code true} to show the trailing buttons view, otherwise it's hidden.
+     */
+    public void setTrailingButtonsEnabled(final boolean enabled) {
+        mTrailingButtons.ifPresent((v) -> v.setVisibility(enabled ? View.VISIBLE : View.GONE));
     }
 
     @Override
