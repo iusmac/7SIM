@@ -81,7 +81,7 @@ public abstract class CollapsingToolbarBaseActivity extends FragmentActivity {
                 getAppBarLayout().setExpanded(true);
             }
             if (isExpressiveTheme) {
-                mTrailingButtons = Optional.ofNullable(getToolbarDelegate().getToolbar()
+                mTrailingButtons = Optional.<View>ofNullable(getToolbarDelegate().getToolbar()
                         // Use action button view to find the trailing buttons parent
                         .findViewById(com.android.settingslib.collapsingtoolbar.R.id.action_button))
                     .map((v) -> (View) v.getParent());
