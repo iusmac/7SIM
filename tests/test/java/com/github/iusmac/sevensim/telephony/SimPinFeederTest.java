@@ -69,7 +69,12 @@ import static org.robolectric.Shadows.shadowOf;
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner.class)
 public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
-    private static final long TASK_WAIT_TIMEOUT_MILLIS = 3_000L;
+    // Increase timeout in CI environments to account for server load, which may increase the time
+    // between Thread.State.RUNNABLE and Thread.State.{TERMINATED/TIMED_WAITING} when running task.
+    private static final long TASK_WAIT_TIMEOUT_MILLIS = Optional.ofNullable(System.getenv("CI"))
+        .filter((v) -> v.equals("true"))
+        .map((v) -> 5_000L)
+        .orElse(3_000L);
     private static final Duration TASK_WAIT_TIMEOUT_DURATION =
         Duration.ofMillis(TASK_WAIT_TIMEOUT_MILLIS);
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
