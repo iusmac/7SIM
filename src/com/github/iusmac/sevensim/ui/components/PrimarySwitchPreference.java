@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Switch;
 
 import androidx.annotation.Keep;
@@ -29,7 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceViewHolder;
 
-import com.android.settingslib.widget.SettingsThemeHelper;
 import com.android.settingslib.widget.TwoTargetPreference;
 
 import com.github.iusmac.sevensim.R;
@@ -98,16 +96,6 @@ public final class PrimarySwitchPreference extends TwoTargetPreference {
             mSwitch.setContentDescription(getTitle());
             mSwitch.setChecked(mChecked);
             mSwitch.setEnabled(mEnableSwitch);
-        }
-
-        if (SettingsThemeHelper.isExpressiveTheme(holder.itemView.getContext())) {
-            final View divider = holder.findViewById(
-                    com.android.settingslib.widget.preference.twotarget.R.id.two_target_divider);
-            if (divider != null) {
-                // Remove unnecessary padding at the start of the divider in the expressive theme
-                divider.setPaddingRelative(0, divider.getPaddingTop(), divider.getPaddingEnd(),
-                        divider.getPaddingBottom());
-            }
         }
     }
 
