@@ -24,7 +24,8 @@ espresso = "3.7.0"
 # https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
 agp = "8.10.1"
 # https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
-kotlin = "2.1.10"
+# https://android.googlesource.com/platform/external/kotlinc/+/refs/heads/main/METADATA
+kotlin = "2.2.21"
 # https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
 errorprone = "4.2.0"
 # https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
