@@ -12,7 +12,7 @@ room = "2.8.0-alpha01"
 # https://android.googlesource.com/platform/external/dagger2
 hilt = "2.55"
 # https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
-roborazzi = "1.50.0"
+roborazzi = "1.54.0"
 # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
 # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-contrib
 espresso = "3.7.0"
