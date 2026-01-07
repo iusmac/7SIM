@@ -7,5 +7,16 @@
 
         <item name="scheduleCardCollapsedBackgroundColor">@color/settingslib_materialColorSurfaceBright</item>
         <item name="scheduleCardExpandedBackgroundColor">@color/settingslib_materialColorSurfaceDim</item>
+
+        <item name="expressiveTwoTargetPreferenceTheme">@style/ExpressiveTwoTargetPreferenceTheme.Custom</item>
+    </style>
+
+    <style name="ExpressiveTwoTargetPreferenceTheme.Custom" parent="ExpressiveTwoTargetPreferenceTheme">
+        <item name="expressiveTwoTargetDividerStyle">@style/ExpressiveTwoTargetDividerStyle.Custom</item>
+    </style>
+
+    <style name="ExpressiveTwoTargetDividerStyle.Custom" parent="ExpressiveTwoTargetDividerStyle">
+        <!-- Remove unnecessary padding at the start of the divider in the expressive theme. -->
+        <item name="android:paddingStart">0dip</item>
     </style>
 </resources>

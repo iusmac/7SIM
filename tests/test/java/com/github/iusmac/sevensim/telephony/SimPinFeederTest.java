@@ -69,9 +69,13 @@ import static org.robolectric.Shadows.shadowOf;
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner.class)
 public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
-    private static final long TASK_WAIT_TIMEOUT_MILLIS = 3_000L;
+    // Increase timeout in CI environments to account for server load, which may increase the time
+    // between Thread.State.RUNNABLE and Thread.State.{TERMINATED/TIMED_WAITING} when running task.
     private static final Duration TASK_WAIT_TIMEOUT_DURATION =
-        Duration.ofMillis(TASK_WAIT_TIMEOUT_MILLIS);
+        Duration.ofMillis(Optional.ofNullable(System.getenv("CI"))
+                .filter((v) -> v.equals("true"))
+                .map((v) -> 5_000L)
+                .orElse(3_000L));
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
     @Inject
@@ -112,33 +116,32 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         createTaskWith(List.of(pinEntityEncrypted));
     }
 
-    @Test(timeout = TASK_WAIT_TIMEOUT_MILLIS)
-    public void test_ShouldFinishFastWithoutUsablePinEntities() throws InterruptedException {
-        runTaskWith(Collections.emptyList()).join();
+    @Test
+    public void test_ShouldFinishFastWithoutUsablePinEntities() {
+        runTaskWith(Collections.emptyList());
+        assertTaskInState(TERMINATED);
     }
 
-    @Test(timeout = TASK_WAIT_TIMEOUT_MILLIS)
-    public void test_ShouldFinishFastWhenPreemptivelyCancelled() throws InterruptedException {
+    @Test
+    public void test_ShouldFinishFastWhenPreemptivelyCancelled() {
         final var pinEntity = new PinEntity();
         pinEntity.setSubscriptionId(1);
         pinEntity.setClearPin("1234");
         runTaskWith(List.of(pinEntity)).cancel();
-        mTask.join();
+        assertTaskInState(TERMINATED);
     }
 
-    @Test(timeout = TASK_WAIT_TIMEOUT_MILLIS)
-    public void test_ShouldFinishWhenPreemptivelyCancelled() throws InterruptedException {
+    @Test
+    public void test_ShouldFinishWhenPreemptivelyCancelled() {
         final var pinEntity = new PinEntity();
         pinEntity.setSubscriptionId(1);
         pinEntity.setClearPin("1234");
         runTaskWith(List.of(pinEntity)).cancel();
-        mTask.join();
+        assertTaskInState(TERMINATED);
     }
 
-    @Test(timeout = TASK_WAIT_TIMEOUT_MILLIS)
-    public void test_ShouldFinishWhenCancelledWhileWaitingForSimStatusChangeEvent()
-            throws InterruptedException {
-
+    @Test
+    public void test_ShouldFinishWhenCancelledWhileWaitingForSimStatusChangeEvent() {
         final var pinEntity = new PinEntity();
         pinEntity.setSubscriptionId(1);
         pinEntity.setClearPin("1234");
@@ -146,7 +149,7 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         runTaskWith(List.of(pinEntity));
         assertTaskInState(TIMED_WAITING);
         mTask.cancel();
-        mTask.join();
+        assertTaskInState(TERMINATED);
     }
 
     @Test
@@ -161,19 +164,15 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         assertTaskTimedOut();
     }
 
-    @Test(timeout = TASK_WAIT_TIMEOUT_MILLIS)
-    public void test_ShouldUnregisterOnSimStatusChangedListenerWhenFinishedFastWithoutUsablePinEntities()
-            throws InterruptedException {
-
-        runTaskWith(Collections.emptyList()).join();
-
+    @Test
+    public void test_ShouldUnregisterOnSimStatusChangedListenerWhenFinishedFastWithoutUsablePinEntities() {
+        runTaskWith(Collections.emptyList());
+        assertTaskInState(TERMINATED);
         assertThat(findCarrierConfigChangedReceiver(), is(Optional.empty()));
     }
 
-    @Test(timeout = TASK_WAIT_TIMEOUT_MILLIS)
-    public void test_ShouldUnregisterOnSimStatusChangedListenerWhenCancelledWhileWaitingForSimStatusChangeEvent()
-            throws InterruptedException {
-
+    @Test
+    public void test_ShouldUnregisterOnSimStatusChangedListenerWhenCancelledWhileWaitingForSimStatusChangeEvent() {
         final var pinEntity = new PinEntity();
         pinEntity.setSubscriptionId(1);
         pinEntity.setClearPin("1234");
@@ -181,7 +180,7 @@ public final class SimPinFeederTest extends MockitoHiltAndroidTestBase {
         runTaskWith(List.of(pinEntity));
         assertTaskInState(TIMED_WAITING);
         mTask.cancel();
-        mTask.join();
+        assertTaskInState(TERMINATED);
 
         assertThat(findCarrierConfigChangedReceiver(), is(Optional.empty()));
     }

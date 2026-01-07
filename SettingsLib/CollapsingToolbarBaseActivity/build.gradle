@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibCollapsingToolbarBaseActivity = '../fwb/packages/SettingsLib/CollapsingToolbarBaseActivity'

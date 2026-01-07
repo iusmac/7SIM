@@ -8,7 +8,7 @@ declare -r SHORT_OPTS=u:,t:
 declare -r LONG_OPTS=set-repo-url:,set-repo-tag:,get-repo-url,get-repo-tag,apply-patches-only
 declare -r FWB_DIR='fwb'
 declare REPO_URL='https://android.googlesource.com/platform/frameworks/base.git'
-declare REPO_TAG='android-16.0.0_r1'
+declare REPO_TAG='android-16.0.0_r4'
 declare -a LIBS=(
     'BannerMessagePreference'
     'ButtonPreference'
