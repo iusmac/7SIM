@@ -160,6 +160,7 @@ android {
         // Instead of failing the build due to missing translations, just inform us to avoid
         // mistakes during manual import
         informational 'MissingTranslation'
+        disable 'GradlePluginVersion'
     }
 
     dependenciesInfo {
