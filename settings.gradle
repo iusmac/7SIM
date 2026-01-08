@@ -8,7 +8,7 @@ pluginManagement {
 
 buildscript {
     ext {
-        apgVersion = new File(rootProject.projectDir.absoluteFile, "gradle/libs.versions.toml")
+        agpVersion = new File(rootProject.projectDir.absoluteFile, "gradle/libs.versions.toml")
             .readLines()
             .stream()
             .filter((line) -> line.startsWith("agp ="))
@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.settings' version "${apgVersion}"
+    id 'com.android.settings' version "${agpVersion}"
 }
 
 dependencyResolutionManagement {
