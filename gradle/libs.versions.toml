@@ -75,7 +75,7 @@ livedata = { module = "androidx.lifecycle:lifecycle-livedata", version = "2.10.0
 # https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/extras/material-design-x/com/google/android/material/material/
 material = { module = "com.google.android.material:material", version = "1.14.0-alpha02" }
 # https://mvnrepository.com/artifact/org.mockito/mockito-core
-mockito = { module = "org.mockito:mockito-core", version = "5.20.0" }
+mockito = { module = "org.mockito:mockito-core", version = "5.21.0" }
 # https://mvnrepository.com/artifact/androidx.preference/preference
 # https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/preference/preference/
 preference = { module = "androidx.preference:preference", version = "1.2.1" } # TODO AOSP sources use 1.3.0-alpha01; upgrade when available in Maven Central }
