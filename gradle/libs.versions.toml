@@ -57,7 +57,7 @@ coordinatorlayout = { module = "androidx.coordinatorlayout:coordinatorlayout", v
 # https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/core/core/
 core = { module = "androidx.core:core", version = "1.17.0" } # TODO: AOSP sources use 1.19.0-alpha01; upgrade when available in Maven Central }
 # https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
-errorprone = { module = "com.google.errorprone:error_prone_core", version = "2.42.0" }
+errorprone = { module = "com.google.errorprone:error_prone_core", version = "2.45.0" }
 # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espresso" }
