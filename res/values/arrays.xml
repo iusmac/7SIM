@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Taken from frameworks/base/core/res/res/values/arrays.xml -->
+    <array name="sim_colors">
+        <item>@color/Teal_700</item>
+        <item>@color/Blue_700</item>
+        <item>@color/Indigo_700</item>
+        <item>@color/Purple_700</item>
+        <item>@color/Pink_700</item>
+        <item>@color/Red_700</item>
+    </array>
+
+    <array name="sim_dark_mode_colors">
+        <item>@color/Teal_300</item>
+        <item>@color/Blue_300</item>
+        <item>@color/Indigo_300</item>
+        <item>@color/Purple_300</item>
+        <item>@color/Pink_300</item>
+        <item>@color/Red_300</item>
+    </array>
+</resources>
