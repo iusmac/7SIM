@@ -268,6 +268,7 @@ dependencies {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
 
+    implementation libs.errorprone.annotations
     errorprone libs.errorprone
     annotationProcessor libs.errorprone
     testAnnotationProcessor libs.errorprone

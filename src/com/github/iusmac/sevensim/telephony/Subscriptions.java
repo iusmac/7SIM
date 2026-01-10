@@ -73,7 +73,7 @@ public abstract class Subscriptions implements Iterable<Subscription> {
     private final BroadcastReceiver mCarrierConfigChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            mLogger.v("onReceive() : intent=" + intent);
+            mLogger.v("onReceive() : intent=%s", intent);
 
             switch (Objects.toString(intent.getAction(), "")) {
                 case TelephonyManager.ACTION_SIM_CARD_STATE_CHANGED,

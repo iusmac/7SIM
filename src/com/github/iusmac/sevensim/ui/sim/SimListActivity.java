@@ -151,7 +151,7 @@ public class SimListActivity extends Hilt_SimListActivity
         public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
 
-            mLogger.d("onReceive() : intent=" + intent);
+            mLogger.d("onReceive() : intent=%s", intent);
 
             switch (action) {
                 case Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_TIME_CHANGED -> {
