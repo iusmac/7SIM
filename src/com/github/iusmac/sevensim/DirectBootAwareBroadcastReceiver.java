@@ -43,7 +43,7 @@ public final class DirectBootAwareBroadcastReceiver extends Hilt_DirectBootAware
 
         mLogger = mLoggerFactory.create(getClass().getSimpleName());
 
-        mLogger.d("onReceive() : intent=" + intent);
+        mLogger.d("onReceive() : intent=%s", intent);
 
         final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         final String action = intent.getAction() != null ? intent.getAction() : "";

@@ -61,12 +61,12 @@ public final class SubscriptionController {
         final String logPrefix = String.format(Locale.getDefault(), "setUiccApplicationsEnabled(" +
                 "subId=%d,enabled=%s)", subId, enabled);
 
-        mLogger.d(logPrefix);
+        mLogger.d("%s", logPrefix);
 
         final Subscription sub = mSubscriptions.getSubscriptionForSubId(subId).orElse(null);
 
         if (sub == null) {
-            mLogger.e(logPrefix + " Aborting due to missing subscription.");
+            mLogger.e("%s Aborting due to missing subscription.", logPrefix);
             mSubscriptions.notifyAllListeners();
             return;
         }

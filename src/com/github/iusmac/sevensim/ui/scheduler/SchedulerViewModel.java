@@ -425,7 +425,7 @@ public final class SchedulerViewModel extends ViewModel {
         public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
 
-            mLogger.d("onReceive() : intent=" + intent);
+            mLogger.d("onReceive() : intent=%s", intent);
 
             switch (action) {
                 case Intent.ACTION_LOCALE_CHANGED -> {
