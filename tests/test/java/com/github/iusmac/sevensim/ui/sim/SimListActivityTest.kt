@@ -812,6 +812,16 @@ class SimListActivityTest {
                 assertThat(simDarkModeColorInts.toTypedArray(), arrayWithSize(simColorInts.size))
             }
         }
+
+        @Test
+        fun `test sim icon color palette matches system color palette`() {
+            with(mApplicationContext.getResources()) {
+                val systemSimColorInts = getIntArray(com.android.internal.R.array.sim_colors)
+                val simColorInts = getIntArray(R.array.sim_colors)
+                assertThat(systemSimColorInts, `is`(simColorInts))
+            }
+        }
+
         @After
         fun tearDown() {
             // Wait for the ViewModel to complete before exiting the test, otherwise the database
