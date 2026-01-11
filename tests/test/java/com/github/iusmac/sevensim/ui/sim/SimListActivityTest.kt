@@ -803,6 +803,15 @@ class SimListActivityTest {
             }
         }
 
+        @Test
+        @Config(minSdk = Q)
+        fun `test dark sim color array size matches light sim color array size`() {
+            with(mApplicationContext.getResources()) {
+                val simColorInts = getIntArray(R.array.sim_colors)
+                val simDarkModeColorInts = getIntArray(R.array.sim_dark_mode_colors)
+                assertThat(simDarkModeColorInts.toTypedArray(), arrayWithSize(simColorInts.size))
+            }
+        }
         @After
         fun tearDown() {
             // Wait for the ViewModel to complete before exiting the test, otherwise the database
