@@ -822,6 +822,50 @@ class SimListActivityTest {
             }
         }
 
+        @Test
+        @Config(minSdk = Q)
+        fun `test should use dark sim color palette whenever possible`() {
+            val simColorInts = mApplicationContext.getResources().getIntArray(R.array.sim_colors)
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(
+                SubscriptionInfoBuilder.newBuilder().apply {
+                    setId(1)
+                    setSimSlotIndex(0)
+                    setDisplayName("SIM 1")
+                    setIconTint(Color.BLUE)
+                }.buildSubscriptionInfo(),
+                SubscriptionInfoBuilder.newBuilder().apply {
+                    setId(2)
+                    setSimSlotIndex(1)
+                    setDisplayName("SIM 2")
+                    setIconTint(simColorInts.first())
+                }.buildSubscriptionInfo(),
+                SubscriptionInfoBuilder.newBuilder().apply {
+                    setId(3)
+                    setSimSlotIndex(2)
+                    setDisplayName("SIM 3")
+                    setIconTint(simColorInts.last())
+                }.buildSubscriptionInfo()
+            )
+            shadowOf(mTelephonyManager).apply {
+                setActiveModemCount(3)
+                setPhoneCount(3)
+            }
+            val captureRoboImages = { ->
+                // Ensure ViewModel finished updating UI
+                waitActivityWorkerThreadUntilIdle()
+                shadowOf(Looper.getMainLooper()).idle()
+                onSimEntryAt(0).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+                onSimEntryAt(1).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+                onSimEntryAt(2).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+            }
+            onActivity {
+                captureRoboImages()
+                // Switch to dark mode (activity will be recreated)
+                RuntimeEnvironment.setQualifiers("+night")
+                captureRoboImages()
+            }
+        }
+
         @After
         fun tearDown() {
             // Wait for the ViewModel to complete before exiting the test, otherwise the database
