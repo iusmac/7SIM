@@ -4,7 +4,6 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.ComponentName
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
 import android.os.Build.VERSION_CODES.Q
@@ -864,13 +863,21 @@ class SimListActivityTest {
         }
 
         private val systemSimColorInts by lazy(LazyThreadSafetyMode.NONE) {
-            mApplicationContext.getResources().run {
-                try {
-                    getIntArray(com.android.internal.R.array.sim_colors)
-                } catch (_: Resources.NotFoundException) { // support older SDKs
-                    val androidInternalR = Class.forName("com.android.internal.R\$array")
-                    val resId = androidInternalR.getField("sim_colors").getInt(null)
-                    getIntArray(resId)
+            with(mApplicationContext) {
+                getResources().run {
+                    // NOTE: since we're compiling against Robolectric's android-all.jar, we can
+                    // statically access its generated internal resource Ids only when the emulated
+                    // Android SDK level matches targetSdk version, otherwise (almost always) we'll
+                    // get a Resources.NotFoundException. Sometimes, the generated resource Id
+                    // exists but getIntArray returns an empty array or even a wrong array due a
+                    // collision with a resource different from our resource
+                    if (getApplicationInfo().targetSdkVersion === Build.VERSION.SDK_INT) {
+                        getIntArray(com.android.internal.R.array.sim_colors)
+                    } else { // silver bullet (slower) via reflection to cover all other cases
+                        val androidInternalR = Class.forName("com.android.internal.R\$array")
+                        val resId = androidInternalR.getField("sim_colors").getInt(null)
+                        getIntArray(resId)
+                    }
                 }
             }
         }
