@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.ComponentName
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
 import android.os.Build.VERSION_CODES.Q
@@ -815,17 +816,13 @@ class SimListActivityTest {
 
         @Test
         fun `test sim icon color palette matches system color palette`() {
-            with(mApplicationContext.getResources()) {
-                val systemSimColorInts = getIntArray(com.android.internal.R.array.sim_colors)
-                val simColorInts = getIntArray(R.array.sim_colors)
-                assertThat(systemSimColorInts, `is`(simColorInts))
-            }
+            val simColorInts = mApplicationContext.getResources().getIntArray(R.array.sim_colors)
+            assertThat(systemSimColorInts, `is`(simColorInts))
         }
 
         @Test
         @Config(minSdk = Q)
         fun `test should use dark sim color palette whenever possible`() {
-            val simColorInts = mApplicationContext.getResources().getIntArray(R.array.sim_colors)
             shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(
                 SubscriptionInfoBuilder.newBuilder().apply {
                     setId(1)
@@ -837,13 +834,13 @@ class SimListActivityTest {
                     setId(2)
                     setSimSlotIndex(1)
                     setDisplayName("SIM 2")
-                    setIconTint(simColorInts.first())
+                    setIconTint(systemSimColorInts.first())
                 }.buildSubscriptionInfo(),
                 SubscriptionInfoBuilder.newBuilder().apply {
                     setId(3)
                     setSimSlotIndex(2)
                     setDisplayName("SIM 3")
-                    setIconTint(simColorInts.last())
+                    setIconTint(systemSimColorInts.last())
                 }.buildSubscriptionInfo()
             )
             shadowOf(mTelephonyManager).apply {
@@ -863,6 +860,18 @@ class SimListActivityTest {
                 // Switch to dark mode (activity will be recreated)
                 RuntimeEnvironment.setQualifiers("+night")
                 captureRoboImages()
+            }
+        }
+
+        private val systemSimColorInts by lazy(LazyThreadSafetyMode.NONE) {
+            mApplicationContext.getResources().run {
+                try {
+                    getIntArray(com.android.internal.R.array.sim_colors)
+                } catch (_: Resources.NotFoundException) { // support older SDKs
+                    val androidInternalR = Class.forName("com.android.internal.R\$array")
+                    val resId = androidInternalR.getField("sim_colors").getInt(null)
+                    getIntArray(resId)
+                }
             }
         }
 
