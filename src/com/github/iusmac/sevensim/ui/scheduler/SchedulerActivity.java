@@ -160,4 +160,11 @@ public final class SchedulerActivity extends Hilt_SchedulerActivity
         mSubscriptions.removeOnSubscriptionsChangedListener(this);
         sHandler.removeCallbacksAndMessages(mSubscriptionsChangedToken);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        sHandler.removeCallbacksAndMessages(null);
+    }
 }
