@@ -113,7 +113,7 @@ public final class TelephonyController {
         // From testing, it turned out that SIM power state change request ignores Airplane mode,
         // so we can allow disabling but not enabling request
         if (enabled && TelephonyUtils.isAirplaneModeOn(mContext)) {
-            mLogger.w(logPrefix + "Aborting due to Airplane mode.");
+            mLogger.w("%sAborting due to Airplane mode.", logPrefix);
 
             Utils.makeToast(mContext, mContext.getString(R.string.airplane_mode_enabled));
 
@@ -122,19 +122,19 @@ public final class TelephonyController {
         }
 
         synchronized (this) {
-            mLogger.d(logPrefix + "In sync block.");
+            mLogger.d("%sIn sync block.", logPrefix);
 
             final Subscription sub =
                 mSubscriptions.getSubscriptionForSimSlotIndex(slotIndex).orElse(null);
 
             if (sub == null) {
-                mLogger.e(logPrefix + "Aborting due to missing subscription.");
+                mLogger.e("%sAborting due to missing subscription.", logPrefix);
                 mSubscriptions.notifyAllListeners();
                 return;
             }
 
             if (enabled == sub.isSimEnabled()) {
-                mLogger.w(logPrefix + "Already in state.");
+                mLogger.w("%sAlready in state.", logPrefix);
                 mSubscriptions.notifyAllListeners();
                 return;
             }
@@ -199,7 +199,7 @@ public final class TelephonyController {
                     try {
                         mRequestMetadata.wait(deadlineMillis - nowMillis);
                     } catch (InterruptedException e) {
-                        mLogger.w(logPrefix + "Acquire wait interrupted.");
+                        mLogger.w("%sAcquire wait interrupted.", logPrefix);
                         // At this point we'll just propagate a custom internal "interrupted
                         // abruptly" code that will assume the request succeeded
                         mRequestMetadata.putInt(KEY_REQUEST_RESPONSE_CODE,
@@ -294,7 +294,7 @@ public final class TelephonyController {
                      TelephonyManager.SET_SIM_POWER_STATE_NOT_SUPPORTED -> // 4
                     requestFailed = true;
 
-                default -> mLogger.e(logPrefix + ". Unexpected resCode.");
+                default -> mLogger.e("%s. Unexpected resCode.", logPrefix);
             }
         } else {
             switch (resCode) {
@@ -356,7 +356,7 @@ public final class TelephonyController {
         // to explicitly notify listeners, so they can stay tuned to actual state
         shouldNotifyAllListeners |= requestFailed;
 
-        mLogger.d(logPrefix + ", requestFailed=%s,shouldNotifyAllListeners=%s", requestFailed,
+        mLogger.d("%s,requestFailed=%s,shouldNotifyAllListeners=%s", logPrefix, requestFailed,
                 shouldNotifyAllListeners);
 
         if (shouldNotifyAllListeners) {

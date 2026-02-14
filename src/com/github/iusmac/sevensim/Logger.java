@@ -4,6 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
 
+import com.google.errorprone.annotations.FormatMethod;
+import com.google.errorprone.annotations.FormatString;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -51,31 +54,36 @@ public final class Logger {
     public boolean isErrorLoggable() { return Log.isLoggable(mTag, Log.ERROR); }
     public boolean isWtfLoggable() { return Log.isLoggable(mTag, Log.ASSERT); }
 
-    public void v(String message, Object... args) {
+    @FormatMethod
+    public void v(@FormatString String message, Object... args) {
         if (mIsDebuggable || isVerboseLoggable()) {
             Log.v(mTag, format(message, args));
         }
     }
 
-    public void d(String message, Object... args) {
+    @FormatMethod
+    public void d(@FormatString String message, Object... args) {
         if (mIsDebuggable || isDebugLoggable()) {
             Log.d(mTag, format(message, args));
         }
     }
 
-    public void i(String message, Object... args) {
+    @FormatMethod
+    public void i(@FormatString String message, Object... args) {
         if (mIsDebuggable || isInfoLoggable()) {
             Log.i(mTag, format(message, args));
         }
     }
 
-    public void w(String message, Object... args) {
+    @FormatMethod
+    public void w(@FormatString String message, Object... args) {
         if (mIsDebuggable || isWarnLoggable()) {
             Log.w(mTag, format(message, args));
         }
     }
 
-    public void e(String message, Object... args) {
+    @FormatMethod
+    public void e(@FormatString String message, Object... args) {
         if (mIsDebuggable || isErrorLoggable()) {
             Log.e(mTag, format(message, args));
         }
@@ -87,7 +95,8 @@ public final class Logger {
         }
     }
 
-    public void wtf(String message, Object... args) {
+    @FormatMethod
+    public void wtf(@FormatString String message, Object... args) {
         if (mIsDebuggable || isWtfLoggable()) {
             Log.wtf(mTag, format(message, args));
         }
@@ -108,7 +117,8 @@ public final class Logger {
         Logger create(String tag);
     }
 
-    private static String format(String message, Object... args) {
+    @FormatMethod
+    private static String format(@FormatString String message, Object... args) {
         return args == null || args.length == 0 ? message : String.format(Locale.US, message, args);
     }
 }

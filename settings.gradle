@@ -6,8 +6,20 @@ pluginManagement {
     }
 }
 
+buildscript {
+    ext {
+        agpVersion = new File(rootProject.projectDir.absoluteFile, "gradle/libs.versions.toml")
+            .readLines()
+            .stream()
+            .filter((line) -> line.startsWith("agp ="))
+            .map((line) -> line.split('"')[1])
+            .findFirst()
+            .get()
+    }
+}
+
 plugins {
-    id 'com.android.settings' version '8.10.1'
+    id 'com.android.settings' version "${agpVersion}"
 }
 
 dependencyResolutionManagement {
