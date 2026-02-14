@@ -32,7 +32,7 @@ jobs:
     if: needs.release-please.outputs.release_created
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Build
         id: build
         uses: ./.github/actions/android-build
@@ -56,7 +56,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           sparse-checkout:
             .github
