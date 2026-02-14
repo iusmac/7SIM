@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.0](https://github.com/iusmac/7SIM/compare/v2.3.1...v2.4.0) (2026-02-14)
+
+
+### :sparkles: Features
+
+* merge December 2025 QPR2 Patches (android-16.0.0_r4) ([#97](https://github.com/iusmac/7SIM/issues/97)) ([4eea8dc](https://github.com/iusmac/7SIM/commit/4eea8dcaf4ff7dd1f0f818d164d18af6137310d5))
+* **ui/sim:** change SIM icon colors in dark mode ([#96](https://github.com/iusmac/7SIM/issues/96)) ([d6bf017](https://github.com/iusmac/7SIM/commit/d6bf017836f47379266de49a4ffc6474e2a954a3))
+
 ## [2.3.1](https://github.com/iusmac/7SIM/compare/v2.3.0...v2.3.1) (2025-10-05)
 
 
