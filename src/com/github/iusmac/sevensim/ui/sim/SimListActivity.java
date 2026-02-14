@@ -145,6 +145,13 @@ public class SimListActivity extends Hilt_SimListActivity
         unregisterReceiver(mIntentReceiver);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        sHandler.removeCallbacksAndMessages(null);
+    }
+
     @VisibleForTesting
     final class IntentReceiver extends BroadcastReceiver {
         @Override
