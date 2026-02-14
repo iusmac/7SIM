@@ -38,6 +38,13 @@ import static org.mockito.BDDMockito.willAnswer;
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner.class)
 public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidTestBase {
+    // Increase await timeout in CI environments to account for server load, which may increase the
+    // time needed to pick up a new thread
+    private static final Duration DEFAULT_AWAIT_TIMEOUT_DURATION =
+        Duration.ofSeconds(Optional.ofNullable(System.getenv("CI"))
+                .filter((v) -> v.equals("true"))
+                .map((v) -> 5L)
+                .orElse(3L));
     private static final LocalDateTime NOW = LocalDateTime.of(2007, 1, 1, 13, 0);
 
     private final Subscription mSubscription = new Subscription();
@@ -304,7 +311,7 @@ public class SubscriptionSchedulerSummaryBuilderTest extends MockitoHiltAndroidT
         await()
             .dontCatchUncaughtExceptions()
             .pollInSameThread()
-            .atMost(Duration.ofSeconds(3))
+            .atMost(DEFAULT_AWAIT_TIMEOUT_DURATION)
             .pollInterval(Duration.ofMillis(50))
             .until(future::isDone);
 

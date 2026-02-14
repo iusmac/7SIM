@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.SparseIntArray;
 import android.view.View;
 
 import androidx.collection.SparseArrayCompat;
@@ -41,6 +42,7 @@ public final class SimListFragment extends Hilt_SimListFragment {
     @Inject
     Lazy<ApplicationInfo> mApplicationInfoLazy;
 
+    private SparseIntArray mLightDarkSimIconColorPalette;
     private SimListViewModel mViewModel;
 
     private PreferenceCategory mSimPreferenceCategory;
@@ -48,6 +50,14 @@ public final class SimListFragment extends Hilt_SimListFragment {
     private SparseArrayCompat<PrimarySwitchPreference> mSimPreferences = new SparseArrayCompat<>();
 
     private BannerMessagePreference mBackgroundRestrictedBanner;
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+
+        mLightDarkSimIconColorPalette = UiUtils.isDarkMode(context) ?
+            getLightDarkSimIconColorPalette(context) : new SparseIntArray();
+    }
 
     @Override
     public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
@@ -160,7 +170,9 @@ public final class SimListFragment extends Hilt_SimListFragment {
             }
             pref.setOrder(i);
             pref.setIcon(UiUtils.createTintedDrawable(context, R.drawable.ic_sim,
-                        sub.getIconTint()));
+                        // Whenever possible, use the equivalent dark icon color from the color
+                        // palette defined in Android OS, otherwise default to use the light color
+                        mLightDarkSimIconColorPalette.get(sub.getIconTint(), sub.getIconTint())));
             pref.setTitle(sub.getSimName());
             pref.setSummary(simEntry.getNextUpcomingScheduleSummary());
             pref.setChecked(sub.isSimEnabled());
@@ -179,5 +191,16 @@ public final class SimListFragment extends Hilt_SimListFragment {
 
         // Show a placeholder message if no SIM cards
         mNoSimPreference.setVisible(simEntries.isEmpty());
+    }
+
+    private static SparseIntArray getLightDarkSimIconColorPalette(final Context context) {
+        final var res = context.getResources();
+        final var lightColorInts = res.getIntArray(R.array.sim_colors);
+        final var darkColorInts = res.getIntArray(R.array.sim_dark_mode_colors);
+        final var palette = new SparseIntArray(lightColorInts.length);
+        for (int i = 0; i < lightColorInts.length; i++) {
+            palette.put(lightColorInts[i], darkColorInts[i]);
+        }
+        return palette;
     }
 }

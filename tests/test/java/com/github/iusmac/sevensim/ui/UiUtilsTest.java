@@ -379,6 +379,17 @@ public class UiUtilsTest extends MockitoHiltAndroidTestBase {
         assertTrue(UiUtils.isLandscape(mApplicationContext));
     }
 
+    @Test
+    public void test_isDarkMode_WhenLightMode() {
+        assertFalse(UiUtils.isDarkMode(mApplicationContext));
+    }
+
+    @Test
+    @Config(qualifiers = "night")
+    public void test_isDarkMode_WhenDarkMode() {
+        assertTrue(UiUtils.isDarkMode(mApplicationContext));
+    }
+
     private static RecyclerView.Adapter<? extends RecyclerView.ViewHolder>
         buildAdapterWithItemCount(final int itemCount) {
 

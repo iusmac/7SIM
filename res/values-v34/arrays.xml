@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Keep in sync with frameworks/base/core/res/res/values/arrays.xml
+         DO NOT CHANGE HERE! Create an "arrays.xml" per SDK when need to sync! -->
+    <array name="sim_colors">
+        <item>@color/SIM_color_cyan</item>
+        <item>@color/SIM_color_blue</item>
+        <item>@color/SIM_color_green</item>
+        <item>@color/SIM_color_purple</item>
+        <item>@color/SIM_color_pink</item>
+        <item>@color/SIM_color_orange</item>
+    </array>
+
+    <array name="sim_dark_mode_colors">
+        <item>@color/SIM_dark_mode_color_cyan</item>
+        <item>@color/SIM_dark_mode_color_blue</item>
+        <item>@color/SIM_dark_mode_color_green</item>
+        <item>@color/SIM_dark_mode_color_purple</item>
+        <item>@color/SIM_dark_mode_color_pink</item>
+        <item>@color/SIM_dark_mode_color_orange</item>
+    </array>
+</resources>

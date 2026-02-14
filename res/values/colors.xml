@@ -13,4 +13,18 @@
     <color name="schedule_card_day_unselected_stroke_color">?android:attr/colorControlHighlight</color>
     <color name="schedule_card_arrow_background_color">@android:color/transparent</color>
     <color name="schedule_card_hairline_color">#28000000</color>
+
+    <!-- Multi-sim sim colors. Taken from frameworks/base/core/res/res/values/colors.xml -->
+    <color name="Teal_700">#ff00796b</color>
+    <color name="Teal_300">#ff4db6ac</color>
+    <color name="Blue_700">#ff3367d6</color>
+    <color name="Blue_300">#ff64b5f6</color>
+    <color name="Indigo_700">#ff303f9f</color>
+    <color name="Indigo_300">#ff7986cb</color>
+    <color name="Purple_700">#ff7b1fa2</color>
+    <color name="Purple_300">#ffba68c8</color>
+    <color name="Pink_700">#ffc2185b</color>
+    <color name="Pink_300">#fff06292</color>
+    <color name="Red_700">#ffc53929</color>
+    <color name="Red_300">#ffe57373</color>
 </resources>

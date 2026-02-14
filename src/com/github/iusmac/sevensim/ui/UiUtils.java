@@ -342,6 +342,16 @@ public final class UiUtils {
             Configuration.ORIENTATION_LANDSCAPE;
     }
 
+    /**
+     * Check whether currently the app is displayed in dark mode or not.
+     *
+     * @param context The {@link Context} to access resources.
+     */
+    public static boolean isDarkMode(final @NonNull Context context) {
+        return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+            == Configuration.UI_MODE_NIGHT_YES;
+    }
+
     /** Do not initialize. */
     private UiUtils() {}
 }

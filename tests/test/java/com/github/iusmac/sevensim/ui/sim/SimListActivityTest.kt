@@ -803,6 +803,85 @@ class SimListActivityTest {
             }
         }
 
+        @Test
+        @Config(minSdk = Q)
+        fun `test dark sim color array size matches light sim color array size`() {
+            with(mApplicationContext.getResources()) {
+                val simColorInts = getIntArray(R.array.sim_colors)
+                val simDarkModeColorInts = getIntArray(R.array.sim_dark_mode_colors)
+                assertThat(simDarkModeColorInts.toTypedArray(), arrayWithSize(simColorInts.size))
+            }
+        }
+
+        @Test
+        fun `test sim icon color palette matches system color palette`() {
+            val simColorInts = mApplicationContext.getResources().getIntArray(R.array.sim_colors)
+            assertThat(systemSimColorInts, `is`(simColorInts))
+        }
+
+        @Test
+        @Config(minSdk = Q)
+        fun `test should use dark sim color palette whenever possible`() {
+            shadowOf(mSubscriptionManager).setAvailableSubscriptionInfos(
+                SubscriptionInfoBuilder.newBuilder().apply {
+                    setId(1)
+                    setSimSlotIndex(0)
+                    setDisplayName("SIM 1")
+                    setIconTint(Color.BLUE)
+                }.buildSubscriptionInfo(),
+                SubscriptionInfoBuilder.newBuilder().apply {
+                    setId(2)
+                    setSimSlotIndex(1)
+                    setDisplayName("SIM 2")
+                    setIconTint(systemSimColorInts.first())
+                }.buildSubscriptionInfo(),
+                SubscriptionInfoBuilder.newBuilder().apply {
+                    setId(3)
+                    setSimSlotIndex(2)
+                    setDisplayName("SIM 3")
+                    setIconTint(systemSimColorInts.last())
+                }.buildSubscriptionInfo()
+            )
+            shadowOf(mTelephonyManager).apply {
+                setActiveModemCount(3)
+                setPhoneCount(3)
+            }
+            val captureRoboImages = { ->
+                // Ensure ViewModel finished updating UI
+                waitActivityWorkerThreadUntilIdle()
+                shadowOf(Looper.getMainLooper()).idle()
+                onSimEntryAt(0).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+                onSimEntryAt(1).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+                onSimEntryAt(2).captureRoboImage(idleFor = SCROLL_BAR_FADE_DURATION)
+            }
+            onActivity {
+                captureRoboImages()
+                // Switch to dark mode (activity will be recreated)
+                RuntimeEnvironment.setQualifiers("+night")
+                captureRoboImages()
+            }
+        }
+
+        private val systemSimColorInts by lazy(LazyThreadSafetyMode.NONE) {
+            with(mApplicationContext) {
+                getResources().run {
+                    // NOTE: since we're compiling against Robolectric's android-all.jar, we can
+                    // statically access its generated internal resource Ids only when the emulated
+                    // Android SDK level matches targetSdk version, otherwise (almost always) we'll
+                    // get a Resources.NotFoundException. Sometimes, the generated resource Id
+                    // exists but getIntArray returns an empty array or even a wrong array due a
+                    // collision with a resource different from our resource
+                    if (getApplicationInfo().targetSdkVersion === Build.VERSION.SDK_INT) {
+                        getIntArray(com.android.internal.R.array.sim_colors)
+                    } else { // silver bullet (slower) via reflection to cover all other cases
+                        val androidInternalR = Class.forName("com.android.internal.R\$array")
+                        val resId = androidInternalR.getField("sim_colors").getInt(null)
+                        getIntArray(resId)
+                    }
+                }
+            }
+        }
+
         @After
         fun tearDown() {
             // Wait for the ViewModel to complete before exiting the test, otherwise the database
