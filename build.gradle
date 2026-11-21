@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
     ext {
         jars = [
-            android_hidden       :  'android-36.jar'
+            android_hidden       :  'android-37.jar'
         ]
     }
 
