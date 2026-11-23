@@ -22,9 +22,7 @@ espresso = "3.7.0"
 # ========================================
 # https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
 # https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
-agp = "8.11.2"
-# https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
-kotlin = "2.1.10"
+agp = "9.5.1"
 # https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
 errorprone = "2.45.0"
 # https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
@@ -106,7 +104,7 @@ viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version = "2.10
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
 # https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
 errorprone = { id = "net.ltgt.errorprone", version = "4.2.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

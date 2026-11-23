@@ -15,7 +15,7 @@ buildscript {
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.legacy.kapt) apply false
     alias(libs.plugins.errorprone) apply false
     alias(libs.plugins.kover) apply false
     alias(libs.plugins.roborazzi) apply false
@@ -56,8 +56,7 @@ allprojects {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.legacy-kapt'
 apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'org.jetbrains.kotlinx.kover'
 apply plugin: 'io.github.takahirom.roborazzi'
