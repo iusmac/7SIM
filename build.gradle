@@ -96,21 +96,28 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        final def versionNameVariant = versionNameCommon.clone()
-        if (variant.buildType.isDebuggable()) {
-            versionNameVariant.add('DEBUG')
-        } else if (isReleaseDebugOpt()) {
-            versionNameVariant.add('DEBUG-OPT')
-        }
-        variant.outputs.each { output ->
-            final def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                final semVer = versionNameCommon[0]
-                output.outputFileName = String.format('%s-%s-%s.apk', project.name, semVer,
-                        variant.buildType.name)
+    androidComponents {
+        onVariants(selector().all()) { variant ->
+            final def versionNameVariant = versionNameCommon.clone()
+            final def buildTypeName = variant.buildType
+            if (buildTypeName == 'debug') {
+                versionNameVariant.add('DEBUG')
+            } else if (isReleaseDebugOpt()) {
+                versionNameVariant.add('DEBUG-OPT')
             }
-            output.versionNameOverride = versionNameVariant.join(' / ')
+            final def computedVersionName = versionNameVariant.join(' / ')
+            variant.outputs.each { output ->
+                output.versionName.set(computedVersionName)
+            }
+            final def semVer = versionNameCommon[0]
+            final def apkFileName = String.format('%s-%s-%s.apk', project.name, semVer, buildTypeName)
+            // Registers a task to copy the generated APK with our custom name
+            tasks.register("rename${variant.name.capitalize()}Apk", Copy) {
+                from(variant.artifacts.get(SingleArtifact.APK))
+                include("*.apk")
+                into(layout.buildDirectory.dir("outputs/renamed-apk/${variant.name}"))
+                rename { apkFileName }
+            }
         }
     }
 
