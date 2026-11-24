@@ -26,7 +26,7 @@ agp = "9.5.1"
 # https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
 errorprone = "2.45.0"
 # https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
-kover = "0.9.4"
+kover = "0.9.11"
 
 [libraries]
 # https://mvnrepository.com/artifact/androidx.activity/activity
