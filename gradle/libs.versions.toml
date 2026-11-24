@@ -10,7 +10,7 @@ room = "2.8.0-alpha01"
 # https://mvnrepository.com/artifact/com.google.dagger/hilt-android
 # https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
 # https://android.googlesource.com/platform/external/dagger2
-hilt = "2.55"
+hilt = "2.59.1"
 # https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
 roborazzi = "1.79.0"
 # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
