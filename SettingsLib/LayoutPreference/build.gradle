@@ -29,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibLayoutPreference}/res"]
             java.srcDirs = ["${SettingsLibLayoutPreference}/src"]
+            kotlin.srcDirs = ["${SettingsLibLayoutPreference}/src"]
         }
     }
 }

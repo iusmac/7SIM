@@ -146,17 +146,22 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['src']
+            kotlin.srcDirs = ['src']
             res.srcDirs = ['res']
             manifest.srcFile 'AndroidManifest.xml'
         }
 
-        test.java.srcDirs += 'tests/test/java'
+        test {
+            java.srcDirs += 'tests/test/java'
+            kotlin.srcDirs += 'tests/test/java'
+        }
 
         debug.assets.srcDirs += files("$projectDir/schemas".toString())
         release.assets.srcDirs += files("$projectDir/schemas".toString())
 
         androidTest {
             java.srcDirs += 'tests/androidTest/src/java'
+            kotlin.srcDirs += 'tests/androidTest/src/java'
             res.srcDirs += 'tests/androidTest/res'
             manifest.srcFile 'tests/androidTest/AndroidManifest.xml'
         }

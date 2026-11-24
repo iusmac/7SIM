@@ -29,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibSettingsTheme}/res"]
             java.srcDirs = ["${SettingsLibSettingsTheme}/src"]
+            kotlin.srcDirs = ["${SettingsLibSettingsTheme}/src"]
         }
     }
 }

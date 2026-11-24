@@ -29,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibButtonPreference}/res"]
             java.srcDirs = ["${SettingsLibButtonPreference}/src"]
+            kotlin.srcDirs = ["${SettingsLibButtonPreference}/src"]
         }
     }
 }

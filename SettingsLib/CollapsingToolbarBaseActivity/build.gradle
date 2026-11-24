@@ -29,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/res"]
             java.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/src"]
+            kotlin.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/src"]
         }
     }
 }

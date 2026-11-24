@@ -12,6 +12,7 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['src']
+            kotlin.srcDirs = ['src']
         }
     }
 }
