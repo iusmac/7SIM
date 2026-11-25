@@ -31,7 +31,7 @@ allprojects {
     }
 
     ext {
-        addCompileOnlyJar = { String name, boolean requiredByAndroidTest = false ->
+        addCompileOnlyJar = { String name, boolean requiredByUnitTest = false, boolean requiredByAndroidTest = false ->
             final def jars_dir = "$rootDir/prebuilts/jars"
             final def jar = new File(jars_dir, name)
             if (!jar.exists()) {
@@ -42,11 +42,14 @@ allprojects {
                     classpath = files(jar, classpath)
                 }
                 tasks.withType(KotlinCompile).configureEach {
-                    libraries.from(files(jar))
+                    libraries.setFrom(files(jar, libraries))
                 }
             }
             dependencies {
                 compileOnly files(jar)
+                if (requiredByUnitTest) {
+                    testCompileOnly files(jar)
+                }
                 if (requiredByAndroidTest) {
                     androidTestCompileOnly files(jar)
                 }
@@ -216,7 +219,7 @@ android {
     }
 }
 
-addCompileOnlyJar(jars.android_hidden, /*requiredByAndroidTest*/ true)
+addCompileOnlyJar(jars.android_hidden, /*requiredByUnitTest*/ true, /*requiredByAndroidTest*/ true)
 
 dependencies {
     implementation libs.annotation
