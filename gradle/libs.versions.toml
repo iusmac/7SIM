@@ -10,9 +10,9 @@ room = "2.8.0-alpha01"
 # https://mvnrepository.com/artifact/com.google.dagger/hilt-android
 # https://mvnrepository.com/artifact/com.google.dagger/hilt-compiler
 # https://android.googlesource.com/platform/external/dagger2
-hilt = "2.55"
+hilt = "2.59.1"
 # https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
-roborazzi = "1.54.0"
+roborazzi = "1.79.0"
 # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
 # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-contrib
 espresso = "3.7.0"
@@ -22,13 +22,11 @@ espresso = "3.7.0"
 # ========================================
 # https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
 # https://mvnrepository.com/artifact/com.android.library/com.android.library.gradle.plugin
-agp = "8.11.2"
-# https://plugins.gradle.org/plugin/org.jetbrains.kotlin.android
-kotlin = "2.1.10"
+agp = "9.5.1"
 # https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core
 errorprone = "2.45.0"
 # https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kover-gradle-plugin
-kover = "0.9.4"
+kover = "0.9.11"
 
 [libraries]
 # https://mvnrepository.com/artifact/androidx.activity/activity
@@ -83,11 +81,11 @@ preference = { module = "androidx.preference:preference", version = "1.2.1" } # 
 # https://android.googlesource.com/platform/prebuilts/sdk/+/refs/heads/main/current/androidx/m2repository/androidx/recyclerview/recyclerview/
 recyclerview = { module = "androidx.recyclerview:recyclerview", version = "1.4.0" } # TODO AOSP sources use 1.5.0-alpha01; upgrade when available in Maven Central }
 # https://mvnrepository.com/artifact/org.robolectric/robolectric
-robolectric = { module = "org.robolectric:robolectric", version = "4.16" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.18.1" }
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
 roborazzi-junit_rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
 # https://mvnrepository.com/artifact/org.robolectric/android-all
-robolectric-androidAll = { module = "org.robolectric:android-all", version = "16-robolectric-13921718" }
+robolectric-androidAll = { module = "org.robolectric:android-all", version = "17-robolectric-16653203" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
@@ -106,7 +104,7 @@ viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version = "2.10
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
 # https://mvnrepository.com/artifact/net.ltgt.errorprone/net.ltgt.errorprone.gradle.plugin
 errorprone = { id = "net.ltgt.errorprone", version = "4.2.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

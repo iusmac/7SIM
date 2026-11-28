@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibButtonPreference = '../fwb/packages/SettingsLib/ButtonPreference'
@@ -30,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibButtonPreference}/res"]
             java.srcDirs = ["${SettingsLibButtonPreference}/src"]
+            kotlin.srcDirs = ["${SettingsLibButtonPreference}/src"]
         }
     }
 }

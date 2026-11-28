@@ -28,7 +28,7 @@ if ls build/{outputs,reports}/roborazzi >/dev/null; then
     mv -v build/outputs/roborazzi/ "$roborazzi_dir/outputs/roborazzi" || true
     mv -v build/reports/roborazzi/ "$roborazzi_dir/reports/roborazzi" || true
 fi
-mv -v build/outputs/apk/{debug,release}/*.apk "$artifacts_dir"
+mv -v build/outputs/renamed-apk/{debug,release}/*.apk "$artifacts_dir"
 
 # NOTE: MD5/SHA256sum commands output as '<hash> <path/to/file>', so we should
 # cd into dir containing file to drop the 'path/to' part

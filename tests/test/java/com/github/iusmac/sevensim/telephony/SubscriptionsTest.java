@@ -237,13 +237,17 @@ public abstract class SubscriptionsTest extends MockitoHiltAndroidTestBase {
     @Test
     public final void test_addOnSubscriptionsChangedListener_ShouldNotStartListeningToSubscriptionManagerOnNullListeners() {
         provideSubscriptionsImpl().addOnSubscriptionsChangedListener(null);
+        shadowOf(mApplicationContext.getMainLooper()).idle();
         assertFalse(isListeningToSubscriptionManager());
     }
 
     @Test
     @Config(minSdk = Q)
     public final void test_addOnSubscriptionsChangedListener_ShouldStartListeningToSubscriptionManagerOnNonNullListeners() {
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> {});
+        final var listener = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener.subscriptionChangedCount, is(0));
         assertTrue(isListeningToSubscriptionManager());
     }
 
@@ -252,52 +256,76 @@ public abstract class SubscriptionsTest extends MockitoHiltAndroidTestBase {
     public final void test_addOnSubscriptionsChangedListener_ShouldTriggerListenerWhenAlreadyListeningToSubscriptionManager() {
         // Add the first listener that should be triggered once initially after we'll start
         // listening to SubscriptionManager
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> {});
+        final var listener1 = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener1);
+        assertThat(listener1.subscriptionChangedCount, is(0));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener1.subscriptionChangedCount, is(1));
 
         // Add another listener that should be triggered this time by us since we're already
         // listening to the SubscriptionManager
-        final var result = new boolean[1];
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> result[0] = true);
-        assertTrue(result[0]);
+        final var listener2 = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener2);
+        assertThat(listener2.subscriptionChangedCount, is(1));
     }
 
     @Test
     public final void test_addOnSubscriptionsChangedListener_ShouldNotRegisterDuplicateListeners() {
-        final var calls = new int[1];
-        final Subscriptions.OnSubscriptionsChangedListener listener = () -> calls[0]++;
+        final var listener = new DummySubscriptionsChangedListener();
         provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
+        assertThat(listener.subscriptionChangedCount, is(0));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener.subscriptionChangedCount, is(1));
+
         provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
-        assertThat(calls[0], is(1));
+        assertThat(listener.subscriptionChangedCount, is(1));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener.subscriptionChangedCount, is(1));
     }
 
     @Test
     public final void test_removeOnSubscriptionsChangedListener_ShouldNotStopListeningToSubscriptionManagerOnNullListeners() {
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> {});
+        final var listener = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
+        shadowOf(mApplicationContext.getMainLooper()).idle();
         provideSubscriptionsImpl().removeOnSubscriptionsChangedListener(null);
+        shadowOf(mApplicationContext.getMainLooper()).idle();
         assertTrue(isListeningToSubscriptionManager());
     }
 
     @Test
     public final void test_removeOnSubscriptionsChangedListener_ShouldNotStopListeningToSubscriptionManagerWhenHaveActiveSubscribers() {
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> {});
-        final Subscriptions.OnSubscriptionsChangedListener listener = () -> {};
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
-        provideSubscriptionsImpl().removeOnSubscriptionsChangedListener(listener);
+        final var listener1 = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener1);
+        assertThat(listener1.subscriptionChangedCount, is(0));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener1.subscriptionChangedCount, is(1));
+
+        final var listener2 = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener2);
+        assertThat(listener2.subscriptionChangedCount, is(1));
+        provideSubscriptionsImpl().removeOnSubscriptionsChangedListener(listener2);
         assertTrue(isListeningToSubscriptionManager());
     }
 
     @Test
     public final void test_removeOnSubscriptionsChangedListener_ShouldStopListeningToSubscriptionManagerWhenNoMoreActiveSubscribers() {
-        final Subscriptions.OnSubscriptionsChangedListener listener = () -> {};
+        final var listener = new DummySubscriptionsChangedListener();
         provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
+        assertThat(listener.subscriptionChangedCount, is(0));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener.subscriptionChangedCount, is(1));
         provideSubscriptionsImpl().removeOnSubscriptionsChangedListener(listener);
         assertFalse(isListeningToSubscriptionManager());
     }
 
     @Test
     public final void test_ShouldResumeListeningToSubscriptionManagerAfterBeingStoppedAndNewListenerAdded() {
-        final Subscriptions.OnSubscriptionsChangedListener listener = () -> {};
+        final var listener = new DummySubscriptionsChangedListener();
         provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener);
+        assertThat(listener.subscriptionChangedCount, is(0));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+        assertThat(listener.subscriptionChangedCount, is(1));
         provideSubscriptionsImpl().removeOnSubscriptionsChangedListener(listener);
         provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> {});
         assertTrue(isListeningToSubscriptionManager());
@@ -439,13 +467,18 @@ public abstract class SubscriptionsTest extends MockitoHiltAndroidTestBase {
 
     @Test
     public final void test_notifyAllListeners() {
-        final var calls = new int[2];
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> calls[0]++);
-        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(() -> calls[1]++);
+        final var listener1 = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener1);
+        assertThat(listener1.subscriptionChangedCount, is(0));
+        shadowOf(mApplicationContext.getMainLooper()).idle();
+
+        final var listener2 = new DummySubscriptionsChangedListener();
+        provideSubscriptionsImpl().addOnSubscriptionsChangedListener(listener2);
         provideSubscriptionsImpl().notifyAllListeners();
 
         // First trigger per listener when added, second trigger per listener when manually notified
-        assertThat(calls, is(new int[] { 2, 2 }));
+        assertThat(listener1.subscriptionChangedCount, is(2));
+        assertThat(listener2.subscriptionChangedCount, is(2));
     }
 
     @Test
@@ -641,5 +674,16 @@ public abstract class SubscriptionsTest extends MockitoHiltAndroidTestBase {
                     && wrapper.intentFilter.hasAction(ACTION_SIM_APPLICATION_STATE_CHANGED))
             .map((wrapper) -> wrapper.broadcastReceiver)
             .findFirst();
+    }
+
+    private static class DummySubscriptionsChangedListener
+            implements Subscriptions.OnSubscriptionsChangedListener {
+
+        private int subscriptionChangedCount;
+
+        @Override
+        public void onSubscriptionsChanged() {
+            subscriptionChangedCount++;
+        }
     }
 }

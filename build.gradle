@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
     ext {
         jars = [
-            android_hidden       :  'android-36.jar'
+            android_hidden       :  'android-37.jar'
         ]
     }
 
@@ -15,7 +15,7 @@ buildscript {
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.legacy.kapt) apply false
     alias(libs.plugins.errorprone) apply false
     alias(libs.plugins.kover) apply false
     alias(libs.plugins.roborazzi) apply false
@@ -31,7 +31,7 @@ allprojects {
     }
 
     ext {
-        addCompileOnlyJar = { String name, boolean requiredByAndroidTest = false ->
+        addCompileOnlyJar = { String name, boolean requiredByUnitTest = false, boolean requiredByAndroidTest = false ->
             final def jars_dir = "$rootDir/prebuilts/jars"
             final def jar = new File(jars_dir, name)
             if (!jar.exists()) {
@@ -42,11 +42,14 @@ allprojects {
                     classpath = files(jar, classpath)
                 }
                 tasks.withType(KotlinCompile).configureEach {
-                    libraries.from(files(jar))
+                    libraries.setFrom(files(jar, libraries))
                 }
             }
             dependencies {
                 compileOnly files(jar)
+                if (requiredByUnitTest) {
+                    testCompileOnly files(jar)
+                }
                 if (requiredByAndroidTest) {
                     androidTestCompileOnly files(jar)
                 }
@@ -56,8 +59,7 @@ allprojects {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.legacy-kapt'
 apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'org.jetbrains.kotlinx.kover'
 apply plugin: 'io.github.takahirom.roborazzi'
@@ -97,21 +99,28 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        final def versionNameVariant = versionNameCommon.clone()
-        if (variant.buildType.isDebuggable()) {
-            versionNameVariant.add('DEBUG')
-        } else if (isReleaseDebugOpt()) {
-            versionNameVariant.add('DEBUG-OPT')
-        }
-        variant.outputs.each { output ->
-            final def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                final semVer = versionNameCommon[0]
-                output.outputFileName = String.format('%s-%s-%s.apk', project.name, semVer,
-                        variant.buildType.name)
+    androidComponents {
+        onVariants(selector().all()) { variant ->
+            final def versionNameVariant = versionNameCommon.clone()
+            final def buildTypeName = variant.buildType
+            if (buildTypeName == 'debug') {
+                versionNameVariant.add('DEBUG')
+            } else if (isReleaseDebugOpt()) {
+                versionNameVariant.add('DEBUG-OPT')
             }
-            output.versionNameOverride = versionNameVariant.join(' / ')
+            final def computedVersionName = versionNameVariant.join(' / ')
+            variant.outputs.each { output ->
+                output.versionName.set(computedVersionName)
+            }
+            final def semVer = versionNameCommon[0]
+            final def apkFileName = String.format('%s-%s-%s.apk', project.name, semVer, buildTypeName)
+            // Registers a task to copy the generated APK with our custom name
+            tasks.register("rename${variant.name.capitalize()}Apk", Copy) {
+                from(variant.artifacts.get(SingleArtifact.APK))
+                include("*.apk")
+                into(layout.buildDirectory.dir("outputs/renamed-apk/${variant.name}"))
+                rename { apkFileName }
+            }
         }
     }
 
@@ -140,17 +149,22 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['src']
+            kotlin.srcDirs = ['src']
             res.srcDirs = ['res']
             manifest.srcFile 'AndroidManifest.xml'
         }
 
-        test.java.srcDirs += 'tests/test/java'
+        test {
+            java.srcDirs += 'tests/test/java'
+            kotlin.srcDirs += 'tests/test/java'
+        }
 
         debug.assets.srcDirs += files("$projectDir/schemas".toString())
         release.assets.srcDirs += files("$projectDir/schemas".toString())
 
         androidTest {
             java.srcDirs += 'tests/androidTest/src/java'
+            kotlin.srcDirs += 'tests/androidTest/src/java'
             res.srcDirs += 'tests/androidTest/res'
             manifest.srcFile 'tests/androidTest/AndroidManifest.xml'
         }
@@ -205,7 +219,7 @@ android {
     }
 }
 
-addCompileOnlyJar(jars.android_hidden, /*requiredByAndroidTest*/ true)
+addCompileOnlyJar(jars.android_hidden, /*requiredByUnitTest*/ true, /*requiredByAndroidTest*/ true)
 
 dependencies {
     implementation libs.annotation

@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibCollapsingToolbarBaseActivity = '../fwb/packages/SettingsLib/CollapsingToolbarBaseActivity'
@@ -30,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/res"]
             java.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/src"]
+            kotlin.srcDirs = ["${SettingsLibCollapsingToolbarBaseActivity}/src"]
         }
     }
 }

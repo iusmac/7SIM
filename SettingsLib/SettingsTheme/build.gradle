@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibSettingsTheme = '../fwb/packages/SettingsLib/SettingsTheme'
@@ -30,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibSettingsTheme}/res"]
             java.srcDirs = ["${SettingsLibSettingsTheme}/src"]
+            kotlin.srcDirs = ["${SettingsLibSettingsTheme}/src"]
         }
     }
 }

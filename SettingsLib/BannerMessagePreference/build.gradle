@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
 }
 
 def SettingsLibBannerMessagePreference = '../fwb/packages/SettingsLib/BannerMessagePreference'
@@ -30,6 +29,7 @@ android {
         main {
             res.srcDirs = ["${SettingsLibBannerMessagePreference}/res"]
             java.srcDirs = ["${SettingsLibBannerMessagePreference}/src"]
+            kotlin.srcDirs = ["${SettingsLibBannerMessagePreference}/src"]
         }
     }
 }
